@@ -1,0 +1,71 @@
+.menu-trang {
+    margin-top: 15px;
+}
+
+div.icon a {
+    position: relative;
+}
+
+#mb-header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-color: #0362b4;
+    height: fit-content;
+}
+
+#myDropdown {
+    display: none;
+    position: absolute;
+    top: 60px;
+    width: 343px;
+}
+
+#myDropdown2 {
+    display: none;
+    position: absolute;
+    top: 40px;
+    width: 343px;
+}
+
+#mobile-nav {
+    z-index: 15;
+}
+
+#main-mnmb {
+    height: 100%;
+}
+
+#mnmb-ele {
+    width: 100%;
+    height: 100%
+}
+
+.img-toggle {
+    height: 22px;
+}
+
+.img-logo-mb, .img-logo-cart {
+    height: 25px;
+}
+
+.search-sanpham-mobile {
+    font-size: 11px;
+}
+
+#btnTimKiemMobile {
+    height: 20px;
+}
+
+#mnCate-mb {
+    display: none;
+    height: 0px;
+    width: auto;
+}
+
+#mnCate-mb-childs {
+    display: none;
+    height: 0px;
+    width: auto;
+}

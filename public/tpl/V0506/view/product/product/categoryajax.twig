@@ -1,0 +1,92 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+<div class="row list_product">
+    {% if(paginator) %}
+        {% for p in paginator.currentModels %}
+            <div class="col-md-3 col-sm-6 col-6">
+                {% set image = p.thumbnailUri %}
+                {% set percent = p.calcDiscountPercent %}
+                {% set priceDiscount = p.priceAfterDiscount %}
+                {% set options = {
+                    alt: p.name,
+                    class: 'img_thumb_product',
+                    lazy: true,
+                    openDiv: false,
+                } %}
+                <div class="product_box" data-id="{{ p.id }}">
+                    <div class="box_image">
+                        <a class="a-image" href="{{ p.viewLink }}">
+                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </a>
+                    </div>
+                    <div class="box_info">
+                        <div class="box_text">
+                            <a class="tp_product_name">{{ p.name }}</a>
+                        </div>
+                        <div class="box_price">
+                            {% if(priceDiscount > 0) %}
+                                <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                    ₫
+                                </del>
+                            {% elseif(p.oldPrice) %}
+                                <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                    ₫
+                                </del>
+                            {% elseif(p.price <= 0 ) %}
+                                <span class="tp_product_price">Liên hệ</span>
+                            {% else %}
+                                <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                            {% endif %}
+                            {% if(percent>0) %}
+                                <span class="percent">-{{ percent }}%</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="box_action">
+                        <div><a class="quickView" href="javascript:void(0)">Xem nhanh</a></div>
+                        <div><a href="javascript:void(0)">Mua ngay</a></div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-md-12 content_sortPagiBar pagi">
+            <div id="pagination" class="clearfix">
+                {{ render_paginator(paginator) }}
+            </div>
+        </div>
+    {% endif %}
+</div>
+<script>
+    var ps = [];
+    var storeId = $('#storeId').val();
+    if ($('.product_box').length) {
+        $('.product_box').each(function () {
+            ps.push({id: parseInt($(this).attr('data-id')), code: 2, storeId: storeId});
+        });
+    }
+    if (ps.length > 0) {
+        getallchildimg(ps, function (rs) {
+            if (rs.allImages != "") {
+                $.each(rs.images, function (key, vl) {
+                    $('.product_box[data-id="' + key + '"]').find('img').attr('data-hover', vl);
+                })
+            }
+        });
+    }
+
+    $('.img_thumb_product').hover(function () {
+        var t = $(this);
+        var data_hover = t.attr('data-hover');
+        if(data_hover) {
+            $(this)
+                .attr('tmp', t.attr('src'))
+                .attr('src', t.attr('data-hover'))
+                .attr('data-hover', t.attr('tmp'))
+                .removeAttr('tmp');
+        }
+    }).each(function () {
+        $('<img />').attr('src', $(this).attr('data-src'));
+    });
+</script>
+

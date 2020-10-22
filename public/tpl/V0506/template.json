@@ -1,0 +1,46 @@
+
+{   "author":"dungmv",
+    "sourceLink": "thiết kế riêng yody",
+    "//": "set type: 4 =>> cái này set luôn ID là template thiết kế, nếu k phải template thiết kế thì k cần thêm cái này",
+    "type": 4,
+    "domain":{
+        "storeId": 224,
+        "name": "V0506.khanhvdstore2.bot3s.net",
+        "alias": "V0506.khanhvdstore2.bot3s.net"
+    },
+    "banners":{
+        "HOME_SLIDE":{
+            "name": "Banner slide home",
+            "description": "Kích cỡ banner 1920 x auto",
+            "size": "auto"
+        },
+        "HOME_HOT":{
+            "name": "Banner dưới slide trang chủ",
+            "description": "Kích cỡ banner auto",
+            "size": "auto"
+        },
+        "BANNER_HOME_BOT":{
+            "name": "Banner dưới sản phẩm mới, hot trang chủ",
+            "description": "Kích cỡ banner 1900 x auto",
+            "size": "auto"
+        },
+        "BANNER_TOP_ALBUM":{
+            "name": "Banner dưới trang album",
+            "description": "Kích cỡ banner 1900 x auto",
+            "size": "auto"
+        },
+        "FOOTER_CERTIFICATE":{
+            "name": "Banner nền dưới footer",
+            "description": "Kích cỡ banner 1900 x auto",
+            "size": "auto"
+        }
+    },
+    "contents":{
+        "HOME":{
+            "name": "Trang chủ",
+            "keys": {
+
+            }
+        }
+    }
+}

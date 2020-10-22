@@ -1,0 +1,645 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block body %}
+
+
+    {% set ivt = product.inventory().calcAvailable() %}
+    {% if(getParam('preview')) %}
+        {% set ivt = 0 %}
+    {% endif %}
+    {% set priceDiscount = product.priceAfterDiscount %}
+    {% set showPrice = product.price %}
+    {% set oldPrices = null %}
+    {% if(priceDiscount > 0) %}
+        {% set showPrice = priceDiscount %}
+        {% set oldPrices = product.price %}
+    {% elseif(product.oldPrice) %}
+        {% set oldPrices = product.oldPrice %}
+    {% endif %}
+    {% set user = getUser() %}
+    {% set flag = 0 %}
+    {% set variableAttributes = product.variableAttributes %}
+    {% set valuesColor = null  %}
+    {% set valuesImage = null  %}
+    {% set color = variableAttributes['color'] %}
+    {% if color is not null or color is not empty %}
+        {% set valuesColor = color.childValues %}
+    {% endif %}
+    {#    Product Attr Images#}
+    {% set psAttrImages =  variableAttributes['psimage']%}
+    {% if psAttrImages is not null or psAttrImages is not empty %}
+        {% set valuesImage = psAttrImages.childValues %}
+    {% endif %}
+
+
+
+    <section class="bread-crumb">
+        <span class="crumb-border"></span>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 a-left">
+                    <ul class="breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                        <li class="home">
+                            <a itemprop="url" href="/" ><span itemprop="title">Trang chủ</span></a>
+                            <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                        </li>
+
+
+                        <li><strong><span itemprop="title">{{ product.name }}</span></strong><li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="product" itemscope itemtype="http://schema.org/Product">
+        <meta itemprop="url" content="https://dl-goshopping.myharavan.com/products/binh-dung-nuoc-giu-nhiet-350ml-nhua-deo">
+        <meta itemprop="image" content="//product.hstatic.net/1000329721/product/upload_3d3862b578d0420d8c5eb7a3a3c9ef91_grande.jpg">
+
+        <div class="container">
+            <div class="row">
+                <div class="details-product">
+                    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                        <div class="rows row-width">
+                            <form enctype="multipart/form-data" id="add-to-cart-form" action="/cart/add" method="post" class="row form-width form-inline">
+                                <div class="product-detail-left product-images col-xs-12 col-sm-5 col-md-6 col-lg-5">
+                                    <div class="rows">
+                                        <div class="col_large_default large-image">
+                                            <a href="" class="large_image_url checkurl"    >
+
+                                                <img id="img_01" class="img-responsive "   src="{{ product.imageUri }}" />
+                                            </a>
+                                        </div>
+
+
+
+                                        <div class="thumb_gallary">
+
+                                            <div id="gallery_02" class="owl_width no-padding owl-carousel owl-theme thumbnail-product thumb_product_details not-dqowl" data-loop="false" data-lg-items="5" data-md-items="4" data-sm-items="4" data-xs-items="4" data-margin="10">
+                                                {% set fancyboxImage = '' %}
+                                                {% set childImgs = product.images %}
+                                                {% if(childImgs) %}
+                                                    {% for v in childImgs %}
+                                                        <div class="item thumbnailUri">
+                                                            <a href="#" data-image="{{ v.srcUri }}" data-zoom-image="{{ v.srcUri }}">
+                                                                <img data-img="{{ v.srcUri }}" src="{{ v.thumbnailUri }}" data-lazyload="{{ v.srcUri }}" alt="Bình đựng nước giữ nhiệt 350ml nhựa dẻo">
+                                                            </a>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="item">
+                                                        <a href="#" data-image="{{ v.srcUri }}" data-zoom-image="{{ v.srcUri }}">
+                                                            <img data-img="{{ v.srcUri }}" src="{{ v.thumbnailUri }}" data-lazyload="{{ v.srcUri }}" alt="Bình đựng nước giữ nhiệt 350ml nhựa dẻo">
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+
+
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <script>
+
+
+                                    </script>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-7 col-md-6 col-lg-7 details-pro">
+                                    <span class="geturl hidden">https://dl-goshopping.myharavan.com/products/binh-dung-nuoc-giu-nhiet-350ml-nhua-deo</span>
+                                    <h1 class="title-product" itemprop="name">{{ product.name }}</h1>
+                                    <div class="group-status">
+                                        <span class="first_status"><span class="a_name">Thương hiệu:</span> <span class="status_name">
+                                            {% set brand = getBrand(product.brandId) %}
+                                                {% if(brand) %}
+                                                    {{ brand.name }}
+                                                {% endif %}
+
+
+										</span>
+
+									</span>
+                                        <span class="first_status"><span class="a_name">Tình trạng:</span>
+                                            <span class="status_name availabel">
+                                                {% set ivt = product.inventory.calcAvailable %}
+
+                                                {% if(ivt<=0) %}
+										            Hết hàng
+                                                {% else %}
+                                                    Còn hàng
+                                                {% endif %}
+										    </span>
+                                        </span>
+                                    </div>
+
+
+                                    <div class="price-box" itemscope itemtype="http://schema.org/Offer">
+
+                                        {% set priceDiscount = product.priceAfterDiscount %}
+                                        {% if (priceDiscount)>0 %}
+                                            <span class="current-price ProductPrice">{{ priceDiscount|number_format(0) }}₫</span>
+                                            <span class="original-price ComparePrice"><s style="display: inline;">{{ product.price|number_format(0) }}₫</s></span>
+                                            <div class="sale-percentage"> <span class="PriceSaving" style="display: inline;">(Bạn đã tiết kiệm được {{ (product.price-priceDiscount)|number_format(0) }}₫)</span></div>
+                                        {% elseif (product.oldprice) %}
+                                            <span class="current-price ProductPrice">{{ product.price|number_format(0) }}₫</span>
+                                            <span class="original-price ComparePrice"><s style="display: inline;">{{ product.oldprice }}₫</s></span>
+                                            <div class="sale-percentage"> <span class="PriceSaving" style="display: inline;">(Bạn đã tiết kiệm được {{ (product.oldprice-product.price)|number_format(0) }}₫)</span></div>
+                                        {% else %}
+                                            <span class="current-price ProductPrice">{{ product.price|number_format(0) }}₫</span>
+                                        {% endif %}
+
+                                    </div>
+
+
+
+
+
+
+                                    <div class="box-addtocart clear form-product col-sm-12 col-lg-12 col-md-12 col-xs-12">
+
+
+                                        <form method='post' action='' class='btnsubmits'>
+                                            <div id="product-select-watch" class="select-swatch">
+                                                {% set color = variableAttributes['color'] %}
+                                                {% set flag=0 %}
+                                                {% if color is not null or color is not empty %}
+                                                    {% set valuesColor = color.childValues %}
+                                                    {% set numbC =  (valuesColor | length) %}
+                                                    {% if(valuesColor is not null and numbC>0) %}
+                                                        {% set flag = flag + 1 %}
+                                                        <div id="variant-swatch-0" class="swatch color req swatch-product-single clearfix" data-option="option1" data-option-index="0" column="{{ color.column }}">
+                                                            <div class="header">Màu sắc</div>
+                                                            <div class="select-swap">
+                                                                {% for val in valuesColor %}
+                                                                    {% set arrColor = [] %}
+                                                                    {% set arrColor = arrColor|merge({ (color.column): val.Id }) %}
+                                                                    {% set returnImg = {'return':'image'} %}
+                                                                    {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                                                                    {% set imgZoom = product.attrValueImage(arrColor,false, returnImg) %}
+{#                                                                                                                                {% set img = img?:product.thumbnailUri %}#}
+                                                                    {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                                                    {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                                                    <div data-value="{{ val.name }}" class="{{ (numbC==1)?'active':'' }} n-sd swatch-element {{ val.name }}" value="{{ val.id }}">
+                                                                        <input class="variant-0 input-product" id="swatch-0-{{ val.name }}" type="radio" name="option1" value="{{ val.name }}"   data-pIds="{{ pIdsAttrStr }}">
+                                                                        <label class="trang has-thumb" for="swatch-0-trang" data-src="{{ img }}" style="background: url({{ img }}) top left no-repeat; background-size: contain !important;padding: 0 10px 0 40px; ">
+                                                                            <span class="nameColor">{{ val.name }}</span>
+                                                                            <div class="tooltip">{{ val.name }}</div>
+
+                                                                            {#                                                                <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">#}
+                                                                            <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+
+                                                                        </label>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% set size = variableAttributes['size'] %}
+                                                {% if size is not null or size is not empty %}
+                                                    {% set valuesSize = size.childValues %}
+                                                    {% set numbS =  (valuesSize | length) %}
+                                                    {% if(valuesSize is not null and numbS>0) %}
+                                                        {% set flag = flag + 1 %}
+                                                        <div id="variant-swatch-1" class="swatch size req swatch-product-single clearfix" column="{{ size.column }}" data-option="option2" data-option-index="1">
+                                                            <div class="header">Kích thước</div>
+                                                            <div class="select-swap">
+                                                                {% for attrValue in valuesSize %}
+                                                                    <div data-value="{{ attrValue.name }}" value="{{ attrValue.id }}" class="{{ (numbS==1)?'active':'' }} n-sd swatch-element {{ attrValue.name }}" value="{{ attrValue.id }}">
+                                                                        <input class="variant-1 input-product" id="swatch-1-{{ attrValue.name }}" type="radio" name="option2" value="{{ attrValue.name }}" >
+                                                                        <label for="swatch-1-{{ attrValue.name }}" class="sizeLabel">
+                                                                            {{ attrValue.name }}
+                                                                            <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+
+                                                                        </label>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                            <script>
+
+                                                            </script>
+                                                        </div>
+                                                    {% endif %}
+                                                {%  endif %}
+                                                {% if((flag==0) and (product.childs)) %}
+                                                    {% set flagchilds= product.childs|length %}
+                                                    <p style="padding: 5px; text-align: left;">
+                                                        <span style="width: 131px; display: inline-block">Chọn sản phẩm</span>
+                                                        <select class="input childProducts">
+                                                            <option value="1">Chọn sản phẩm</option>
+                                                            {% set name_parent =product.name %}
+                                                            {% for cp in product.childs %}
+                                                                <option value="{{ cp.id }}, {{ cp.price }}"
+                                                                        href="{{ cp.imageUri }}"
+                                                                        data-src="{{ cp.imageUri }}">
+                                                                    {{ cp.name|replace({ name_parent :''}) }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </p>
+                                                {% endif %}
+
+
+
+                                                {#                                            <div id="variant-swatch-2" class="swatch req swatch-product-single clearfix" data-option="option3" data-option-index="2">
+                                                                                                <div class="header">Vật liệu</div>
+                                                                                                <div class="select-swap">
+                                                                                                    <div data-value="Cotton" class="n-sd swatch-element cotton variant-3">
+                                                                                                        <input class="variant-2 input-product" id="swatch-2-cotton" type="radio" name="option3" value="Cotton" checked="">
+                                                                                                        <label for="swatch-2-cotton" class="sd">
+                                                                                                            Cotton
+                                                                                                            <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+                                                                                                            <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                                                        </label>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>#}
+                                            </div>
+
+
+                                            <div class="custom input_number_product custom-btn-number form-group form_button_details ">
+                                                <header class="not_bg">Số lượng:</header>
+                                                <div class="custom input_number_product custom-btn-number form-control">
+                                                    <button id="QtyUp" class="increase_pop btn_num num_2 button button_qty btn-default plus" onClick="increase()" type="button">+</button>
+                                                    <button id="QtyDown" class="reduced_pop btn_num num_1 button button_qty btn-default minus" onClick="decrease()" type="button">-</button>
+                                                    <input name="quantity" type="number" id="qtym" name="quantity" value="1" max="{{ ivt }}" min="0" class="form-control prd_quantity text-center" >
+                                                </div>
+
+                                            </div>
+
+                                            {% if(ivt<=0) %}
+                                                <button type="button" id="addToCart" psid="{{ product.id }}" selId="{{ product.id }}" name="add" class="btn mua-ngay btnAddToCart unsel  btn-primary add_to_cart_detail ajax_addtocart">Thêm vào giỏ hàng</button>
+                                            {% elseif(flag or flagchilds) %}
+                                                <button type="button" data-ck="0" id="addToCart" psid="{{ product.id }}" selId="{{ product.id }}" name="add" class="btn mua-ngay btnAddToCart unsel  btn-primary add_to_cart_detail ajax_addtocart">Thêm vào giỏ hàng</button>
+                                            {% else %}
+                                                <button type="button" data-ck="1" id="addToCart" psid="{{ product.id }}" selId="{{ product.id }}" name="add" class="btn mua-ngay btnAddToCart unsel btn-primary add_to_cart_detail ajax_addtocart">Thêm vào giỏ hàng</button>
+                                            {% endif %}
+
+                                        </form>
+                                        <div class="group-button">
+                                            <button type="button" class="btn btn-lg f-width register_click button_dichvu">
+                                                <span>Tư vấn sản phẩm</span>
+                                            </button>
+                                            <a href="tel:0912117494" class="nomargin btn btn-lg f-width button_dichvu bground">
+                                                <span><i class="fa fa-phone"></i> 0912117494</span>
+                                            </a>
+                                        </div>
+
+
+                                        <!-- VISITOR COUNTER -->
+                                        <div class="product-single__visitor mb__20 flex fw hidden">
+                                            <i class="fa fa-check" aria-hidden="true"></i><span class="nameuser" data-name="A.Hiếu"></span> vừa đặt mua sản phẩm này cách đây <span class="product-single__visitor-number" data-min="10"></span> phút
+                                        </div>
+
+                                        <script>
+
+
+                                        </script>
+
+
+                                    </div>
+
+
+                                    <div class="social-sharing ">
+                                        <span class="ttt hidden">Chia sẻ: </span>
+                                        <div class="addthis_inline_share_toolbox share_add">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                            <!-- Tab -->
+                            <div class="tab_width_full">
+                                <div class="row xs-margin-top-15">
+
+                                    <div id="tab_ord" class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                        <!-- Nav tabs -->
+                                        <div class="product-tab e-tabs not-dqtab">
+                                            <span class="border-dashed-tab"></span>
+                                            <ul class="tabs tabs-title clearfix">
+
+                                                <li class="tab-link" data-tab="tab-1">
+                                                    <h3><span>Thông tin</span></h3>
+                                                </li>
+
+
+                                                <li class="tab-link" data-tab="tab-2">
+                                                    <h3><span>Tab tùy chỉnh</span></h3>
+                                                </li>
+
+                                            </ul>
+                                            <div class="tab-float">
+
+                                                <div id="tab-1" class="tab-content content_extab">
+                                                    <div class="rte">
+
+                                                        {% if(product.description) %}
+                                                            {{ product.description | raw}}
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div id="tab-2" class="tab-content content_extab">
+                                                <div class="rte">
+
+                                                    Nội dung tùy chỉnh viết ở đây
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="section clearfix">
+
+
+                                        <div class="product-fb-comments">
+                                            <div class="fb-comments" data-width="100%" data-href="/products/binh-dung-nuoc-giu-nhiet-350ml-nhua-deo" data-numposts="5"></div>
+                                        </div>
+                                    </div>
+                                    <div id="fb-root"></div>
+
+
+                            </div>
+                        </div>
+                        <!-- Endtab -->
+                    </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                        <div class="row">
+                            <aside class="aside_module orwidth margin-bottom-30 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="service">
+                                    <div class="i_service">
+                                        <div class="image_"><img src="//theme.hstatic.net/1000329721/1000424884/14/product-1.gif?v=22" data-lazyload="//theme.hstatic.net/1000329721/1000424884/14/service_1.png?v=22" alt="Cam kết chất lượng"/></div>
+                                        <div class="content__">
+                                            <p>Cam kết chất lượng</p>
+                                            <span>Tuyệt đối yên tâm</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="i_service">
+                                        <div class="image_"><img src="//theme.hstatic.net/1000329721/1000424884/14/product-1.gif?v=22" data-lazyload="//theme.hstatic.net/1000329721/1000424884/14/service_2.png?v=22" alt="Bảo hành siêu việt"/></div>
+                                        <div class="content__">
+                                            <p>Bảo hành siêu việt</p>
+                                            <span>100% khách hàng hài lòng</span>
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="i_service">
+                                        <div class="image_"><img src="//theme.hstatic.net/1000329721/1000424884/14/product-1.gif?v=22" data-lazyload="//theme.hstatic.net/1000329721/1000424884/14/service_3.png?v=22" alt="Giá rẻ nhất, hời nhất"/></div>
+                                        <div class="content__">
+                                            <p>Giá rẻ nhất, hời nhất</p>
+                                            <span>Khỏi mất công so sánh</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="i_service">
+                                        <div class="image_"><img src="//theme.hstatic.net/1000329721/1000424884/14/product-1.gif?v=22" data-lazyload="//theme.hstatic.net/1000329721/1000424884/14/service_4.png?v=22" alt="Yêu quý khách hàng"/></div>
+                                        <div class="content__">
+                                            <p>Yêu quý khách hàng</p>
+                                            <span>Khách hàng là người thân</span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </aside>
+                            <aside class="aside_module orwidth margin-bottom-30 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="title_module_main">
+                                    <h2>
+                                        <a href="/collections/hot-products" title="Dành riêng cho bạn">
+                                            Dành riêng cho bạn
+                                        </a>
+                                    </h2>
+                                </div>
+                                <div class="wrap_module_uathich">
+                                    {% set listNews = getLastestNews({'limit':8}) %}
+                                    {% if(listNews) %}
+                                        {% for n in listNews %}
+                                            {% set image = n.imageUri %}
+                                            {% set options = {
+                                                alt: n.title | e('html'),
+                                                lazy: true,
+                                                openDiv: false,
+                                            }%}
+                                            <div class="itemcount">
+                                                <div class="item_product_count_top minithumb">
+                                                    <div class="product-box product-list-small visible-image">
+                                                        <div class="product-thumbnail">
+                                                            <a href="{{ n.viewLink }}" title="Áo cộc tay cá tính dành cho bạn gái">
+                                                                <img data-original = "{{ image }}"
+                                                                     src="{{ image }}"
+                                                                     alt="Chưa cập nhật ảnh sản phẩm">
+                                                            </a>
+                                                        </div>
+
+                                                        <div class="product-info a-left">
+                                                            <h3 class="product-name"><a class="ab" href="{{ n.viewLink }}" title="Áo cộc tay cá tính dành cho bạn gái">{{ n.title | e('html') }}</a></h3>
+
+
+
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <div class="related_module f-width">
+                <div class="title_module_main a-left">
+                    <h2>
+                        <a href="/collections/tat-ca-sp" title="Sản phẩm tương tự">
+                            Sản phẩm tương tự
+                        </a>
+                    </h2>
+                </div>
+                <div class="wrap_owl">
+
+                    <div class="owl-carousel owl-related owl-loaded owl-drag" data-nav="true" data-dot="true" data-lg-items="6" data-md-items="5" data-height="true" data-xs-items="2" data-sm-items="4" data-margin="15">
+
+
+                        {% set proRelated = search({'categoryId':product.categoryId,'excludedIds': product.id}) %}
+                        {% if (proRelated) %}
+                        {% for p in proRelated %}
+                        {% set image = p.thumbnailUri %}
+                        {% set options = {
+                            alt: p.name,
+                            lazy: true,
+                            class: 'imageChange swatch-'~p.id,
+                            openDiv: false,
+                        }%}
+                        {% set priceDiscount = p.priceAfterDiscount %}
+                        {% set percent = p.discountPercent %}
+
+
+                                    <div class="item_product_main">
+
+                                        <div class="product-box product-item-main product-item-compare" data-storeId="{{ p.storeId }}" data-pid="{{ p.id }}" data-url="{{ p.viewLink }}" >
+
+                                            <div class="product-thumbnail">
+
+                                                {% if (percent) %}
+                                                <div class="label_icon discount">
+                                                    -{{ percent }}%
+                                                </div>
+                                                {% else %}
+                                                    <div class="label_icon hot"><img src="//theme.hstatic.net/1000329721/1000424884/14/product-1.gif?v=22"  data-lazyload="//theme.hstatic.net/1000329721/1000424884/14/hot.png?v=22" alt="hot"></div>
+                                                {% endif %}
+
+
+
+
+                                                <a class="image_thumb" href="/products/balo-di-hoc-xinh-xan" title="Balo đi học xinh xắn">
+                                                    <img src="{{ image }}" data-lazyload="{{ image }}" alt="Balo đi học xinh xắn">
+                                                </a>
+                                                <div class="product-action clearfix ">
+                                                    <form action="/cart/add" method="post" class="variants form-nut-grid" data-id="product-actions-1017392471" enctype="multipart/form-data">
+                                                        <div class="group_action hvr-buzz-out">
+
+                                                            <input class="hidden" type="hidden" name="Id" value="1033569843">
+                                                            <input type="hidden" name="quantity" value="1">
+                                                            <a class="btn-cart button_35 left-to" title="Chọn sản phẩm" href="{{ p.viewLink }}">
+                                                                <i class="fa fa-share-alt"></i>
+                                                            </a>
+
+
+                                                            <a href="{{ p.viewLink }}" data-handle="balo-di-hoc-xinh-xan" title="Xem nhanh" class="button_35 btn_view right-to quick-view"><i class="fa fa-search-plus"></i></a>
+
+
+                                                            <a class="button_35 compare_button hidden" title="So sánh sản phẩm">
+                                                                <i class="fa fa-recycle"></i>
+                                                            </a>
+
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="product-info product-bottom">
+                                                <h3 class="product-name"><a href="{{ p.viewLink }}" title="{{ p.name }}">{{ p.name }}</a></h3>
+                                                <div class="product-item-price price-box">
+
+
+                                                <span class="special-price">
+                                                    <span class="price product-price">{{ p.price|number_format(0) }}₫</span>
+                                                </span>
+                                                    {% if (p.oldPrice) %}
+                                                                                        <span class="product-item-price-sale old-price">
+                                                    <span class="compare-price price product-price-old">600,000₫</span>
+
+                                                                                        </span>
+                                                    {% endif %}
+
+
+
+                                                </div>
+
+                                                <div class="reviews_item_product">
+                                                    <div class="bizweb-product-reviews-badge" data-id="1017392471"></div>
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                        {% endfor %}
+                        {% endif %}
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+
+    </section>
+
+
+    <div id="aweCallback">
+        <script>
+            if(navigator.userAgent.indexOf("Speed Insights") == -1) {
+                var productJson = {"available":true,"compare_at_price_max":0.0,"compare_at_price_min":0.0,"compare_at_price_varies":false,"compare_at_price":0.0,"content":null,"description":"<p data-mce-style=\"text-align: center;\">Bình đựng nước nhựa mini Whipping Cream 350ml cực cute, dễ thương, ngọt ngào, kích thước nhỏ gọn, dễ mang theo, cất vừa trong túi xách cầm tay</p>\n<p data-mce-style=\"text-align: center;\">Kích thước: 17.5cm x 6.2cm</p>\n<p data-mce-style=\"text-align: center;\">Chất liệu: nhựa PP</p>\n<p data-mce-style=\"text-align: center;\">Màu sắc: xanh lá, xanh ngọc, hồng</p>\n<p data-mce-style=\"text-align: center;\" style=\"text-align: center;\"><img data-thumb=\"large\" original-height=\"800\" original-width=\"800\" src=\"//bizweb.dktcdn.net/thumb/large/100/318/658/files/8-800x800.jpg?v=1528972828294\" /></p>\n<p data-mce-style=\"text-align: center;\" style=\"text-align: center;\"><img data-thumb=\"large\" original-height=\"800\" original-width=\"800\" src=\"//bizweb.dktcdn.net/thumb/large/100/318/658/files/binh-dung-nuoc-thuy-tinh-1m4g3-i8lkjh-simg-d0daf0-800x1200-max.jpg?v=1528972838666\" /></p>","featured_image":"https://product.hstatic.net/1000329721/product/upload_3d3862b578d0420d8c5eb7a3a3c9ef91.jpg","handle":"binh-dung-nuoc-giu-nhiet-350ml-nhua-deo","id":1017392492,"images":["https://product.hstatic.net/1000329721/product/upload_3d3862b578d0420d8c5eb7a3a3c9ef91.jpg","https://product.hstatic.net/1000329721/product/upload_4730317a2dfb4c06be8eb0328979a8e4.jpg","https://product.hstatic.net/1000329721/product/upload_ca4fa3824cca471cb43945cb0dc262e1.jpg","https://product.hstatic.net/1000329721/product/upload_0997c624824d486788ee3903e235fe5a.jpg","https://product.hstatic.net/1000329721/product/upload_6bc374c33a2546f89c1dd5c3fbb498ae.jpg"],"options":["Tiêu đề"],"price":16000000.0,"price_max":16000000.0,"price_min":16000000.0,"price_varies":false,"tags":["hot","vàng"],"template_suffix":null,"title":"Bình đựng nước giữ nhiệt 350ml nhựa dẻo","type":"Tiện ích","url":"/products/binh-dung-nuoc-giu-nhiet-350ml-nhua-deo","pagetitle":null,"metadescription":"Bình đựng nước nhựa mini Whipping Cream 350ml cực cute, dễ thương, ngọt ngào, kích thước nhỏ gọn, dễ mang theo, cất vừa trong túi xách cầm tay\nKích thước: 17.5cm x 6.2cm\nChất liệu: nhựa PP\nMàu sắc: xanh lá, xanh ngọc, hồng","variants":[{"id":1033569869,"barcode":null,"available":true,"price":16000000.0,"sku":null,"option1":"Default Title","option2":"","option3":"","options":["Default Title"],"inventory_quantity":1,"old_inventory_quantity":1,"title":"Default Title","weight":0.0,"compare_at_price":0.0,"inventory_management":null,"inventory_policy":"deny","selected":false,"url":null,"featured_image":null}],"vendor":"Trung Quôc","published_at":"2018-10-21T07:41:17.862Z","created_at":"2018-10-21T07:41:20.623Z","not_allow_promotion":false};
+
+                var variantsize = false;
+
+                var alias = 'binh-dung-nuoc-giu-nhiet-350ml-nhua-deo';
+                var getLimit = 8;
+
+                var productOptionsSize = 1;
+                var optionsFirst = 'Tiêu đề';
+
+
+                var cdefault = 1;
+
+            }
+        </script>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Product detail JS,CSS -->
+    <script src='' type='text/javascript'></script>
+
+    {% block script %}
+        <script type="text/javascript" src="{{ templatePath ~'/js/jquery.elevatezoom.js' }}"></script>
+        <script type="text/javascript" src="{{ templatePath ~'/js/detail.js' }}"></script>
+    {% endblock %}
+
+
+
+    <script src='//theme.hstatic.net/1000329721/1000424884/14/jquery.prettyPhoto.min005e.js?v=22' type='text/javascript'></script>
+    <script src='//theme.hstatic.net/1000329721/1000424884/14/jquery.prettyPhoto.init.min367a.js?v=22' type='text/javascript'></script>
+
+
+{% endblock %}

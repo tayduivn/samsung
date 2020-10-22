@@ -1,0 +1,726 @@
+{% set ivt = product.inventory().calcAvailable() %}
+{% set priceDiscount = product.priceAfterDiscount %}
+{% set variableAttributes = product.variableAttributes %}
+{% set flag=0 %}
+{% set childImgs = product.images %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/owl.carousel.min.js' }}"></script>
+
+{% endblock %}
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+<div class="row "  >
+    <div class="col-sm-6">
+
+
+        <div class="image margin-bottom-15">
+            <a class="img-product clearfix" title="" href="javascript:;">
+                <img id="product-featured-image-quickview" class="img-responsive product-featured-image-quickview" src="{{ product.imageUri }}" alt="quickview">
+            </a>
+        </div>
+
+
+
+
+
+        {% set fancyboxImage = '' %}
+
+
+
+        {% if(childImgs) %}
+
+
+            {#                                    <div class="owl-item splide" id="secondary-slider" style="width: 91.25px; margin-right: 15px;">#}
+            {#                                        <div class="item active splide__track ">#}
+
+            {#                                                <div class="splide__slide">#}
+            {#                                                    <img onclick="document.getElementById('product-featured-image-quickview').src='{{ chil.thumbnailUri }}'" class="demo" onclick="currentSlide()" data-img="{{ chil.srcUri }}" src="{{ chil.thumbnailUri }}" alt="Proimage">#}
+            {#                                                </div>#}
+
+            {#                                        </div>#}
+            {#                                    </div>#}
+            <div class="slideThumbnail">
+                <div class="owl-carousel owl-theme">
+
+                    {% for chil in childImgs %}
+                        <div class="item thumbnailUri">
+
+                            <img onclick="document.getElementById('product-featured-image-quickview').src='{{ chil.thumbnailUri }}'" data-img="{{ chil.srcUri }}" src="{{ chil.thumbnailUri }}" alt="">
+
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            {#                                    <div class="owl-item splide" id="secondary-slider" style="width: 91.25px; margin-right: 15px;">#}
+            {#                                        <div class="item active splide__track ">#}
+            {#                                            <div class="splide__list">#}
+            {#                                                <div class="splide__slide">#}
+            {#                                                    <img onclick="document.getElementById('product-featured-image-quickview').src='{{ chil.thumbnailUri }}'" class="demo" onclick="currentSlide()" data-img="{{ chil.srcUri }}" src="{{ chil.thumbnailUri }}" alt="Proimage">#}
+            {#                                                </div>#}
+            {#                                            </div>#}
+            {#                                        </div>#}
+            {#                                    </div>#}
+
+            <div id="thumbnail_quickview " class="op1">
+                <div class="thumblist"><div class="thumblist_carousel owl-carousel owl-loaded owl-drag"><div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0.25s ease 0s; width: 532px;"><div class="owl-item active" style="width: 91.25px; margin-right: 15px;"><div class="item"><img data-image="//product.hstatic.net/1000329721/product/upload_1b61709f54904f93a26dd3fc5de4a8b1_grande.jpg" src="//product.hstatic.net/1000329721/product/upload_1b61709f54904f93a26dd3fc5de4a8b1_compact.jpg" alt="Proimage"></div></div><div class="owl-item active" style="width: 91.25px; margin-right: 15px;"><div class="item"><img data-image="//product.hstatic.net/1000329721/product/upload_e3506500278643e085124554ddb895a4_grande.jpg" src="//product.hstatic.net/1000329721/product/upload_e3506500278643e085124554ddb895a4_compact.jpg" alt="Proimage"></div></div><div class="owl-item active" style="width: 91.25px; margin-right: 15px;"><div class="item"><img data-image="//product.hstatic.net/1000329721/product/upload_b524f1202c10414ebde69ca792f84dab_grande.jpg" src="//product.hstatic.net/1000329721/product/upload_b524f1202c10414ebde69ca792f84dab_compact.jpg" alt="Proimage"></div></div><div class="owl-item active" style="width: 91.25px; margin-right: 15px;"><div class="item"><img data-image="//product.hstatic.net/1000329721/product/upload_f5718c56189f468fb837cbb6c5f1cb70_grande.jpg" src="//product.hstatic.net/1000329721/product/upload_f5718c56189f468fb837cbb6c5f1cb70_compact.jpg" alt="Proimage"></div></div><div class="owl-item" style="width: 91.25px; margin-right: 15px;"><div class="item"><img data-image="//product.hstatic.net/1000329721/product/upload_5bec85edf59546cf81f038372c53d28e_grande.jpg" src="//product.hstatic.net/1000329721/product/upload_5bec85edf59546cf81f038372c53d28e_compact.jpg" alt="Proimage"></div></div></div></div></div></div>
+            </div>
+        {% endif %}
+
+
+    </div>
+
+    <div class="col-sm-6">
+        <div class="content">
+            <h3 class="product-name"><a href="/products/quan-short-dui-nam-chat-lieu-cao-cap">{{ product.name }}</a></h3>
+
+            {% set ivt = product.inventory.calcAvailable %}
+
+            {% if(ivt<=0) %}
+
+                <div class="status clearfix">
+                    Trạng thái: <span class="inventory">
+                    <i class="fa fa-check"></i> Hết hàng
+                </span>
+                </div>
+            {% else %}
+                <div class="status clearfix">
+                    Trạng thái: <span class="inventory">
+                    <i class="fa fa-check"></i> Còn hàng
+                </span>
+                </div>
+            {% endif %}
+
+
+
+
+            <div class="price-box margin-bottom-20 clearfix">
+                {% if(priceDiscount > 0) %}
+                    <div class="special-price f-left">
+                        <span class="price product-price">{{ priceDiscount|number_format(0) }} <span>VND</span></span>
+                        <span class="price product-price-old">Giá gốc: <del class="price product-price-old">{{ product.price|number_format(0) }}</del> VND</span>
+                    </div>
+                {% elseif(product.oldprice) %}
+                    <div class="old-price">
+                        <span class="price product-price">{{ product.price|number_format(0) }} <span>VND</span></span>
+                        <span class="price product-price-old">Giá gốc: <del class="price product-price-old">{{ product.oldprice|number_format(0) }}</del> VND</span>
+                    </div>
+                {% else %}
+                    <span class="price product-price">{{ product.price|number_format(0) }} <span>VND</span></span>
+
+                {% endif %}
+
+            </div>
+            <div class="product-description rte">{% if(product.description) %}
+                    {{ product.description | raw}}
+                {% endif %}</div>
+            <a href="/products/quan-short-dui-nam-chat-lieu-cao-cap" class="view-more hidden">Xem chi tiết</a>
+            <div class="clearfix"></div>
+
+            <form action="" method="post" enctype="multipart/form-data" class="btnsubmits margin-top-20 variants form-ajaxtocart hasswatch">
+								<span class="price-product-detail hidden" style="opacity: 0;">
+									<span class=""></span>
+								</span>
+
+
+                {% set variableAttributes = product.variableAttributes %}
+
+
+                {% set color = variableAttributes['color'] %}
+                {% if color is not null or color is not empty %}
+                    {% set valuesColor = color.childValues %}
+                    {% set numbCl =  (valuesColor | length) %}
+                    {% if(valuesColor is not null and numbCl>0) %}
+                        {% set flag = flag + 1 %}
+                        {% set valuesColor = color.childValues %}
+                        {% set numbCl =  (valuesColor | length) %}
+                        <div class="color req swatch-color swatch clearfix "
+                             column="{{ color.column }}">
+                            <p class="header"><strong>Màu sắc</strong></p>
+                            {% for attrValue in valuesColor %}
+                                {% set arrColor = [] %}
+                                {% set arrColor = arrColor|merge({ (color.column): attrValue.id }) %}
+                                {% set returnImg = {'return':'image'} %}
+                                {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                                {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                <div class="swatch-element">
+                                    <p class="nameColor">{{ attrValue.name }}</p>
+                                    <div class="tooltip">{{ attrValue.name }}</div>
+                                    <a data-psIds="{{ pIdsAttrStr }}" rel="nofollow" href="javascript:"
+                                       data-cloudzoom="useZoom: \'.cloudzoom\', image: \'{{ img }}\', zoomImage: \'{{ img }}\'"
+                                       class="changeColor cloudzoom - gallery {{ (numbCl==1)?'active':'' }}"
+                                       title="{{ attrValue.name }}"
+                                       value="{{ attrValue.id }}" data-src="{{ img }}">
+                                        <img src="{{ img }}" alt="{{ attrValue.name }}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+
+                {% set size = variableAttributes['size'] %}
+                {% if size is not null or size is not empty %}
+                    {% set valuesSize = size.childValues %}
+                    {% set numbS =  (valuesSize | length) %}
+                    {% if(valuesSize is not null and numbS>0) %}
+                        {% set flag = flag + 1 %}
+                        <div class="size req swatch-nomal  swatch clearfix"
+                             column="{{ size.column }}">
+                            <div class="header">Kích cỡ:</div>
+                            {% for attrValue in valuesSize %}
+                                <a rel="nofollow" value="{{ attrValue.id }}"
+                                   href="javascript:void(0)"
+                                   class="{{ (numbS==1)?'active':'' }}" >{{ attrValue.name }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+                <div class="clearfix"></div>
+                <div class="quantity_wanted_p">
+                    <label for="quantity-detail" class="quantity-selector">Số lượng</label>
+                    <input name="quantity" type="number"  id="qtym" name="quantity" value="1" max="{{ ivt }}" min="0" class="quantity-selector text-center">
+                    {% if(ivt<=0) %}
+                        <button type="button" id="addToCart" psid="{{ product.id }}" selId="{{ product.id }}" name="add" class="btn mua-ngay btnAddToCart unsel  btn-primary add_to_cart_detail ajax_addtocart">Thêm vào giỏ hàng</button>
+                    {% elseif(flag or flagchilds) %}
+                        <button type="button" data-ck="0" id="addToCart" psid="{{ product.id }}" selId="{{ product.id }}" name="add" class="btn mua-ngay btnAddToCart unsel  btn-primary add_to_cart_detail ajax_addtocart">Thêm vào giỏ hàng</button>
+                    {% else %}
+                        <button type="button" data-ck="1" id="addToCart" psid="{{ product.id }}" selId="{{ product.id }}" name="add" class="btn mua-ngay btnAddToCart unsel btn-primary add_to_cart_detail ajax_addtocart">Thêm vào giỏ hàng</button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    /* show Block quickview */
+    var $storeId = $('#storeId').val();
+
+    $('.owl-carousel').owlCarousel({
+
+        loop:false,
+        margin:10,
+
+        responsive:{
+            0:{
+                items:1
+            },
+            600:{
+                items:3
+            },
+            1000:{
+                items:5
+            }
+        }
+    });
+
+
+
+
+
+    $(document).ready(function () {
+
+        //tăng giảm số lượng
+        checkInv();
+        $('#QtyDown').click(function () {
+            var qtt = $('#qtym'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+            if (v > 1) {
+
+                qtt.attr('val', v - 1);
+            } else {
+                alert('Bạn phải đặt số lượng tối thiểu là 1 sản phẩm !');
+            }
+
+        });
+        $('#QtyUp').click(function () {
+            var qtt = $('#qtym'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+            if (v < max) {
+
+                qtt.attr('val', v + 1);
+            } else {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+            }
+
+        });
+
+        $('#qtym').keyup(function () {
+            var t = $(this), max = parseInt(t.attr('max')), v = parseInt(t.val());
+            if (v >= max) {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+                t.val(max);
+            }
+        });
+//end
+    });
+    $(function () {
+    /*--- size ---*/
+    $('.size a').click(function () {
+        var t = $(this), size = $('.size a'), qtt = $('#qtym'), atc = $('button.btnAddToCart'), attrs = {};
+        if (!t.hasClass('active')) {
+            size.removeClass('active');
+            attrs[$('.size').attr('column')] = t.attr('value');
+            if ($('.color').length && !$('.color a.active').length) {
+                size.attr('data-original-title', msgColor);
+            } else {
+                if ($('.color').length) {
+                    if (t.attr('qtt')) {
+                        t.addClass('active');
+                        if(t.attr('data-price') > 0) {
+                            $('.current-price strong').text($.number(t.attr('data-price'))+ ' VNĐ');
+                        }
+                        qtt.attr('max', t.attr('qtt'));
+                        atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                    } else {
+                        t.addClass('deactive').attr('data-original-title', msgOutofStock);
+                    }
+                } else {
+                    $.post(
+                        '/product/child?childId=' + t.attr('selId'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code ==1  && rs.data.available > 0) {
+                                t.addClass('active');
+                                qtt.attr('max', t.attr('qtt'));
+                                atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                                if(t.attr('data-price') > 0) {
+                                    $('.current-price strong').text($.number(t.attr('data-price'))+ ' VNĐ');
+                                }
+                            } else {
+                                t.addClass('deactive').attr('data-original-title', msgOutofStock);
+                            }
+                        },
+                        'json'
+                    );
+                }
+            }
+        }
+    });
+    });
+    /*--- color ---*/
+    $(function () {
+    $('.color a').click(function () {
+        var t = $(this), size = $('.size a'), qtt = $('#qtym'), atc = $('button.btnAddToCart'), attrs = {};
+
+        if (!t.hasClass('active')) {
+            $('.color a').removeClass('active');
+            if (size.length > 1) {
+                size.removeClass('active deactive');
+                t.addClass('active');
+                size.removeAttr('data-original-title');
+                attrs[$('.color').attr('column')] = t.attr('value');
+                size.each(function () {
+
+                    var t = $(this);
+                    attrs[$('.size').attr('column')] = t.attr('value');
+
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                t.attr('price', rs.data.price);
+                                t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                            } else {
+                                t.addClass('deactive').attr('data-original-title', msgOutofStock).removeAttr('qtt');
+                            }
+                        },
+                        'json'
+                    );
+                });
+
+            } else {
+                (t.attr('qtt'));
+                t.addClass('active');
+                if(t.attr('data-price') > 0) {
+                    $('.current-price strong').text($.number(t.attr('data-price'))+ ' VNĐ');
+                }
+                atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                qtt.attr('max', t.attr('qtt'));
+
+            }
+
+            // get list image child ---------------
+            var pIdsAttr = t.attr('data-psIds').split(','),
+                ps = [{id: pIdsAttr, code: 1, bothImageSrc: true, storeId: $storeId}],
+                pvImg = t.attr('data-src');
+            if (ps.length) {
+                getallchildimg(ps, function (rs) {
+                    if (rs.images) {
+                        var $pviewUri = $('#product-featured-image-quickview'),
+                            $owl = $(".slideThumbnail .owl-carousel .owl-stage "),
+                            $lightbox = $(".thumbnailUri");
+
+                        $pviewUri.addClass('fade').attr('src', pvImg).removeClass('fade');
+                        $('#js-gall').attr('href', pvImg);
+
+                        $owl.empty();
+                        $lightbox.empty();
+                        $.each(rs.images, function (key) {
+                            var item = rs.images[key];
+
+
+                            $owl.append('<div class="owl-item" style=" width: 73.8px; margin-right: 10px;" ><img data-src="' + item.srcUri + '" src="' + item.thumbnailUri + '" alt="alt"/></div>');
+                            if (key > 0) {
+                                $lightbox.append('<a href="' + item.srcUri + '" data-toggle="lightbox" data-gallery="gallery"></a>');
+                            }
+                        });
+
+                        $('.owl-carousel').owlCarousel({
+
+                            loop:true,
+                            margin:10,
+
+                            responsive:{
+                                0:{
+                                    items:1
+                                },
+                                600:{
+                                    items:3
+                                },
+                                1000:{
+                                    items:5
+                                }
+                            }
+                        });
+
+
+
+                        $(" .thumbnailUri").hover(function () {
+                            $pviewUri.addClass('fade').attr('src', $(this).attr('data-src')).removeClass('fade');
+                            body.find('.thumbnailUri').removeClass('active');
+                            $(this).addClass('active');
+                        });
+                    }
+                });
+            }
+
+        }
+    });
+    });
+
+
+    $(document).ready(function(){
+        $("button.btnAddToCart").on("click", function(){
+
+            if ($(this).attr("ck") == 1) {
+                var products = [], ps = {};
+                ps['id'] = $(this).attr('selid');
+                ps['quantity'] = $("#qtym").val();
+                var qty = parseInt(ps['quantity']);
+                var id = ($(this).attr('id'));
+                products.push(ps);
+                addToCart(products, 1, function(rs){
+                    if (rs.status == 1) {
+                        if (id == 'buynow'){
+                            window.location.href = '/cart/checkout';
+                        }else {
+                            $('#productQuickView').fadeOut();
+                            var totalqtt = parseInt(rs.data.totalQuantities + qty);
+                            $('.count-cart span').text(totalqtt);
+                            ajaxLoadView({
+                                view: 'topCart',
+                                onSuccess: function (rs) {
+                                    $('#myModal #popup-cart-desktop').html(rs);
+                                    $('#myModal').fadeIn();
+                                }
+                            });
+                            // if(in_array($storeId,[58473,224])){
+                            //     var mes = $('#dialogMessage');
+                            //     mes.html('<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 10px 40px 0;"></span>Thêm giỏ hàng thành công</p>');
+                            //     mes.dialog({
+                            //         title: "Thông báo!", modal: true, show: "explode", hide: "explode",
+                            //         buttons: {
+                            //             Ok: function () {
+                            //                 $(this).dialog("close");
+                            //             }
+                            //         }
+                            //     });
+                            // }else {
+                            //     window.location.href = 'user/cart'
+                            window.location.href = '/cart'
+                            // }
+                        }
+                    } else {
+                        alert(msgSizeColorProduct);
+                    }
+                });
+            }
+        });
+        $('.childProducts').change(function () {
+            var val = $(this).val(), data = val.split(","), $psId = data[0], $price_op = data[1];
+            if ($psId != 1) {
+                $('#addToCart').attr('ck', 1).attr('selId', $psId).removeClass('unsel').removeAttr('title').removeAttr('data-original-title');
+            } else {
+                $('#addToCart').attr('title', 'Vui lòng chọn sản phẩm!').attr('data-original-title', 'Vui lòng chọn sản phẩm!').attr('ck', 0);
+            }
+            $('.current-price strong').html($.number($price_op)+ '<span class="vnd"> VNĐ</span>');
+        });
+    });
+
+    function checkInv() {
+        var req = $('.req').length, attrs = {}, atc = $('#addToCart'), qtt = $('#qtym');
+        if (req == 1) {
+            if ($('.color').length) {
+                if ($('.color a .active').length) {
+                    attrs[$('.color').attr('column')] = $('.color a.active').attr('value');
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                qtt.attr('max', rs.data.available);
+                                atc.attr('selId', rs.data.id).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                            } else {
+                                atc.attr('data-original-title', msgOutofStock);
+                            }
+                        },
+                        'json'
+                    );
+
+                } else {
+                    $('.color a').each(function () {
+                        var t = $(this);
+                        attrs[$('.color').attr('column')] = t.attr('value');
+                        $.post(
+                            '/product/child?psId=' + atc.attr('psid'),
+                            {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                                } else {
+                                    t.addClass('deactive').attr('data-original-title', msgOutofStock);
+                                }
+                            },
+                            'json'
+                        );
+                    });
+                }
+            } else {
+                if ($('.size a.active').length) {
+                    attrs[$('.size').attr('column')] = $('.size a.active').attr('value');
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                qtt.attr('max', rs.data.available);
+                                atc.attr('selId', rs.data.id).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                            } else {
+                                atc.attr('data-original-title', msgOutofStock);
+                            }
+                        },
+                        'json'
+                    );
+                } else {
+                    $('.size a').each(function () {
+                        var t = $(this);
+                        attrs[$('.size').attr('column')] = t.attr('value');
+                        $.post(
+                            '/product/child?psId=' + atc.attr('psid'),
+                            {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                                } else {
+                                    t.addClass('deactive').attr('data-original-title', msgOutofStock);
+                                }
+                            },
+                            'json'
+                        );
+                    });
+                }
+            }
+            return false;
+        }
+        if (req > 1) {
+            var colorAt = $('.color a.active'), sizeAt = $('.size a.active');
+            if (colorAt.length && sizeAt.length) {
+                attrs[$('.color').attr('column')] = colorAt.attr('value');
+                attrs[$('.size').attr('column')] = sizeAt.attr('value');
+                $.post(
+                    '/product/child?psId=' + atc.attr('psid'),
+                    {'attrs': attrs},
+                    function (rs) {
+                        if (rs.code == 1 && rs.data.available > 0) {
+                            $('.size a').attr('data-price', rs.data.price);
+                            if($('.size a').attr('data-price') > 0){
+                                $('.current-price strong').text($.number($('.size a').attr('data-price')) + ' VNĐ');
+                            }
+                            qtt.attr('max', rs.data.available);
+                            atc.attr('selId', rs.data.id).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                        } else {
+                            atc.attr('data-original-title', msgOutofStock);
+                        }
+                    },
+                    'json'
+                );
+                return false;
+            }
+            if (colorAt.length && !sizeAt.length) {
+                attrs[$('.color').attr('column')] = colorAt.attr('value');
+                $('.size a').each(function () {
+                    var t = $(this);
+                    attrs[$('.size').attr('column')] = t.attr('value');
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                            } else {
+                                t.addClass('deactive').attr('data-original-title', msgOutofStock);
+                            }
+                        },
+                        'json'
+                    );
+                });
+                return false;
+            }
+            if (!colorAt.length && sizeAt.length) {
+                attrs[$('.size').attr('column')] = sizeAt.attr('value');
+                $('.color a').each(function () {
+                    var t = $(this);
+                    attrs[$('.color').attr('column')] = t.attr('value');
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                            } else {
+                                t.addClass('deactive').attr('data-original-title', msgOutofStock);
+                            }
+                        },
+                        'json'
+                    );
+                });
+                return false;
+            }
+        }
+    }
+
+    function increase(){
+        document.getElementById('qtym').stepUp();
+    }
+
+    function decrease(){
+        document.getElementById('qtym').stepDown();
+    }
+
+    function TdqCounters(){
+        window.setInterval(function(){
+            var counterNumber = $('.product-single__visitor-number'),
+                min = counterNumber.data('min'),
+                max = 58,
+                randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+            counterNumber.text(randomNumber);
+
+            var user = ['A.Hoàng', 'Chị Tâm', 'A.Tuấn', 'Chị Hoài', 'A.Bình', 'A.Hiếu', 'Chị Vân', 'Chị Hoa', 'A.Trường', 'A.Đức', 'Chị Duyên', 'A.Huy', 'Chị Hương', 'A.Toàn', 'Chị Giang',
+                    'Chị Hằng', 'A.Minh', 'Chị Thu', 'A.Quang', 'Chú Long', 'Cô Lan', 'Chị Yến', 'Chú Quân', 'Chú Đức', 'Cô Hải', 'Chị Mai', 'Chú Lâm', 'Chị Na', 'Chị Hiền', 'A.Tiến', 'Chị Quỳnh',
+                    'A.Chiến', 'Chú Bảo', 'Chú Hải', 'A.Tâm', 'Chị Trâm', 'Chú Hoàng', 'Chị Dương', 'Chị Lan Anh', 'A.Hoài Nam', 'A. Hồ Phong', 'A. Đức Bình', 'Chị Bảo An', 'Chị Thu Trang'],
+                userRandom = user[Math.floor(Math.random()*user.length)];
+            $('.titleuser').text(userRandom);
+
+
+
+        }, 15000);
+    }
+    $(window).load(function(){
+        var user = ['A.Hoàng', 'Chị Tâm', 'A.Tuấn', 'Chị Hoài', 'A.Bình', 'A.Hiếu', 'Chị Vân', 'Chị Hoa', 'A.Trường', 'A.Đức', 'Chị Duyên', 'A.Huy', 'Chị Hương', 'A.Toàn', 'Chị Giang',
+                'Chị Hằng', 'A.Minh', 'Chị Thu', 'A.Quang', 'Chú Long', 'Cô Lan', 'Chị Yến', 'Chú Quân', 'Chú Đức', 'Cô Hải', 'Chị Mai', 'Chú Lâm', 'Chị Na', 'Chị Hiền', 'A.Tiến', 'Chị Quỳnh',
+                'A.Chiến', 'Chú Bảo', 'Chú Hải', 'A.Tâm', 'Chị Trâm', 'Chú Hoàng', 'Chị Dương', 'Chị Lan Anh', 'A.Hoài Nam', 'A. Hồ Phong', 'A. Đức Bình', 'Chị Bảo An', 'Chị Thu Trang'],
+            userRandom = user[Math.floor(Math.random()*user.length)];
+
+        var starter = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58',],
+            starterCounter = Math.floor(Math.random() * starter.length);
+        $('.product-single__visitor-number').text(starterCounter);
+        $('.nameuser').text(userRandom);
+        $('.product-single__visitor').removeClass('hidden');
+    });
+    $(document).ready(function(){
+        TdqCounters();
+    });
+
+    var msgTransfers = "Quý khách vui lòng chọn hình thức chuyển khoản";
+    var msgRemoveCartItem = "Bạn muốn xóa sản phẩm này";
+    var msgRemoveAddress = "Qúy khách muốn xóa địa chỉ này";
+    var msgRemoveAll = "Quý khách muốn xóa tất cả giỏ hàng";
+    var msgCancelOrder = "Bạn có chắc chắn muốn hủy đơn hàng này";
+    var msgRemoveToWishList= "Bạn có chắc chắn muốn xóa sản phẩm này khỏi yêu thích";
+    var msgDialog = "Thông báo";
+    var msgSizeandColor = "Vui lòng chọn màu sắc hoặc kích cỡ";
+    var msgColor = "Vui lòng chọn màu trước";
+    var msgOutofStock = "Sản phẩm tạm thời hết hàng";
+    var msgSignin = "Đăng nhập để thực hiện chức năng này";
+    var msgWishlisted = "Đã yêu thích";
+    var msgAddToCartSuccess = "Đã thêm sản phẩm vào giỏ hàng";
+    var msgOrderSuccess = "Bạn đã đặt hàng thành công";
+    var msgClose = "Đóng";
+    var msgViewCart = "Xem giỏ hàng";
+    var msgSizeColorProduct = "Bạn chưa chọn màu sắc hoặc size hoặc sản phẩm tạm thời đang hết hàng ";
+    var msgContact = "Liên hệ";
+    var msgContactLater = "Liên hệ sau";
+    var msgStarRate = "Quý khách vui lòng chọn đánh giá (số sao)";
+    var msgRateProduct = "Đánh giá sản phẩm";
+    var msgSearchProduct = "Tìm kiếm sản phẩm bạn muốn mua tại đây";
+    var msgSelectBank = "Vui lòng chọn ngân hàng bạn sẽ thanh toán";
+    var msgSelected = "Bạn đã chọn";
+    var msgAccept = "Đồng ý";
+    var msgCancel = "Hủy";
+    var msgAnotherAction = "Xin vui lòng xóa khỏi giỏ hàng hoặc mua các sản phẩm khác";
+    var msgDiscountCode = "Mã giảm giá không chính xác";
+    var msgChoosePaymentMethod = "Bạn chưa chọn hình thức thanh toán";
+    var msgSuccessNewsletter = "Đăng ký nhận email khuyến mại thành công!";
+    var msgMaximumQuantity= "Bạn chỉ có thể mua tối đa";
+    var msgMinimumQuantity= "Bạn chỉ có thể mua tối thiểu";
+    var msgCompleteOrder= "Bạn có muốn thanh toán đơn hàng";
+    var msgInvalidMobile= "Số điện thoại không hợp lệ";
+    var msgInvalidCoupoint= "Mã giảm giá không chính xác hoặc đã hết hạn";
+    var msgAddToWishList= "Sản phẩm đã được thêm vào yêu thích";
+    var msgRemoveForWishList= "Sản phẩm đã được xóa khỏi yêu thích";
+    var msgCheckCouponValid = "Vui lòng nhập mã giảm giá";
+    var msgCheckCouponError = "Mã giảm giá không đúng hoặc đã hết hạn";
+    var msgNotInformationError = "Xin vui lòng nhập thông tin";
+    var msgOurPolicy = "Vui lòng đồng ý với chính sách của chúng tôi";
+
+
+    var txtTitle = "Quý khách vui lòng nhập tiêu đề nhận xét cho sản phẩm này";
+    var txtComment = "Quý khách vui lòng bình luận cho sản phẩm (Tối thiểu 30 ký tự)";
+    var txtDigitComment = " ký tự";
+    var txtCoupon = "Mã giảm giá";
+    var txtOutofStock = "Hết hàng";
+    var txtAuthor = "Tác giả";
+    var txtPublishingHouse = "Nhà xuất bản";
+    var txtProvider = "Nơi phát hành";
+    var txtCart = "Giỏ hàng";
+    var txtBuyMore = "Mua thêm";
+    var txtCheckout = "Thanh toán";
+    var txtInCategory = " trong danh mục";
+    var txtPrice = "Giá";
+    var txtNextLabel = "Tiếp";
+    var txtPrevLabel = "Sau";
+    var txtSkipLabel = "Bỏ qua";
+    var txtDoneLabel = "Xong";
+    var txtBuyer = " người mua ";
+    var txtAcept = "Chắc chắn rồi";
+    var txtDenied = "Không, tôi nhầm";
+    var txtBaoKimAccount = "Tài khoản Bảo Kim";
+    var txtBalanceMoney = "Số dư tiền thưởng";
+    var txtHour = "Giờ";
+    var txtMinute = "Phút";
+    var txtSeconds = "Giây";
+    var txtQuickView = "Xem nhanh";
+    var txtContinueShop = "Tiếp tục mua hàng";
+    var txtProduct = "sản phẩm";
+    var txtSelectSize = "Chọn kích cỡ";
+    var txtPoint = "Điểm";
+    var txtProcessing = "Đang xử lý";
+    /* End Block quickview */
+</script>

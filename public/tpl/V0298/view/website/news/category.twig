@@ -1,0 +1,120 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ category.name }}">
+    <meta name="description" content="{{ (category.description ?: category.Name) }}">
+    <meta property="og:title" content="{{ category.name }}">
+    <meta property="og:url" content="{{ category.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/news.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+    <link rel="canonical" href="{{ category.viewLink }}" />
+    {% if(paginator) %}
+        {% set pageRanger =  paginator.setPageRange(4) %}
+    {% endif %}
+    <div class="containerMain">
+        {% set buildBread = [{'label': 'Tin tức','uri': '/news'}] %}
+        {% set buildBread1 = buildBreadcrumbs(category) %}
+        {% set buildBread = buildBread | merge (buildBread1) %}
+        {{ breadcrumbs.build(buildBread) }}
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="navNews">
+                <ul>
+                    {% if(newsCategory) %}
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="navNews">
+                                <ul>
+                                    {% for n in newsCategory %}
+                                        <li><a href="{{ n.viewLink }}">{{ n.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="containerMain">
+        <div class="newsCate row">
+            <div class="col-lg-9 col-sm-9 col-xs-12">
+                <div class="listNews">
+                    {% if(paginator) %}
+                        {% for n in paginator %}
+                            {% set image = n.pictureUri %}
+                            {% set options = {
+                                alt: n.title | e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            <div class="newsItem">
+                                <div class="imageWrapper">
+                                    <a href="{{ n.viewLink }}" {{ news.categoryId == idRecruitment ? 'rel="nofollow"' : '' }}>
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="contentNews">
+                                    <h3><a href="{{ n.viewLink }}">{{ n.title | e('html') }}</a></h3>
+                                    <i class="date">{{ n.createdDateTime }}</i>
+                                    <p>{{ n.intro(true) | raw }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="pagination">
+                        <div class="links">
+                            {{paginationControl(paginator, 'Sliding', 'partial/listPage') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-xs-12 newsList siderBar2">
+                {% set bannerNews = getBannerByPositionCode('HOME_NEWS') %}
+                {% if(bannersNews) %}
+                    <ul class="slides adsNews owl-carousel owl-theme">
+                        {% for bn in bannerNews %}
+                            {% set image = bn.imageSrc %}
+                            {% set options = {
+                                alt: bn.name | e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            <li>
+                                <a href="{{ bn.link }}" rel="nofollow">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% include 'layout/generalbarNews' %}
+            </div>
+        </div>
+    </div>
+    <style>
+        .paging-next:before{
+            content: "\f0da";
+            font-family: FontAwesome;
+        }
+        .paging-last:before{
+            font-family: FontAwesome;
+            content: "\f101";
+        }
+        .paging-first:before{
+            font-family: FontAwesome;
+            content: "\f100";
+        }
+        .paging-previous:before{
+            font-family: FontAwesome;
+            content: "\f0d9";
+        }
+    </style>
+{% endblock %}

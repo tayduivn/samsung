@@ -1,0 +1,37 @@
+{% extends 'news_layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Album').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Album">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+
+{% block body %} 
+<div class="page-container scene-main scene-main--fade_In">
+	<!--has 2 columns-->
+	<div class="has-2-columns has-2-columns mb-50px">
+		<div class="container">
+			<div class="listTH gmgmg">
+        {% if (albums.currentModels) %}
+          {% for a in albums.currentModels %}
+            {% set image = a.thumbnailUri %}
+            {% set options = {
+                alt: a.name,
+                lazy: true,
+                openDiv: false,
+            } %}
+            <a class="oneTH" href="{{ a.viewLink }}" data-blog="cau-chuyen-echolac">
+              <span class="img">
+                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+              </span>
+              <h3 class="tit">{{ a.name }}</h3>
+            </a>
+          {% endfor %}  
+        {% endif %}
+			</div>
+			<div class="btn btn-viewmore">Xem thêm</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+</div>
+{% endblock %}

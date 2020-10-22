@@ -1,0 +1,30 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Tạo tài khoản').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    <main class="wrapper main-content  custom_page ">
+        <div class="grid">
+            <div class="grid__item large--one-third push--large--one-third text-center">
+                <h1>Tạo tài khoản</h1>
+                <div class="form-vertical">
+                    {% if(success) %}
+                        <p class="message sigup">Chúc mừng bạn đăng ký thành công tài khoản website
+                            vui lòng vào <a href="/user/signin">Đây</a> để đăng nhập
+                        </p>
+                    {% else %}
+                        <div class="defaultContent">
+                            <div class="loginForm">
+                                {{ partial('partial/form',{'form':form}) }}
+                            </div>
+                            <p><a href="/">Trở về</a></p>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+{% endblock %}

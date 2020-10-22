@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8"/>
+    <meta name="robots" content="index,follow" />
+    <meta name="revisit-after" content="1 day" />
+    <meta name="keywords" content="Dualeo, gomarket"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="HandheldFriendly" content="true">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="dl_goshopping">
+    <link rel="icon" href="//theme.hstatic.net/1000329721/1000424884/14/favicon.png?v=45" type="image/x-icon">
+
+    <meta property="og:description" content="">
+    <meta property="og:url" content="https://dl-goshopping.myharavan.com/">
+    <meta property="og:site_name" content="dl_goshopping">
+    {% set appId = getAppId() %}
+    {% if(appId) %}
+        <meta name="fb:app_id" content="{{ appId }}">
+    {% endif %}
+    {% set extraSettingsArray =  extraSettings()%}
+    {% if(extraSettingsArray['gta']['generatedTimeAndAuthor']) %}
+        {% if(extraSettingsArray['gta']['generatedTimeAndAuthor'] == 1) %}
+            {% set display = 'block' %}
+        {% endif %}
+    {% else %}
+        {% set display = 'none' %}
+    {% endif %}
+    {{ headMeta().appendName('viewport', 'width=device-width, initial-scale=1.0').appendHttpEquiv('X-UA-Compatible', 'IE=edge')|raw }}
+    {% block meta %}{% endblock %}
+    {% set styleSheet = [
+        templatePath ~'/css/responsive.css',
+        templatePath ~'/css/style.css',
+        templatePath ~'/css/module.css',
+        templatePath ~'/css/base.css',
+        templatePath ~'/css/plugin.css',
+        templatePath ~'/css/panigation.css',
+        templatePath ~'/css/font-awesome.min.css',
+        templatePath ~'/css/swatch.css',
+        templatePath ~'/css/custom.css',
+        templatePath ~'/css/splide.min.css',
+
+    ] %}
+
+
+    <script src="//theme.hstatic.net/1000329721/1000424884/14/jquery-2.2.3.min.js?v=45" type="text/javascript"></script>
+    <link rel="stylesheet" href="{{ srcLink(styleSheet,2) }}" type="text/css">
+    {{ loadScripts({'positionHead':true}) | raw}}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body>
+{% if (layout().showOnlyContent == true) %}
+{% block checkout %}{% endblock %}
+{% else %}
+
+{% block stylesheet %}
+{%  endblock %}
+{% block breadcrumbs %}
+{% endblock %}
+<input type="hidden" id="storeId" value="{{ getStoreId() }}">
+<div class="page-body">
+    {% include 'layout/header' %}
+
+    {% block body %}{% endblock %}
+
+    {% include 'layout/footer' %}
+
+</div>
+{% endif %}
+{% set script = [
+
+
+    templatePath ~'/js/api.jquery.js',
+    '/js/lib.js',
+
+    templatePath ~'/js/js_smart_search.js',
+    templatePath ~'/js/main.js',
+    templatePath ~'/js/option-selectors.js',
+    templatePath ~'/js/plugin.js',
+    templatePath ~'/js/quickview.js',
+    templatePath ~'/js/index.js',
+    templatePath ~'/js/simplegallery.min.js',
+    templatePath ~'/js/pview.js',
+    templatePath ~'/js/cart.js',
+    templatePath ~'/js/order.js',
+    '/cdn/_cache/location.vn.js',
+    '/js/jquery/jquery.validationEngine-vi.js' ,
+    '/js/jquery/jquery.validationEngine.js',
+    '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.js',
+    '/js/jquery/jquery.number.min.js',
+    templatePath ~'/js/user.js',
+
+    '/js/translate/vi-vn.js',
+
+] %}
+
+
+
+
+
+<script type="text/javascript" src="{{ srcLink(script,2)  }}"></script>
+{% block script %}{% endblock %}
+</body>
+
+</html>

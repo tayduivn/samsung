@@ -1,0 +1,41 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+    <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+    <meta property="og:title" content="{{ news.title | e('html') }}">
+    <meta property="og:url" content="{{ news.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="row-fluid clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 clearfix">
+                    <div class="span9 main">
+                        <div class="home-page">
+                            <h1 class="bo entr-title">{{ news.title|raw }}</h1>
+                            <div class="list-sps">
+                                <div class="content-show">
+                                    <div class="entry-content">
+                                        {{ news.content|raw }}
+                                    </div>
+                                    <div id="comment-content" class="gird_8">
+                                        <div id="respond">
+                                            <h3>Để lại Bình luận của bạn</h3>
+                                            <div class="fb-comments" data-href="{{ getCurrentUrl() }}"
+                                                 data-numposts="5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

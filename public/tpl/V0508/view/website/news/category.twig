@@ -1,0 +1,51 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ category.name }}">
+    <meta name="description" content="{{ (category.description ?: category.Name) }}">
+    <meta property="og:title" content="{{ category.name }}">
+    <meta property="og:url" content="{{ category.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block body %}
+    <main>
+        <div class="text-center title-page-news"> {{ category.name }}</div>
+        <div class="all-block-news-items">
+            <div class="container">
+                <div class="row"><!-- row -->
+                    {% if(paginator.currentModels is not empty) %}
+                        {% for n in paginator.currentModels %}
+                            {% set image = n.pictureUri %}
+                            {% set options = {
+                                alt: n.title | e('html'),
+                                lazy: true,
+                                class:'card-img-top',
+                                openDiv: false,
+                            }%}
+                            <div class="card col-12 col-sm-12 col-md-12 col-lg-3" style="width: 18rem;"> <!-- card -->
+                                <div class="img-hover-news">
+                                    <a href="{{ n.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        <div class="layer-hover-img"></div>
+                                    </a>
+                                </div>
+                                <a href="{{ n.viewLink }}">
+                                    <div class="card-body">
+                                        <div class="triangle-news"></div>
+                                        <h5 class="card-title">{{ subString(n.title, 37) }}</h5>
+                                        <p class="card-text">{{ n.intro(true) | raw }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+            </div>
+        </div> <!-- end row -->
+        <div id="pagination" class="clearfix">
+            {{ render_paginator(paginator) }}
+        </div>
+    </main>
+{% endblock %}

@@ -1,0 +1,118 @@
+{% set products= serviceCart().getProducts %}
+
+
+    {% if(products is not empty) %}
+        <div class="toltal-shopping-cart-live-container">
+            {% for p in products %}
+                {% set priceDiscount=p.priceAfterDiscount(p.quantity) %}
+                {% set countPs = (products | length)? (products | length) : 0 %}
+                <div class="item-view-cart popup_item cartItem_{{ p.id }} space-border pb-3 pt-3 border-bottom" data-price="{{ p.price }}">
+                    <table id="cart-view">
+                        <tbody>
+                        <tr class="item_2 ">
+                            <td class="img-shopping-cart-ajax">
+                                <a href="{{ p.viewLink }}" title="{{ p.viewLink }}">
+                                    <img data-sizes="auto" class="lazyload" src="{{ p.thumbnailUri }}" data-src="{{ p.thumbnailUri }}">
+                                </a>
+                            </td>
+                            <td class="content-infor-shopping-cart-ajax">
+                                <a class="pro-title-view" href="{{ p.viewLink }}" >{{ p.name }}</a>
+                                <div class="block-quantity-price">
+                        <span class="pro-quantity-view">
+                            <input type="text" maxlength="10"
+                                   value="{{ p.quantity }}" data-id="{{ p.id }}"
+                                   class="qty-input updateCart updateCart-ajax" min="1"
+                                   max="{{ p.inventory().calcAvailable() }}" disabled/>
+                        </span>
+                                    <span class="pro-price-view">
+                                                          {% if(priceDiscount>0) %}
+                                                              {{ priceDiscount|number_format(0) }} ₫
+                                                          {% elseif(p.price<=0) %}
+                                                              Liên hệ
+                                                          {% else %}
+                                                              {{ p.price|number_format(0) }} ₫
+                                                          {% endif %}
+                        </span>
+                                </div>
+                            </td>
+                            <td class="colse-removeCart">
+                                <a href="javascript:" class="close removeCart" data-id="{{ p.id }}"><i class="fa fa-times"></i></a>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="emty-cart">
+            Hiện chưa có sản phẩm</div>
+    {% endif %}
+
+    <div class="total-shopping-cart-live mt-3">
+        <span class="toltal-tile">Tổng cộng: </span>
+        <span class="toltal-price">{{ serviceCart().totalMoney|number_format(0) }}₫</span>
+    </div>
+<script>
+    // $(function () {
+    //     $('.removeCart').click(function(){
+    //         var psId = $(this).attr('data-id');
+    //         if(psId > 0){
+    //             removeCart(psId);
+    //         }
+    //     });
+    // });
+    // function removeCart(prodId) {
+    //     var check = confirm('Bạn muốn xóa sản phẩm ra khỏi giỏ hàng ?');
+    //     if(check) {
+    //         $.post(
+    //             '/cart/remove',
+    //             {'psId' : prodId},
+    //             function(rp){
+    //                 window.location.reload();
+    //             }
+    //         );
+    //     }
+    // }
+    $(document).ready(function () {
+        $('.removeCart').click(function() {
+            var id = $(this).attr('data-id');
+            removeCart(id, true);
+        });
+    });
+    function removeCart (proId, delItem) {
+        var check = confirm('Bạn có chắc muốn xóa sản phẩm này?');
+        var formatVND = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+        if(check) {
+            $.post('/cart/remove', { 'psId': proId },
+                function(rp) {
+                    if(delItem) {
+                        $('.cartItem_' + proId).remove();
+                        var totalPrice = 0;
+                            $totalItem = 0;
+                        $('.popup_item').each(function() {
+                            var t = $(this),
+                                price = parseInt(t.attr('data-price')),
+                                qty = parseInt(t.find('.updateCart').val());
+                            t.find('.pro-price-view').html(formatVND.format(price * qty));
+                            totalPrice += price * qty;
+                            $totalItem += qty;
+                        });
+                        $('.toltal-price').text(formatVND.format(totalPrice));
+                        ajaxLoadView({
+                            view: 'topCart',
+                            onSuccess: function(rs) {
+                                alert("Xóa sản phẩm thành công");
+                            }
+                        });
+                    } else {
+                        document.location.href = '/cart';
+                    }
+                });
+        }
+    }
+</script>

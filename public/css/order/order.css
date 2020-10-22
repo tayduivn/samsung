@@ -1,0 +1,293 @@
+.clearfix {
+    float: none !important;
+    clear: both;
+    display: block;
+}
+
+/*.si{*/
+/*background: url("../img/spriteIcon.png") no-repeat transparent;*/
+/*}*/
+/*.lg{*/
+/*background: url("../img/cucreLogo.png") no-repeat transparent;*/
+/*}*/
+/*.hoverUnderline:hover{text-decoration: underline}*/
+
+/*-----------------------------------------------------form check out----*/
+#formCheckOut {
+    background: #fff !important;
+    margin: 50px 0 !important;
+    padding: 45px 0 0 0 !important;
+}
+
+#formCheckOut * {
+    box-sizing: border-box;
+}
+#formCheckOut .input{
+    border: 1px solid #ccc; transition: all 0.15s linear 0s;
+}
+#formCheckOut .input:focus{
+    border-color: #1C62B9; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.075) inset;
+}
+#formCheckOut .btnRed{
+    border: none; color: #fff; text-align: center; cursor: pointer;
+    background: #f04e23; transition: all 0.15s;
+}
+#formCheckOut .btnRed:hover{
+    background: #D93307;
+}
+#formCheckOut .btnRed:active{
+    background: #c03207;
+}
+
+#formCheckOut > h1 {
+    font-size: 20px;
+    font-weight: lighter;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20px 0;
+}
+
+#formCheckOut #column1 {
+    width: 19%;
+}
+
+#formCheckOut #column2 {
+    width: 37%;
+}
+
+#formCheckOut #column3 {
+    width: 20%;
+    padding: 20px 0;
+}
+
+#formCheckOut #column4 {
+    width: 20%;
+    margin-right: 0;
+    background: #f1eee9;
+    padding: 20px 0;
+}
+
+#formCheckOut .column {
+    float: left;
+    border: 1px solid #e5e5e5;
+    margin-right: 1%;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+#formCheckOut .column > h2 {
+    font-size: 14px;
+    padding: 10px 0;
+    position: absolute;
+    top: -40px;
+    left: 5px;
+}
+
+#formCheckOut .column > h2 span {
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 25px;
+    padding: 6px 10px;
+    margin-right: 5px;
+}
+
+#formCheckOut .purchaseInfo label {
+    margin: 8px 15px;
+    display: block;
+}
+
+#formCheckOut .purchaseInfo label input, #formCheckOut .purchaseInfo label textarea {
+    display: block;
+    padding: 6px 10px;
+    width: 100%;
+    background: #f1eee9;
+    margin: 2px 0;
+    border-radius: 20px;
+    resize: none;
+}
+
+#formCheckOut .purchaseInfo label select {
+    display: block;
+    padding: 5px;
+    width: 100%;
+    background: #f1eee9;
+    margin: 2px 0;
+    border-radius: 20px;
+}
+
+#paymentMethod > h3 {
+    background: #ececfb;
+    padding: 10px;
+    line-height: 1.5em;
+}
+
+#paymentMethod > h3 span {
+    color: #e47911;
+    font-weight: normal;
+    display: block;
+}
+
+#paymentMethod > label {
+    display: block;
+    padding: 10px;
+}
+
+#paymentMethod > label > i {
+    color: #555;
+    font-size: 11px;
+    display: block;
+    padding: 0 0 0 15px;
+}
+
+#paymentMethod > label > i a {
+    color: #e47911;
+}
+
+#paymentMethod > label > i a:hover {
+    text-decoration: underline;
+}
+
+.listBank {
+    display: none;
+    padding: 5px 0 5px 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.listBank > span {
+    float: left;
+    width: 50px;
+    height: 34px;
+    overflow: hidden;
+    margin: 2px;
+    cursor: pointer;
+    padding: 2px;
+    transition: all 200ms ease;
+}
+
+.listBank > span > img {
+    display: block;
+    width: 100%;
+}
+
+.listBank > span:hover, .listBank > span.active {
+    background: #999;
+}
+
+.listBank > p {
+    display: block;
+    margin: 5px 0;
+}
+
+.listBank > p input {
+    text-align: right;
+    padding: 2px 5px;
+}
+
+#reviewCart {
+    padding-top: 5px;
+    height: 230px;
+    overflow: auto;
+}
+
+#column3 > a {
+    display: block;
+    color: #5299ef;
+    padding: 5px 6%;
+}
+
+#column3 > a:hover {
+    text-decoration: underline;
+}
+
+#column3 > textarea {
+    display: block;
+    padding: 6px 1%;
+    width: 85%;
+    background: #f1eee9;
+    margin: 2px 6%;
+}
+
+.reviewCartItem {
+    margin: 10px 0;
+}
+
+.reviewCartItem > a {
+    float: left;
+    width: 70px;
+    overflow: hidden;
+    margin: 0 5px;
+    border: solid 1px #ddd;
+}
+
+.reviewCartItem > a img {
+    width: 100%;
+}
+
+.reviewCartItem p {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 5px;
+}
+
+#orderIf {
+    padding: 0 15px;
+}
+
+#orderIf > p {
+    display: block;
+    font-weight: bold;
+    padding: 2px 0;
+    line-height: 22px;
+}
+
+#orderIf > p span {
+    float: right;
+    font-size: 18px;
+}
+
+#orderIf > label {
+    display: block;
+    padding: 10px 0;
+}
+
+#orderIf > label input {
+    padding: 5px;
+}
+
+#orderIf > label button {
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 3px;
+}
+
+#btnOrder {
+    padding: 15px 0;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 3px;
+    margin: 25px 0;
+    width: 100%;
+    display: block;
+}
+
+.moneyIf {
+    margin-right: 20px;
+}
+
+.hiddenCoupon {
+    display: none;
+}
+#formCheckOut .btnBlue{
+    border: none; color: #fff; text-align: center; cursor: pointer;
+    background: #188BB8; transition: all 0.15s;
+}
+#formCheckOut .btnBlue:hover{
+    background: #19749b;
+}
+#formCheckOut .btnBlue:active{
+    background: #146182;
+}

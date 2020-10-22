@@ -1,0 +1,208 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block meta %}
+    {{ headTitle('Liên hệ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Liên hệ">
+    <meta name="keywords" content="Liên hệ">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Liên hệ">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+    <section class="margin-top-30">
+        <div class="wrap_ padding_mobile">
+            <div class="row">
+                <div class="section_maps">
+                    <div class="container contact contact-owf">
+                        <div class="row">
+                            <div class="info_width margin-top-20 col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                                <div class="box-maps">
+                                    <div class="iFrameMap">
+                                        <div class="google-map">
+                                            <div id="contact_map" class="map"
+                                                 style="position: relative; overflow: hidden;">
+                                                <div style="height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background-color: rgb(229, 227, 223);">
+                                                    <div class="gm-style"
+                                                         style="position: absolute; z-index: 0; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px;">
+                                                        <div tabindex="0"
+                                                             style="position: absolute; z-index: 0; left: 0px; top: 0px; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; cursor: url(&quot;https://maps.gstatic.com/mapfiles/openhand_8_8.cur&quot;), default; touch-action: pan-x pan-y;">
+                                                            <div style="z-index: 1; position: absolute; left: 50%; top: 50%; width: 100%;">
+                                                                <div style="position: absolute; left: 0px; top: 0px; z-index: 100; width: 100%;">
+                                                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 0;"></div>
+                                                                </div>
+                                                                <div style="position: absolute; left: 0px; top: 0px; z-index: 101; width: 100%;"></div>
+                                                                <div style="position: absolute; left: 0px; top: 0px; z-index: 102; width: 100%;"></div>
+                                                                <div style="position: absolute; left: 0px; top: 0px; z-index: 103; width: 100%;"></div>
+                                                                <div style="position: absolute; left: 0px; top: 0px; z-index: 0;"></div>
+                                                            </div>
+                                                            <div class="gm-style-pbc"
+                                                                 style="z-index: 2; position: absolute; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; left: 0px; top: 0px; opacity: 0; transition-duration: 0.8s;">
+                                                                <p class="gm-style-pbt"></p></div>
+                                                            <div style="z-index: 3; position: absolute; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; left: 0px; top: 0px; touch-action: pan-x pan-y;">
+                                                                <div style="z-index: 4; position: absolute; left: 50%; top: 50%; width: 100%;">
+                                                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 104; width: 100%;"></div>
+                                                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 105; width: 100%;"></div>
+                                                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"></div>
+                                                                    <div style="position: absolute; left: 0px; top: 0px; z-index: 107; width: 100%;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <iframe aria-hidden="true" frameborder="0" tabindex="-1"
+                                                                style="z-index: -1; position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; border: none;"></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="page-ct-info">
+
+                                    <div class="page_title page__ page_title_page_contact ">
+                                        <h1 class="title_page_h1"><span>Liên hệ</span></h1>
+                                        <h3>Thông tin liên hệ</h3>
+                                    </div>
+                                    <ul>
+
+                                        <li>
+                                            <b>Địa chỉ</b><span
+                                                    class="frist_"><b>:</b> 268 Cầu Giấy, Hà Nội, Vietnam</span>
+                                        </li>
+                                        <li>
+                                            <b>Điện thoại</b><span class="frist_"><b>:</b> <a href="tel:0912117494">0912117494</a></span>
+                                        </li>
+                                        <li>
+                                            <b>Email</b><span class="frist_"><b>:</b> <a
+                                                        href="mailto:dualeotheme@gmail.com">dualeotheme@gmail.com</a> </span>
+                                        </li>
+                                    </ul>
+                                </div>
+
+
+                                <div class="page-login page_cotact">
+                                    <div class="page_title page__ page_title_page_contact ">
+                                        <h2 class="title_page_h1"><span>FORM LIÊN HỆ</span></h2>
+                                        <h3>Gửi góp ý cho DL Pelican - Giao diện bán hàng</h3>
+                                    </div>
+                                    <div id="pagelogin">
+                                        <form accept-charset="UTF-8" action="/contact" class="contact-form"
+                                              method="post">
+                                            <input name="form_type" type="hidden" value="contact">
+                                            <input name="utf8" type="hidden" value="✓">
+
+
+                                            <div class="form-signup clearfix">
+                                                <div class="group_contact row">
+                                                    <fieldset
+                                                            class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <label class="">Tên của bạn:</label>
+                                                        <input type="text" name="contact[name]" id="name"
+                                                               placeholder="Tên của bạn:*"
+                                                               class="form-control  form-control-lg" required="">
+                                                    </fieldset>
+                                                    <fieldset
+                                                            class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <label class="">Email:</label>
+                                                        <input type="email" name="contact[email]" placeholder="Email:*"
+                                                               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,63}$"
+                                                               data-validation="email" id="email"
+                                                               class="form-control form-control-lg" required="">
+                                                    </fieldset>
+                                                    <fieldset
+                                                            class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <label class="">Nội dung:</label>
+                                                        <textarea name="contact[body]" id="comment"
+                                                                  placeholder="Nội dung:*"
+                                                                  class="form-control content-area form-control-lg"
+                                                                  rows="5" required=""></textarea>
+
+                                                    </fieldset>
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 a-left">
+                                                        <button type="submit" class="btn-45-no-radius btn">Gửi liên hệ
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <input id="0d276190d1c542f69ab2409d8a97edd0" name="g-recaptcha-response"
+                                                   type="hidden"
+                                                   value="03AGdBq258jAyxU70Z5z6zkZWcpfQGzdN_ZXlCOD4U3cQK9uoZ03SutllSdTB8sP3rwKFQ7tWSlT9Iv1Zc6iw_VgMpaDza1sGGHVaObVQgcVfi4ym8ySeMxwYDM39iz5BHBDaWb2if-5bmaIS31k_7bKb-0DFdavUoGdC8HuA1nyDdLkzTnvhLPRhb-18c-3NV4vz5J2gE_v_rRGaDrJ0qWlU8gR8OANPZX1ri5iBrP2h13CjVH9Ot6Dwj0hz9p-HOx262Ck3oM1shrv_PS8DklUdzJIuoxzHUepH6VENtiWAWwRtDvfrbuSM2FEhS_0ePP95qczlBwTwGFRhibW3Ep6eGvydgj57R21dZSwv1Ig_N0viM-rlKcn9h1eL0q54u2_6InheAolXf1L9Qb3a9eaMYuyumYL6gNQ">
+                                            <script src="https://www.google.com/recaptcha/api.js?render=6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-"></script>
+                                            <script>grecaptcha.ready(function () {
+                                                    grecaptcha.execute('6LdD18MUAAAAAHqKl3Avv8W-tREL6LangePxQLM-', {action: 'submit'}).then(function (token) {
+                                                        document.getElementById('0d276190d1c542f69ab2409d8a97edd0').value = token;
+                                                    });
+                                                });</script>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 margin-top-20 ">
+
+                                <div class="aside-item margin-bottom-30">
+                                    <div class="dear_title">
+                                        <h2 class="title_head_ border_content sb_page_bg_1">
+                                            <span>Thông tin công ty</span>
+                                        </h2>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="sidebar-blog-content">
+                                        <ul class="sidebar-blog-menu">
+
+                                            <li><a href="/search" title="Tìm kiếm">Tìm kiếm</a></li>
+
+                                            <li><a href="/pages/about-us" title="Giới thiệu">Giới thiệu</a></li>
+
+                                            <li><a href="/pages/chinh-sach-doi-tra" title="Chính sách đổi trả">Chính
+                                                    sách đổi trả</a></li>
+
+                                            <li><a href="/pages/chinh-sach-bao-mat" title="Chính sách bảo mật">Chính
+                                                    sách bảo mật</a></li>
+
+                                            <li><a href="/pages/dieu-khoan-dich-vu" title="Điều khoản dịch vụ">Điều
+                                                    khoản dịch vụ</a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                                <div class="aside-item margin-bottom-30">
+                                    <div class="dear_title">
+                                        <h2 class="title_head_ border_content sb_page_bg_2">
+                                            <span>Hỗ trợ khách hàng</span>
+                                        </h2>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="sidebar-blog-content">
+                                        <ul class="sidebar-blog-menu">
+
+                                            <li><a href="/search" title="Tìm kiếm">Tìm kiếm</a></li>
+
+                                            <li><a href="/pages/about-us" title="Giới thiệu">Giới thiệu</a></li>
+
+                                            <li><a href="/pages/chinh-sach-doi-tra" title="Chính sách đổi trả">Chính
+                                                    sách đổi trả</a></li>
+
+                                            <li><a href="/pages/chinh-sach-bao-mat" title="Chính sách bảo mật">Chính
+                                                    sách bảo mật</a></li>
+
+                                            <li><a href="/pages/dieu-khoan-dich-vu" title="Điều khoản dịch vụ">Điều
+                                                    khoản dịch vụ</a></li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,168 @@
+.top-bar-newstores {
+    background: #333;
+    padding: 12px 0;
+    vertical-align: middle;
+    color: #fff;
+}
+.top-bar-newstores .title-topnews {
+    font-size: 16px;
+}
+.top-bar-newstores span {
+    display: inline-block;
+    color: #fff;
+}
+.top-bar-newstores .title-topnews:before {
+    margin-right: 5px;
+    content: "";
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background: url('../img/icon-stars.gif');
+}
+.loading a, a, a:focus, a:hover {
+    text-decoration: none;
+}
+.top-bar-newstores .name-topnews {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+.top-bar-newstores .address-topnews {
+    color: #fff;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+.top-bar-newstores .date-topnews {
+    border: 1px solid #e32124;
+    background: #e32124;
+    border-radius: 12px;
+    padding: 1px 5px;
+    font-size: 10px;
+    line-height: 15px;
+    vertical-align: top;
+    margin-left: 8px;
+}
+.top-bar-newstores .space {
+    width: 27px;
+}
+.top-bar-findstores {
+    padding: 20px 0;
+}
+.item-col-4 {
+    max-width: 25%;
+}
+.item-col-4 .content-right {
+    display: inline-block;
+    vertical-align: top;
+    padding: 5px 0 0 6px;
+}
+.item-col-4 .content-right .text-top {
+    color: #e32124;
+    font-size: 30px;
+}
+.item-col-4 .content-right .text-bot {
+    font-size: 15px;
+    color: #333;
+}
+.item-col-4:hover img {
+    transform: rotateY(360deg);
+}
+.item-col-4 img {
+    transform: rotateY(0deg);
+    transition: all ease 0.5s;
+}
+.title-store {
+    color: #333;
+    font-size: 16px;
+    background: #f6f6f6;
+    border: 1px solid #e0e0e0;
+    padding: 10px;
+    font-weight: bold;
+}
+.title-store span {
+    color: #3d3d3d;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+.wrapper-dropdown.list-store {
+    max-height: 510px;
+    overflow-y: auto;
+}
+.list-store {
+    padding: 0px 0px 10px;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+.list-store ul {
+    margin: 0;
+    padding: 0;
+}
+.list-store .all-submenu-1 .sub-item1:nth-child(odd) {
+    background: #fff;
+}
+.list-store ul li {
+    line-height: 30px;
+    color: #333;
+    cursor: pointer;
+    list-style: none;
+    font-size: 12px;
+}
+.list-store ul li a{
+    display: block;
+    text-align: left;
+    white-space: inherit;
+}
+.list-store .all-submenu-1 .sub-item1:nth-child(even) {
+    background: #f6f6f6;
+}
+.listMap .storeMap{
+    display: none;
+}
+.listMap .storeMap.storeMap-active{
+    display: block;
+}
+.banners-small {
+    margin: 20px 0;
+}
+.banners-small p {
+    margin: 20px 0;
+    text-align: center;
+}
+.slider-collection-store img{
+    width: 100%;
+}
+.item-col-3 {
+    max-width: 33.33333%;
+}
+.bottom-bar{
+    margin-bottom: 20px;
+}
+.right-side {
+    text-align: left;
+    color: #333;
+    font-size: 16px;
+    line-height: 23px;
+    vertical-align: top;
+    margin-top: -5px;
+}
+.chontinhthanh{
+    padding: 0 !important;
+}
+.chontinhthanh #cityId, .storeSelect{
+    margin: 0 !important;
+    font-size: 13px;
+}
+
+.listAgency > h2{
+    display: block;
+    padding: 5px 0;
+    margin: 0;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+}
+.listAgency > span{
+    display: block;
+}

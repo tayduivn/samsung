@@ -1,0 +1,30 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+{% set banner_home = getBannerByPositionCode('HOME_SLIDE') %}
+
+{% set banner = banner ~ '<ul class="slider_index owl-carousel owl-theme">' %}
+     {% if(banner_home) %}
+         {% for c in banner_home %}
+             {% set imageSlide = c.imagesrc %}
+             {% set options = {
+                 alt: c.name,
+                 lazy: true,
+                 openDiv: false,
+             } %}
+             {% set banner = banner ~ '<li href="javascript:void(0)" class="item">'~macroLazyFocusImager.LazyFocusImager(imageSlide,options) %}
+             {% set banner = banner ~ '</li>' %}
+         {% endfor %}
+     {% else %}
+
+         {% set banner = banner ~ '<li href="javascript:void(0)" class="item"><img data-sizes="auto" alt=""
+         src="/tpl/V0506/img/demo/baner-min.jpg" class="lazyload"></li>' %}
+         {% set banner = banner ~ '<li href="javascript:void(0)" class="item"><img data-sizes="auto" alt=""
+         src="/tpl/V0506/img/demo/baner-min.jpg" class="lazyload"></li>' %}
+     {% endif %}
+{% set banner = banner ~ '</ul>' %}
+{{ saveCache(keyMenu, banner | raw, 1800) }}
+{{ banner | raw }}

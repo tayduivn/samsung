@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi-VN" data-nhanh.vn-template="{{ templateDir }}">
+    <head>
+        <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
+        <meta charset="utf-8">
+        {% set appId = getAppId() %}
+        {% if(appId) %}
+            <meta name="fb:app_id" content="{{ appId }}">
+        {% endif %}
+        {% set extraSettingsArray =  extraSettings()%}
+        {% if(extraSettingsArray is not empty) %}
+            {% if(extraSettingsArray['gta']['generatedTimeAndAuthor'] == 1) %}
+                {% set display = 'block' %}
+            {% endif %}
+            {% else %}
+                {% set display = 'none' %}
+        {% endif %}
+        <link href="{{ getFavicon() ?: '/images/favicon.ico' }}" rel="shortcut icon" type="image/vnd.microsoft.icon">
+        {{ headMeta().appendName('viewport', 'width=device-width, initial-scale=1.0').appendHttpEquiv('X-UA-Compatible', 'IE=edge')|raw }}
+        {% block meta %}{% endblock %}
+        {% set styleSheet = [
+            '/css/fontAwesome/font-awesome-5.12.0.min.css',
+            'css/bootstrap/bootstrap.4.3.1.min.css',
+            '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.css',
+            '/css/owlCarousel/owl.carousel.min.2.3.4.css',
+            templatePath ~'/css/style.css'
+
+        ] %}
+        <link rel="stylesheet" href="{{ srcLink(styleSheet,2) }}" type="text/css">
+        {{ loadScripts({'positionHead':true}) | raw}}
+    </head>
+    <body>
+        {% set script = [
+            '/js/jquery/jquery.min.js',
+            '/js/lib.js',
+            '/js/jquery/jquery.cookie.js',
+            '/js/jquery/jquery-ui-1.10.3.custom.min.js',
+            '/js/bootstrap/bootstrap.4.3.1.min.js',
+            '/js/owlCarousel/owl.carousel.min.js',
+            '/js/jquery/jquery.number.min.js',
+            '/js/jquery/jquery.lazyload.min.js',
+            templatePath ~'/js/main.js'
+        ] %}
+        <script type="text/javascript" src="{{ srcLink(script,2)  }}"></script>
+        {% block script %}{% endblock %}
+
+        <input type="hidden" id="storeId" value="{{ getStoreId() }}">
+
+        {% include 'layout/header' %}
+        {% block body %}{% endblock %}
+        {% block stylesheets %}{% endblock %}
+
+
+        {{ loadScripts() | raw}}
+        {{ headScript }}
+        {{ inlineScript }}
+{#        {{ loadFacebookChat('https://www.facebook.com/Capbalovali/') }}#}
+        {% include 'layout/footer' %}
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+{#        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f349e271aef3b8d"></script>#}
+
+    </body>
+</html>

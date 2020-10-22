@@ -1,0 +1,123 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Tra cứu thông tin đơn hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tra cứu thông tin đơn hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+{% block body %}
+    {% set point = '' %}
+    {% if(getParam('q')) %}
+        {% set point = getParam('q') %}
+    {% endif %}
+    <input class="checkPoint" type="hidden" value="{{ point }}">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-lg-12 col-md-12 col-sm-12">
+                <div id="pfView" class="orderView">
+                    <h3>{{ translate('THÔNG TIN CỦA BẠN') }}</h3>
+                    <div class="customerDetails">
+
+                    </div>
+
+                    <div class="row order-search-form">
+                        <form class="form-inline col-md-6 col-xs-10 col-md-offset-3" id="frmIndexOrder" action="">
+                            <div class="form-groups txtFill col-md-9 col-sm-8 col-xs-7" style="padding-right: 0;">
+                                <input type="text" class="form-control input-research" name="q" placeholder="Nhập mã số điện thoại hoặc email">
+                            </div>
+                            <div class="form-groups col-md-3 col-sm-4 col-xs-3" style="padding-left: 0; text-align: left">
+                                <button type="submit" class="btn btn-danger btn-research">Kiểm tra</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Ngày đặt hàng</th>
+                                <th>Mã đơn hàng</th>
+                                <th>Tên khách hàng</th>
+                                <th>Tổng tiền thanh toán</th>
+                                <th>Trạng thái đơn hàng</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if(orders is not empty) %}
+                                {% for order in orders %}
+                                    <tr>
+                                        <td>{{ order.createdDate | date("d/m/Y") }}</td>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.customerName }}</td>
+                                        <td>
+                                            {{ order.calculateTotalMoney | number_format(0) }} vnđ
+                                        </td>
+                                        <td>{{ order.statusName(order.status) }}</td>
+                                    </tr>
+                                {% endfor %}
+                                {% else %}
+                                    {% if(getParam('q')) %}
+                                        <td colspan="5" style="padding:20px; color: #333;text-align: center">Không tìm thấy đơn hàng theo yêu cầu.</td>
+                                    {% else %}
+                                        <td colspan="5" style="padding:20px; color: #333;text-align: center"> Bạn vui lòng nhập thông tin để tìm đơn hàng</td>
+                                    {% endif %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        {% if(orders is not empty) %}
+                        <div id="noteStatus">
+                            <p><b><i class="fa fa-2x fa-lightbulb-o" style="color: #f37021"></i> Chú thích trạng thái đơn hàng:</b></p>
+                            <p><b>- "Mới":</b>  CAPTOT.VN đang trong quá trình liên hệ bạn để xác nhận đơn hàng. </p>
+                            <p><b>- "Đang đóng gói":</b> CAPTOT.VN đang tiến hành đóng gói và gửi hàng cho bạn</p>
+                            <p><b>- "Chờ đi nhận":</b> Hãng vận chuyển đang tới lấy hàng, khi nào hãng lấy hàng xong sẽ có mã bưu phẩm cho bạn kiểm tra lịch trình.</p>
+                            <p><b>- "Đang chuyển":</b> Hãng vận chuyển đang trong quá trình xử lý và giao hàng cho bạn đó. </p>
+                            <p><b>- "Thất bại":</b> Bưu tá phát đến địa chỉ khách hàng nhưng thất bại do không liên lạc được với bạn/ không tìm thấy địa chỉ.</p>
+                            <p><b>- "Đang chuyển hoàn/ Đã chuyển hoàn":</b> Đơn hàng sau 3 lần phát không thành công, sẽ hoàn về cho CAPTOT.VN.</p>
+                            <p><b>- "Thành công":</b> Bạn đã nhận được hàng rồi</p>
+                        </div>
+                      {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .table-bordered tr th{
+            background: #f6f6f6;
+            color: #333;
+        }
+        .table tr td,
+        .table tr th{
+            text-align: center;
+        }
+        #noteStatus{
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        #noteStatus>p{
+            padding: 1px 0;
+            font-size: 13px;
+        }
+        .table{
+            margin: 20px 0;
+        }
+        .customerDetails span{
+            display: block;
+            padding: 0 0 5px 0;
+        }
+        .order-search-form {
+            margin: 30px 0 15px 0;
+        }
+        #frmIndexOrder .btn-research, #frmIndexOrder .input-research {
+            padding: 0 10px;
+            height: 34px;
+            border-radius: 0;
+        }
+        #frmIndexOrder .input-research{
+            width: 100%;
+        }
+        #frmIndexOrder .txtFill {
+            width: 70%;
+        }
+    </style>
+{% endblock %}

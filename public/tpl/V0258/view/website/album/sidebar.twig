@@ -1,0 +1,17 @@
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="span3 sidebar">
+        <div class="widget widget_recent_entries  "><h3>Bài viết mới</h3>
+            <ul>
+                {% set lastestNews = getLastestNews({'limit': 5}) %}
+                {% if(lastestNews) %}
+                    {% for n in lastestNews %}
+                        <li>
+                            <a href="{{ n.viewLink }}" title="{{ n.title }}">
+                                {{ n.title|raw }}</a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>

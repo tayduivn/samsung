@@ -1,0 +1,218 @@
+
+
+.logo-reponsive{
+    display:none;
+}
+h2{
+    font-size: 20px !important;
+    color: black;
+}
+.hoadon{
+    color: #737373;
+    background: rgba(200,200,200,0.1);
+    height: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.hoadon h2{
+    padding: 10px 20px;
+    margin-bottom: 0;
+}
+
+.hoadon .sanpham{
+    height: 240px;
+    overflow-y: scroll;
+    overflow-x:hidden;
+    padding: 5px;
+    margin-right: 5px;
+}
+.sanpham::-webkit-scrollbar {
+    width: 6px;
+    background-color: white;
+}
+
+.sanpham::-webkit-scrollbar-thumb{
+    background-color: #9F9F9F;
+}
+.form-inline{
+    margin-top: 20px;
+}
+.form-group{
+    width: 100%;
+}
+.form-group input{
+    width: 60%;
+    display: inline-block;
+}
+.form-group button{
+    margin-top: -5px;
+}
+.font-14{
+    font-size: 14px;
+}
+.margin-top{
+    margin-top: 20px;
+}
+.left{
+    margin-left: 15px;
+}
+.right{
+    position: absolute;
+    right: 20px;
+}
+.link-1{
+    color: #2a6395  ;
+}
+.link-1:hover{
+    color: #67bd45;
+    text-decoration: none;
+}
+.back-cart span{
+    position: relative;
+}
+.col-push-8,.col-push-4{
+    position: relative;
+}
+@media (min-width: 992px) {
+    .col-push-8 {
+        left: 66.66666%;
+    }
+    .col-lg-4 {
+        width: 33.33333%;
+    }
+
+    .col-push-4 {
+        right: 33.33333%;
+    }
+    .col-lg-8 {
+        width: 66.66666%;
+    }
+}
+
+.ttkhachang{
+    padding: 0 40px;
+}
+.hiden{
+    display: none;
+}
+.ttkhachang input[type=text],.ttkhachang input[type=email]{
+    width: 100%;
+    padding-top:20px;
+    height: 45px;
+}
+.ttkhachang select{
+    width: 100%;
+    padding-top:15px;
+    height: 45px;
+}
+.ttkhachang .placeholder{
+    position: absolute;
+    left: 15px;
+    font-size: 16px;
+    transition: font-size,0.5s;
+    margin-bottom: 0;
+    margin-top: 5px;
+}
+.vanchuyen,.thanhtoan{
+    display: block;
+    width: 100%;
+    border: 1px solid gainsboro;
+    border-radius: 3px;
+    min-height: 60px;
+}
+.button{
+    color: #fff;
+    background-color: #2a9dcc;
+    border: 1px solid #2a9dcc;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.tags{
+    background: #2a9dcc;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    position: absolute;
+    top:0;
+    right: 10px;
+}
+header,footer,.list-reponsive{
+    display: none;
+}
+.chinhsach{
+    padding-left: 40px;
+}
+.datmua{
+    display: none;
+}
+.tableShipFee{
+    margin-bottom: 20px;
+}
+#tableShipFee p{
+    font-weight: 500;
+    font-size: 18px;
+}
+@media screen and (max-width: 999px) {
+    .repon{
+        display: none;
+    }
+    .logo-reponsive{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .logo-reponsive img{
+        width: 150px;
+        height: auto;
+        padding:20px 0 ;
+    }
+    .list-reponsive{
+        display: block;
+        margin-top: 10px;
+        padding: 0;
+    }
+    .col-push-8{
+        padding: 0
+    }
+    .hoadon{
+        padding: 0 10px;
+    }
+    .hoadon h2{
+        padding: 10px 0;
+    }
+    .sanpham{
+        display: none;
+    }
+    .sanpham .col-3{
+        padding: 0px;
+    }
+    .col-push-4{
+        padding: 0;
+    }
+    .ttkhachang{
+        padding: 0 20px;
+    }
+    .ttkhachang .margin-top{
+        margin: 0;
+    }
+    .chinhsach{
+        padding-left: 0;
+    }
+    .button{
+        color: #fff;
+        background-color: #2a9dcc;
+        border: 1px solid #2a9dcc;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 20px;
+    }
+    .datmua{
+        display: block;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}

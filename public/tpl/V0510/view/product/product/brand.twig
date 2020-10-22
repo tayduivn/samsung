@@ -1,0 +1,166 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(brand.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    {% set nItems = 0 %}
+    {% if(paginator) %}
+        {% set nItems = paginator.pages.totalItemCount %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = []%}
+    <div class="breadcrumb_background">
+    <section class="bread-crumb">
+    <span class="crumb-border"></span>
+    <div class="container">
+    <div class="row">
+    <div class="col-xs-12 col-12 col-sm-12">
+    <ul class="d-inline breadcrumView pl-0" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+        <li class="d-inline" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="/" itemprop="item">
+                <span itemprop="name">Trang chủ</span>
+            </a>
+            <meta itemprop="position" content="1">
+        </li>
+        <li class="d-inline" itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
+            <a href="{{ brand.viewLink }}" itemprop="item">
+                <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                <span itemprop="name">{{ brand.name }}</span>
+            </a>
+            <meta itemprop="position" content="2">
+        </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </section>
+    </div>
+    <div id="SECTION3" class="widget-section ladi-drop ui-droppable" lp-type="widget_section" lp-widget="widget" lp-lang="SECTION" lp-display="block">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+            <div id="HEADLINE6" class="widget-element widget-snap" lp-type="textinline" lp-editor="true" lp-lang="HEADLINE" lp-display="block">
+                <h1 class="widget-content" lp-node="h1">
+                    <span style="font-weight: bold; color: rgb(255, 109, 0);">Nhãn  hiệu {{ brand.name }}</span>
+                </h1>
+            </div>
+            <div id="PARAGRAPH4" class="widget-element widget-snap" lp-type="textparagraph" lp-editor="true" lp-lang="PARAGRAPH" lp-display="block">
+                {{ brand.content|raw }}
+            </div>
+                </div>
+                <div class="col-sm-12 col-md-6">
+            <div id="GROUP182" class="widget-element widget-snap widget-group" lp-type="widget_group" lp-lang="GROUP" lp-display="block">
+                <div class="widget-content">
+                    <div id="BOX10" class="widget-element widget-snap ladi-drop" lp-type="box" lp-lang="BOX" lp-group="GROUP182" lp-display="block">
+                        <div class="widget-content">
+                            {% if(brand.imageUri) %}
+                                <img src="{{ brand.imageUri }}" alt="{{ brand.name }}"/>
+                            {% else %}
+                                {{ brand.name }}
+                            {% endif %}
+                        </div>
+                        <div class="ladi-widget-overlay"></div>
+                    </div>
+                    <div id="BOX9" class="widget-element widget-snap ladi-drop" lp-type="box" lp-lang="BOX" lp-group="GROUP182" lp-display="block">
+                        <div class="widget-content"></div>
+                        <div class="ladi-widget-overlay"></div>
+                    </div>
+                </div>
+            </div>
+                </div>
+        </div>
+        <div class="ladi-widget-overlay"></div>
+    </div>
+    </div>
+    <div id="SECTION209" class="widget-section ladi-drop ui-droppable" lp-type="widget_section" lp-widget="widget" lp-lang="SECTION" lp-display="block"><div class="container">
+            <div id="LINE210" class="widget-element widget-snap" lp-type="line" lp-lang="LINE" lp-display="block">
+                <div class="widget-content">
+                    <div class="line">
+
+                    </div>
+                </div>
+            </div>
+            <div id="HEADLINE211" class="widget-element widget-snap" lp-type="textinline" lp-editor="true" lp-lang="HEADLINE" lp-display="block">
+                <h2 class="widget-content" lp-node="h2">BẢNG GIÁ SẢN PHẨM</h2>
+            </div>
+    <section class="products-view products-view-grid collection_reponsive list_hover_pro">
+        <div class="row rows_custome">
+            {% if(paginator.currentModels is not empty) %}
+                {{  paginator.setPageRange(3) }}
+                {% for p in paginator.currentModels %}
+                    {% set image = p.thumbnailUri %}
+                    {% set options = {
+                        alt: p.name,
+                        class: 'imageChange',
+                        lazy: true,
+                        openDiv: false,
+                    }%}
+                    {% set percent = p.calcDiscountPercent %}
+                    {% set priceDiscount = p.priceAfterDiscount %}
+                    {% set arrayIds = [p.id] %}
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 product-col col_custome">
+                        <div class="margin-bottom-20  thumb_collection item_product_main-product" data-storeId="{{ p.storeId }}" psId="{{ p.name }}">
+                            <div class="bg-white product-item-main-product product-item-compare">
+                                <div class="product-thumbnail-product">
+                                    <a href="{{ p.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="product-bottom-product">
+                                    <h3 class="product-name-product">
+                                        <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                    </h3>
+                                    <div class="block-width-min-height-product">
+                                        <div class="blockprice-product">
+                                            <div class="product-item-price price-box-product ">
+                                                                <span class="special-price">
+                                                                    <span class="price product-price-product">{{ p.price|number_format(0) }}₫</span>
+                                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            {% else %}
+                <p>Không có kết quả nào phù hợp </p>
+            {% endif %}
+
+        </div>
+        <nav class="shop-pag text-center clearfix relative nav_pagi f-right w_100">
+            {{ render_paginator(paginator) }}
+        </nav>
+    </section>
+            {# <div id="BOX344" class="widget-element widget-snap ladi-drop" lp-type="box" lp-lang="BOX" lp-display="block" lp-action-link="https://www.beemart.vn/dau-ha-lan-huu-co-markal-500g-xanh-vang" lp-action-type="url" lp-target="_blank" onclick="onClick(this, event)" style="cursor: pointer;">
+                <div class="widget-content">
+                    <div id="HEADLINE345" class="widget-element widget-snap" lp-type="textinline" lp-editor="true" lp-lang="HEADLINE" lp-display="block">
+                        <h2 class="widget-content" lp-node="h2">
+                            <span style="color: rgb(0, 0, 0);">Đậu Hà Lan hữu cơ Markal 500g</span></h2>
+                    </div>
+                    <div id="BOX346" class="widget-element widget-snap ladi-drop" lp-type="box" lp-lang="BOX" lp-display="block">
+                        <div class="widget-content">
+
+                        </div>
+                        <div class="ladi-widget-overlay">
+
+                        </div>
+                    </div>
+                    <a id="BUTTON347" class="widget-element widget-snap style-1" lp-type="button" lp-lang="BUTTON" lp-background="button" lp-display="table" lp-action-link="https://www.beemart.vn/dau-ha-lan-huu-co-markal-500g-xanh-vang" lp-action-type="url" lp-target="_blank" href="https://www.beemart.vn/dau-ha-lan-huu-co-markal-500g-xanh-vang" target="_blank" onclick="onClick(this, event)" style="cursor: pointer;">
+                        <span class="widget-content">
+                            <span style="font-weight: bold;"> Mua Ngay</span>
+                        </span>
+                    </a>
+                </div>
+                <div class="ladi-widget-overlay"></div>
+            </div><div id="HEADLINE348" class="widget-element widget-snap" lp-type="textinline" lp-editor="true" lp-lang="HEADLINE" lp-display="block">
+                <h2 class="widget-content" lp-node="h2">
+                    <span style="color: rgb(27, 184, 34);">115.000đ</span></h2> </div> #}
+    {% include 'layout/blockfooter' %}
+{% endblock %}

@@ -1,0 +1,160 @@
+{% set quantity = serviceCart().totalQuantities %}
+{% set urlLogo = getLogoUri() %}
+<header>
+    {# header top #}
+    {% include "layout/header-top" %}
+    {# end header top #}
+
+    {# header body #}
+    <nav class="navbar" data-nav-status="toggle">
+        <h2 class="d-none">Header</h2>
+
+        <div class="navbar-body">
+            <div class="container-fluid">
+                <div class="navbar-wrap">
+                    <button class="toggle">
+                        <span>Toggle</span>
+                    </button>
+                    <a href="/" class="logo">
+					    {% if urlLogo %}
+                        <img src="{{ urlLogo }}" alt="Logo" class="img" />
+                        {% else %}
+                            <img src="https://theme.hstatic.net/1000055804/1000533479/14/logo.png?v=99" alt="" class="img" />
+                    	{% endif %}
+					</a>
+                    <div class="icon-moblie d-flex">
+                        <div class="icon-moblie-search position-relative">
+                            <img src="assets/img/magnifiying-glass-white.svg" alt="">
+                            <form action="/search" class="form form-search position-absolute">
+                                <div class="form-group form-control--moblie">
+                                    <input 
+                                        type="text" 
+                                        class="form-control" 
+                                        name="q" 
+                                        id="txtSearch" 
+                                        placeholder="Tìm kiếm" 
+                                        />
+                                    <button type="submit">
+                                        <i class="icon icon-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <p class="icon-moblie-cart">
+                            <img src="https://theme.hstatic.net/1000055804/1000533479/14/basket.png?v=98" alt="">
+                        </p>
+                    </div>
+
+                    <div class="navbar-nav">
+                        <div class="navbar-content">
+                            <button class="toggle">
+                                <span>Toggle</span>
+                            </button>
+                            {% if (hasIdentity() != null) %}
+                                <div class="reglog"> 
+                                <a href="/profile" rel="nofollow" class="btn-login">
+                                    <span>Xin chào {{ getUser().fullName }}</span>
+                                </a>
+                                <a href="/user/signout" rel="nofollow" class="btn-register">Logout</a>
+                            	</div>
+                            {% else %}
+                                <div class="reglog">
+                                    <a href="#" class="btn-login">Đăng nhập</a>
+                                    <a href="#" class="btn-register">Đăng ký</a>
+                            		</div>
+							{% endif %}
+														
+                            <ul class="menu">
+                                <li class="menu-item menu-type2">
+                                    <a href="/product" class="menu-link">Sản phẩm</a>
+                                    <span class="arrow"></span>
+                                    <div class="submenu" id="product">
+                                        <div class="container">
+                                            <ul>
+                                                <li>
+                                                    <ul>
+                                                    {% set cate = getCategories() %}
+                                                        {% if cate is not empty %}
+                                                            {% for cate_pro in cate %}
+                                                                <li>
+                                                                    <a href="{{ cate_pro.viewLink }}" class="">{{ cate_pro.name | raw }}</a>
+                                                                    {% if cate_pro.childs is not empty %}
+                                                                        <ul>
+                                                                        {% for cate_child in cate_pro.childs %}
+                                                                            <li>
+                                                                                <a href="{{ cate_child.viewLink }}" >{{ cate_child.name }}</a>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                        </ul>
+                                                                    {% endif %}
+                                                                </li>
+                                                            {% endfor %}
+                                                        {% endif %}    
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="#" class="menu-link">Giới thiệu</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="#" class="menu-link">Tin tức - Sự kiện</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="#" class="menu-link">Liên hệ</a>
+                                </li>
+                            </ul>
+                            <div class="search">
+                                <form action="#" class="form form-search">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Tìm kiếm" />
+                                        <button>
+                                            <i class="icon icon-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="icon-desktop">
+                                <span class="icon-cart"></span>
+                                <div class="sub-cart">
+                                    <section class="product-item container">
+                                        <div class="item">
+                                            <img src="https://hstatic.net/804/1000055804/1/2015/12-4/13_7_a42085a7-0b12-4676-7ed5-7e799f12e2f5_small.jpg" alt="Item 1">
+                                            <div class="product-price">
+                                                <span class="product-name">Fazen mikam</span>
+                                                <div class="price-qty">
+                                                    <span class="product-qty">1 x</span>
+                                                    <span class="product-price">380,000₫</span>
+                                                </div>
+                                            </div>
+                                            <span class="text-danger">X</span>
+                                        </div>
+                                        <p class="sub-cart--title text-center">Tổng tiền: <span>380,000₫</span> </p>
+                                    </section>
+                                </div>
+                            </div>
+                            {# <div class="social">
+                                <a href="#">
+                                    <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                </a>
+                                <a href="#">
+                                    <i class="fa fa-pinterest" aria-hidden="true"></i>
+                                </a>
+                            </div> #}
+                        </div>
+                    </div>
+                    <div class="navbar-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {# end header body #}
+</header>

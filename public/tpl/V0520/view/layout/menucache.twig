@@ -1,0 +1,36 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+        {% set nav = nav ~ '<ul class="categories_head">' %}
+        {% set category = getCategories() %}
+        {% if(category) %}
+           {% for c in category %}
+               {% set nav = nav ~ '<li>' %}
+               {% if (c.name == 'Sản phẩm') %}
+                   {% set nav = nav ~ '<a href="'~ '/product' ~ '" title="'~ c.name ~ '">' ~ c.name | raw %}
+               {% else %}
+                   {% set nav = nav ~ '<a href="'~ c.viewLink ~ '" title="'~ c.name ~ '">' ~ c.name | raw %}
+               {% endif %}
+               {% set childs = c.childs %}
+               {% if(childs is not null ) %}
+                   {% set nav = nav ~'<i class="fa fa-caret-right">' %}
+                   {% set nav = nav ~ '</i>' %}
+               {% endif %}
+               {%  set nav = nav ~ '</a>' %}
+               {% set nav = nav ~ '<ul class="lv2">' %}
+               {% if (childs) %}
+                   {% for child in childs %}
+                       {% set nav = nav ~ '<li><a href="'~child.viewLink~'">' ~ child.name| raw ~ '</a></li>' %}
+                   {% endfor %}
+               {% endif %}
+               {% set nav = nav ~ '</ul>' %}
+               {% set nav = nav ~ '</li>' %}
+           {% endfor %}
+        {% endif %}
+        {% set nav = nav ~ '</ul">' %}
+
+
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

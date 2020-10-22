@@ -1,0 +1,69 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set cacheResults = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ cacheResults | raw }}
+{% endif %}
+{% set menus = getMenus({'type':'header'}) %}
+    {% if(menus) %}
+        {% for m in menus %}
+            {% if m.type in m.typeCates %}
+                {% set category = getCategoryTypeMenu(m.type) %}
+                {% if(category) %}
+                    {% for c in category %}
+                        {% set cacheResults = cacheResults ~ '<li><a href="'~c.viewLink~'">'~c.name~'</a>' %}
+                        {% if(c.childs) %}
+                            {% set cacheResults = cacheResults ~ '<ul class="sub-menu sub_menu_cate">' %}
+                            {% set count = 0 %}
+                            {#đếm#}
+                            {% for cc in c.childs %}
+                                {% set count = count +1 %}
+                            {% endfor %}
+                            {% set i=0 %}
+                            {#ảnh đại diện danh mục#}
+                            {#{% set cacheResults = cacheResults ~ '<li class="box_col"><img src="'~c.imgUri~'"></li>' %}#}
+                            {% set cacheResults = cacheResults ~ '<li class="box_col"><img src="https://bucket.nhanh.vn/store/3138/ps/20180913/smm0486_otr_qam0181_xad_thumb_403x600.jpg"></li>' %}
+                            {% for cc in c.childs %}
+                                {% set i = i+1 %}
+                                {% if(i==1) %}
+                                    {% set cacheResults = cacheResults ~ '<li class="box_col box_col_border">' %}
+                                {% endif %}
+                                {% set cacheResults = cacheResults ~ '<div class=" menu-item">' %}
+                                {% set cacheResults = cacheResults ~ '<a href="'~cc.viewLink~'">'~cc.name~'</a>' %}
+                                {% set cacheResults = cacheResults ~ '</div>' %}
+                                {#1 cột 7 sp#}
+                                {% if(i % 7==0 or i==count) %}
+                                    {% set cacheResults = cacheResults ~ '</li>' %}
+                                {% endif %}
+                                {% if(i % 7 == 0 and i < count) %}
+                                    {% set cacheResults = cacheResults ~ '<li class="box_col box_col_border">' %}
+                                {% endif %}
+                            {% endfor %}
+                            {% set cacheResults = cacheResults ~ '</ul>' %}
+                        {% endif %}
+                        {% set cacheResults = cacheResults ~ '</li>' %}
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                {% set cacheResults = cacheResults ~ '<li class="relative_menu"><a href="'~m.link~'" title="'~m.name~'">'~m.name~'</a>' %}
+                {% if(m.childs) %}
+                    {% set cacheResults = cacheResults ~ '<ul class="sub-menu-me">' %}
+                    {% for mm in m.childs %}
+                        {% set cacheResults = cacheResults ~ '<li class="li_menu">' %}
+                        {% set cacheResults = cacheResults ~ '<a href="'~mm.link~'">'~mm.name~'</a>' %}
+                        {% if(mm.childs) %}
+                            {% set cacheResults = cacheResults ~ '<ul class="sub_menu_2">' %}
+                            {% for mmm in mm.childs %}
+                                {% set cacheResults = cacheResults ~ '<li><a href="'~mmm.link~'">'~mmm.name~'</a></li>' %}
+                            {% endfor %}
+                            {% set cacheResults = cacheResults ~ '</ul>' %}
+                        {% endif %}
+                        {% set cacheResults = cacheResults ~ '</li>' %}
+                    {% endfor %}
+                    {% set cacheResults = cacheResults ~ '</ul>' %}
+                {% endif %}
+                {% set cacheResults = cacheResults ~ '</li>' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{{ saveCache(keyMenu, cacheResults | raw, 1800) }}
+{{ cacheResults | raw }}

@@ -1,0 +1,78 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Chương trình khuyến mãi').setSeparator(' - ').setAutoEscape(false)|raw }}
+
+{% endblock %}
+{% block body %}
+    {% set category = [{'label': 'Sản phẩm khuyến mãi', 'uri':'/promotion'}] %}
+    {{ breadcrumbs.build(category) }}
+    <div class="containerMain">
+        <div id="promotionPage" class="col-md-12 col-xs-12 col-ms-12">
+            <h1 style="text-align: center;font-size: 30px;padding: 10px 0;margin: 35px 0; font-weight: bold">{{ translate('CÁC CHƯƠNG TRÌNH KHUYẾN MẠI HẤP DẪN ') }}</h1>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wrap_owl_product_">
+                <div class="owl-stage">
+                    <div class="owl-item active">
+                        <div class="item">
+
+                            <!-- chan le = true -->
+                            {#                                {% set calcDiscountPercent = search({'limit':4,'showHot':1}) %}#}
+{#                            {% set discountProduct = getDiscountProduct() %}#}
+                            {% if(promotions)  %}
+                                {% for p in promotions %}
+                                    {% set image = p.thumbnailUri %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        class: 'imageChange swatch-'~p.id,
+                                        lazy: true,
+                                        openDiv: false,
+                                    }%}
+                                    {% set percent = p.calcDiscountPercent %}
+                                    {% set priceDiscount = p.priceAfterDiscount %}
+                                    {% set image = p.thumbnailUri  %}
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 padding-0">
+                                        <div class="hot_sale_product">
+                                            <div class="item-img-horizontal">
+                                                <a href="{{ p.viewLink }}"
+                                                   class="product-image"
+                                                   title="{{ p.name }}">
+                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                </a>
+                                            </div>
+                                            <div class="item-info-horizontal">
+                                                <h3 class="item-name text2line">
+                                                    <a href="{{ p.viewLink }}"
+                                                       title="{{ p.name }}">
+                                                        {{ p.name }}
+                                                    </a>
+                                                </h3>
+                                                <div class="price-box clearfix">
+                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                        <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                        <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                    {% elseif (p.oldprice() > 0) %}
+                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                        <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                    {% elseif (p.price == 0) %}
+                                                        <span class="price product-price">Liên hệ</span>
+                                                    {% else %}
+                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có khuyến mại nào') }}!</p>
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'layout/layout' %}
+
+{% block body %}
+    <section class="container-fluid">
+
+        <div class="container">
+            <div class="row d-block p-2">
+                <a href="/">Trang chủ</a> / Tài khoản
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary card-outline mb-3 ml-0 mr-0">
+                        <div class="card-header">
+                            <h3 class="card-title">TÀI KHOẢN</h3>
+
+                        </div>
+                        <div class="row-fluid">
+                            <div class="container">
+
+                                <div class="clearfix"></div>
+
+                                <div class="interlist col-sm-12 col-xs-12" style="font-size: 20px; margin-top: 20px; margin-bottom: 20px">
+                                    <div class="inter-title">{{ translate('Thông tin tài khoản') }}</div>
+                                    <hr>
+                                    <div class="inter-info" style="margin-top: 10px">
+                                        <a href="/profile/edit" class="text-black">
+                                            {{ translate('Thay đổi thông tin tài khoản') }}
+                                        </a><br><br>
+                                        <a href='/profile/changepassword' class="text-black">
+                                            {{ translate('Trang đổi mật khẩu tài khoản') }}
+                                        </a><br><br>
+                                        <a href="/order" class="text-black">
+                                            {{ translate('Đơn hàng')}}
+                                        </a><br><br>
+                                        <a href="/user/signout" class="text-black">
+                                            <i class="fas fa-sign-out-alt" style="color: black"></i>{{ translate(' Đăng xuất') }}
+                                        </a>
+                                    </div>
+                                </div>
+
+{#                                <div class="hidden interlist col-sm-6 col-xs-12">#}
+{#                                    <div class="inter-title">{{ translate('Quản lý đơn hàng') }}</div>#}
+{#                                    <div class="clearfix"></div>#}
+{#                                    <div class="inter-info">#}
+{#                                        <a href="/order/index" class="text-green">#}
+{#                                            {{ translate('Quản lý đơn hàng')}}#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <div class="clearfix"></div>#}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+{#    {% include 'layout/footer' %}#}
+
+    {% block fixfoot %}
+        <div class="fixbot-detail">
+            <a href="https://www.messenger.com/t/bencomputers" class="btn-red-home"><i class="fab fa-facebook-messenger text-white fa-fw"></i> Chat với tư vấn viên</a>
+            <a href="tel:0899179991" class="btn-icon"><i class="fas fa-phone-alt"></i><span>Gọi điện</span></a>
+            <a href="#" class="btn-icon" id="showFloatButton"><i class="fas fa-ellipsis-h"></i></a>
+        </div>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,75 @@
+
+
+
+{% for c in allAttr %}
+                                    {% set column = c.column %}
+                                    {% if (c.id != 17343) %}
+
+<aside class="aside-item filter-type">
+	<div class="title_module_arrow">
+		<h2 class=" margin-top-0"><span>{{ c.name }}</span></h2>
+	</div>
+
+
+	<div class="aside-content filter-group">
+
+		<ul >
+			{% set attrColumnValues = attrColumnValues %}
+			{% if (c.id == 12960) %}
+				<li class="filter-item color filter-item--check-box filter-item--green">
+						<span>
+							<label >
+								{% for value in c.values %}
+									{% if (value.id in attrColumnValues[column]) %}
+										<input type="checkbox" class="{{ getParam(column) == value.id() ? 'sd' : '' }}" title="{{ value.name }}" value="{{ removeFilter(column, value.id) }}">
+										<i class="fa do" style="background-color: {{ '#' ~ value.content }}"></i>
+									{% else %}
+										<input type="checkbox" class="{{ getParam(column) == value.id() ? 'sd' : '' }}" title="{{ value.name }}" value="{{ addFilter(column, value.id(), 2) }}">
+										<i class="fa do" style="background-color: {{ '#' ~ value.content }}"></i>
+									{% endif %}
+								{% endfor %}
+							</label>
+						</span>
+				</li>
+
+			{% else %}
+				{% for value in c.values %}
+					{% if(value.id in attrColumnValues[column]) %}
+						<li class="filter-item filter-item--check-box filter-item--green">
+								<span>
+									<label >
+										<input type="checkbox"  value="{{ removeFilter(column, value.id) }}" {{ getParam(column) == value.id() ? 'checked' : '' }}>
+										<i class="fa" ></i>
+										{{ value.name }}
+									</label>
+								</span>
+						</li>
+
+					{% else %}
+						<li class="filter-item filter-item--check-box filter-item--green">
+								<span>
+									<label >
+										<input type="checkbox" value="{{ addFilter(column, value.id(), 2) }}" {{ getParam(column) == value.id() ? 'checked' : '' }}>
+										<i class="fa" ></i>
+										{{ value.name }}
+									</label>
+								</span>
+						</li>
+					{% endif %}
+				{% endfor %}
+
+			{% endif %}
+		</ul>
+	</div>
+</aside>
+		{% endif %}
+
+
+{% endfor %}
+<script>
+	$('.filter-group  ul li label input').click(function(){
+
+		let attr = $(this).attr('value');
+		window.location.href = attr;
+	});
+</script>

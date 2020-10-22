@@ -1,0 +1,48 @@
+{% extends 'layout/layout' %}
+
+{% block body %}
+    <section class="container-fluid">
+        <div class="container">
+            <div class="row d-block p-2">
+                <a href="/">Trang chủ</a> / Đăng ký
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary card-outline mb-3 ml-0 mr-0">
+                        <div class="card-header">
+                            <h3 class="card-title">Đăng ký tài khoản</h3>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 pr-3">
+                                    <div class="featuredProducts">
+                                        {% if(success) %}
+                                            <p class="message sigup" style="color: black">Chúc mừng bạn đăng ký thành công tài khoản website
+                                                vui lòng vào <a href="/user/signin" style="color: red">Đây</a> để đăng nhập
+                                            </p>
+                                        {% else %}
+                                            <div class="defaultContent">
+                                                <div class="loginForm">
+                                                    {{ partial('partial/form',{'form':form}) }}
+                                                </div>
+                                                <p></p>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <img src="{{ '/tpl/'~ templateDir ~'/img/2019/login-banner.png' }}" alt="Ben computer login"
+                                         style="width: 100%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{#    {% include 'layout/footer' %}#}
+{% endblock %}

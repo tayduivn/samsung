@@ -1,0 +1,43 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Đăng ký').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng ký">
+    <meta name="keywords" content="Đăng ký">
+    <meta property="og:url" content="/user/signup">
+    <meta property="og:title" content="Đăng ký">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+    {% set category = [{'label': 'Đăng ký', 'uri':'/user/signup'}] %}
+    {{ breadcrumbs.build(category) }}
+    <div class="container margin-top-15">
+        <h1 class="title-head"><a href="#">Tạo tài khoản</a></h1>
+        <div class="row">
+            <div class="col-lg-12 ">
+                <div class="page-login">
+                    <div id="login">
+                        <span>Nếu chưa có tài khoản vui lòng đăng ký tại đây</span>
+
+                        <div>
+                            {% if(success) %}
+                                <p class="message sigup">Chúc mừng bạn đăng ký thành công tài khoản website
+                                    vui lòng vào <a href="/user/signin">Đây</a> để đăng nhập
+                                </p>
+                            {% else %}
+                                <div class="defaultContent">
+                                    <div class="loginForm">
+                                        {{ partial('partial/form',{'form':form}) }}
+                                    </div>
+                                    <p></p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

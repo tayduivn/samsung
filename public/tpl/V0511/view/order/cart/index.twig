@@ -1,0 +1,178 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Giỏ hàng | ABC').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Giỏ hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tp/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~ templatePath  ~'/css/product/index-product.css ' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set quantity = serviceCart().totalQuantities %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    {% set products = serviceCart().products %}
+    {% set prodIds = [] %}
+    <div class="container-fluid top-product">
+        {% set category = [{'label':'Giỏ hàng', 'uri':'/cart'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <div class="container header">
+        {% if(products is not empty) %}
+            <div class="row">
+                <h1>Giỏ hàng:</h1><span style="margin-top: 18px"> {{ quantity }} sản phẩm </span>
+            </div>
+            <div class="row">
+                <div class="col-xl-9 col-lg-12">
+                    {% for p in products %}
+                        {% set image = p.thumbnailUri %}
+                        {% set options = {
+                            alt: p.name,
+                            lazy: true,
+                            openDiv: false,
+                            class: 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
+                        } %}
+                        <div class="row item-cart">
+                            <div class="col-xl-2 col-md-2 col-12">
+                                <img class="img-fluid" src="{{ image }}">
+                            </div>
+                            <div class="col-xl-6 col-md-5 col-12">
+                                <div class="row font-14">
+                                    <div style="padding:0" class="col-xl-8 col-lg-12">
+                                        <a class="link-1"
+                                           href="{{ p.viewLink }}"
+                                           target="_blank">
+                                            <h3 class="font-14">{{ p.name }}</h3>
+                                        </a>
+
+                                        <a href="javascrip:void(0)" psId="{{ p.id }}" class="color-greeen1 remove-item-cart link-1">Xóa</a>
+                                    </div>
+                                    <div style="padding-left: 0" class="col-xl-4 col-lg-12 gia">
+                                        <span><strong>{{ p.price|number_format(0) }}<u>đ</u></strong></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-md-4 col-12">
+                                <div class="form-group">
+                                    <div style="padding: 0" class="form-control">
+                                        <label class="hiden">Số lượng</label>
+                                        <button style=" border-right: 1px solid silver;"
+                                                class="qtyminus btn" type="button">–
+                                        </button>
+                                        <input psId="{{ p.id }}" type="text" class="qty input-text updateCart" id="psQtt"
+                                               name="quantity" size="4" min="1" max="{{ p.inventory.calcAvailable }}"
+                                               value="{{ p.quantity }}">
+                                        <button style=" border-left: 1px solid silver;"
+                                                class="qtyplus btn" type="button">+
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-xl-3 col-lg-12 header">
+                    <div class="row">
+                        <span class="left"><strong>Tạm tính:</strong></span>
+                        <span class="right">
+                            <strong class="font-14 totals_price">{{ totalCartMoney|number_format(0) }}<u>đ</u></strong>
+                        </span>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <span class="left"><strong>Thành tiền:</strong></span>
+                        <span class="right">
+                            <strong style="font-size: 18px" class="color-greeen1 totals_price">{{ totalCartMoney|number_format(0) }}<u>đ</u></strong></span>
+                    </div>
+                    <div class="row">
+                        <button class="activee btn btn-success buy-product"
+                                title="Thanh toán ngay"
+                                type="button"
+                                onclick="window.location.href='/cart/checkout'">
+                            Thanh toán ngay
+                        </button>
+                        <button class="btn btn-success buy-product continue"
+                                title="tiếp tục mua hàng"
+                                type="button">
+                            Tiếp tục mua hàng
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        {% else %}
+            <div class="row">
+                <h1>Giỏ hàng:</h1><span style="margin-top: 18px"> 0 sản phẩm </span>
+            </div>
+            <div class="row empty-bag">
+                <img src="/tpl/V0511/image/product/empty-bags.jpg">
+            </div>
+            <button class=" btn btn-success buy-product2 activee continue"
+                    title="tiếp tục mua hàng"
+                    type="button">
+                Tiếp tục mua hàng
+            </button>
+
+        {% endif %}
+
+    </div>
+    <!-- Facebook Pixel Code -->
+    <script>
+
+    </script>
+    <!-- End Facebook Pixel Code -->
+    <style>
+        h1 {
+            font-size: 22px;
+            padding: 15px;
+        }
+
+        .buy-product {
+            width: 100%;
+            background: white;
+            color: #67bd45;
+            border: 1px solid #67bd45;
+            margin-top: 20px;
+        }
+
+        strong {
+            font-weight: 500;
+        }
+
+        .right {
+            position: absolute;
+            right: 20px;
+        }
+
+        .left {
+            margin-left: 20px;
+        }
+
+        @media screen and(max-width: 768px) {
+            .gia {
+                padding-left: 0;
+            }
+        }
+
+        .empty-bag img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 200px;
+            height: auto;
+        }
+
+        .buy-product2 {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ ''~ templatePath  ~'/js/cart.js' }}"></script>
+{% endblock %}

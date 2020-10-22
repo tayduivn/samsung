@@ -1,0 +1,204 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Đăng ký').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng ký">
+    <meta name="keywords" content="Đăng ký">
+    <meta property="og:url" content="/user/signup">
+    <meta property="og:title" content="Đăng ký">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~ templatePath ~'/css/product/index-product.css ' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="container-fluid top-product">
+        {% set category = [{'label':'Đăng ký tài khoản', 'uri':'/user/sign-up'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <div class="container font-14">
+        <h1 class="title-head text-center">Đăng ký tài khoản</h1>
+        <div class="row text-center">
+            <div class="col-lg-12">
+                <div class="page-login">
+                    <div id="login">
+                        <div class="text-center"><span>Nếu chưa có tài khoản vui lòng đăng ký tại đây</span></div>
+                        <div style="margin-top: 20px;margin-bottom: 10px" id="signGF">
+                            <a href="/user/fbsignin?redirect=/" id="signFacebook"><i class="fa fa-facebook"></i><span>Sign in with Facebook</span></a>
+                            <a href="/user/ggsignin" id="signGoogle"><i class="fa fa-google-plus"></i><span>Sign in with Google</span></a>
+                        </div>
+                        <div class="row text-left">
+                            <div class="col-md-6 col-12 col-md-offset-3">
+                                <div class="row sign-up">
+                                    {% if(success) %}
+                                        <p class="message sigup">Chúc mừng bạn đăng ký thành công tài khoản website
+                                            vui lòng vào <a href="/user/signin">Đây</a> để đăng nhập
+                                        </p>
+                                    {% else %}
+                                        {{ partial('partial/form',{'form':form}) }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .title-head {
+            font-size: 22px;
+        }
+
+        .form-error {
+            display: none;
+        }
+
+        .required {
+            color: red;
+        }
+
+        .btn-success {
+            background: #67bd45;
+        }
+
+        .btn-success:hover {
+            color: green;
+            background: #67bd45;
+        }
+
+        #signGF > a i {
+            text-align: center;
+            border-radius: 3px 0 0 3px;
+            font-size: 25px;
+            width: 40px;
+            padding: 5px 0;
+            border-right: 1px solid rgba(140, 137, 137, 0.55);
+        }
+
+        #signGF > a span {
+            text-align: center;
+            width: 160px;
+            display: inline-block;
+            vertical-align: top;
+            padding: 8px 0;
+            font-weight: bold;
+        }
+
+        #signGF > a {
+            display: inline-block !important;
+            width: 200px;
+            height: 36px;
+            border-radius: 3px;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+
+        #signFacebook > i {
+            background: #2f5181;
+        }
+
+        #signGoogle > i {
+            background: #b33924;
+        }
+
+        #signGoogle {
+            background: #e64d2d;
+        }
+
+        #signFacebook {
+            background: #3b5c91;
+        }
+
+        @media screen and (max-width: 480px) {
+            #signGF {
+                position: initial !important;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+
+        .col-md-offset-3 {
+            left: 25%;
+        }
+        .sign-up{
+            line-height: 1!important;
+        }
+        @media screen and (max-width: 760px) {
+            .col-md-offset-3 {
+                left: 0%;
+            }
+        }
+
+        .col-md-12 {
+            margin-bottom: 20px;
+        }
+
+
+        /*khung đăng ký*/
+        .sign-up {
+            width: 100%;
+        }
+
+        .sign-up ul li {
+            list-style-type: none;
+        }
+
+        .f > ul > li {
+            margin-top: 30px;
+        }
+
+        .f > ul > li > ul > li {
+            margin-top: 10px;
+        }
+
+        .sign-up ul {
+            padding: 0;
+        }
+
+        .sign-up ul li strong {
+            font-weight: 500;
+        }
+
+        .sign-up input {
+            margin-top: 10px;
+        }
+
+        .sign-up input[type=text], .sign-up input[type=password] {
+            width: 100%;
+            border: 1px solid rgb(185, 74, 72);
+            border-radius: .3rem;
+            font-size: 14px;
+            height: 40px;
+            padding-left: 10px;
+        }
+
+        .dangnhap a {
+            padding: 0;
+        }
+
+        .dangnhap {
+            width: 110px;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .sign-up input[name=submit] {
+            width: 110px;
+        }
+
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.sign-up input[type=text],.sign-up input[type=password]').addClass('form-control');
+
+            $('.sign-up input[name=fullName]').before('<strong>Họ và Tên</strong><span style="color: red">*</span>');
+            $('.sign-up input[name=email]').before('<strong>Email</strong><span style="color: red">*</span>');
+            $('.sign-up input[name=password]').before('<strong>Mật Khẩu</strong><span style="color: red">*</span>');
+            $('.sign-up input[name=mobile]').before('<strong>Điện Thoại</strong><span style="color: red">*</span>');
+
+            $('.sign-up input[name=submit]').attr('class', 'btn btn-success header').after('<button class="btn btn-success dangnhap header" value="Đăng ký"><a class="link-2" href="/user/signin">Đăng Nhập</a></button>')
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% set products= serviceCart().getProducts %}
+<div id="cart-sidebar" class="mini-products-list count_li">
+    <ul class="list-item-cart">
+        {% if(products) %}
+            {% for p in products %}
+                {% set priceDiscount=p.priceAfterDiscount(p.quantity) %}
+                <li class="item cartItem_<?= $p->getId(); ?>" price="{{ p.price }}">
+                    <div class="wrap_item">
+                        <a class="product-image" href="{{ p.viewLink }}" title="{{ p.name }}">
+                            <img alt="" src="{{ p.thumbnailUri }}" width="80">
+                        </a>
+                        <div class="detail-item">
+                            <div class="product-details">
+                                <h3 class="product-name text1line"><a href="{{ p.viewLink }}"
+                                                                      title="{{ p.name }}">{{ p.name }}</a>
+                                </h3>
+                            </div>
+                            <p class="quantity">Số lượng: {{ p.quantity }}</p>
+                            <div class="product-details-bottom">
+                                <p class="price">
+                                    {% if(priceDiscount>0) %}
+                                        {{ priceDiscount|number_format(0) }}₫
+                                    {% elseif(p.price<=0) %}
+                                        Liên hệ
+                                    {% else %}
+                                        {{ p.price }}₫
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+            <div class="wrap_total">
+                <div class="top-subtotal">Tổng tiền tạm tính: {{ serviceCart().totalMoney|number_format(0) }} ₫</div>
+            </div>
+            <div class="wrap_button">
+                <div class="actions">
+                    <a href="/cart" class="btn btn-gray btn-cart-page pink tp_button">
+                        {{ translate('Xem giỏ hàng') }}
+                    </a>
+                    <a href="/cart/checkout" class="btn btn-gray btn-checkout pink tp_button">
+                        {{ translate('Thanh toán') }}
+                    </a>
+                </div>
+            </div>
+        {% elseif %}
+            <h5>Không có sản phẩm nào trong giỏ</h5>
+        {% endif %}
+    </ul>
+</div>

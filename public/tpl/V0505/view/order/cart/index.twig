@@ -1,0 +1,163 @@
+{% extends 'layout/layout' %}
+
+{% block body %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    {% set products = serviceCart().products %}
+
+    {% set url = getCurrentUrl() %}
+    {% set prid = url|split('=')|last %}
+    <section class="container-fluid">
+
+        <div class="container">
+            <div class="row d-block p-2">
+                <h1>Giỏ hàng</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-8 mb-3">
+                    <div class="d-flex justify-content-between flex-nowrap p-2">
+                        <a href="/" class="btn btn-danger mb-2" onclick="history.back()">
+                            <i class="fa fa-arrow-left"></i> Tiếp tục mua hàng
+                        </a>
+                        <a href="/Products/ShoppingRemove/0" class="btn btn-secondary mb-2">Xóa giỏ hàng</a>
+                    </div>
+
+                    <div class="d-block" id="cartsCanvas">
+                        <div class="d-block mb-3 single-cart-item pl-2 pr-2 pt-4 pb-4">
+                            <form method="post" action="">
+                                {% for p in products %}
+
+                                    {% set image = p.thumbnailUri %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        lazy: true,
+                                        openDiv: false,
+                                        class: 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
+                                    } %}
+                                    <div class="row item-cart cartItem_{{ p.id }}" price="{{ p.price }}">
+                                        <div class="col-md-12 col-xl-6">
+                                            <div class="media pb-2">
+                                                <img src="{{ image }}" class="product-image-64 mr-3" alt="{{ p.name }}">
+                                                <div class="media-body">
+                                                    <h5 class="mt-0 mb-1">
+                                                        <a href="{{ p.viewlink }}"></a>
+                                                        {{ p.name }}</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="media pb-2">
+                                                    <img src="{{ image }}"
+                                                         class="product-image-64 mr-3"
+                                                         alt="{{ p.name }}"
+                                                         style="visibility:hidden;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% set oldPrc =  p.price + 1000000 %}
+                                        <div class="col-md-12 col-xl-3 justify-content-between d-block">
+                                            <div class="grid">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <span>Giá niêm yết: </span>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <span class="gach price-xm">{{ oldPrc|number_format(0, '.', ',') ~ ' ₫' }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <span>Giá khuyến mại: </span>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <span class="priceu price-new price-xm itemPrice">{{ p.price|number_format(0, '.', ',') ~ ' ₫' }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 col-xl-1 d-flex justify-content-between"></div>
+                                        <div class="col-md-12 col-xl-2 d-flex justify-content-between">
+                                            <div class="input-group input-group-sm quantity-ctrl flex-nowrap">
+                                                <span class="qtyminus input-group-prepend btn">
+                                                    -
+                                                </span>
+
+                                                <input type="text" class="updateCart form-control" psId="{{ p.id }}"
+                                                       style="min-width: 30px;" min="1"
+                                                       max="{{ p.inventory.calcAvailable }}" value="{{ p.quantity }}">
+
+                                                <span class="qtyplus input-group-append btn">
+                                                    +
+                                                </span>
+
+                                                <button type="button" psId="{{ p.id }}" class="btn btn-danger remove-item-cart">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr><br>
+                                {% endfor %}
+
+                                <div class="row"></div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between flex-nowrap p-2">
+                        <a href="/Products/ExportShoppingExcel" target="_blank" class="btn btn-danger mb-2">
+                            <i class="far fa-file-excel"></i> EXCEL BÁO GIÁ
+                        </a>
+                        <button type="button" class="btn btn-danger mb-2" id="btnImage">
+                            <i class="fa fa-file-image"></i> ẢNH BÁO GIÁ
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 mb-3">
+                    <div class="card card-default">
+                        <div class="card-body text-bold border shadow-sm">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Giá tạm tính:</span>
+                                <span id="tongTien" class="price-xm totals_price">{{ totalCartMoney|number_format(0, '.', ',') ~ ' ₫' }}</span>
+                            </div>
+                            <hr>
+                            <a class="form-control btn btn-danger mb-2" href="/cart/checkout">THANH TOÁN</a>
+                            <div class="p-2 mb-2" style="background-color: #FEF2D6">
+                                <p style="color: black">- Bấm thanh toán và điền thông tin để hoàn tất đơn
+                                    hàng&nbsp;</p>
+
+                                <p style="color: black">- Ben Computer miễn phí vận chuyển cho các đơn hàng trong khu
+                                    vực nội thành Hà
+                                    Nội</p>
+
+                                <p>&nbsp;</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{#    {% include 'layout/footer' %}#}
+
+    {% block fixfoot %}
+        {% set totalCartMoneyN = serviceCart().totalMoney %}
+        <div class="fixbot-detail">
+            <p class="text-right flex-grow-1">
+                Tổng tiền: <span id="mtongtien"
+                                 class="totals_price">{{ totalCartMoneyN|number_format(0, '.', ',') ~ ' ₫' }}</span> <br>
+                <i>(Đã bao gồm VAT)</i>
+            </p>
+            <a href="/cart/checkout" class="btn-red">THANH TOÁN</a>
+        </div>
+    {% endblock %}
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+    <script type="text/javascript" src="{{ '/tpl/'~ templateDir ~'/js/cart.js' }}"></script>
+{% endblock %}

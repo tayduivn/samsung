@@ -1,0 +1,369 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+  {{ headTitle('Thanh toán').setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta property="og:title" content="Thanh toán">
+  <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ '/css/validationEngine.jquery.css' }}" type="text/css">
+{% endblock %}
+
+{% block checkout %}
+  <style>
+    body {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    .listBank>span:hover, .listBank>span.active {
+      background: #999;
+      transition: all .2s ease;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .bgImg {
+      position: relative;
+    }
+    .bgImg .quantity_item {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #e9252c;
+      border-radius: 50%;
+      color: white;
+      top: -4px;
+      right: -5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    [type="radio"]:checked + label,
+    [type="radio"]:not(:checked) + label
+    {
+      position: relative;
+      padding-left: 28px;
+      cursor: pointer;
+      display: inline-block;
+      color: #666;
+    }
+    [type="radio"]:checked + label:before,
+    [type="radio"]:not(:checked) + label:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #ddd;
+      border-radius: 100%;
+      background: #fff;
+    }
+    [type="radio"]:checked + label:after,
+    [type="radio"]:not(:checked) + label:after {
+      content: '';
+      width: 12px !important;
+      height: 12px !important;
+      background: #e9252c;
+      position: absolute;
+      top: 3px !important;;
+      left: 3px;
+      border-radius: 100%;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+    }
+    [type="radio"]:not(:checked) + label:after {
+      opacity: 0;
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    }
+    [type="radio"]:checked + label:after {
+      opacity: 1;
+      -webkit-transform: scale(1);
+      transform: scale(1);
+      background-image: none !important;
+    }
+    #paymentMethod .b {
+      padding: 5px 0;
+    }
+    .listBank {
+      display: none;
+    }
+    .listBank>span {
+      cursor: pointer;
+      float: left;
+      height: 34px;
+      margin: 2px;
+      overflow: hidden;
+      padding: 2px;
+      transition: all .2s ease 0s;
+      width: 50px;
+    }
+    [type=radio]:checked, [type=radio]:not(checked) {
+      position: unset;
+    }
+    .listBank > span { 
+      cursor: pointer;
+      display: inline-block;
+      padding: .35em 0;
+      height: 3.3em;
+      width: 5.06em;
+      border: 1px solid #dcdcdf;
+      border-radius: 5px;
+      transition: all .15s ease;
+      text-align: center;
+      box-shadow: 1px 2px 3px 0 rgba(0,0,0,.08);
+      overflow: hidden;
+      margin: .3em 0 0 .3em;
+    }
+    #getCoupon {
+      font-size: 1.25rem !important;
+    }
+    
+  </style>
+  <main>
+    {% set products = serviceCart().products %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    <section class="checkoutCart pd-0-20 border-bottom">
+      <div class="container">
+        <form action="" method="post" id="formCheckOut" class="row">
+          <a href="/" class="logo d-flex justify-content-center pd-0-20">
+          {% set urlLogo = getLogoUri() %}
+            {% if urlLogo %}
+                <img src="{{urlLogo}}" alt="Logo" class="img" />
+                {% else %}
+                    <img src="/tp/V0509/img/temp/logo-menu.png" alt="Logo" class="img" />
+            {% endif %}
+          </a>
+            <div class="col-lg-4">
+              <div class="checkout__information">
+                <div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h3 class="title__information mr-pd-bottom font-weight-bold ">
+                      Thông tin mua hàng
+                    </h3>
+                    <a href="/user/signin">
+                      <span class="login text-danger">Đăng nhập</span>
+                    </a>
+                  </div>
+                  <input type="text"
+                         class="form-control mr-bottom-10"
+                         placeholder="Email"
+                         name="customerEmail"
+                         value="{{ user ? user.email : '' }}">
+                  <input type="text"
+                         class="form-control mr-bottom-10 validate[required]"
+                         name="customerName"
+                         placeholder="Họ và tên"
+                         value="{{ user ? user.fullName : '' }}">
+                  <input type="text"
+                         class="form-control mr-bottom-10 validate[required,custom[phone]]"
+                         name="customerMobile"
+                         placeholder="Số điện thoại"
+                         value="{{ user ? (user.mobile | replace({'+84': '0'})):'' }}">
+                  <input type="text" class="form-control mr-bottom-10 validate[required] "
+                         name="customerAddress"
+                         placeholder="Địa chỉ"
+                         value="{{ user?user.address }}">
+                  <div class="warp-arrow position-relative">
+                    <select class="form-control form-control-lg mr-bottom-10 position-relative validate[required]"
+                            id="customcityId"
+                            name="customerCityId">
+                      <option data-code="null" value="null" selected="">
+                        --- Tỉnh Thành ---
+                      </option>
+                      {% for city in cities %}
+                        <option {{ (user and user.cityLocationId == city.id ? 'selected' : '') }}
+                                value="{{ city.Id }}">
+                          {{ city.nativeName }}
+                        </option>
+                      {% endfor %}
+                      
+                    </select>
+                  </div>
+                  <div class="warp-arrow position-relative">
+                    <select class="form-control form-control-lg mr-bottom-10 position-relative arrow validate[required]"
+                            id="customdistrictId"
+                            name="customerDistrictId">
+                      <option value="" selected="">
+                        --- Quận Huyện ---
+                      </option>
+                      {% if(user) %}
+                        {% set dts = getDistrict(user.cityLocationId) %}
+                        {{ toSelectBox(dts, user.districtLocationId) }}
+                      {% endif %}
+                    </select>
+                  </div>
+                  <div class="warp-arrow position-relative">
+                    <select class="form-control form-control-lg mr-bottom-10 position-relative validate[required]"
+                            id="wardId"
+                            name="customerWardId">
+                      <option>--- Phường xã ---</option>
+                    </select>
+                  </div>
+                  <input type="hidden" name="selectIdWard">
+                  <textarea class="form-control mr-bottom-10"
+                            name="description"
+                            rows="3"
+                            placeholder="Ghi chú"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="shipping mr-bottom-10">
+                <h3 class="font-weight-bold">Vận chuyển</h3>
+                <div class="alert alert-primary text-danger" role="alert">
+                  Vui lòng nhập thông tin mua hàng
+                </div>
+              </div>
+              <h3 class="section_pay">Thanh Toán</h3>
+              <div class="pay">
+                <div class="form-check">
+                  <div id="paymentMethod">
+                    <div class="b">
+                      <label>
+                        <input type="radio" id="rdPaymentMethodCod" name="paymentMethod"
+                               class="validate[required] cod"
+                               value="{{ constant('Order\\Service\\Payment\\Payment::PAYMENT_METHOD_COD') }}"
+                               style="-webkit-appearance: radio;"/>
+                        Thanh toán tại nhà
+                      </label>
+                    </div>
+                    {% set methodlist = ['null','Thanh toán bằng thẻ ngân hàng nội địa','Thanh toán bằng thẻ quốc tế Visa/Master card',
+                      'Thanh toán bằng internet Banking','Chuyển khoản tại máy ATM','Chuyển khoản tại quầy giao dịch Ngân hàng' ] %}
+                    {% set getbank = baokimPayment() %}
+                    {% if(getbank is not empty) %}
+                      {% set b=0 %}
+                      {% for method in getbank %}
+                        {% set b = b+1 %}
+                        <div class="b">
+                         
+                          <label>
+                            <input class="input-radio validate[required]" name="paymentMethod"
+                                   type="radio" data-show=".bank{{ b }}"
+                                   value="{{ constant('Order\\Service\\Payment\\Payment::PAYMENT_METHOD_GATEWAY') }}">
+                            <span class="radio-label-primary">{{ methodlist[b] }}</span>
+                          </label>
+                          <div class="listBank bank{{ b }}">
+                            {% if(method is not empty) %}
+                              {% for bank in method %}
+                                <span data-baokimPmId="{{ bank.id }}"><img src="{{ bank.logoUrl}}" title="{{ bank.name }}"/></span>
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+                </div>  
+              </div>
+              <div id="tableShipFee"></div>
+              <style>
+                #tableShipFee {
+                  display: none;
+                }
+              </style>
+            </div>
+            <div class="col-lg-4 over__checkout__product" id="scroll__checkout">
+              <h3 class="border-bottom title__product__items font-weight-bold">Đơn hàng <span>({{ serviceCart().totalQuantities }} sản phẩm)</span></h3>
+              {% for pro in products %}
+                {% set image = pro.thumbnailUri %}
+                {% set options = {
+                  alt: pro.name,
+                  lazy: true,
+                  openDiv: false,
+                  class: 'border rounded w_h-50'
+                } %}
+                <section class="product__items w-100 d-flex border-bottom pd-0-20">
+                  <div class="bgImg">
+
+                    <a href="{{ pro.viewLink }}">
+                      {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                    </a>
+                    <span class="quantity_item">{{ pro.quantity }}</span>
+                  </div>
+                  <div class="title__product w-100 pd-left-10">
+                    <span>{{ pro.name }}</span>
+                    <p class="d-flex justify-content-between w-100">
+                      <span>{{ pro.code }}</span>
+                      {% if(pro.priceAfterDiscount) %}
+                        <strike>{{ pro.price | number_format() }}đ</strike>
+                        <span>{{ pro.priceAfterDiscount | number_format() }}đ</span>
+                      {% elseif(pro.oldprice) %}
+                        <strike>{{ pro.oldprice | number_format() }}đ</strike>
+                        <span>{{ pro.price | number_format() }}đ</span>
+                      {% else %}
+                        <span>{{ pro.price | number_format() }}đ</span>
+                      {% endif %}
+                    </p>
+                  </div>
+                </section>
+              {% endfor %}
+
+              <section class="discount-code c border-bottom pd-0-20">
+                <div class="d-flex justify-content-between">
+                  <input type="text"
+                         class="form-control mr-bottom-10 w-75"
+                         placeholder="Nhập mã giảm giá"
+                         id="coupon"
+                         name="couponCode"
+                         value=""
+                  >
+                  <a href="javascript:void(0)"
+                     class="btn btn-danger mr-bottom-10"
+                     id="getCoupon"
+                  >Áp Dụng</a>
+                </div>
+                <span id="txtCode"></span>
+                
+              </section>
+              <section class="provisional pd-0-20 border-bottom">
+                <p class="d-flex justify-content-between">
+                  <span>Tạm tính</span>
+                  <span value="{{ totalCartMoney }}"
+                  >{{ totalCartMoney | number_format() }}đ
+                </span>
+                </p>
+                <p data-checkout-total-shipping-target="0" class="d-flex justify-content-between">
+                  <span>Phí vận chuyển</span>
+                  <span id="shipFee">0₫</span>
+                </p>
+                <span id="showCarrier"></span>
+              </section>
+              <section class="total-money pd-0-20">
+                <p class="d-flex justify-content-between">
+                  <span>Tổng cộng</span>
+                  <span id="showTotalMoney"
+                        value="{{ totalCartMoney }}"
+                  >{{ totalCartMoney | number_format() }}đ
+                  </span>
+                </p>
+                <p class="d-flex justify-content-between">
+                  <a href="/cart">
+                    <span class="text-danger"> Quay về giỏ hàng</span>
+                  </a>
+                  <button type="submit" class="btn btn-danger btn-lg">Đặt hàng</button>
+                </p>
+              </section>
+            </div>
+          <input type="hidden" id="getShipFee" value=""/>
+          <input type="hidden" id="baokimPmMethodId" name="baokimBankPaymentMethodId"/>
+          <input type="hidden" id="getMn" value="{{ totalCartMoney }}"/>
+        </form>
+      </div>
+    </section>
+  </main>
+  <div style="display: none">
+    <div id="progressbar" style="text-align: center;">
+      <p style="font-size:13px;background-color: #F0F0F0;line-height: 40px;padding: 0 10px;width:200px;">Đang xử lý !</p>
+      <img class="lazyload" data-sizes="auto" src="/img/lazyLoading.gif" data-src="/tpl/V0258/img/tmp/loading.gif"/>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+  <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+  <script type="text/javascript" src="{{ '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.pack.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/order.js' }}"></script>
+{% endblock %}

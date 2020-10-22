@@ -1,0 +1,264 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ category.name }}">
+    <meta property="og:url" content="{{ category.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block body %}
+    {% set page=1 %}
+    {% if (getParam('page')) %}
+        {% set page = getParam('page') %}
+    {% endif %}
+    <div id="pathchange" url="product/category" cId="{{ category.id }}" path="{{ category.viewLink }}" icpp="24"
+         page="{{ page }}">
+    </div>
+    <link rel="canonical" href="{{ category.viewLink }}"/>
+    <section class="content container tp_product_category" id="collection">
+
+        {% if(category.imgUri) %}
+            <div class="img_category">
+                <img src="{{ category.imgUri }}" alt="{{ category.name }}">
+            </div>
+        {% endif %}
+        <h2 class="title_name_cate tp_title">
+            {{ category.name }}
+        </h2>
+        {#category_parent#}
+        {% if(category.childs) %}
+            <ul class="bar_cate_child">
+                {% for c in category.childs %}
+                    <li><a href="{{ c.viewLink }}">{{ c.name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="row row_content">
+            <div class="col-md-6 col-6">
+                <div class="filter_cate">
+                    <a class="btn_filter" href="javascript:void(0)"><i class="fa fa-sliders" aria-hidden="true"></i>
+                        Bộ lọc</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-6">
+                <div class="group_by pull-right">
+                    <a class="btn_group_by" href="javascript:void(0)">
+                        Sắp xếp<i class="fa fa-long-arrow-down" aria-hidden="true"></i>
+                    </a>
+                    <div id="sort-by">
+                        <div class="border_sort">
+                            <ul class="SortBy" id="SortBy">
+                                <li value="new"> Mới nhất</li>
+                                <li value="bestseller">Bán chạy nhất</li>
+                                <li value="priceAsc">Giá tăng dần</li>
+                                <li value="priceDesc">Giá giảm dần</li>
+                                <li value="nameAsc">Tên từ A-Z</li>
+                                <li value="nameDesc">Tên từ Z-A</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-12">
+                <div class="block_back_drop">
+                    <div class="filter">
+                        <div class="filterPrice">
+                            <h2>Khoảng giá</h2>
+                            <div class="price_slider_wrapper tp_product_category_filter_price">
+                                <div class="collection-filter-option--range-price">
+                                         <span class="text-green" style="font-size: 14px">Từ
+                                                <span id="price_form" data-size="0">
+                                                    0đ
+                                                </span> :
+                                                <span id="price_to" data-size="5000000"
+                                                      data-max="5000000">
+                                                    {{ 5000000|number_format(0) }}đ
+                                                </span>
+                                            </span>
+                                    <div id="slider-range"></div>
+                                </div>
+                            </div>
+                        </div>
+                        {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+                        {% if(allAttr) %}
+                            {% set i=0 %}
+                            {% for attr in allAttr %}
+                                {% set i=i+1 %}
+                                {% if(attr.values != null) %}
+                                    {% set column = attr.column %}
+                                    <div class="filter_attr tp_product_category_filter_attribute collection_filter"
+                                         data-column="{{ column }}">
+                                        <h2>{{ attr.name|raw }}</h2>
+                                        <ul>
+                                            {% for cl in attr.values %}
+                                                {% if(cl.id in attrColumnValues[column]) %}
+                                                    <li><a value="{{ cl.id }}" rel="noindex" class="active"
+                                                           href="{{ removeFilter(column, cl.id) }}"
+                                                           title="{{ cl.name|raw }}">
+                                                            {{ cl.name|raw }}
+                                                        </a></li>
+                                                {% else %}
+                                                    <li><a value="{{ cl.id }}" rel="noindex"
+                                                           href="{{ addFilter(column, cl.id, 2) }}"
+                                                           title="{{ cl.name|raw }}">
+                                                            {{ cl.name|raw }}
+                                                        </a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        {% set tags = getTags({'itemId' : category.id, 'type': 'category' }) %}
+                        {% if(tags) %}
+                            <div class="attr"><span>Tags</span>
+                                {% for tag in tags %}
+                                    <a href="{{ tag.viewLink }}">{{ tag.name|raw }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {#block list prds#}
+            <div id="resultAjax">
+                {% if(category.childs and getParam('show') is null) %}
+                    {% for c in category.childs %}
+                        {% set products = search({'limit':6,'categoryId':c.id}) %}
+                        {% if(products) %}
+                            <div class="row list_product">
+                                {% if(c.imgUri) %}
+                                    <div class="col-md-6 col-sm-12 col-12 block_left_img">
+                                        <div class="box_img_cate relative">
+                                            <a href="{{ c.viewLink }}">
+                                                <img src="{{ c.imgUri }}">
+                                            </a>
+                                            <div class="box_hover">
+                                                <a href="{{ c.viewLink }}">{{ c.name }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% for p in products %}
+                                    <div class="col-md-3 col-sm-6 col-6">
+                                        {% set image = p.thumbnailUri %}
+                                        {% set percent = p.discountPercent %}
+                                        {% set priceDiscount = p.priceAfterDiscount %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            class: 'img_thumb_product',
+                                            lazy: true,
+                                            openDiv: false,
+                                        } %}
+                                        <div class="product_box" data-id="{{ p.id }}">
+                                            <div class="box_image">
+                                                <a class="a-image" href="{{ p.viewLink }}">
+                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                </a>
+                                            </div>
+                                            <div class="box_info">
+                                                <div class="box_text">
+                                                    <a class="tp_product_name">{{ p.name }}</a>
+                                                </div>
+                                                <div class="box_price">
+                                                    {% if(priceDiscount > 0) %}
+                                                        <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                                        <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                            ₫
+                                                        </del>
+                                                    {% elseif(p.oldPrice) %}
+                                                        <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                                        <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                            ₫
+                                                        </del>
+                                                    {% elseif(p.price <= 0 ) %}
+                                                        <span class="tp_product_price">Liên hệ</span>
+                                                    {% else %}
+                                                        <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                                    {% endif %}
+                                                    {% if(percent>0) %}
+                                                        <span class="percent">-{{ percent }}%</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="box_action">
+                                                <div><a class="quickView" href="javascript:void(0)">Xem nhanh</a></div>
+                                                <div><a href="javascript:void(0)">Mua ngay</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                <div class="clearfix"></div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {#show list products#}
+                    <div class="row">
+                        {% if(paginator.currentModels is not empty) %}
+                            {% for p in paginator.currentModels %}
+                                <div class="col-md-3 col-sm-6 col-6">
+                                    {% set image = p.thumbnailUri %}
+                                    {% set percent = p.calcDiscountPercent %}
+                                    {% set priceDiscount = p.priceAfterDiscount %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        class: 'img_thumb_product',
+                                        lazy: true,
+                                        openDiv: false,
+                                    } %}
+                                    <div class="product_box" data-id="{{ p.id }}">
+                                        <div class="box_image">
+                                            <a class="a-image" href="{{ p.viewLink }}">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                        </div>
+                                        <div class="box_info">
+                                            <div class="box_text">
+                                                <a class="tp_product_name">{{ p.name }}</a>
+                                            </div>
+                                            <div class="box_price">
+                                                {% if(priceDiscount > 0) %}
+                                                    <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                                    <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                        ₫
+                                                    </del>
+                                                {% elseif(p.oldPrice) %}
+                                                    <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                                    <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                        ₫
+                                                    </del>
+                                                {% elseif(p.price <= 0 ) %}
+                                                    <span class="tp_product_price">Liên hệ</span>
+                                                {% else %}
+                                                    <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                                {% endif %}
+                                                {% if(percent>0) %}
+                                                    <span class="percent">-{{ percent }}%</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="box_action">
+                                            <div><a class="quickView" href="javascript:void(0)">Xem nhanh</a></div>
+                                            <div><a href="javascript:void(0)">Mua ngay</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="col-md-12 content_sortPagiBar pagi">
+                                <div id="pagination" class="clearfix">
+                                    {{ render_paginator(paginator) }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/category.js' }}"></script>
+{% endblock %}

@@ -1,0 +1,144 @@
+#pageSignin {
+	width: 60%;
+	margin: auto;
+}
+
+#leftSg {
+	width: 60%;
+	float: left;
+}
+
+#rightSg {
+	width: 40%;
+	float: left;
+}
+
+#signin h1 {
+	margin-bottom: 30px;
+}
+
+#signin ul.errors li {
+	padding: 10px 0 0 246px;
+	text-align: left;
+	color: #e64d2d;
+}
+
+#signin .btns, #leftSg p {
+	margin-left: 60px;
+}
+
+#signin {
+	margin: 50px 0;
+	position: relative;
+	overflow: hidden;
+}
+
+#signin input {
+	padding: 8px 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	width: 200px;
+}
+
+#signin input#btnSubmit {
+	width: auto;
+}
+#signin select {
+	padding: 8px 10px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+	width: 222px;
+}
+
+#signin, #signin p {
+	text-align: center;
+}
+
+#signin ul>li {
+	margin-bottom: 15px;
+}
+
+#signin ul>li>label {
+	min-width: 175px;
+	display: inline-block;
+	text-align: right;
+	margin-right: 20px;
+}
+
+#signGF>a i {
+	text-align: center;
+	border-radius: 3px 0 0 3px;
+	font-size: 25px;
+	width: 40px;
+	padding: 5px 0;
+	border-right: 1px solid rgba(140, 137, 137, 0.55);
+	float: left;
+}
+
+#signGF>a span {
+	text-align: center;
+	width: 160px;
+	vertical-align: top;
+	padding: 0px 5px;
+	font-weight: bold;
+	line-height: 36px;
+	color: #fff;
+}
+
+#signGF>a {
+	width: 200px;
+	height: 36px;
+	border-radius: 3px;
+	color: #fff;
+	text-decoration: none;
+	display: block;
+	margin-bottom: 10px;
+	margin-left: 4px;
+}
+
+#signFacebook>i {
+	background: #2f5181;
+}
+
+#signGoogle>i {
+	background: #b33924;
+}
+
+#signGoogle {
+	background: #e64d2d;
+}
+
+#signFacebook {
+	background: #3b5c91;
+}
+@media screen and (max-width: 500px) {
+	#signin {
+		width: 90%;
+		margin: 40px auto;
+	}
+	#signin ul>li>label {
+		display: block;
+		text-align: left;
+		margin-bottom: 5px;
+	}
+	#signin input {
+		width: 90%;
+	}
+	#signin select {
+		width: 96%;
+	}
+	#leftSg,
+	#rightSg {
+		width: 100%;
+	}
+	#pageSignin {
+		width: 100%;
+	}
+	#signin .btns, #leftSg p {
+		margin-left: 7px;
+    	text-align: left;
+	}
+}
+
+
+

@@ -1,0 +1,147 @@
+{% set products= serviceCart().getProducts %}
+{#{% set quantity = serviceCart().totalQuantities %}#}
+{% set totalCartMoney = serviceCart().totalMoney %}
+<div id="popup-cart-desktop" class="clearfix">
+    <div class="title-popup-cart">
+        Bạn đã thêm <span class="cart-popup-name"><a href="{{ products.viewLink }}"
+                                                     title="{{ products.name }}">{{ products.name }}</a> </span>
+        vào giỏ hàng
+    </div>
+    <div class="title-quantity-popup left_" onclick="window.location.href='/cart';">
+        Giỏ hàng của bạn <span class="hidden count_item_pr">{{ products.serviceCart().totalQuantities }}</span>
+    </div>
+
+    <div class="content-popup-cart">
+        <div class="thead-popup">
+            <div style="width: 49.75%;" class="text-left">Sản phẩm</div>
+            <div style="width: 15%;" class="text-center">Giá</div>
+            <div style="width: 20%;" class="text-center">Số lượng</div>
+            <div style="width: 15%;" class="text-right">Tổng tiền</div>
+        </div>
+        <div class="tbody-popup scrollbar-dynamic">
+            {% if (products) %}
+                {% for p in products %}
+                    <div class="item-popup productid-{{ p.id }}">
+                        <div style="width: 15%;" class="border height image_ text-left">
+                            <div class="item-image"><a class="product-image" href="{{ p.viewLink }}"
+                                                       title="{{ p.name }}"><img
+                                            alt="{{ p.name }}"
+                                            src="{{ p.thumbnailUri }}"
+                                            width="90"></a></div>
+                        </div>
+                        <div style="width:35%;" class="height text-left">
+                            <div class="item-info"><p class="item-name"><a class="text2line"
+                                                                           href="{{ p.viewLink }}"
+                                                                           title="{{ p.name }}">{{p.name}}</a></p>
+                                <span class="variant-title-popup"></span>
+                                <a href="javascript:;" class="remove-item-cart" psId ="{{ p.id }}" title="Xóa" data-id="{{ p.id }}"><i
+                                            class="fas fa-times"></i>&nbsp;&nbsp;Xoá</a>
+                                <p class="addpass" style="color:#fff;margin:0px;">{{ p.id }}</p></div>
+                        </div>
+                        <div style="width: 15%;" class="border height text-center">
+                            <div class="item-price">
+                                    <span class="price">
+                                        {% if(priceDiscount>0) %}
+                                            {{ priceDiscount|number_format(0) }}₫
+                                        {% elseif(p.price<=0) %}
+                                            Liên hệ
+                                        {% else %}
+                                            {{ p.price | number_format(0) }}₫
+                                        {% endif %}
+                                    </span>
+                            </div>
+                        </div>
+                        <div style="width: 20%;" class="border height text-center">
+                            <div class="qty_thuongdq check_"><input class="variantID" type="hidden" name="variantId"
+                                                                    value="{{ p.id }}">
+                                <span >{{ p.quantity }}</span>
+                            </div>
+                        </div>
+                        <div style="width: 15%;" class="border height text-right"><span class="cart-price"> <span
+                                        class="price">
+                                        {% if (p.priceAfterDiscount > 0) %}
+                                            <span class="price">{{ (p.priceAfterDiscount * p.quantity) |number_format(0) }}VNĐ</span>
+                                        {% elseif (p.price == 0) %}
+                                            <span class="price">0 VNĐ</span>
+                                        {% else %}
+                                            <span class="price">{{ (p.price * p.quantity) | number_format(0) }}VNĐ</span>
+                                        {% endif %}
+                                    </span> </span></div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="tfoot-popup">
+            <div class="tfoot-popup-1 clearfix">
+                <div class="title-quantity-popup popup-total right_ bottom_">
+                    <p class="tongtien">Tổng số thành tiền: <span class="total-price">{{ totalCartMoney | number_format(0) }}VNĐ</span></p>
+                </div>
+                <div class="pull-left popup-ship">
+                    <p class="hidden">Miễn phí giao hàng toàn quốc</p>
+                    <a class="hidden button btn-continue" title="Tiếp tục mua hàng"
+                       onclick="$('#popup-cart').modal('hide');"><span><span>Tiếp tục mua hàng</span></span></a>
+                </div>
+                <div class="pull-right popup-total">
+                    <p class="hidden">Phí vận chuyển: <span class="vanchuyen">Tính khi thanh toán</span></p>
+                    <p class="tongtien hidden">Tổng tiền: <span class="total-price">{{ totalCartMoney|number_format(0) }}VNĐ</span></p>
+                    <a class="button btn-proceed-checkout" title="Tiến hành đặt hàng" href="/cart/checkout?emptylayout=true"><span>Tiến hành thanh toán</span></a>
+                </div>
+            </div>
+            <div class="tfoot-popup-2 clearfix">
+            </div>
+        </div>
+    </div>
+    <a title="Close" class="quickview-close close-window" href="javascript:;"
+       onclick="$('#popup-cart').fadeOut();"><i class="fa  fa-close"></i></a>
+</div>
+<script>
+    $('.remove-item-cart').click(function (e) {
+        var id = $(this).attr('psId');
+        removeCart(id, true);
+        e.preventDefault();
+        $('#popup-cart').fadeOut();
+    });
+    function removeCart(prodId, delItem) {
+        var check = confirm('bạn có muốn xóa sản phẩm này' + '?');
+        if (check) {
+            $.post('/cart/remove',{'psId' : prodId},
+                function(rp) {
+                    if (delItem) {
+                        $('.cartItem_' + prodId).remove();
+                        var totalPrice = 0;
+                        $totalItem = 0;
+                        $('.item-cart').each(function () {
+                            var t = $(this), price = parseInt(t.attr('price')),
+                                qty = parseInt(t.find('.updateCart').val());
+                            t.find('.itemPrice').html(numberFomart(price * qty) + 'VNĐ');
+                            totalPrice += price * qty;
+                            $totalItem += qty;
+                        });
+                        $('.totals_price').text(numberFomart(totalPrice) + 'VNĐ');
+                        $('.mr_top .cartCount').html($totalItem);
+                        /*ajaxLoadView({
+                            view: 'topCart',
+                            onSuccess: function (rs) {
+                                $('.top-cart-content').html(rs);
+                            }
+                        });*/
+                        // document.location.href = '/cart';
+                    } else {
+                        // document.location.href = '/cart';
+                    }
+                });
+        }
+    }
+
+    /*$('body').on('click', function (e) {
+        var art = document.getElementsByClassName('quickview-close');
+        if(e.target == art){
+            $('.quickview-close').modal('hide');
+
+        }
+    })*/
+    /*$('.quickview-close').click(function () {
+        $('#modalShowCart').fadeOut();
+        // $('.modal-backdrop').removeClass('in');
+    })*/
+</script>

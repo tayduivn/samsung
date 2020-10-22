@@ -1,0 +1,85 @@
+{% set products = serviceCart().products %}
+{% set totalCartMoney = serviceCart().totalMoney %}
+{#<script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>#}
+<script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+<style>
+    #modalAddComplete-close {
+    }
+</style>
+
+<div class="modalAddComplete-body">
+    {% if (products) %}
+        <ul id="cart-sidebar" class="mini-products-list count_li">
+            <ul class="list-item-cart">
+                {% for p in products %}
+                    {% set priceCurrent = p.price * p.quantity %}
+                    {% set orderValuePrices = priceCurrent + (p.price * p.quantity) %}
+                    {% set image = p.image %}
+                    {% set options = {
+                        alt: p.name,
+                        lazy: true,
+                        openDiv: false,
+                    }%}
+
+                    <li class="cart-item item  productid-{{ p.id }}" price="{{ p.price }}" discount="{{ p.moneyDiscount }}">
+                        <div class="border_list">
+                            <a class="product-image" href="{{ p.viewLink }}" title="{{ p.name | raw }}">
+                                <img src="{{ p.thumbnailUri }}" alt="{{ p.name }}">
+                            </a>
+                            <div class="detail-item">
+                                <div class="product-details">
+                                    <p class="product-name">
+                                        <a class="text2line" href="{{ p.viewLink }}" title="{{ p.name | raw }}">{{ p.name }}</a>
+                                    </p>
+                                </div>
+                                <div style="width: 9%" class="a-center d-none d-md-block">
+                                    <a class="fa fa-trash removeCart remove__top" href="javascript: void(0)" rel="{{ p.id }}"></a>
+                                </div>
+                                <div class="product-details-bottom cart-item-price-quantity">
+                                    {% if(p.moneyDiscount) %}
+                                        {% set mnDiscount = ( p.moneyDiscount//p.quantity) %}
+                                        {% if (countPs == 1) %}
+                                            {% set mnDiscount = serviceCart().moneyDiscount//p.quantity %}
+                                        {% endif %}
+                                        {% set ttMoney = p.price - mnDiscount %}
+                                        <span class="price current-price">{{ ttMoney | number_format(0) }} ₫</span><br>
+                                        <span class="price-old">{{ p.price | number_format(0) }} ₫</span>
+                                        <span class="price-old">KM: -{{ mnDiscount | number_format(0) }} ₫</span>
+                                    {% else %}
+                                        <span class="price current-price">{{ p.price | number_format(0) }}₫</span>
+                                    {% endif %}
+                                    <div class="quantity-select qty_drop_cart">
+                                        <button class="btn_reduced reduced items-count btn-minus minus reduced_pop items-count btn-minus" type="button">-</button>
+                                        <input type="text" class="input-text number-sidebar input_pop input_pop updateCart quantity" data-qty="{{ p.quantity }}" min="1" max="{{ p.inventory.calcAvailable }}" value="{{ p.quantity }}"
+                                               maxlength="10" psId={{ p.id }} >
+                                        <button class="btn_increase increase items-count btn-plus plus increase_pop items-count btn-plus" type="button">+</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="pd">
+                <div class="top-subtotal">Tổng tiền:
+                    <span class="price price_big totals_price">{{ totalCartMoney | number_format(0) }}₫</span>
+                </div>
+            </div>
+            <div class="pd right_ct">
+                <a href="/cart" class="btn btn-primary">
+                    <span>Vào trang giỏ hàng</span>
+                </a>
+            </div>
+        </ul>
+    {% else %}
+        <ul id="cart-sidebar" class="mini-products-list count_li">
+            <div class="no-item">
+                <p>Không có sản phẩm nào.</p>
+            </div>
+        </ul>
+    {% endif %}
+
+</div>
+<script>
+</script>

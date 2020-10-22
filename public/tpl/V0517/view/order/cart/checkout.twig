@@ -1,0 +1,24 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+  {{ headTitle('Thanh toán').setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta property="og:title" content="Thanh toán">
+  <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ '/css/validationEngine.jquery.css' }}" type="text/css">
+{% endblock %}
+
+{% block checkout %}
+
+  {# To do #}
+
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+  <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+  <script type="text/javascript" src="{{ '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.pack.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/order.js' }}"></script>
+{% endblock %}

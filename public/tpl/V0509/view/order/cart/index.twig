@@ -1,0 +1,146 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+  {{ headTitle('Giỏ hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta property="og:title" content="Giỏ hàng">
+  <meta property="og:url" content="{{ getCurrentUrl() }}">
+  <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+
+
+{% block body %}
+  <main>
+    <!-- Card path -->
+    <section class="slug-card">
+      <div class="heading">
+        <div class="box-icon-title">
+          <i class="icon icon-card"></i>
+          <span class="pro heading__card">Giỏ hàng</span>
+        </div>
+        <div class="box-icon-title">
+          <i class="icon icon-information"></i>
+          <span class="heading__information pro">Thông tin</span>
+        </div>
+        <div class="box-icon-title">
+          <i class="icon icon-pay"></i>
+          <span class="pay pro">Thanh toán</span>
+        </div>
+      </div>
+    </section>
+    <!-- Card path -->
+
+    <h1 class="small-title">Giỏ hàng</h1>
+
+    <!-- Card body -->
+    <section class="card-body">
+      <div class="container">
+        <div class="shopping-cart">
+          <div class="column-labels">
+            <label class="product-image">Hình ảnh</label>
+            <label class="product-details">Sản phẩm</label>
+            <label class="product-price">Giá</label>
+            <label class="product-quantity">Số lượng</label>
+            <label class="product-line-price">Tổng</label>
+            <label class="product-removal">&nbsp;</label>
+            
+          </div>
+          {% set totalCartMoney = serviceCart().totalMoney %}
+          {% set products = serviceCart().products %}
+          {% if(products) %}
+            {% for pro in products %}
+              {% set image = pro.thumbnailUri %}
+              {% set options = {
+                alt: pro.name,
+                lazy: true,
+                openDiv: false,
+              } %}
+              <div class="product cartItem_{{ pro.id }}"
+                   data-price="{{ pro.price }}"
+              >
+                <div class="product-image">
+                  {{ macroLazyFocusImager.LazyFocusImager(image, options) }}
+                </div>
+                <div class="product-details">
+                  <div class="product-title">{{ pro.name | raw }}</div>
+                  <p class="product-description">{{ pro.description | raw }}</p>
+                </div>
+                <div class="product-price">{{ pro.price | number_format() }} đ</div>
+                <div class="amout">
+                  <div class="product-quantity amout-body">
+                    <div class="form">
+                      <button class="amout-minus__checkout" ></button>
+                      <input type="number"
+                             value="{{ pro.quantity }}"
+                             min="1"
+                             max="{{ pro.inventory.calcAvailable }}"
+                             class="updateCart amout-qty product_{{ pro.id }}"
+                             id="quatity"
+                             name="quantity"
+                             data-psId="{{ pro.id }}"
+                      >
+                      <button class="amout-plus__checkout"></button>
+                    </div>
+                  </div>
+                </div>
+                {# <div class="product-removal">
+                  <button class="remove-product" psId="{{ pro.id }}">
+                    Remove
+                  </button>
+                </div> #}
+                <div class="product-line-price">
+                  {{ (pro.price * pro.quantity) | number_format() }} đ
+                </div>
+                <div class="product-removal">
+                  <button class="remove-product" psId="{{ pro.id }}">
+                    <i class="icon icon-remove"></i>
+                  </button>
+                </div>
+              </div>
+            {% endfor %}
+            {% else %}
+              <div class="d-flex justify-content-center align-items-center flex-column">
+                <img src="https://dolleyes.vn/tpl/T0006/img/shopping_cart.png" alt="" class="img img-fluid">
+                <br>
+                <h3 class="text-danger font-italic">Hiện tại chưa có sản phẩm nào trong giỏ hàng !</h3>
+              </div>
+          {% endif %}
+          <div class="totals position-relative">
+            <div class="totals-item">
+              <label>Tạm tính</label>
+              <div class="totals-value" id="cart-subtotal">{{ totalCartMoney | number_format }} đ</div>
+            </div>
+{#            <div class="totals-item">#}
+{#              <label>Giao hàng</label>#}
+{#              <div class="totals-value" id="cart-shipping">15.00</div>#}
+{#            </div>#}
+            <div class="totals-item totals-item-total">
+              <label>Tổng</label>
+              <div class="totals-value" id="cart-total">{{ totalCartMoney | number_format }} đ</div>
+            </div>
+            <div class="services-infomation">
+              <figure class="d-flex">
+                <i class="icon icon-shipping"></i>
+                <span class="pd-right-20">Giao hàng toàn quốc</span>
+              </figure>
+              <figure class="d-flex">
+                <i class="icon icon-security"></i>
+                <span>100% Bảo mật thanh toán</span>
+              </figure>
+            </div>
+          </div>
+
+          <a href="/cart/checkout?emptylayout=true" class="checkout">Tiến hành thanh toán</a>
+        </div>
+      </div>
+    </section>
+    <!-- Card body -->
+
+    <!-- services -->
+    {% include 'layout/services' %}
+    <!-- services -->
+  </main>
+{% endblock %}
+{% block script %}
+  <script type="text/javascript" src="{{ templatePath ~'/js/main.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>
+{% endblock %}

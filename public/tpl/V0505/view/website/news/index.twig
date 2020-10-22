@@ -1,0 +1,205 @@
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% extends 'layout/layout' %}
+
+{% block stylesheets %}
+    {#    <link rel="stylesheet" href="{{ '/tp/'~ templateDir ~'/css/childs/news.css' }}" type="text/css">#}
+
+    <link rel="stylesheet" href="{{ '/tpl/'~ templateDir ~'/css/childs/news.css' }}" type="text/css">
+{% endblock %}
+
+{% block iheader %}
+{% endblock %}
+
+{% block body %}
+    <div class="elementor elementor-4501 elementor-location-header">
+        <div class="elementor-inner">
+            <div class="elementor-section-wrap">
+                <header class="elementor-element elementor-element-073d5d2 elementor-section-boxed elementor-section elementor-top-section">
+                    <div class="elementor-container elementor-column-gap-no">
+                        <div class="elementor-row">
+                            <div class="elementor-element elementor-element-419c7c7 elementor-column elementor-col-50 elementor-top-column">
+                                <div class="elementor-column-wrap elementor-element-populated">
+                                    <div class="">
+                                        <a href="/">
+                                            <img style="margin-top: 5px" id="logo-news"
+                                                 src="{{ '/tpl/'~ templateDir ~'/img/2019/logo.png' }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                $(document).ready(function () {
+                                    var width = $(window).width();
+                                    if(width<1200) {
+                                        // document.getElementById("logo-news").style.height = "50%";
+                                        document.getElementById("logo-news").style.width = "40%";
+                                    } else {
+                                        document.getElementById("logo-news").style.width = "100%";
+                                    }
+                                });
+                            </script>
+
+                            <div class="elementor-element elementor-element-597fc88 elementor-column elementor-col-50 elementor-top-column">
+                                <div class="elementor-column-wrap elementor-element-populated">
+                                    <div class="elementor-widget-wrap">
+                                        {% set newsCategory = getNewsCategories() %}
+                                        {% set idRecrui = 4009 %}
+                                        <div class="elementor-element elementor-element-3fab62d elementor-icon-list--layout-inline elementor-align-right elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-icon-list">
+                                            <div class="elementor-widget-container">
+                                                {% if(newsCategory is not empty) %}
+                                                    <ul class="elementor-icon-list-items elementor-inline-items">
+                                                        <li class="elementor-icon-list-item">
+                                                            <a href="{{ newsCategory[0].childs[1].viewlink }}">
+                                                                <span class="elementor-icon-list-icon">
+                                                                    <i aria-hidden="true" class="fa fa-tags"></i>
+                                                                </span>
+                                                                <span class="elementor-icon-list-text">{{ newsCategory[0].childs[1].name }}</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <div class="elementor-element elementor-element-921e8a2 elementor-nav-menu__align-right elementor-nav-menu--indicator-chevron elementor-nav-menu--stretch elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu">
+                                            <div class="elementor-widget-container">
+                                                <nav class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-underline e--animation-grow">
+                                                    {% if(newsCategory is not empty) %}
+                                                        <ul id="menu-1-921e8a2" class="elementor-nav-menu">
+                                                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5597">
+                                                                <a target="_blank" rel="noopener noreferrer" href="/"
+                                                                   class="elementor-item">Trang chủ</a>
+                                                            </li>
+                                                            {% for n in newsCategory[0].childs %}
+                                                                <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4740">
+                                                                    <a href="{{ n.viewlink }}"
+                                                                       class="elementor-item">{{ n.name }}</a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    {% endif %}
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </header>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="elementor elementor-4883">
+        <div class="elementor-inner">
+            <div class="elementor-section-wrap">
+                <section
+                        class="elementor-element elementor-element-c5b81c7 elementor-section-boxed elementor-section elementor-top-section">
+                    <div class="elementor-container elementor-column-gap-no">
+                        <div class="elementor-row">
+                            <div class="elementor-element elementor-element-391ca2f elementor-column elementor-col-100 elementor-top-column">
+                                <div class="elementor-column-wrap elementor-element-populated">
+                                    <div class="elementor-widget-wrap">
+                                        <div class="elementor-element elementor-element-05ddddf elementor-widget elementor-widget-pp-content-ticker">
+                                            <div class="">
+                                                <div class="pp-content-ticker-container pp-content-ticker-heading-arrow"
+                                                     style="background-color: white">
+                                                    <div class="pp-content-ticker-heading">
+                                                            <span class="pp-content-ticker-heading-icon pp-icon">
+                                                                <i aria-hidden="true" class="fas fa-bolt"></i>
+                                                            </span>
+                                                        <span class="">HOT </span>
+                                                    </div>
+                                                    <div class="pp-content-ticker-wrap">
+                                                        <a href="#" style="color: dodgerblue">Flash Sale giá sốc từng
+                                                            tuần &#8211;Săn ngay tại Ben Computer</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {% if(newsCategory is not empty) %}
+                    {% for nCa in newsCategory[0].childs %}
+                        {% set news = searchNewsByCategory(nCa.id) %}
+                        <section
+                                class="elementor-element elementor-element-7f17c45 elementor-section-boxed elementor-section">
+                            <div class="elementor-container">
+
+                                <div class="">
+                                    <div class="">
+                                        <span style="text-transform: uppercase; font-size: 22px"><b>chuyên mục </b></span>
+
+                                        <span style="text-transform: uppercase; font-size: 22px; color: dodgerblue"><b>{{ nCa.name }}</b></span>
+                                    </div>
+
+                                    <div class="elementor-element elementor-element-8f9ceed elementor-widget elementor-widget-jet-blog-smart-tiles">
+                                        <div class="elementor-widget-container">
+                                            <div class="elementor-jet-blog-smart-tiles jet-blog">
+                                                <div class="jet-smart-tiles-wrap">
+                                                    <div class="jet-smart-tiles-slide">
+                                                        <div class="jet-smart-tiles-slide__wrap layout-3-x rows-1">
+
+                                                            {% if(news) %}
+                                                                {% for n in news %}
+                                                                    {% set image = n.pictureUri %}
+                                                                    {% set options = {
+                                                                        alt: n.title | e('html'),
+                                                                        lazy: true,
+                                                                        openDiv: false,
+                                                                    } %}
+                                                                    {% set intro =  n.intro(true) %}
+                                                                    {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                                    <div class="jet-smart-tiles">
+                                                                        <div class="jet-smart-tiles__box"
+                                                                             style="background-image:url('{{ n.imageUri }}'); height: 200px">
+                                                                            <div class="jet-smart-tiles__terms">
+                                                                                <a href="{{ n.viewLink }}"
+                                                                                   class="jet-smart-tiles__terms-link jet-smart-tiles__terms-link--6">{{ nCa.name }}</a>
+                                                                            </div>
+                                                                            <div class="jet-smart-tiles__box-content">
+                                                                                <div class="jet-smart-tiles__box-content-inner">
+                                                                                    <div class="jet-smart-tiles__box-title">
+                                                                                        {{ n.title | e('html') }}
+                                                                                    </div>
+                                                                                    <div class="jet-smart-tiles__box-excerpt">
+                                                                                        {#{{ subString(intro ,100) }}#}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <a href="{{ n.viewLink }}"
+                                                                               class="jet-smart-tiles__box-link"></a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{#    {% include 'layout/footer' %}#}
+{% endblock %}
+

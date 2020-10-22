@@ -1,0 +1,56 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+<section class="wrap-blog-index">
+    <div class="grid">
+        <div class="grid__item large--one-whole">
+            <div class="title-blog">
+                Tin tức nổi bật
+            </div>
+            {% set latestNews = getLastestNews({'limit':24}) %}
+            <div class="blog-owl-carousel grid">
+                <div class="owldemo7-wrapper ">
+                    <div id="owl-article-slider" class="article-carousel owl-carousel owl-theme">
+                        {% if (latestNews) %}
+                            {% for n in latestNews %}
+                                {% set image = n.imageUri %}
+                                {% set options = {
+                                    alt: n.title|e('html'),
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                <div class="item grid__item">
+                                    <div class="article-item">
+                                        <a href="{{ n.viewLink }}" class="article-img">
+                                            <div style="background-image: url({{ n.imageUri }}); min-height: 187.22px; overflow: hidden; background-position: center center; background-size: cover; background-attachment: scroll;"></div>
+{#                                            <img src="{{ image }}" alt="Thời trang trẻ em cực yêu của các công chúa nhà sao Việt">#}
+                                        </a>
+                                        <a href="{{ n.viewLink }}" class="article-title">{{ n.title|e('html') }}</a>
+                                        <div class="article-desc">
+                                            {{ n.intro|raw }}
+                                        </div>
+                                        <div class="article-info">
+                                            <div class="article-date">
+                                                {% set time = n.createdDateTime|split(' ') %}
+                                                {% set date = time[0]|split('-') %}
+                                                <div class="time">{{ date[2] }}</div>
+                                                <div>
+                                                    <span>Tháng {{ date[1] }}</span>
+                                                    <span>{{ date[0] }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="article-cmt">
+                                                <span><i class="fa fa-user"></i> Suplo Baby</span>
+                                                <span><i class="fa fa-comment-dots" aria-hidden="true"></i> 0 bình luận </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

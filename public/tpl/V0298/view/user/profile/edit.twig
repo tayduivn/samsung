@@ -1,0 +1,108 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Thông tin người dùng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Thông tin người dùng">
+    <meta name="keywords" content="Thông tin người dùng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Thông tin người dùng">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/css/validationEngine.jquery.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/user.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="containerMain">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="headerProfile">
+                    <p id="avatarProfile">
+                        <img src="/img/avatar_comment.png" alt="avatar"/>
+                    </p>
+                    <h3>{{ user.fullName | e('html') }}</h3>
+                    <p><{{ user.email }}</p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="sidebar">
+                    <ul id="profileMenu">
+                        <li class="active"><a href="/profile">{{ translate('Trang cá nhân') }}</a></li>
+                        <li><a href="/order">{{ translate('Quản lý đơn hàng') }}</a></li>
+                        <li><a href="/user/signout">{{ translate('Thoát') }}</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="col-sm-9">
+                <div class="ctrl-wrapper">
+                    <div id="profileContent">
+                        <div id="profileIf">
+                            <form action="" method="post" >
+                                <table class='profile' cellspacing='0'>
+                                    <tr class='head-table'><td colspan='2' style="font-size: 16px; font-weight: 700; padding: 10px 0 ">{{ translate('Sửa thông tin tài khoản cá nhân') }}</td></tr>
+                                    <tr>
+                                        <td >{{ translate('Tên đăng nhập') }}</td>
+                                        <td class='val'>{{ user.username }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td  >{{ translate('Địa chỉ email') }}</td>
+                                        <td class='val'>{{ user.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td >{{ translate('Họ và tên') }}</td>
+                                        <td class='val'><input type='text' name='fullName' value='{{ user.fullName }}' class='validate[required]'/></td>
+                                    </tr>
+                                    <tr>
+                                        <td >{{ translate('Điện thoại') }}</td>
+                                        <td class='val'><input name='mobile' type='text' value='{{ user.mobile }}' class='validate[required]' /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ translate('Thành phố') }}</td>
+                                        <td class='val'>
+                                            <select name='cityId' id='cityId'>
+                                                {% for city in cities %}
+                                                    <option {{ ((city.id) == user.cityLocationId) ?'selected="selected"' : '' }} value='{{ city.id }}'>{{ city.nativeName }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >{{ translate('Quận Huyện') }}</td>
+                                        <td class='val'>
+                                            <select name='districtId' id='districtId'>
+                                                {% for dt in districts %}
+                                                    <option {{ (dt.id == user.districtLocationId) ? 'selected="selected"' : '' }} value='{{ dt.id }}'>{{ dt.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td >{{ translate('Địa chỉ') }}</td>
+                                        <td class='val'><input type='text' name='address' value='{{ user.address }}' class='validate[required]' /></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td class="val">
+                                            <button type='submit'>{{ translate('Xác nhận') }}</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        select{
+            padding: 5px 0 !important;
+        }
+    </style>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/user.js' }}"></script>
+{% endblock %}

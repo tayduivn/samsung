@@ -1,0 +1,44 @@
+{% macro build(breadcrumbs) %}
+    <div class="breadcrumb_background">
+        <section class="bread-crumb">
+            <span class="crumb-border"></span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-12 col-sm-12 a-center">
+                        {% set setUlClass = 'breadcrumb' | raw %}
+                        {% if(setUlClass) %}
+                            {% set setUlClass = setUlClass %}
+                        {% endif %}
+                        {% set breadcrumb = null %}
+                        {% if(breadcrumbs) %}
+                            {% set breadcrumb = breadcrumbs %}
+                        {% endif %}
+                        <ul class="{{ setUlClass | raw }}" itemscope itemtype="https://data-vocabulary.org/Breadcrumb">
+                            <li class="home">
+                                <a itemprop="url" href="/"><span itemprop="title">Trang chủ</span></a>
+                                <meta itemprop="position" content="1" />
+                            </li>
+                            {% if(breadcrumb) %}
+                                {% set k = 1 %}
+                                {% for br in breadcrumb %}
+                                    {% set uri = (br['uri'])?br['uri']:'' %}
+                                    {% set name = (br['label'])?br['label']:'' %}
+                                    {% set class = (br['class'])?br['class']:'' %}
+                                    {% set rel = (br['rel'])?br['rel']:'' %}
+                                    <li class="{{ class }}">
+                                        <a href="{{ uri }}" itemprop="url" {{ rel }}>
+                                            <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                                            <span itemprop="title">{{ name }}</span>
+                                        </a>
+                                        <meta itemprop="position" content="{{ k }}" />
+                                    </li>
+                                    {% set k = k + 1 %}
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endmacro %}

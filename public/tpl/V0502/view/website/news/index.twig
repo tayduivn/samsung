@@ -1,0 +1,196 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Tất cả tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/catenew.js' }}"></script>
+{% endblock %}
+{% block body %}
+    {% set arrayIds = []%}
+
+
+    <section class="bread-crumb">
+        <span class="crumb-border"></span>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 a-left">
+                    <ul class="breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                        <li class="home">
+                            <a itemprop="url" href="/" ><span itemprop="title">Trang chủ</span></a>
+                            <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                        </li>
+
+
+                        <li><strong ><span itemprop="title">Tin tức</span></strong></li>
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="blog_page_section">
+        <div class="container  margin-bottom-50">
+            <div class="row">
+                <section class="right-content col-lg-9 col-md-9 col-sm-12 col-lg-push-3 col-md-push-3">
+                    <div class="page_title">
+                        <h1 class="title_page_h1">Tin tức
+                        </h1>
+                    </div>
+
+                    <section class="list-blogs blog-main">
+                        <div class="row">
+
+
+
+                            {% set news = searchNewsByCategory(n.id) %}
+                            {% if (news is not null) %}
+                                {% if (news) %}
+                                    {% for new in news %}
+                                        {% set image = new.imageUri %}
+                            <div class="blog_full margin-bottom-25">
+                                <div class="blog-inner">
+                                    <div class="blog-img col-lg-5 col-md-5 col-sm-4 col-xs-12">
+                                        <a href="{{ new.viewLink }}">
+
+                                            <picture>
+                                                <source media="(max-width: 480px)" srcset="{{ image }}">
+                                                <source media="(min-width: 481px) and (max-width: 767px)" srcset="{{ image }}">
+                                                <source media="(min-width: 768px) and (max-width: 1023px)" srcset="{{ image }}">
+                                                <source media="(min-width: 1024px) and (max-width: 1199px)" srcset="{{ image }}">
+                                                <source media="(min-width: 1200px)" srcset="{{ image }}">
+                                                <img src="{{ image }}" style="max-width:100%;" class="img-responsive" alt="OPPO Find X lộ ảnh sắc nét với màn hình cong 2 cạnh">
+                                            </picture>
+
+                                        </a>
+                                    </div>
+                                    <div class="content_blog_full col-lg-7 col-md-7 col-sm-8 col-xs-12">
+                                        <h3 ><a title="{{ new.title }}" href="{{ new.viewLink }}">{{ new.title }}</a></h3>
+                                        {% set time = new.createdDateTime | slice(0,10) %}
+                                        <span class="time_post f"><i class="fa fa-clock-o"></i>&nbsp;
+                                        {{ time }}</span>
+                                        <span class="time_post"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Đăng bởi: dl_goshopping dl_goshopping</span>
+                                        <div class="blog-description">
+                                            <p class="text3line">
+                                                {{ new.intro|raw }}
+                                            </p>
+                                            <a class="button_custome_35" href="{{ new.viewLink }}" title="Đọc tiếp">Đọc tiếp</a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                                    {% endfor %}
+                                 {% endif %}
+                            {% endif %}
+
+                            <div class="text-xs-right col-lg-12 col-sm-12 col-xs-12 col-md-12">
+
+                            </div>
+
+                        </div>
+                    </section>
+
+                </section>
+                <aside class="left left-content col-xs-12 col-lg-3 col-md-3 col-sm-12  col-lg-pull-9 col-md-pull-9">
+
+                    <aside class="aside-item collection-category ">
+
+                        <div class="title_module_main">
+                            <h2>
+                                <span>
+                                    Danh mục tin tức
+                                </span>
+                            </h2>
+                        </div>
+                        {% set newsCategory = getNewsCategories() %}
+                        {% if (newsCategory) %}
+                        <div class="aside-content aside-cate-link-cls margin-bottom-15">
+                            <nav class="cate_padding nav-category navbar-toggleable-md">
+
+                                <ul class="nav-ul nav navbar-pills">
+
+
+                                    {% for n in newsCategory %}
+                                    <li class="nav-item  lv1">
+                                        <a href="{{ n.viewLink }}" class="nav-link">{{ n.name }}
+                                        </a>
+
+
+                                    </li>
+                                    {% endfor %}
+
+                                </ul>
+                            </nav>
+                        </div>
+                        {% endif %}
+                    </aside>
+
+
+                    <div class="aside-item">
+                        <div>
+
+                            <div class="title_module_main">
+                                <h2>
+                                    <a href="news" title="Tin liên quan">
+                                        Tin liên quan
+                                    </a>
+                                </h2>
+                            </div>
+
+                            <div class="list-blogs">
+                                <div class="blog_list_item">
+                                    {% if (paginator.currentModels) %}
+                                    {% for p in paginator.currentModels %}
+                                    <article class="blog-item blog-item-list ">
+                                        <div class="blog-item-thumbnail img1" onclick="window.location.href='/blogs/news/oppo-find-x-lo-anh-sac-net-voi-man-hinh-cong-2-canh';">
+                                            <a href="/blogs/news/oppo-find-x-lo-anh-sac-net-voi-man-hinh-cong-2-canh">
+
+                                                <picture>
+                                                    <source media="(max-width: 480px)" srcset="{{ p.pictureUri }}">
+                                                    <source media="(min-width: 481px) and (max-width: 767px)" srcset="{{ p.pictureUri }}">
+                                                    <source media="(min-width: 768px) and (max-width: 1023px)" srcset="{{ p.pictureUri }}">
+                                                    <source media="(min-width: 1024px) and (max-width: 1199px)" srcset="{{ p.pictureUri }}">
+                                                    <source media="(min-width: 1200px)" srcset="{{ p.pictureUri }}">
+                                                    <img src="{{ p.pictureUri }}" style="max-width:100%;" class="img-responsive" alt="{{ p.title }}">
+                                                </picture>
+
+                                            </a>
+                                        </div>
+                                        <div class="ct_list_item">
+                                            <h3 class="blog-item-name"><a href="{{ p.viewLink }}" title="{{ p.title }}">{{ p.title }}</a></h3>
+                                        </div>
+                                    </article>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </section>
+    <div class="ab-module-article-mostview"></div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+

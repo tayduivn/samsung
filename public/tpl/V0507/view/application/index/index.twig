@@ -1,0 +1,248 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Hệ thống cửa hàng Cặp, Balô, Vali kéo du lịch chính hãng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+
+{% block body %}
+    {% include 'layout/bannerHome' %}
+<!-- Main -->
+
+    {% include 'layout/popupHome' %}
+<main>
+    <div class="wrap__homepage">
+
+        {% include 'layout/bannerMain' %}
+
+        <form class="container mt-1">
+            <nav class="content__product__more">
+                <b title="SẢN PHẨM MỚI NHẤT">SẢN PHẨM MỚI NHẤT</b>
+                <p><a href="/product?show=new" title="Xem thêm">Xem thêm</a></p>
+            </nav>
+        </form>
+        
+        <div class="product__center-item">
+           {% set productNew = search({'limit':6,'showNew':1}) %}
+            {% if(productNew is not empty) %}
+                {% for p in productNew %}
+                    {% set image = p.thumbnailUri %}
+                    {% set percent = p.discountPercent %}
+                    {% set priceDiscount = p.priceAfterDiscount %}
+                    {% set options = {
+                        alt: p.name,
+                        class: 'img_thumb_product',
+                        lazy: true,
+                        openDiv: false,
+                    } %}
+                    <div class="product-item product_box">
+                        <div class="content__pro-slide product_box" data-id="{{ p.id }}">
+                            <a href="{{ p.viewLink }}">
+                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                            </a>
+                            {% if(percent > 0) %}
+                                <img src="/tpl/V0507/img/temp/sales.png" alt="" class="image__selle">
+                            {% else %}
+                            {% endif %}
+                            <article class="product__center__price">
+                                <a href="{{ p.viewLink }}" title="{{ p.name }}">{{ p.name }}</a>
+                            </article>
+                            <div class="box_price">
+                                {% if(priceDiscount > 0) %}
+                                    <span class="pro_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                    <strike class="pro_price_old">{{ p.price|number_format(0) }} ₫ </strike>
+                                {% elseif(p.oldPrice) %}
+                                    <span class="pro_price">{{ p.price|number_format(0) }}₫ </span>
+                                    <strike class="pro_price_old">{{ p.oldPrice|number_format(0) }} ₫ </strike>
+                                {% elseif(p.price <= 0 ) %}
+                                    <span class="pro_price">Liên hệ</span>
+                                {% else %}
+                                    <span class="pro_price">{{ p.price|number_format(0) }} ₫ </span>
+                                {% endif %}
+                                {% if(percent>0) %}
+                                    <span class="icpercent"> -{{ percent }}%  </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% set cateNew = getNewsCategories() %}
+        <div class="infomation__product">
+            {% if(cateNew is not empty) %}
+            <div class="infomation__product--left">
+                {% set lasestNews = getLastestNews({'limit': 1, 'categoryId': cateNew.id}) %}
+                {% for new in lasestNews %}
+                    {% set image = new.imageUri %}
+                    {% set options = {
+                        alt: new.title,
+                        lazy: true,
+                        openDiv: false
+                    } %}
+            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+            </div>
+
+            <div class="infomation__product--right">
+                <section class="infomation--right-title" class="img-fluid d-block w-100">
+                    <a href="{{ new.viewLink }}" title="{{ new.name }}">{{ new.title | slice(0, 33) | raw }}</a>
+                </section>
+                <section class="infomation--right-about">
+                    <p>{{ new.intro | slice(0, 100) | raw }}  </p>
+                </section>
+                {% endfor %}
+                <div class="content__button">
+                    <div class="btn-but">Tìm hiểu thêm</div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <form class="content__product__more">
+            <b title="SẢN PHẨM BÁN CHẠY">SẢN PHẨM BÁN CHẠY</b>
+            <p><a href="/product?show=hot" title="Xem thêm">Xem thêm</a></p>
+        </form>
+
+        <div class="product__center-item">
+           {% set productHot = search({'limit':6,'showHot':1}) %}
+            {% if(productHot is not empty) %}
+                {% for proHot in productHot %}
+                    {% set imageHot = proHot.thumbnailUri %}
+                    {% set percent = proHot.discountPercent %}
+                    {% set priceDiscount = proHot.priceAfterDiscount %}
+                    {% set options = {
+                        alt: proHot.name,
+                        class: 'img_thumb_product',
+                        lazy: true,
+                        openDiv: false,
+                    } %}
+                    <div class="product-item product_box">
+                        <div class="content__pro-slide product_box" data-id="{{ proHot.id }}">
+                            <a href="{{ proHot.viewLink }}">
+                                {{ macroLazyFocusImager.LazyFocusImager(imageHot,options) }}
+                            </a>
+                            {% if(percent > 0) %}
+                                <img src="/tpl/V0507/img/temp/sales.png" alt="" class="image__selle">
+                            {% else %}
+                            {% endif %}
+                            <article class="product__center__price">
+                                <a href="{{ proHot.viewLink }}" title="{{ proHot.name }}">{{ proHot.name }}</a>
+                            </article>
+                            <div class="box_price">
+                                {% if(priceDiscount > 0) %}
+                                    <span class="pro_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                    <strike class="pro_price_old">{{ proHot.price|number_format(0) }} ₫ </strike>
+                                {% elseif(proHot.oldPrice) %}
+                                    <span class="pro_price">{{ proHot.price|number_format(0) }}₫ </span>
+                                    <strike class="pro_price_old">{{ proHot.oldPrice|number_format(0) }} ₫ </strike>
+                                {% elseif(proHot.price <= 0 ) %}
+                                    <span class="pro_price">Liên hệ</span>
+                                {% else %}
+                                    <span class="pro_price">{{ proHot.price|number_format(0) }} ₫ </span>
+                                {% endif %}
+                                {% if(percent>0) %}
+                                    <span class="icpercent"> -{{ percent }}% </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div class="content__bannner-center"></div>
+
+        <form class="content__product__more">
+            <b title="TIN TỨC"> TIN TỨC </b>
+            <p><a href="/news" title="Xem thêm">Xem thêm</a></p>
+        </form>
+
+        <div class="product__center">
+            <div class="row">
+                {% set news = getNewsCategories() %}
+                {% if(news is not empty) %}
+                    {% set New = getLastestNews({'limit': 4, 'categoryId': news.id}) %}
+                    {% for n in New %}
+                        {% set images = n.imageUri %}
+                        {% set options = {
+                            alt: n.title,
+                            lazy: true,
+                            openDiv: false,
+                            class:'class="img-fluid d-block w-100'
+                        } %}
+                        <div class="row row__reverses">
+                            <div class="col-md-6 col-12 banner-effect">
+                                <div class="content-image-pro">
+                                    <a href="{{ n.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(images,options) }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <div class="col-txt">
+                                    <b> {{ n.title }}</b>
+                                    <p> {{ n.intro | raw }} </p>
+                                    <div class="content__button">
+                                        <div class="btn-but">
+                                            <a href="{{ n.viewLink }}">Tìm hiểu thêm</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="content__banner__bot">
+            <div class="title">
+                <h2 class="heading-title"></h2>
+            </div>
+
+            <div class="parent-fix">
+                {# <div class="carousel-bot">
+                    <div class="slide-bottom">
+                        <div class="content-slide-bot">
+                            <div class="img-slide-bot">
+                                <img src="https://file.hstatic.net/200000000133/file/1-04__copy__87d7a80a5bf34de192250d311f7354ac.jpg" class="img-fluid d-block-w100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-bottom">
+                        <div class="content-slide-bot">
+                            <div class="img-slide-bot">
+                                <img src="https://file.hstatic.net/200000000133/file/1_abaca23fcb694afa8b74a3cd4e98f3e7_master.jpg" class="img-fluid d-block-w100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-bottom">
+                        <div class="content-slide-bot">
+                            <div class="img-slide-bot">
+                                <img src="https://file.hstatic.net/200000000133/file/2_f6788b4a3b614acba332d2bd79bf9f8b_master.jpg" class="img-fluid d-block-w100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slide-bottom">
+                        <div class="content-slide-bot">
+                            <div class="img-slide-bot">
+                                <img src="https://file.hstatic.net/200000000133/file/4_0bb0025a6eab4e9284cd0dd71aaed21d_master.jpg" class="img-fluid d-block-w100">
+                            </div>
+                        </div>
+                    </div>
+                </div> #}
+            </div>
+        </div>
+    </div>
+</main>
+    <!--End Main-->
+{% endblock %}
+
+{% block script %}
+    <script src="{{ templatePath ~'/js/slider.js' }}"></script>
+{% endblock %}

@@ -1,0 +1,155 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Tất cả tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/catenew.js' }}"></script>
+{% endblock %}
+{% block body %}
+    {% set arrayIds = []%}
+    {% block breadcrumb %}
+        {% set category = [{'label': ' Tất cả tin tức', 'uri':'/news'}] %}
+        {{ breadcrumbs.build(category) }}
+    {% endblock %}
+    {% set newsCategory = getNewsCategories() %}
+    <main class="wrapper main-content  custom_page ">
+        <section id="blog-wrapper" class="in-blog blog-pages">
+            <div class="inner">
+                <h1 class="hide">
+                    Tất cả tin tức
+                </h1>
+                <div class="grid">
+                    <div class="grid__item large--nine-twelfths medium--one-whole small--one-whole">
+                        <div class="blog-content">
+                            {% if (newsCategory) %}
+                                {% set i = 1 %}
+                                {% for n in newsCategory %}
+                                    {% set news = searchNewsByCategory(n.id) %}
+                                    {% if (news is not null) %}
+                                        <div class="blog-single-item">
+                                            <div class="section-title clearfix">
+                                                <div class="title">
+                                                    <h2>{{ n.name }}</h2>
+                                                </div>
+                                                <div class="viewmore">
+                                                    <a href="{{ n.viewLink }}">Xem tất cả <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                                                </div>
+                                                <div class="line"></div>
+                                            </div>
+                                            <div class="blog-single-slider grid">
+                                                {% if (news) %}
+                                                    <div id="owl-blog-single-slider{{ i }}" class="owl-carousel owl-theme owl-new">
+                                                        {% for new in news %}
+                                                            <div class="item grid__item">
+                                                                <div class="article-item">
+                                                                    <a href="{{ new.viewLink }}" class="article-img">
+                                                                        <div style="background-image: url({{ new.imageUri }}); min-height: 187.22px; overflow: hidden; background-position: center center; background-size: cover; background-attachment: scroll;"></div>
+{#                                                                            <img src="{{ new.pictureUri }}" alt="{{ new.title }}">#}
+                                                                    </a>
+                                                                    <a href="{{ new.viewLink }}" class="article-title">{{ new.title }}</a>
+                                                                    <div class="article-desc">
+                                                                        {{ new.intro|raw }}
+                                                                    </div>
+                                                                    <div class="article-info">
+                                                                        <div class="article-date">
+                                                                            {% set time = new.createdDateTime|split(' ') %}
+                                                                            {% set date = time[0]|split('-') %}
+                                                                            <div class="time">{{ date[2] }}</div>
+                                                                            <div>
+                                                                                <span>Tháng {{ date[1] }}</span>
+                                                                                <span>{{ date[0] }}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="article-cmt">
+                                                                            <span><i class="fa fa-user"></i> Suplo Baby</span>
+                                                                            <span><i class="fa fa-comment-dots" aria-hidden="true"></i> 0 bình luận </span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% else %}
+                                                    <p class="grid__item">Danh mục blog này chưa có bài viết nào cả !</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% set i = i + 1 %}
+                                {% endfor %}
+
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid__item large--three-twelfths medium--one-whole small--one-whole">
+                        <!-- /snippets/blog-sidebar.liquid -->
+                        <div class="blog-sidebar">
+                            {% set newsCategory = getNewsCategories() %}
+                            {% if (newsCategory) %}
+                                <div class="blog-types">
+                                    <h3 class="title">Danh mục tin tức</h3>
+                                    <ul class=" no-bullets">
+                                        {% for n in newsCategory %}
+                                            <li>
+                                                <a href="{{ n.viewLink }}">- {{ n.name }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <div class="all-tags">
+                                <div class="blog-sb-title clearfix">
+                                    <h3 class="title">
+                                        Từ khóa
+                                    </h3>
+                                </div>
+                                <div class="all-tags-wrapper clearfix">
+                                    {% set tags = getTags({'type':'article'}) %}
+                                    {% if (tags) %}
+                                        {% for t in tags %}
+                                            <a class="tag-item" href="{{ t.viewLink }}"><i class="fa fa-tag" aria-hidden="true"></i>{{ t.name }}</a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="blog-post">
+                                <h3 class="title">Bài viết liên quan</h3
+                                {% if (paginator.currentModels) %}
+                                    <ul class="no-bullets">
+                                        {% for p in paginator.currentModels %}
+                                            <li class="grid">
+                                                <div class="grid__item large--five-twelfths medium--six-twelfths small--six-twelfths">
+                                                    <a href="{{ p.viewLink }}" class="article-img"><img src="{{ p.pictureUri }}" alt="{{ p.title }}"></a>
+                                                </div>
+                                                <div class="grid__item large--seven-twelfths medium--six-twelfths small--six-twelfths" style="padding-left: 15px;">
+                                                    <a href="{{ p.viewLink }}" class="article-title">{{ p.title }}</a>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="shop-page">
+                                <div class="fb-page" data-href="nhanh.vn"
+                                     data-small-header="false" data-adapt-container-width="true"
+                                     data-hide-cover="false" data-show-facepile="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

@@ -1,0 +1,23 @@
+{
+    "author": "phongnq",
+    "sourceLink": "https://suplo-baby.myharavan.com/",
+    "domain": {
+        "storeId": 15113,
+        "name": "V0502.phongnqstore2.bot3s.net",
+        "alias": "V0502.phongnqstore2.bot3s.net"
+    },
+    "banners": {
+        "BANNER_HOME": {
+            "name": "Ảnh khách hàng nói về chúng tôi",
+            "description": "Kích cỡ banner 720x358",
+            "size": "720x358"
+        }
+    },
+    "contents": {
+        "HOME": {
+            "name": "Trang chủ",
+            "keys": {
+            }
+        }
+    }
+}

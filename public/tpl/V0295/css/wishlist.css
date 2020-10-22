@@ -1,0 +1,104 @@
+.wishlist .wishlistitems {
+    /*border-bottom: 4px solid #c8cbcc;*/
+    border-top: 4px solid #c8cbcc;
+    margin: 20px 0;
+    position: relative;
+}
+.wishlist .pt_table {
+    float: none;
+    border: 0;
+}
+.pt_table .wishlist-item:first-child {
+    border-top: 0;
+}
+.wishlist-item {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.wishlistlineitem .product > .name{
+    text-transform: uppercase;
+    color: #000;
+    font-weight: 700;
+}
+.price span {
+    color: #c4996b;
+    font-weight: bold;
+}
+.btnbuyList{
+    position: inherit !important;
+}
+.button-full-width{
+    position: absolute;
+    display: block;
+    bottom: 0;
+    border: none;
+    text-transform: uppercase;
+    right: 15px;
+    opacity: 1;
+    background-color: #c4996b;
+    -webkit-transition: opacity .3s ease-in-out;
+    -moz-transition: opacity .3s ease-in-out;
+    -ms-transition: opacity .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+    font-weight: bold;
+    padding: 0 20px;
+    border-radius: 7px;
+}
+.btnbuyList .itemavailability{
+    position: absolute;
+    width: 100%;
+    right: 15px;
+}
+.account_header h2 {
+    padding: 10px 0;
+    text-align: center;
+    margin: 10px 0 0;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    font-size: 32px;
+    line-height: 95%;
+}
+.removeFav{
+    cursor: pointer;
+}
+.button-full-width span{
+    height: 100%;
+    position: relative;
+    display: inline-block;
+    margin: 0 auto;
+    color: #fff;
+    padding: 10px;
+    text-align: right;
+    white-space: nowrap;
+}
+/*.button-full-width span:after{*/
+    /*position: absolute;*/
+    /*z-index: 1;*/
+    /*top: 50%;*/
+    /*right: 0;*/
+    /*width: 16px;*/
+    /*height: 16px;*/
+    /*font-size: 16px;*/
+    /*margin: -8px 0 0;*/
+    /*font-family: FontAweSome;*/
+    /*content: "\f07a";*/
+/*}*/
+@media screen and (max-width: 768px){
+    .btnbuyList button{
+        right: 0;
+        width: 100%;
+        padding: 0;
+        border-radius: 4px;
+    }
+    .wishlistlineitem .product>.name{
+        display: block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .wishlistItems{
+        right: 5%;
+        top: 14px;
+    }
+}

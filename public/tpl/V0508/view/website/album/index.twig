@@ -1,0 +1,140 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Album').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Album">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+<main>
+    <div class="layoutalbum">
+        <div class="container">
+            <div class="headerdesc">
+                <div class="headerdesc-bannertotal">
+                    <img src="https://theme.hstatic.net/1000197303/1000565533/14/lookbook_3.jpg?v=1175" alt="test-img">
+                </div>
+                <div class="headerdesc-title text-center">
+                    14 YEARS - BRIGHTEN YOUR DAY
+                </div>
+                <div class="headerdesc-desc">
+                    <p>
+                        Sau 14 năm say mê với việc tôn vinh vẻ đẹp phụ nữ, 2020 quả thực là một năm đặc biệt đánh dấu bước chuyển mình ngoạn mục của MARC. Từ phong cách thướt tha, nữ tính, các thiết kế của MARC giờ đây đa dạng hơn để mỗi nàng thơ đều có thể tự tin tỏa sáng ở mọi bối cảnh.
+                        Trùng hợp khi sinh nhật 14 năm của MARC rơi vào mùa thu, MARC muốn dành bộ sưu tập đặc biệt này để cùng nàng thiên biến vạn hóa gam màu thu đặc trưng. Ai bảo 𝐩𝐚𝐬𝐭𝐞𝐥 chỉ dành cho những nàng tiểu thư điệu đà, và 𝐧𝐞𝐮𝐭𝐫𝐞𝐥 đâu chỉ là bảng màu trung tính tẻ nhạt! Định kiến đó sẽ bị phá vỡ khi nàng ngắm những thiết kế mới nhất MARC mang đến.
+                    </p>
+                </div>
+            </div>
+            <div class="albumtotal">
+                <div class="row">
+                    {% if(albums.currentModels) %}
+                        {% for a in albums.currentModels %}
+                            {% set image = a.thumbnailUri %}
+                            {% set options = {
+                                alt: a.name,
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+                            {% set ascending = ascending + 1 %}
+                            {% if(ascending == 5) %}
+                                {% set ascending = 0 %}
+                                <div class="col-12 col-sm-12 col-lg-12">
+                                     <div class="albumtotal-item anhto">
+                                        <div class="albumtotal-item-img">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </div>
+                                        <div class="albumtotal-item-anchortext">
+                                            <a href="{{ a.viewLink }}"> {{ subString(a.name, 20) }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% else %}
+                                    <div class="col-12 col-sm-12 col-lg-6">
+                                        <div class="albumtotal-item">
+                                            <div class="albumtotal-item-img">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </div>
+                                            <div class="albumtotal-item-anchortext">
+                                                <a href="{{ a.viewLink }}"> {{ subString(a.name, 30) }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="block-inline-album">
+            <div class="container-fluid">
+                <div class="lb-3-action">
+                    <div class="total-button-view-album">
+                        <a href="">MUA BỘ SƯU TẬP</a>
+                        <a href="">XEM SẢN PHẨM KHÁC</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="prodcuct-new container">
+                <div class="text-center">
+                    <h1 class="title-category-product">SẢN PHẨM MỚI NHẤT</h1>
+                </div>
+                <div class="product-items-all row ">
+                    {% set product = search({ 'limit':8,'showNew':1 }) %}
+                    {% if(product is not empty) %}
+                        {% for p in product %}
+                            {% set image = p.thumbnailUri %}
+                            {% set options = {
+                                alt: p.name,
+                                class: 'img-hover-defaul',
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            {% set percent = p.calcDiscountPercent %}
+                            {% set priceDiscount = p.priceAfterDiscount %}
+                            <div class="product-item seller text-center col-6 col-md-6 col-lg-3" data-id="{{ p.id }}" data-storeId = "{{ p.storeId }}"> <!-- product-item -->
+
+                                <div class="img-hover img-hover-best-seller">
+                                    <a href="{{ p.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        {% if(p.showHot > 0) %}
+                                            <img src="https://theme.hstatic.net/1000197303/1000565533/14/best_seller.png?v=573" alt="" class="symbol-bestseller">
+                                        {% else %}
+                                        {% endif %}
+                                        {% if(percent > 0) %}
+                                            <span class="product-sale">{{ percent }}%</span>
+                                        {% endif %}
+                                    </a>
+                                </div>
+
+                                <h3 class="title-product-item">{{ p.name }}</h3>
+                                {% if (p.priceAfterDiscount > 0) %}
+                                    <div class="price-total-del">
+                                        <span class="price-product-item">{{ p.priceAfterDiscount|number_format(0) }}₫</span>
+                                        <span class="price-product-item-discount">{{p.price|number_format(0)}}₫</span>
+                                    </div>
+                                {% elseif (p.oldprice() > 0) %}
+                                    <div class="price-total-del">
+                                        <span class="price-product-item">{{ p.price|number_format(0) }}₫</span>
+                                        <span class="price-product-item-discount">{{ p.oldprice|number_format(0) }}₫</span>
+                                    </div>
+                                {% else %}
+                                    <p class="price-product-item">{{ p.price|number_format(0) }}₫</p>
+                                {% endif %}
+
+                            </div> <!-- end product-item -->
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block script %}
+
+
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.min.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/album.js' }}"></script>
+
+{% endblock %}

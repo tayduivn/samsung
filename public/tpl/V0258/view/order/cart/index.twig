@@ -1,0 +1,148 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Giỏ hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Giỏ hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    {% set products = serviceCart().products %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="breadcrumb breadcrumbs">
+                <div class="rdfa-breadcrumb">
+                    <div>
+                        <p><span class="breadcrumbs-title">
+                        </span>
+                            <span>
+                            <a href="/" class="home">Trang chủ</a>
+                        </span>
+                            <span class='separator'>|</span>Giỏ hàng</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="content row-fluid">
+                    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+                        <div class="row">
+                            {% if(products) %}
+                                <div class="ctcenter list-new span9">
+                                    <h1 class="entr-title">Giỏ hàng</h1>
+                                    <div class="nd">
+                                        <!---signle-->
+                                        <form method="post" action="">
+                                            <table class="table table-hover table-bordered" cellspacing="0"
+                                                   cellpadding="0">
+                                                <tr style="border: 1px;" class="hidden-sm">
+                                                    <td>Sản phẩm</td>
+                                                    <td>Số lượng</td>
+                                                    <td class="hidden-xs">Đơn giá</td>
+                                                    <td>Thành tiền</td>
+                                                </tr>
+                                                {% for p in products %}
+                                                    {% set image = p.thumbnailUri %}
+                                                    {% set options = {
+                                                        alt: p.name,
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                        class: 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
+                                                    } %}
+                                                    <tr class="item-cart cartItem_{{ p.id }}"
+                                                        price="{{ p.price }}">
+                                                        <td width="280px;">
+                                                            <ul class="sp-cart">
+                                                                <li class="img">
+                                                                    {{ p.moneyDiscount }}
+                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                </li>
+                                                                <li class="name"
+                                                                    href="{{ p.viewLink }}">{{ p.name }}</li>
+                                                                <li class="thaotac hidden-xs">
+                                                                    <a psId="{{ p.id }}"
+                                                                       class="remove-item-cart" title="Xóa">Xoá</a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input_qty_pr"
+                                                                 style="display: flex;justify-content: center;">
+                                                                <span class="reduced_pop items-count qtyminus">-</span>
+                                                                <input
+                                                                        value="{{ p.quantity }}" min="1"
+                                                                        max="{{ p.inventory.calcAvailable }}"
+                                                                        class="updateCart number-sidebar"
+                                                                        psId="{{ p.id }}"
+                                                                        type="text">
+                                                                <span class="increase_pop items-count qtyplus">+</span>
+                                                            </div>
+                                                            <li class="thaotac hidden-md hidden-lg hidden-sm">
+                                                                <a psId="{{ p.id }}" class="remove-item-cart"
+                                                                   title="Xóa">Xoá</a>
+                                                            </li>
+                                                        </td>
+                                                        <td class="hidden-xs">
+                                                            {{ p.price|number_format(0) }} VNĐ
+                                                        </td>
+                                                        <td>
+                                                    <span class="itemPrice">
+                                                            {{ (p.price * p.quantity) | number_format(0) }} VNĐ
+                                                    </span>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                                <tr class="tonto">
+                                                    <td colspan='7' style="text-align:right">
+                                                        Tổng tiền
+                                                        <span class="totals_price ">{{ totalCartMoney|number_format(0) }}</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan='7' class="txx">
+                                                        <a onclick="history.back()" href="javascript:void(0)"
+                                                           class="button_active tp_button">
+                                                            Tiếp tục mua hàng
+                                                        </a>
+                                                        <a href="/cart/checkout" class="button_active tp_button">
+                                                            Thực hiện thanh toán
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="bg-cart-page" style="min-height: auto;">
+                                    <p style="text-align: center;font-size: 20px;float: left">Không có sản phẩm nào
+                                        trong giỏ hàng. Quay lại<a href="/"> Cửa Hàng</a>để tiếp tục mua sắm.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12">
+                        <div class="span3 sidebar">
+                            <div class="widget widget_recent_entries  "><h3 class="tp_title">Bài viết mới</h3>
+                                <ul>
+                                    {% set lastestNews=getLastestNews({'limit':5}) %}
+                                    {% if(lastestNews) %}
+                                        {% for news in lastestNews %}
+                                            <li>
+                                                <a href="{{ news.viewLink }}" title="{{ news.title }}">
+                                                    {{ news.title }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>
+{% endblock %}

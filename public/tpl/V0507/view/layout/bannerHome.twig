@@ -1,0 +1,37 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+
+<!--bắt đầu Slide-->
+{# Banner trang chủ #}
+<div class="carousel-bannerHome">
+    {% set bannerHome = getBannerByPositionCode('BANNER_HOMES') %}
+    {% if(bannerHome) %}
+        {% for c in bannerHome %}
+            {% set imageSlide = c.imagesrc %}
+            {% set options = {
+                alt: c.name,
+                lazy: true,
+                openDiv: false,
+            } %}
+            <div class="bannerHome-item">
+                <a>
+                    {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+                </a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="bannerHome-item">
+            <img class="img-fluid" src="//theme.hstatic.net/200000000133/1000569834/14/slideshow_1.jpg?v=1777" alt="banner1">
+        </div>
+        <div class="bannerHome-item">
+            <img class="img-fluid" src="//theme.hstatic.net/200000000133/1000569834/14/slideshow_2.jpg?v=1777" alt="banner2">
+        </div>
+    {% endif %}
+</div>
+
+<!--End Slide-->

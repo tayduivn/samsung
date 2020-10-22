@@ -1,0 +1,53 @@
+
+
+
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+
+{% set banner_home = getBannerByPositionCode('BANNER_HOME') %}
+
+
+
+
+                {% set banner = banner ~ '<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">' %}
+                {% if(banner_home) %}
+                    {% for c in banner_home %}
+                        {% set imageSlide = c.imagesrc %}
+
+                        {% set options = {
+                            alt: c.name,
+                            lazy: true,
+                            openDiv: false,
+                        }%}
+                                 {% set banner = banner ~ '<div id="sync1" class="home-slider owl-carousel not-dqowl">' %}
+                                    {% set banner = banner ~ '<div class="item">' %}
+                                        {% set banner = banner ~ '<a href="#" class="clearfix">' %}
+                                            {% set banner = banner ~ '<img src="//theme.hstatic.net/1000329721/1000424884/14/slider_3.png?v=22" alt="alt">' %}
+                                        {% set banner = banner ~ '</a>' %}
+                                 {% set banner = banner ~ '</div>' %}
+                                 {% set banner = banner ~ '</div>' %}
+
+
+                                 {% set banner = banner ~ '<div class="wrap_thumb_slide hidden-xs">' %}
+                                    {% set banner = banner ~ '<div id="sync2" class="home-slider owl-carousel not-dqowl">' %}
+                                        {% set banner = banner ~ '<div class="item">' %}
+                                            {% set banner = banner ~ '<a href="#" class="clearfix">' %}
+                                                {% set banner = banner ~ '<img src="//theme.hstatic.net/1000329721/1000424884/14/slider_3.png?v=22" alt="alt">' %}
+                                            {% set banner = banner ~ '</a>' %}
+                                        {% set banner = banner ~ '</div>' %}
+                                    {% set banner = banner ~ '</div>' %}
+                                 {% set banner = banner ~ '</div>' %}
+
+
+                             {% endfor %}
+                    {% endif %}
+                {% set banner = banner ~ '</div>' %}
+
+
+{{ saveCache(keyMenu, banner | raw, 1800) }}
+{{ banner | raw }}

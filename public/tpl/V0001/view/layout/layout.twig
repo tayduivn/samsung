@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="vi-VN" data-nhanh.vn-template="{{ templateDir }}">
+    <head>
+        <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
+        <meta charset="utf-8">
+        {% set appId = getAppId() %}
+        {% if(appId) %}
+            <meta name="fb:app_id" content="{{ appId }}">
+        {% endif %}
+        {% set extraSettingsArray =  extraSettings()%}
+        {% if(extraSettingsArray is not empty) %}
+            {% if(extraSettingsArray['gta']['generatedTimeAndAuthor'] == 1) %}
+                {% set display = 'block' %}
+            {% endif %}
+            {% else %}
+                {% set display = 'none' %}
+        {% endif %}
+        <link href="{{ getFavicon() ?: '/images/favicon.ico' }}" rel="shortcut icon" type="image/vnd.microsoft.icon">
+        {{ headMeta().appendName('viewport', 'width=device-width, initial-scale=1.0').appendHttpEquiv('X-UA-Compatible', 'IE=edge')|raw }}
+        {% block meta %}{% endblock %}
+        {% set styleSheet = [
+            '/css/fontAwesome/font-awesome-4.7.0.min.css',
+            '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.css',
+            templatePath ~'/css/lib/bootstrap.min.css',
+            '/css/jqueryUI/jqui.css',
+            '/js/mmenu/css/jquery.mmenu.css',
+            templatePath ~'/fonts/font-roboto.css',
+            templatePath ~'/css/lib/owl.carousel.min.css',
+            templatePath ~'/css/responsive.css',
+            templatePath ~'/css/style.css',
+            templatePath ~'/css/theme2019.css',
+            '/js/colorswatches/color-swatches.css',
+
+        ] %}
+        <link rel="stylesheet" href="{{ srcLink(styleSheet,2) }}" type="text/css">
+        {{ loadScripts({'positionHead':true}) | raw}}
+        <script type="application/ld+json">{
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "legalName": "CAPTOT.VN",
+                "url": "https://{{ getCurrentDomain }}/",
+                "contactPoint": [{
+                    "@type": "ContactPoint",
+                    "telephone": "0988 344 445",
+                    "contactType": "customer service"
+                }],
+                "logo": "https:{{ getLogoUri }}",
+                "sameAs":[
+                    "https://www.facebook.com/nhanh.vn/?fref=ts",
+                    "https://www.youtube.com/channel/UCj4rlhg6LgoYBdqkw6vXLpw"
+                ]
+            }</script>
+        <script type="application/ld+json">{
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "CAPTOT.VN",
+                "url": "https://{{ getCurrentDomain }}/",
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://{{ getCurrentDomain }}/search?term={search_term}",
+                    "query-input": "required name=search_term"
+                }
+            }</script>
+    </head>
+    <body>
+        {% set script = [
+            '/js/jquery/jquery.min.js',
+            '/js/lib.js',
+            '/js/jquery/jquery.cookie.js',
+            '/js/jquery/jquery-ui-1.10.3.custom.min.js',
+            '/js/bootstrap/bootstrap-3.3.5.min.js',
+            '/js/jquery/jquery.carouFredSel-6.2.1-packed.js',
+            '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.pack.js',
+            '/js/mmenu/js/jquery.mmenu.min.js',
+            '/js/jquery/jquery.number.min.js',
+            '/js/jquery/jquery.lazyload.min.js',
+            templatePath ~'/js/script.js'
+        ] %}
+        <script type="text/javascript" src="{{ srcLink(script,1)  }}"></script>
+        {% block script %}{% endblock %}
+
+        <input type="hidden" id="storeId" value="{{ getStoreId() }}">
+
+        <div id="boxMenu" class="menus">
+            {% include 'layout/menu' %}
+        </div>
+        {% include 'layout/header' %}
+        {% block body %}{% endblock %}
+        {% block stylesheets %}{% endblock %}
+
+
+        {{ loadScripts() | raw}}
+        {{ headScript }}
+        {{ inlineScript }}
+        {{ loadFacebookChat('https://www.facebook.com/Capbalovali/') }}
+        {#{% import '/'~templateLib~'/include/skinsnew'%}#}
+        {% include 'layout/footer' %}
+        <script type="text/javascript">
+            /* <![CDATA[ */
+            var google_conversion_id = 955526277;
+            var google_custom_params = window.google_tag_params;
+            var google_remarketing_only = true;
+
+        </script>
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0" nonce="ezBPNeM5"></script>
+        <noscript><div style="display:inline;"><img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/955526277/?guid=ON&amp;script=0"/></div></noscript>
+    </body>
+</html>

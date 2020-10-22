@@ -1,0 +1,53 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+{% if(getCategories() is not empty) %}
+    {% set nav = nav ~ '<div class="item_bar">' %}
+    {% for c in getCategories() %}
+        {#{% if(c.childs is not empty) %} #}
+        {% set nav = nav ~ '<div class="nav-item loop_item_nav" data-item="#data-'~ loop.index ~'">' %}
+        {% set nav = nav ~ '<div class="icon">'%}
+        {% set nav = nav ~ '<img src="'~c.icon~'">' %}
+        {% set nav = nav ~ '</div>' %}
+        {% set nav = nav ~ '<a class="a-img" href="'~ c.viewLink ~ '"><span>' ~ c.name | raw ~ '</span><span class="label_ "></span></a>' %}
+        {% set nav = nav ~ '</div>' %}
+        {# {% endif %} #}
+    {% endfor %}
+    {% set nav = nav ~'</div>' %}
+{% endif %}
+{% if(getCategories() is not empty) %}
+    {% set nav = nav ~ '<div class="listright">' %}
+    {% for c in getCategories() %}
+        {% set nav = nav ~ '<div id="data-'~ loop.index ~'" class="item_listlink">' %}
+        {% set nav = nav ~ '<h4><a href="'~ c.viewLink ~ '">' ~ c.name | raw ~ '</a></h4>' %}
+        {% if(c.childs is not empty) %}
+            {% set nav = nav ~ '<ul class="ul_level0 ulrightnav">' %}
+            {% for c1 in c.childs %}
+                {% set nav = nav ~ '<li class="li_level0">' %}
+                {% set nav = nav ~ '<a href="'~ c1.viewLink ~ '" title=""><span>' ~ c1.name | raw ~ '</span></a>' %}
+                {% if c1.child is not empty %}
+                    {% set nav = nav ~ '<i class="fa fa-angle-down"></i>' %}
+                    {% set nav = nav ~ '<ul class="ul_level1" style="display:none;">' %}
+                    {% for c2 in c1.child %}
+                        {% set nav = nav ~ '<li class="li_level1 ">' %}
+                        {% set nav = nav ~ '<div class="image">' %}
+                        {% set nav = nav ~ '<img src="'~c2.icon~'" alt="'~ c2.name | raw ~'">' %}
+                        {% set nav = nav ~ ' </div>' %}
+                        {% set nav = nav ~ ' <a href="'~ c2.viewLink ~ '"><span>' ~ c2.name | raw ~ '</span></a>' %}
+                        {% set nav = nav ~ ' </li>' %}
+                    {% endfor %}
+                    {% set nav = nav ~ ' </ul>' %}
+                {% endif %}
+                {% set nav = nav ~ '</li>' %}
+            {% endfor %}
+            {% set nav = nav ~ '</ul>' %}
+        {% endif %}
+        {% set nav = nav ~ '</div>' %}
+    {% endfor %}
+    {% set nav = nav ~ '</div>' %}
+{% endif %}
+
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

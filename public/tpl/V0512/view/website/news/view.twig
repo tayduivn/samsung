@@ -1,0 +1,54 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+    <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+    <meta property="og:title" content="{{ news.title | e('html') }}">
+    <meta property="og:url" content="{{ news.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+{#    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/news.css' }}" type="text/css">#}
+{% endblock %}
+{% block body %}
+
+<section class="news-page">
+    <div class="top-bar__spacer"></div>
+    <div class="breadcrumb-Abus d-none d-sm-block">
+        <div class="breadcrumb-inner mx-auto">
+            {{ breadcrumbs.build(buildBreadcrumbs(category)) }}
+        </div>
+    </div>
+    <div class="news-page__banner">
+        <img src="{{ category.pictureUri ? : '/tpl/V0512/img/kien-thuc-ve-an-ninh.jpg' }}" alt="{{ category.Name }}">
+    </div>
+    <div class="container mx-auto pt-4">
+        <div class="col-12">
+            {{ news.content |raw }}
+        </div>
+    </div>
+</section>
+    <style>
+        header{
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        header .short-nav path{
+            color: #262626;
+        }
+        header span.search-field__label__text,header .search-form span.search-field__icon path{
+            color: #575557;
+        }
+        .news-page img,.news-page iframe{
+            height: auto !important;
+        }
+        @media (min-width: 992px){
+            header .search-form {
+                border: 1px solid #f5f5f5;
+            }
+        }
+    </style>
+{% endblock %}

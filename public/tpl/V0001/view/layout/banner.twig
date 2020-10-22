@@ -1,0 +1,44 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+
+{% set banner_home = getBannerByPositionCode('BANNER_HOME') %}
+{% if(banner_home is not empty) %}
+    {% set banner = banner ~ '<div id="bannerSlide" class="owl-carousel owl-theme">' %}
+    {% for c in banner_home %}
+        {% set imageSlide = c.imagesrc %}
+        {% set options = {
+            alt: c.name,
+            lazy: true,
+            openDiv: false,
+        } %}
+        {% set banner = banner ~ '<a href="javascript:void(0)" class="item">'~macroLazyFocusImager.LazyFocusImager(imageSlide,options) %}
+        {% set banner = banner ~ '</a>' %}
+    {% endfor %}
+    {% set banner = banner ~ '<a href="javascript:void(0)" class="item"><img data-sizes="auto" alt="" src="/tpl/V0001/img/2019/slider.png" class="lazyload"></a>' %}
+
+    {% set banner = banner ~ '</div>' %}
+{% endif %}
+{{ saveCache(keyMenu, banner | raw, 1800) }}
+{{ banner | raw }}
+<script>
+    if ($("body #bannerSlide").length) {
+        $("#bannerSlide").owlCarousel({
+            autoPlay: true,
+            lazyLoad: true,
+            items: 1,
+            loop: false,
+            autoplay: true,
+            smartSpeed: 3000,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            dots: false,
+            nav: true,
+            navText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>', '<i class="fa" aria-hidden="true"></i>'],
+        });
+    }
+</script>

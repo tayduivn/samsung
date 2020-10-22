@@ -1,0 +1,239 @@
+{% set products = serviceCart().products %}
+{% set totalCartMoney = serviceCart().totalMoney %}
+{#<script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>#}
+<script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+
+
+
+{% if (products) %}
+    <div class="title-popup-cart">
+        <img src="//theme.hstatic.net/1000329721/1000424884/14/ico_check_.png?v=22"  alt="dl_goshopping"/> <span class="your_product">Bạn đã thêm vào giỏ hàng thành công ! </span>
+    </div>
+        <div class="wrap_popup">
+            <div class="title-quantity-popup" >
+                <span class="cart_status" onclick="window.location.href='/cart';">Giỏ hàng của bạn có <span class="cart-popup-count">{{ serviceCart().totalQuantities }}</span> sản phẩm </span>
+            </div>
+            <div class="content-popup-cart">
+                <div class="thead-popup">
+                    <div style="width: 53%;" class="text-left">Sản phẩm</div>
+                    <div style="width: 15%;" class="text-center">Đơn giá</div>
+                    <div style="width: 15%;" class="text-center">Số lượng</div>
+                    <div style="width: 17%;" class="text-center">Thành tiền</div>
+                </div>
+                {% for p in products %}
+                {% set image = p.thumbnailUri %}
+                {% set discount = p.priceAfterDiscount(p.quantity) %}
+                <div class="tbody-popup scrollbar-dynamic">
+                    <div class="item-popup productid-1033569869">
+                        <div style="width: 15%;" class="border height image_ text-left">
+                            <div class="item-image">
+                                <a class="product-image" href="" title="Bình đựng nước giữ nhiệt 350ml nhựa dẻo">
+                                    <img alt="" data-image="{{ image }}" src="{{ image }}"  width="90"></a></div></div><div style="width:38.8%;" class="height text-left">
+                            <div class="item-info">
+                                <p class="item-name">
+                                    <a class="text2linex" href="" title="Bình đựng nước giữ nhiệt 350ml nhựa dẻo">{{ p.name }}</a>
+                                </p>
+                                <span class="variant-title-popup">{{ p.name }}</span>
+                                <a href=""   class="cart__remove product-remove"  psid="{{ p.id }}" title="Xóa sản phẩm" >
+                                    <i class="fa fa-close"></i>&nbsp;&nbsp;Xoá sản phẩm</a>
+                                <p class="addpass" style="color:#fff;margin:0px;">1033569869</p>
+                            </div>
+                        </div>
+                        <div style="width: 15.2%;" class="border height text-center">
+                            <div class="item-price">
+                                <span class="price">{{p.price|number_format(0) }}₫</span>
+                            </div>
+                        </div>
+                        <div style="width: 15.4%;" class="border height text-center">
+                            <div class="qty_thuongdq check_" data-label="Số lượng" data-value="{{ p.quantity }}">
+                                {{ p.quantity }}
+                            </div>
+                        </div>
+                        <div style="width: 15%;" class="border height text-center">
+																								<span class="cart-price"> <span class="price">{{ p.price * p.quantity | number_format(0)}}₫</span>
+																								</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="tfoot-popup">
+                    <div class="tfoot-popup-1 a-right clearfix">
+                        <span class="total-p popup-total">Tổng tiền thanh toán: <span class="total-price">{{ totalCartMoney | number_format(0)}}₫</span></span>
+                    </div>
+                    <div class="tfoot-popup-2 clearfix">
+                        <a class="button buy_ btn-proceed-checkout" title="tiếp tục mua hàng" href="javascript:;" onclick="$('#popup-cart').modal('hide');"><span><span>Tiếp tục mua hàng</span></span></a>
+                        <a class="button checkout_ btn-proceed-checkout" title="Thực hiện thanh toán" href="/cart/checkout?emptylayout=true"><span>Thực hiện thanh toán</span></a>
+
+                    </div>
+                </div>
+            </div>
+            <a title="Close" class="quickview-close close-window " href="javascript:;"  data-dismiss="modal" aria-label="Close" onclick="$('#popup-cart').modal('hide');"><i class="fa  fa-close"></i></a>
+        </div>
+{% else %}
+    <div class="title-popup-cart">
+        <img src="//theme.hstatic.net/1000329721/1000424884/14/ico_check_.png?v=22"  alt="dl_goshopping"/> <span class="your_product">Chưa có sản phẩm nào được thêm ! </span>
+    </div>
+
+    <div class="title-quantity-popup" style="margin-left: 320px;" >
+        <span class="cart_status">Giỏ hàng của bạn có <span class="cart-popup-count">0</span> sản phẩm </span>
+    </div>
+
+    <div class="tfoot-popup">
+
+        <div class="tfoot-popup-2 clearfix">
+            <a class=" btn btn-primary" title="tiếp tục mua hàng" style="background: #337ab7" href="/"  onclick="$('#popup-cart').modal('hide');"><span><span>Tiếp tục mua hàng</span></span></a>
+
+        </div>
+    </div>
+{% endif %}
+
+<script>
+    $(document).ready(function () {
+        /*********************** Quantily up Down ***************************/
+        $('#Quantity').change(function () {
+            var products = [], ps = {};
+            ps['id'] = $(this).attr('psid');
+            ps['quantity'] = $(this).val();
+            products.push(ps);
+            addToCart(products, 2, function (rs) {
+                $('.update-cart').click(function (e) {
+                    if (e.target) {
+                        $('#modalAddComplete').fadeOut();
+                        addToCart(products, 2, function (rs) {
+                            if (rs.status == 1) {
+                                $('.modal-cart-sum h3 span').html(numberFomart(rs.data.totalMoney));
+                                $('#modalAddComplete').fadeIn();
+                            }
+                        });
+                    }
+                })
+            });
+
+        });
+
+        $('.modalAddComplete-close').click(function () {
+            $('#modalAddComplete').fadeOut();
+        });
+
+        $(".added-form").submit(function(e){
+            e.preventDefault();
+
+        });
+
+        $('.js-qty__adjust--minus').on('click', function () {
+            var item = $(this).next('#Quantity'),
+                min = 1, qty = parseInt(item.val());
+            if (qty > min) {
+                qty--;
+                item.val(qty);
+                changeQtyCart(item.attr('psId'), qty);
+            } else {
+                alert('Bạn phải đặt số lượng tối thiểu là 1 sản phẩm !');
+            }
+        });
+        $('.js-qty__adjust--plus').on('click', function () {
+            var item = $(this).prev('#Quantity'),
+                max = parseInt(item.attr('max')),
+                qty = parseInt(item.val());
+            qty++;
+            if (qty <= max) {
+                item.val(qty);
+                changeQtyCart(item.attr('psId'), qty);
+
+            } else {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+            }
+        });
+
+        $('.cart__remove').click(function (e) {
+            var id = $(this).attr('psid');
+            removeCart(id, true);
+            e.preventDefault();
+        });
+
+        $('.btnCloseQVCart').click(function () {
+            $('.quickview-cart').hide();
+        })
+    });
+
+    function changeQtyCart(id, qty) {
+        var products = [{id: id, quantity: qty}];
+        addToCart(products, 2, function (rs) {
+            if (rs.status) {
+                //window.location.reload();
+                var totalPrice = 0;
+                $totalItem = 0;
+                $('.cart__row.table__section').each(function () {
+                    var t = $(this), price = parseInt(t.attr('price')),
+                        qty = parseInt(t.find('#Quantity').val());
+                    t.find('.itemPrice span').html(numberFomart(price * qty) + 'VNĐ');
+                    totalPrice += price * qty;
+                    $totalItem += qty;
+                    $('.mg-left-15').each(function () {
+                        if (t.find('a').attr('href') == $(this).find('a').attr('href')) {
+                            $(this).find('.quantity').html('Số lượng: ' + qty);
+                        }
+                    });
+                    $('.qv-cart-total span').html(totalPrice + '₫');
+                });
+                $('.cart__subtotal').html(numberFomart(totalPrice) + 'VNĐ');
+                $('.hd-cart-count').html($totalItem);
+                // $('.desktop-cart-wrapper1.wow.fadeInRight .hd-cart .hd-cart-count').html($totalItem);
+                $('#cart-top h3').html('Giỏ hàng của tôi (' + $totalItem + ' sản phẩm)')
+                $('.count-cart').html($totalItem);
+            }
+        });
+    }
+
+
+    function removeCart(prodId, delItem) {
+        var check = confirm('bạn có muốn xóa sản phẩm này' + '?');
+        if (check) {
+            $('#myModal').fadeOut();
+            $.post('/cart/remove',{'psId' : prodId},
+                function(rp) {
+                    if (delItem) {
+                        $('.cartItem_' + prodId).remove();
+                        var totalPrice = 0;
+                        var $totalItem = 0;
+                        $('.content-popup-cart .tbody-popup').each(function () {
+                            var t = $(this), price = parseInt(t.attr('price')),
+                                qty = parseInt(t.find('.product-actions').attr('data-value'));
+                            t.find('.total-p').html(numberFomart(price * qty) + 'VNĐ');
+                            totalPrice = price * qty;
+                            $totalItem += qty;
+                        });
+                        $('.cart-price').text(numberFomart(totalPrice) + 'VNĐ');
+                        $('.count-cart span').html($totalItem);
+                        ajaxLoadView({
+                            view: 'topCart',
+                            onSuccess: function (rs) {
+                                var t = $('#popup-cart-desktop ');
+                                t.html(rs);
+                                $('#myModal').fadeIn();
+                            }
+                        });
+
+                        // document.location.href = '/cart';
+                    } else {
+                        document.location.href = '/cart';
+                    }
+                });
+        }
+    }
+
+    $(window).click(function (e) {
+        var modal = document.getElementById('modalAddComplete');
+        if (e.target == modal) {
+            $('#modalAddComplete').fadeOut();
+        }
+    })
+
+    // $(document).ready(function () {
+    //     if ($(window).width() <= 768) {
+    //         $('.desktop-cart-wrapper1.wow.fadeInRight .hd-cart').click(function () {
+    //             window.location.href = '/cart';
+    //         })
+    //     }
+    // })
+</script>

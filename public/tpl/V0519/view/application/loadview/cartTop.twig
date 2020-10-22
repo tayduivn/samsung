@@ -1,0 +1,108 @@
+{% set quantity = serviceCart().totalQuantities %}
+{% set products= serviceCart().getProducts %}
+{% if (products) %}
+    <h3 class="total-qty-line" data-quantity="{{ quantity }}">
+        Giỏ hàng của tôi ({{ quantity }} sản phẩm)
+        <span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+    </h3>
+    <ul class="no-bullets text-left">
+        {% for p in products %}
+            {% set discount = p.priceAfterDiscount(p.quantity) %}
+            <li class="cart-item cartItem_{{ p.id }}" price="{{ discount ? discount : p.price }}">
+                <a class="cart__remove cart__remove_top" psid="{{ p.id }}"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <div class="grid mg-left-15">
+                    <div class="grid__item large--four-twelfths medium--four-twelfths small--four-twelfths pd-left15">
+                        <div class="cart-item-img text-center">
+                            <a href="{{ p.viewLink }}">
+                                <img src="{{ p.thumbnailUri }}" alt="{{ p.name }}">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pcart-info grid__item large--eight-twelfths medium--eight-twelfths small--eight-twelfths pd-left15">
+                        <div class="cart-item-info text-left">
+                            <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                        </div>
+                        <div class="cart-item-price-quantity text-left">
+                            <span class="quantity" data-qty="{{ p.quantity }}">Số lượng: {{ p.quantity }}</span>
+                            <span class="current-price">Giá/sp:
+                                {% if(discount > 0) %}
+                                    {{ discount|number_format(0) }}₫
+                                {% else %}
+                                    {% if (p.price is not empty and p.price <= 0) %}
+                                        Liên hệ
+                                    {% else %}
+                                        {{ p.price|number_format(0) }}₫
+                                    {% endif %}
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <div class="qv-cart-total" style="display: flex; justify-content: space-between">
+        {% set totalCartMoney = serviceCart().totalMoney %}
+        <div>Tạm tính: <span>{{ totalCartMoney|number_format(0) }}₫</span></div>
+        <span class="cart__remove__all_top" style="cursor:pointer;">Xóa tất cả</span>
+    </div>
+    <div class="quickview-cartactions clearfix">
+        <a href="/cart">Xem giỏ hàng</a>
+        <a href="/cart/checkout?emptylayout=true">Thanh toán</a>
+    </div>
+{% else %}
+    <h3>
+        Giỏ hàng trống
+        <span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+    </h3>
+    <ul class="no-bullets text-left">
+        <li>Bạn chưa có sản phẩm nào trong giỏ hàng!</li>
+    </ul>
+{% endif %}
+<script>
+    $('.btnCloseQVCart').click(function () {
+        $('.quickview-cart').hide();
+    })
+
+    $('.cart__remove_top').click(function () {
+        var id = $(this).attr('psid');
+        removeCartTop(id, true);
+    })
+
+    $('.cart__remove__all_top').click(function () {
+        removeCartTop();
+    });
+
+    function removeCartTop(prodId, delItem) {
+        var check = confirm('bạn có muốn xóa sản phẩm này' + '?');
+        if (check) {
+        $.post('/cart/remove',{'psId' : prodId},
+            function(rp) {
+                if (delItem) {
+                    $('.cartItem_' + prodId).remove();
+                    var totalPrice = 0;
+                    $totalItem = 0;
+                    $('#cart-top .cart-item').each(function () {
+                        var t = $(this), price = parseInt(t.attr('price')),
+                            qty = parseInt(t.find('.quantity').attr('data-qty'));
+                        t.find('.cart-item-price-quantity .current-price').html(numberFomart(price * qty) + 'VNĐ');
+                        totalPrice += price * qty;
+                        $totalItem += qty;
+                    });
+                    $('.qv-cart-total > div span').text(numberFomart(totalPrice) + 'VNĐ');
+                    $('.hd-cart-count').html($totalItem);
+                    ajaxLoadView({
+                        view: 'cartTop',
+                        onSuccess: function (rs) {
+                            $('.desktop-cart-wrapper #cart-top').html(rs);
+                        }
+                    });
+                    // document.location.href = '/cart';
+                } else {
+                    document.location.href = '/cart';
+                }
+            });
+        }
+    }
+
+</script>

@@ -1,0 +1,94 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+    {% set nav = nav ~ '<div class="grid__item large--ten-twelfths">' %}
+        {% set nav = nav ~ '<div class="medium-down--hide">' %}
+           {% if(getCategories()) %}
+               {% set nav = nav ~ '<ul class="no-bullets hd-menu">' %}
+               {% set nav = nav ~ '<li class="menu-item wow fadeInRight active " data-wow-delay="0.2s" data-wow-duration="0.75s"><a href="/">Trang chủ </a></li>' %}
+               {% set nav = nav ~ '<li class="menu-item wow fadeInRight" data-wow-delay="0.2s" data-wow-duration="0.75s">' %}
+
+               {% set nav = nav ~ '<div class="megamenu-menu">' %}
+               {% set nav = nav ~ '<ul class="no-bullets">' %}
+               {% for c in getCategories() %}
+                   {% set nav = nav ~ '<li class="clearfix">' %}
+                   {% set nav = nav ~ '<a href="' ~ c.viewLink ~ '">' %}
+                   {% set nav = nav ~ c.name %}
+                   {% if (c.childs) %}
+                       {% set nav = nav ~ '<ul class="no-bullets">' %}
+                       {% for c1 in c.childs %}
+                       {% set nav = nav ~ '<li class="clearfix">' %}
+                       {% set nav = nav ~ '<a href="' ~ c1.viewLink ~ '">' %}
+                       {% set nav = nav ~ c1.name | raw %}
+                       {% set nav = nav ~ '</a>' %}
+                       {% endfor %}
+                       {% set nav = nav ~ '</ul>' %}
+                   {% endif %}
+                   {% set nav = nav ~ '</a>' %}
+                   {% set nav = nav ~ '</li>' %}
+               {% endfor %}
+               {% set nav = nav ~ '</ul>' %}
+               {% set nav = nav ~ '</div>' %}
+
+               {% set nav = nav ~ '</a>' %}
+               {% set nav = nav ~ '</li>' %}
+               {% for c in getCategories() %}
+                   {% set nav = nav ~ '<li class="menu-item wow fadeInRight  megamenu" data-wow-delay="0.4s" data-wow-duration="0.75s">' %}
+                   {% set nav = nav ~ '<a href="' ~ c.viewLink ~ '">' ~ c.name | raw ~ ' '  %}
+                   {% if(c.childs) %}
+                       {% set nav = nav ~ '<i class="fa fa-angle-down" aria-hidden="true"></i>' %}
+                       {% set nav = nav ~ '<div class="megamenu-menu">' %}
+                       {% set nav = nav ~ '<ul class="no-bullets clearfix">' %}
+                       {% for child in c.childs %}
+                           {% set nav = nav ~ '<li class="clearfix">' %}
+                                {% set nav = nav ~ '<a href="' ~ child.viewLink ~ '">' %}
+                                    {% set nav = nav ~ child.name | raw %}
+                                   {% if (child.childs) %}
+                                       {% set nav = nav ~ '<ul class="no-bullets">' %}
+                                       {% for c2 in child.childs %}
+                                           {% set nav = nav ~ '<li class="clearfix">' %}
+                                               {% set nav = nav ~ '<a href="' ~ c2.viewLink ~ '">' %}
+                                               {% set nav = nav ~ c2.name | raw %}
+                                               {% set nav = nav ~ '</a>' %}
+                                           {% set nav = nav ~ '<li>' %}
+                                       {% endfor %}
+                                       {% set nav = nav ~ '</ul>' %}
+                                   {% endif %}
+                                {% set nav = nav ~ '</a>' %}
+                           {% set nav = nav ~ '</li>' %}
+                       {% endfor %}
+                       {% set nav = nav ~ '</ul>' %}
+                       {% set nav = nav ~ '</div>' %}
+                   {% endif %}
+                   {% set nav = nav ~ '</a>' %}
+                   {% set nav = nav ~ '</li>' %}
+               {% endfor %}
+               {% set nav = nav ~ '<li class="menu-item wow fadeInRight" data-wow-delay="0.2s" data-wow-duration="0.75s">' %}
+               {% set nav = nav ~ '<a href="/news">' %}
+               {% set nav = nav ~ 'Tin tức ' %}
+               {% set newsCategory = getNewsCategories() %}
+               {% if (newsCategory) %}
+                   {% set nav = nav ~ '<i class="fa fa-angle-down" aria-hidden="true"></i>' %}
+                   {% set nav = nav ~ '<div class="dropdown-menu">' %}
+                   {% set nav = nav ~ '<ul class="no-bullets">' %}
+                   {% for n in newsCategory %}
+                       {% set nav = nav ~ '<li class="clearfix">' %}
+                       {% set nav = nav ~ '<a href="' ~ n.viewLink ~ '">' %}
+                       {% set nav = nav ~ n.name | raw %}
+                       {% set nav = nav ~ '</a>' %}
+                       {% set nav = nav ~ '<li>' %}
+                   {% endfor %}
+                   {% set nav = nav ~ '</ul>' %}
+                   {% set nav = nav ~ '</div>' %}
+               {% endif %}
+               {% set nav = nav ~ '</a>' %}
+               {% set nav = nav ~ '</li>' %}
+               {% set nav = nav ~ '</ul">' %}
+           {% endif %}
+        {% set nav = nav ~ '</div>' %}
+    {% set nav = nav ~ '</div>' %}
+
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

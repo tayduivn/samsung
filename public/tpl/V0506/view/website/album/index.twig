@@ -1,0 +1,44 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Album').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Album">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    <section class="album_a2">
+        <div class="container">
+            <div class="row">
+                {% if(albums.currentModels) %}
+                    {% for a in albums.currentModels %}
+                        {% set image = a.thumbnailUri %}
+                        {% set options = {
+                            alt: a.name,
+                            class: 'img_thumb_album',
+                            lazy: true,
+                            openDiv: false,
+                        } %}
+                        <div class="col-md-4 col-sm-2 col-6">
+                            <div class="items_album">
+                                <div class="imge_album_a2">
+                                    <a href="{{ a.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="albumTitle_a2">
+                                    <a href="{{ a.viewLink }}">{{ a.name }}</a>
+                                    <div class="btn_album"><a href="{{ a.viewLink }}">Xem chi tiết</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="col-md-12 content_sortPagiBar pagi">
+                        <div id="pagination" class="clearfix">
+                            {{ paginationControl(albums, 'Sliding', 'partial/paginatorBoostrap') }}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

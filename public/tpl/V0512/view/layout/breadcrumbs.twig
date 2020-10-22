@@ -1,0 +1,27 @@
+{% macro build(breadcrumbs) %}
+    {% set breadcrumb = null %}
+    {% if(breadcrumbs) %}
+        {% set breadcrumb = breadcrumbs %}
+    {% endif %}
+    <ul class="p-0 mb-0 d-flex flex-wrap" >
+        <li >
+            <a href="/"class="d-inline-block">
+                <span itemprop="name">Abus</span>
+            </a>
+        </li>
+        {% if(breadcrumb) %}
+            {% set k = 1 %}
+            {% for br in breadcrumb %}
+                {% set uri = (br['uri'])?br['uri']:'' %}
+                {% set name = (br['label'])?br['label']:'' %}
+                {% set class = (br['class'])?br['class']:'' %}
+                <li class="{{ class }}" >
+                    <a class="d-inline-block" href="{{ uri }}">
+                        <span itemprop="name">{{ name }}</span>
+                    </a>
+                </li>
+                {% set k = k + 1 %}
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endmacro %}

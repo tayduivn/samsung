@@ -1,0 +1,48 @@
+{% macro build(breadcrumbs) %}
+    {% set setUlClass = 'breadcrumbs' | raw %}
+    {% if(setUlClass) %}
+        {% set setUlClass = setUlClass %}
+    {% endif %}
+    {% set breadcrumb = null %}
+    {% if(breadcrumbs) %}
+        {% set breadcrumb = breadcrumbs %}
+    {% endif %}
+
+    <div class="{{ setUlClass | raw }}">
+        <div class="container">
+            <div class="inner">
+                <ul class="breadcrumb">
+                    <li class="home">
+                        <a href="/"><span>Trang chủ</span></a>
+                        <span><img src="{{ '/tpl/V0518/imgs/right-arrow.png' }}"></span>
+                    </li>
+                    {% if(breadcrumb) %}
+                        {% set k = 1 %}
+                        {% for br in breadcrumb %}
+                            {% if(br==breadcrumb|last) %}
+                                {% set uri = (br['uri'])?br['uri']:'' %}
+                                {% set name = (br['label'])?br['label']:'' %}
+                                {% set class = (br['class'])?br['class']:'' %}
+                                {% set rel = (br['rel'])?br['rel']:'' %}
+                                    <li>
+                                        <strong><span>{{ name }}</span></strong>
+                                    </li>
+                                {% set k = k + 1 %}
+                            {% else %}
+                                {% set uri = (br['uri'])?br['uri']:'' %}
+                                {% set name = (br['label'])?br['label']:'' %}
+                                {% set class = (br['class'])?br['class']:'' %}
+                                {% set rel = (br['rel'])?br['rel']:'' %}
+                                <li>
+                                    <strong><span>{{ name }}</span></strong>
+                                    <img src="{{ '/tpl/V0518/imgs/right-arrow.png' }}">
+                                </li>
+                                {% set k = k + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,58 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đăng ký').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng ký">
+    <meta name="keywords" content="Đăng ký">
+    <meta property="og:url" content="/user/signup">
+    <meta property="og:title" content="Đăng ký">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/user.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="containerMain">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-header" style="margin: 36px 0 18px; font-size: 18px">
+                    <h1>{{ translate('Đăng ký') }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="customer_login">
+                    {% if(success) %}
+                        {{ message }}
+                    {% else %}
+                        {{ partial('partial/form',{'form':form}) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .page-header{
+            text-align: center;
+        }
+        #customer_login > form > ul{
+            /*-webkit-column-count: 2;*/
+            /*-moz-column-count: 2;*/
+        }
+        #customer_login{
+            text-align: center;
+            margin: auto;
+            max-width: 600px;
+        }
+        #customer_login>form>ul>li{
+            margin-bottom: 10px;
+        }
+        #customer_login>form#UserSignup>ul>li.btns{
+            float: none;
+            margin-right: 0;
+        }
+        #customer_login>form>ul>li input#btnSubmit{
+            min-width: 200px;
+        }
+    </style>
+{% endblock %}

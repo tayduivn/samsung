@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!--     <link rel="stylesheet" href="/tpl/V0508/css/style.css">
+        <link rel="stylesheet" href="/tpl/V0508/css/slide-hastag.css"> -->
+    <meta charset="utf-8">
+    {% set appId = getAppId() %}
+    {% if(appId) %}
+        <meta name="fb:app_id" content="{{ appId }}">
+    {% endif %}
+    {% set extraSettingsArray =  extraSettings() %}
+    {% if(extraSettingsArray['gta']['generatedTimeAndAuthor']) %}
+        {% if(extraSettingsArray['gta']['generatedTimeAndAuthor'] == 1) %}
+            {% set display = 'block' %}
+        {% endif %}
+    {% else %}
+        {% set display = 'none' %}
+    {% endif %}
+    <link href="{{ getFavicon() ?: '/images/favicon.ico' }}" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    {{ headMeta().appendName('viewport', 'width=device-width, initial-scale=1.0').appendHttpEquiv('X-UA-Compatible', 'IE=edge')|raw }}
+    {% block meta %}{% endblock %}
+{#    {% set styleSheet = [#}
+{#        '/css/fontAwesome/font-awesome-4.7.0.min.css',#}
+{#        '/css/owlCarousel/owl.carousel.min.2.3.4.css',#}
+{#        '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.css',#}
+{#        templatePath ~'/css/boootstrap4.4.1.css',#}
+{#        templatePath ~'/css/reponsive.css',#}
+{#        templatePath ~'/css/plugin-slick.css',#}
+{#        templatePath ~'/css/style.css',#}
+{#        templatePath ~'/css/slide-hastag.css',#}
+{#        templatePath ~'/css/header.css',#}
+
+{#    ] %}#}
+    {% set styleSheet = [
+        '/css/fontAwesome/font-awesome-4.7.0.min.css',
+        '/css/owlCarousel/owl.carousel.min.2.3.4.css',
+        '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.css',
+        templatePath ~'/css/boootstrap4.4.1.css',
+        templatePath ~'/css/plugin-slick.css',
+        templatePath ~'/css/style.css',
+        templatePath ~'/css/magic-popup.css',
+        templatePath ~'/css/plugin-animate.css',
+
+    ] %}
+    <link rel="stylesheet" href="{{ srcLink(styleSheet,3) }}" type="text/css">
+    {{ loadScripts({'positionHead':true}) | raw }}
+</head>
+<body>
+
+
+{#    {% include 'layout/header' %}#}
+{#    {% block body %}{% endblock %}#}
+{#    {% block stylesheets %}{% endblock %}#}
+{#    {% include 'layout/footer' %}#}
+
+{#{{ loadScripts() | raw }}#}
+{#{{ headScript }}#}
+{#{{ inlineScript }}#}
+
+
+
+{% set script = [
+    '/js/jquery/jquery.min.js',
+    '/js/lib.js',
+    '/js/jquery/jquery-ui-1.10.3.custom.min.js',
+    '/js/jquery/jquery.number.min.js',
+    '/js/translate/vi-vn.js',
+    '/js/translate/en-us.js',
+    templatePath ~'/js/script.js',
+
+] %}
+
+
+
+
+<script type="text/javascript" src="{{ srcLink(script,3) }}"></script>
+<div class="layout-ovl-hiden-x">
+{% block script %}{% endblock %}
+{% if(layout().showOnlyContent == true) %}
+    {% block checkout %}{% endblock %}
+    {{ loadScripts() | raw}}
+    {{ headScript }}
+    {{ inlineScript }}
+{% else %}
+    {% include 'layout/header' %}
+    {% block body %}{% endblock %}
+
+    {{ loadScripts() | raw}}
+    {{ headScript }}
+    {{ inlineScript }}
+    {% include 'layout/footer' %}
+{% endif %}
+</div>
+</body>
+</html>

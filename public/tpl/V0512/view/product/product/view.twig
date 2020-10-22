@@ -1,0 +1,180 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    {% set metaDescription = product.name()~ ' - '~product.price|number_format(0)~' đ' %}
+    <meta name="description" content="{{ metaDescription }}">
+    <meta name="keywords" content="{{ product.metaKeywords?:product.name }}">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="{{ product.name }}">
+    <meta property="og:description" content="{{ metaDescription }}">
+    <meta property="og:image" content="{{ 'https:'~product.imageUri }}">
+    <meta property="og:type" content="website">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/slick.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set ivt = product.inventory().calcAvailable() %}
+    {% if(getParam('preview')) %}
+        {% set ivt = 0 %}
+    {% endif %}
+    {% set priceDiscount = product.priceAfterDiscount %}
+    {% set showPrice = product.price %}
+    {% set oldPrices = null %}
+    {% if(priceDiscount > 0) %}
+        {% set showPrice = priceDiscount %}
+        {% set oldPrices = product.price %}
+    {% elseif(product.oldPrice) %}
+        {% set oldPrices = product.oldPrice %}
+    {% endif %}
+    {% set user = getUser() %}
+    {% set flag = 0 %}
+    {% set variableAttributes = product.variableAttributes %}
+    {% set valuesColor = null  %}
+    {% set valuesImage = null  %}
+    {% set color = variableAttributes['color'] %}
+    {% if color is not null or color is not empty %}
+       {% set valuesColor = color.childValues %}
+    {% endif %}
+{#    Product Attr Images#}
+    {% set psAttrImages =  variableAttributes['psimage']%}
+    {% if psAttrImages is not null or psAttrImages is not empty %}
+        {% set valuesImage = psAttrImages.childValues %}
+    {% endif %}
+
+{#    <pre>{{ dump(product) }}</pre>#}
+    <section class="productDetail-page">
+        <div class="breadcrumb-Abus d-none d-sm-block">
+            <div class="breadcrumb-inner mx-auto">
+                {% set buildBread = buildBreadcrumbs(category) %}
+                {% set buildBread = buildBread | merge ([{'label': ''~product.name,'uri': 'javascript:void(0)', 'class' : ''}]) %}
+                {{ breadcrumbs.build(buildBread) }}
+            </div>
+        </div>
+        <div class="productDetail-page__header d-flex align-items-center">
+            <div class="d-md-flex align-items-center width-content">
+                <div class="thumb-product">
+                    {% set childImgs = product.images %}
+                    {% if(childImgs is not empty) %}
+                        {% for v in childImgs %}
+                            <div class="thumb-product__item">
+                                <div class="thumb-product__item-img">
+                                    <img class="mx-auto" src="{{ v.thumbnailUri }}" alt="{{ product.name }}">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="thumb-product__item">
+                            <div class="thumb-product__item-img">
+                                <img class="mx-auto" src="{{  product.imageUri }}" alt="{{ product.name }}">
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="product-image">
+                    <div class="product-image__list">
+                        {% set childImgs = product.images %}
+                        {% if(childImgs is not empty) %}
+                            {% for v in childImgs %}
+                                <div>
+                                    <img src="{{ v.thumbnailUri }}" alt="{{ product.name }}">
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div>
+                                <img src="{{  product.imageUri }}" alt="{{ product.name }}">
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="infor-product">
+                    <h1 class="text-uppercase font-weight-bold position-relative beforePremium">{{ product.name | raw }}</h1>
+                    {% if(product.promotionContent is not empty) %}
+                    <p class="short-text">{{ product.promotionContent }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        {% if(product.description is not empty) %}
+        <div class="productDetail__description">
+            <div class="width-content mx-auto clearfix">
+                <div class="mob-4 tab-sm-4 tab-lg-12 dt-12 column">
+                    <p class="title-small font-weight-bold position-relative">Description</p>
+                </div>
+            </div>
+            <div class="width-content mx-auto clearfix">
+                <div class="description__column mob-4 tab-sm-4 tab-lg--offset-1 tab-lg-6 dt-5 column text">
+                    <p class="position-relative beforePremium productDetail__description--head font-weight-bold text-uppercase">
+                        <span class="d-block title-span">{{ product.name | raw }}</span>
+                        {{ product.otherName | raw }}
+                    </p>
+                    <div class="productDetail__description--content">
+                        {{ product.description | raw }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="productDetail__tabs-description">
+
+            <div class="">
+                <div class="style-mobileFilter">
+                    <nav class="width-content mx-auto d-none d-md-block clearfix header-tabs-pc">
+                        <div class="nav nav-tabs column" id="nav-tab" role="tablist">
+                            {% if(product.highlight) %}
+                            <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative nav-link active" data-toggle="tab" href="#highlight" role="tab" aria-controls="nav-highlight" aria-selected="true">highlight</a>
+                            {% endif %}
+{#                            <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>#}
+{#                            <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>#}
+                        </div>
+                    </nav>
+                    <div class="tab-content clearfix" id="nav-tabContent">
+                        {% if(product.highlight) %}
+                        <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative d-md-none">highlight <span class="d-md-none"><i class="fal fa-plus"></i></span></a>
+                        <div class="tab-pane show active width-content mx-auto clearfix" role="tabpanel" aria-labelledby="nav-highlight-tab">
+                            <div class="column">
+                                <ul class="m-0 p-0">
+                                    {% for hl in product.highlight %}
+                                    <li class="position-relative">{{ hl }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+{#                        <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative d-md-none">Profile <span class="d-md-none"><i class="fal fa-plus"></i></span></a>#}
+{#                        <div class="tab-pane width-content mx-auto clearfix" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">#}
+{#                            <div class="column">.2.</div>#}
+{#                        </div>#}
+
+{#                        <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative d-md-none tab-last">Contact <span class="d-md-none"><i class="fal fa-plus"></i></span></a>#}
+{#                        <div class="tab-pane width-content mx-auto clearfix" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">#}
+{#                            <div class="column">..3</div>#}
+{#                        </div>#}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        {% if(product.content is not empty) %}
+        <div class="specs">
+            <div class="width-content clearfix">
+                <div class="mob-4 tab-sm-4 tab-lg-12 dt-12 column">
+                    <p class="title-small font-weight-bold position-relative">Tech Specs</p>
+                </div>
+                <div class="mob-4 tab-sm-4 tab-lg-12 dt-12 column">
+                    {{ product.content | raw }}
+                </div>
+            </div>
+        </div>
+        </div>
+        {% endif %}
+    </section>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/slick.min.js' }}"></script>
+{% endblock %}

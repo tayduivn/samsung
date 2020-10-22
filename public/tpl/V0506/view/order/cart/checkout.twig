@@ -1,0 +1,328 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Thanh toán').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/css/validationEngine.jquery.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set products = serviceCart().products %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    <div class="content-checkout container clearfix">
+        <div class="wrap row">
+            <form action="" method="post" id="formCheckOut">
+                <div class="sidebar">
+                    <div class="sidebar-content">
+                        <div class="order-summary order-summary-is-collapsed" style="height: auto;">
+                            <div class="order-summary-sections">
+                                <div class="order-summary-section order-summary-section-product-list">
+                                    <table class="product-table">
+                                        <tbody>
+                                        {% if products is not empty %}
+                                            {% for p in products %}
+                                                {% set image = p.thumbnailUri %}
+                                                {% set options = {
+                                                    alt: p.name,
+                                                    lazy: true,
+                                                    openDiv: false,
+                                                    class: 'product-thumbnail-image',
+                                                } %}
+                                                <tr class="product">
+                                                    <td class="product-image">
+                                                        <div class="product-thumbnail">
+                                                            <div class="product-thumbnail-wrapper">
+                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                            </div>
+                                                            <span class="product-thumbnail-quantity"
+                                                                  aria-hidden="true">{{ p.quantity }}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-description">
+                                                        <span class="product-description-name order-summary-emphasis">{{ p.name }}</span>
+                                                    </td>
+                                                    <td class="product-quantity visually-hidden">{{ p.quantity }}</td>
+                                                    <td class="product-price">
+                                                        <span class="order-summary-emphasis">
+                                                            {% if (p.moneyDiscount) %}
+                                                                {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                                                {{ ttsMoney | number_format(0) }} VNĐ
+                                                            {% else %}
+                                                                {{ (p.price * p.quantity) | number_format(0) }} VNĐ
+                                                            {% endif %}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="order-summary-section order-summary-section-discount">
+                                    <div class="fieldset clearfix">
+                                        <p id="txtCode"></p>
+                                        <div class="field  ">
+                                            <div class="field-input-btn-wrapper">
+                                                <div class="field-input-wrapper">
+                                                    <input id="coupon" type="text" class="field-input"
+                                                           name="couponCode"
+                                                           placeholder="Mã giảm giá"/>
+                                                </div>
+                                                <button type="button" id="getCoupon"
+                                                        class="field-input-btn btn btn-default">
+                                                    <span class="btn-content">Sử dụng</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="order-summary-section order-summary-section-total-lines">
+                                    <table class="total-line-table">
+                                        <tbody>
+                                        <tr class="total-line total-line-subtotal">
+                                            <td class="total-line-name">Tạm tính</td>
+                                            <td class="total-line-price">
+                                                <span class="order-summary-emphasis">
+                                                    {{ totalCartMoney|number_format(0) }} VNĐ
+                                                </span>
+                                            </td>
+                                        </tr>
+
+                                        <tr class="total-line total-line-shipping">
+                                            <td class="total-line-name">Phí vận chuyển</td>
+                                            <td class="total-line-price">
+                                                <span id="shipFee" class="total-line-shipping pull-right"
+                                                      value="0">0 VNĐ</span>
+                                                <span id="showCarrier"></span>
+                                                <style>
+                                                    #showCarrier {
+                                                        display: block;
+                                                        text-align: right;
+                                                        width: 100%;
+                                                        font-size: 11px;
+                                                        clear: both;
+                                                    }
+
+                                                    .changeOrtherShipFee:hover {
+                                                        color: darkred;
+                                                        text-decoration: underline;
+                                                    }
+                                                </style>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                        <tfoot class="total-line-table-footer">
+                                        <input type="hidden" id="getMn" value="<?= $totalCartMoney ?>"/>
+                                        <input type="hidden" id="getShipFee" value=""/>
+                                        <tr class="total-line">
+                                            <td class="total-line-name payment-due-label">
+                                                <span class="payment-due-label-total">Tổng cộng</span>
+                                            </td>
+                                            <td class="total-line-name payment-due">
+                                                <span class="payment-due-price" id="showTotalMoney"
+                                                      value="{{ totalCartMoney }}">
+                                                    {{ totalCartMoney|number_format(0) }} VNĐ
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="step-footer">
+                                    <button type="submit" id="acceptCheckout" class="step-footer-continue-btn btn"
+                                            style="width: 100%; font-size: 17px;">
+                                        <span class="btn-content">Thanh toán</span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="main">
+                    <div class="main-content">
+                        <div class="step">
+                            <div class="step-sections">
+                                <div class="section">
+                                    <div class="section-header">
+                                        <h2 class="section-title">Thông tin giao hàng</h2>
+                                    </div>
+                                    <div class="section-content section-customer-information no-mb">
+                                        {% if(hasIdentity() is null) %}
+                                            <p class="section-content-text">
+                                                Bạn đã có tài khoản? <a href="/user/signin">Đăng nhập</a>
+                                            </p>
+                                        {% endif %}
+                                        <div class="fieldset">
+                                            <div class="field   ">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label" for="billing_address_full_name">Họ và
+                                                        tên</label>
+                                                    <input placeholder="Họ và tên"
+                                                           class="field-input validate[required]" size="30"
+                                                           type="text"
+                                                           name="customerName"
+                                                           value="{{ getUser().fullName? getUser().fullName: '' }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label" for="billing_address_phone">Số điện
+                                                        thoại</label>
+                                                    <input placeholder="Số điện thoại"
+                                                           class="field-input validate[required]" maxlength="11"
+                                                           type="tel" name="customerMobile"
+                                                           value="{{ getUser().mobile? getUser().mobile: '' }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label"
+                                                           for="checkout_user_email">Email</label>
+                                                    <input placeholder="Nhập email(nếu có)" class="field-input"
+                                                           type="email" name="customerEmail"
+                                                           value="{{ getUser().email? getUser().email: '' }}"/>
+                                                </div>
+                                            </div>
+                                            <div class="field   ">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label" for="billing_address_address1">Địa
+                                                        chỉ</label>
+                                                    <input placeholder="Địa chỉ" class="field-input validate[required]"
+                                                           size="30" type="text" name="customerAddress"
+                                                           value="{{ getUser().address? getUser().address: '' }}"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="section-content">
+                                        <div class="fieldset clearfix">
+                                            <div class="field field-half  ">
+                                                <div class="field-input-wrapper field-input-wrapper-select">
+                                                    <label class="field-label" for="customer_shipping_province">Tỉnh /
+                                                        thành</label>
+                                                    <select class="field-input validate[required] input" id="cityId"
+                                                            name="customerCityId">
+                                                        <option data-code="null" value="null" selected>Chọn tỉnh / thành
+                                                        </option>
+                                                        {% for city in cities %}
+                                                            <option {{ (user and user.cityLocationId == city.id ? 'selected' : '') }}
+                                                                    value="{{ city.Id }}">
+                                                                {{ city.nativeName }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="field field-half  ">
+                                                <div class="field-input-wrapper field-input-wrapper-select">
+                                                    <label class="field-label" for="customer_shipping_district">Quận /
+                                                        huyện</label>
+                                                    <select class="field-input validate[required] input" id="districtId"
+                                                            name="customerDistrictId">
+                                                        <option data-code="null" value="" selected>Chọn quận / huyện
+                                                        </option>
+                                                        {% if(user) %}
+                                                            {% set dts = getDistrict(user.cityLocationId) %}
+                                                            {{ toSelectBox(dts, user.districtLocationId) }}
+                                                        {% endif %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label" for="billing_address_address1">Ghi
+                                                        chú</label>
+                                                    <textarea name="description" class="input" placeholder="Ghi chú"
+                                                              rows="5"
+                                                              style="width: 100%;padding: 5px;box-shadow: 0 0 0 1px #d9d9d9;border-radius: 4px;transition: all .2s ease-out;">
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="baokimPmMethodId"
+                                                   name="baokimBankPaymentMethodId"/>
+                                            <input type="hidden" id="storeId" name="storeId"
+                                                   value="<?= $storeId; ?>"/>
+                                            <input type="hidden" name="shipFee" value="0"/>
+                                            <input type="hidden" id="mailManager" name="mailManager"
+                                                   value="{{ user.mobile }}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="step-footer">
+                                <a class="step-footer-previous-link" href="/cart">
+                                    <i class="fa fa-chevron-left"></i> Giỏ hàng
+                                </a>
+                            </div>
+                        </div>
+                        <div id="change_pick_location_or_shipping">
+                            <div class="section-header">
+                                <h2 class="section-title">Phương thức thanh toán</h2>
+                            </div>
+                            <div id="paymentMethod">
+                                <div class="b">
+                                    <label>
+                                        <input type="radio" id="rdPaymentMethodCod" name="paymentMethod"
+                                               class="validate[required] cod" checked
+                                               value="{{ constant('Order\\Service\\Payment\\Payment::PAYMENT_METHOD_COD') }}"
+                                               style="-webkit-appearance: radio;"/>
+                                        Thanh toán tại nhà
+                                    </label>
+                                </div>
+                                {% set methodlist = ['null','Thanh toán bằng thẻ ngân hàng nội địa','Thanh toán bằng thẻ quốc tế Visa/Master card',
+                                    'Thanh toán bằng internet Banking','Chuyển khoản tại máy ATM','Chuyển khoản tại quầy giao dịch Ngân hàng' ] %}
+                                {% set getbank = baokimPayment() %}
+                                {% if(getbank is not empty) %}
+                                    {% set b=0 %}
+                                    {% for method in getbank %}
+                                        {% set b = b+1 %}
+                                        <div class="b">
+                                            <label>
+                                                <input class="input-radio validate[required]" name="paymentMethod"
+                                                       type="radio" data-show=".bank{{ b }}"
+                                                       value="{{ constant('Order\\Service\\Payment\\Payment::PAYMENT_METHOD_GATEWAY') }}">
+                                                <span class="radio-label-primary">{{ methodlist[b] }}</span>
+                                            </label>
+                                            <div class="listBank bank{{ b }}">
+                                                {% if(method is not empty) %}
+                                                    {% for bank in method %}
+                                                        <span data-baokimPmId="{{ bank.id }}"><img src="{{ bank.logoUrl}}" title="{{ bank.name }}"/></span>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="main-ship">
+            <div id="tableShipFee"></div>
+            <style>
+                #tableShipFee {
+                    display: none
+                }
+            </style>
+        </div>
+    </div>
+    <div style="display: none">
+        <div id="progressbar" style="text-align: center;width: 120px;height: 120px;margin: 0 auto;overflow: hidden">
+            <img data-sizes="auto" class="lazyload" data-src="/tpl/V0506/img/temp/loading_spinner.gif"/>
+            <span>Đang xử lý....</span>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/order.js' }}"></script>
+{% endblock %}

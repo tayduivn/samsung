@@ -1,0 +1,44 @@
+
+{   "author":"PmTuan",
+  "sourceLink": "https://Nhanh.vn.com.vn/",
+  "domain":{
+    "storeId": 15113,
+    "name": "v0508.tuanpmstore2.bot3s.net",
+    "alias": "v0508.tuanpmstore2.bot3s.net"
+  },
+  "banners":{
+    "HOME_SLIDE":{
+      "name": "Banner chính trang chủ",
+      "description": "Kích cỡ banner 720x358",
+      "size": "720x358"
+    },
+    "HOME_HOT":{
+      "name": "Banner test",
+      "description": "Kích cỡ banner 720x358",
+      "size": "720x358"
+    },
+    "BANNER_HOME_BOT":{
+      "name": "Dịch vụ cặp tốt cuối trang",
+      "description": "Kích cỡ banner autox50",
+      "size": "auto"
+    },
+    "BANNER_TOP_ALBUM":{
+      "name": "Banner dưới trang album",
+      "description": "Kích cỡ banner 1900 x auto",
+      "size": "autox50"
+    },
+    "FOOTER_CERTIFICATE":{
+      "name": "Banner test 1",
+      "description": "Kích cỡ banner 720x358",
+      "size": "720x358"
+    }
+  },
+  "contents":{
+    "HOME":{
+      "name": "Trang chủ",
+      "keys": {
+
+      }
+    }
+  }
+}

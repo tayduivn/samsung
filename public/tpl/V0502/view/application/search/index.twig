@@ -1,0 +1,184 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ getParam('q') }}">
+{% endblock %}
+{% block body %}
+
+
+
+
+        <section class="bread-crumb">
+            <span class="crumb-border"></span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 a-left">
+                        <ul class="breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                            <li class="home">
+                                <a itemprop="url" href="/" ><span itemprop="title">Trang chủ</span></a>
+                                <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                            </li>
+                            <li><strong><span itemprop="title">Tìm kiếm</span></strong></li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="signup search-main">
+            <div class="container">
+                <div class="page_title">
+                    <h1 class="title_page_h1">Trang tìm kiếm
+                    </h1>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h2 class="title-head margin-bottom-20">kết quả tìm kiếm phù hợp</h2>
+                    </div>
+                    {% if(paginator) %}
+                    <div class="products-view-grid products cls_search col-lg-12 col-sm-12 col-xs-12 col-md-12">
+                        <div class="row">
+
+                            {% for p in paginator.currentModels %}
+                            {% set image = p.thumbnailUri %}
+                            {% set options = {
+                                alt: p.name,
+                                class: 'attachment-270x152 size-270x152 wp-post-image',
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+                            {% set percent = p.calcDiscountPercent %}
+                            {% set priceDiscount = p.priceAfterDiscount %}
+
+                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 product-col">
+                                <div class="item_product_main margin-bottom-20">
+                                    <div class="product-box product-item-main product-item-compare"
+                                         data-id="1017392473"
+                                         data-url="/products/bo-quan-ao-hong-ca-tinh"
+                                         data-title="Bộ quần áo hồng cá tính"
+                                         data-vendor="Her"
+                                         data-type ="Quần áo">
+
+                                        <div class="product-thumbnail">
+
+
+                                            <div class="label_icon discount">
+                                                21%
+                                            </div>
+
+
+
+
+
+                                            <a class="image_thumb" href="{{ p.viewLink }}" title="Bộ quần áo hồng cá tính">
+                                                <img src="{{ image }}"  data-lazyload="{{ image }}" alt="Bộ quần áo hồng cá tính">
+                                            </a>
+                                            <div class="product-action clearfix ">
+                                                <form action="/cart/add" method="post" class="variants form-nut-grid" data-id="product-actions-1017392473" enctype="multipart/form-data">
+                                                    <div class="group_action hvr-buzz-out">
+
+                                                        {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                        {% if(p.parentId == parentId) %}
+                                                            <a  class=" button_35 left-to muangay btnQuickView btnAddToCart quick-view"  data-psId="{{ p.id }}">
+                                                                <i class="fa fa-shopping-basket"></i>
+                                                            </a>
+                                                        {% else %}
+                                                            <a   class="button_35 left-to muangay btnAddToCart add-to-cart" data-toggle="modal" data-target="#myModal"  id="btnQuickCart" data-id="{{ p.id }}" ck="1" selid="{{ p.id }}" data-buy="1"   title="Cho vào giỏ hàng">
+                                                                <i class="fa fa-shopping-basket"></i>
+                                                            </a>
+                                                        {% endif %}
+
+
+                                                        <a href="" data-psId="{{ p.id }}" id="productQuickView"  title="Xem nhanh" class="button_35 tp_button btn_view right-to quick-view"><i class="fa fa-search-plus"></i></a>
+
+
+                                                        <a class="button_35 compare_button hidden" title="So sánh sản phẩm">
+                                                            <i class="fa fa-recycle"></i>
+                                                        </a>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="product-info product-bottom">
+                                            <h3 class="product-name"><a href="{{ p.viewLink }}" title="Bộ quần áo hồng cá tính">{{ p.name }}</a></h3>
+                                            <div class="product-item-price price-box">
+
+                                                {% if(priceDiscount > 0) %}
+                                                <span class="special-price">
+                                                    <span class="price product-price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                                                </span>
+
+                                                <span class="product-item-price-sale old-price">
+                                                    <span class="compare-price price product-price-old">{{ p.price|number_format(0) }} VNĐ </span>
+                                                </span>
+                                                {% elseif(p.oldprice) %}
+                                                    <span class="special-price">
+                                                    <span class="price product-price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                </span>
+
+                                                 <span class="product-item-price-sale old-price">
+                                                    <span class="compare-price price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                </span>
+                                                {% else %}
+                                                    <span class="special-price">
+                                                    <span class="price product-price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                </span>
+                                                {% endif %}
+
+
+
+
+
+                                            </div>
+
+                                            <div class="reviews_item_product">
+                                                <div class="bizweb-product-reviews-badge" data-id="1017392473"></div>
+                                            </div>
+
+
+
+
+
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    {% endif %}
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

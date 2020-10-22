@@ -1,0 +1,68 @@
+{% if(paginator.currentModels is not empty) %}
+                {% for p in paginator.currentModels %}
+                  {% set image = p.thumbnailUri %}
+                  {% set options = {
+                    alt: p.name,
+                    class: 'img is-full',
+                    lazy: true,
+                    openDiv: false,
+                  } %}
+                  {% set percent = p.calcDiscountPercent %}
+                  {% set priceDiscount = p.priceAfterDiscount %}
+                  {% set arrayIds = [p.id] %}
+                  <div class="col-6 col-sm-6 col-md-4">
+                    <div class="card">
+                      <div class="card-thumb">
+                        <a href="{{ p.viewLink }}">
+                          {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </a>
+                      </div>
+                      <div class="card-body">
+                        {% if(p.options.psGifts.name != null) %}
+                          <label class="card-free">{{ pro.options.psGifts.name }}</label>
+                        {% endif %}
+                        <a href="{{ p.viewLink }}">
+                          <span class="card-title">{{ pro.brandName }}</span>
+                        </a>
+                        <span class="card-name">{{ p.name | raw }}</span>
+                        <span class="card-price">{{ p.price | number_format(0) }}VNĐ
+                        {% if(p.priceAfterDiscount > 0) %}
+                          <strike>{{ p.priceAfterDiscount | number_format(0) }}</strike>
+                          {% elseif (p.oldPrice > 0) %}
+                          <strike>{{ p.oldPrice | number_format(0) }}</strike>
+                        {% endif %}
+                          {% if(p.discountPercent > 0) %}
+                            <span class="percent">{{ p.discountPercent }} %</span>
+                          {% endif %}
+                </span>
+                        <div class="box-button">
+                          {% set values = p.options.attrValues %}
+                          {% if(values) %}
+                            {% set count = 0 %}
+                            {% for button_color in values  %}
+                            {% set count = count + 1 %}
+                              {% if count <= 4 %}
+                                {% set color = button_color.options.attrContent %}
+                                <button class="card-button">
+                                  <span style="background-color: #{{color}}" data-src="{{ button_color.thumbnailUri }}"></span>
+                                </button>
+                              {% endif %}
+                            {% endfor %}
+                            {% if count > 4 %}
+                              <a href="{{ p.viewLink }}" class="button-add card-button__add"></a>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+                {% else %}
+                  <div class="d-flex flex-column justify-content-center align-items-center">
+                    <img src="/tp/V0509/img/temp/icons-search.png"
+                         alt="Không tìm thấy yêu cầu của bạn"
+                         class="img-notFound"
+                    >
+                    <h1 class="font-italic text-danger text-center">Xin lỗi ! Yêu cầu của bạn chúng tôi không tìm thấy !</h1>
+                  </div>
+              {% endif %}

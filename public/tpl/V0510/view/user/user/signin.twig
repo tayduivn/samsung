@@ -1,0 +1,122 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đăng nhập').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng nhập">
+    <meta name="keywords" content="Đăng nhập">
+    <meta property="og:url" content="/user/signin">
+    <meta property="og:title" content="Đăng nhập">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/user.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="containerMain">
+        <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="page-header" style="margin: 36px 0 18px; font-size: 18px">
+                    <h1>{{ translate('Đăng nhập') }}</h1>
+                </div>
+            </div>
+        </div>
+        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 col-xs-12" style="position: relative; padding: 0px 15px;">
+                <div id="customer_login">
+                    {{ partial('partial/form',{'form':form}) }}
+                </div>
+                <div id="signGF" style="">
+                    <a href="/user/fbsignin?redirect=/" id="signFacebook"><i class="fa fa-facebook"></i><span>Sign in with Facebook</span></a>
+                    <a href="/user/ggsignin" id="signGoogle"><i class="fa fa-google-plus"></i><span>Sign in with Google</span></a>
+                </div>
+                <p class="btnforget">
+                    <a rel="nofollow" href="/user/getpassword" style="text-decoration:underline;font-weight:bold">
+                        <i class="fa fa-question-circle"></i>
+                        {{ translate('Quên mật khẩu') }}
+                    </a>
+                </p>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+    </div>
+    </div>
+    <style>
+        #customer_login>form>ul>li>label{
+            width: 40%;
+        }
+        #btnSubmit {
+            width: 100%!important;
+            margin: 0 auto;
+        }
+        #signGF>a i{
+            text-align: center;
+            border-radius: 3px 0  0 3px;
+            font-size: 25px;
+            width: 40px;
+            padding: 5px 0;
+            border-right: 1px solid rgba(140, 137, 137, 0.55);
+        }
+        #signGF>a span{
+            text-align: center;
+            width: 160px;
+            display: inline-block;
+            vertical-align: top;
+            padding: 8px 0;
+            font-weight: bold;
+        }
+        #signGF>a{
+            display: inline-block !important;
+            width: 200px;
+            height: 36px;
+            border-radius: 3px;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+        #signFacebook>i{
+            background: #2f5181;
+        }
+        #signGoogle>i {
+            background: #b33924;
+        }
+        #signGoogle{
+            background: #e64d2d;
+        }
+        #signFacebook{
+            background: #3b5c91;
+        }
+        @media screen and (max-width: 480px) {
+            #signGF {
+                position: initial !important;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+        .page-header{
+            text-align: center;
+        }
+        #customer_login{
+            text-align: center;
+        }
+        #customer_login>form#UserSignin>ul>li.btns{
+            text-align: center;
+            float: none;
+            margin: 0 auto;
+        }
+        #signGF{
+            margin: 0 auto;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            text-align: center;
+        }
+        #customer_login>form>ul>li{
+            margin-bottom: 10px;
+        }
+        .btnforget{
+            text-align: center;
+        }
+    </style>
+{% endblock %}

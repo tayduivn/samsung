@@ -1,0 +1,13 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(agency.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ agency.name }}">
+    <meta property="og:url" content="{{ agency.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~agency.imageSrc }}">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+
+{% endblock %}

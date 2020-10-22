@@ -1,0 +1,54 @@
+{
+    "author": "doannv",
+    "sourceLink": "'https://lug.vn/",
+    "domain": {
+        "storeId": 15113,
+        "name": "V0509.doannvstore2.bot3s.net",
+        "alias": "V0509.doannvstore2.bot3s.net"
+    },
+    "banners": {
+        "BANNER_HOME": {
+            "name": "Banner chính trang chủ",
+            "description": "Kích cỡ banner",
+            "size": "Kích cỡ banner"
+        },
+        "BANNER_MIDDLE": {
+            "name": "4 banner ở giữa trang",
+            "description": "Kích cỡ banner 560x325",
+            "size": "560x325"
+        },
+        "BANNER_HOME_NEWS": {
+            "name": "slider banner ở gần cuối trang",
+            "description": "Kích cỡ banner 315x200",
+            "size": "315x200"
+        },
+        "BANNER_CUSTOMER": {
+            "name": "Banner khách hàng footer",
+            "description": "Kích cỡ banner 160x210",
+            "size": "160x210"
+        },
+        "BANNER_PRODUCT": {
+            "name": "Banner product",
+            "description": "Kích cỡ banner 1300x515",
+            "size": "1300x515"
+        },
+        "BANNER_BLOG": {
+            "name": "Banner blog",
+            "description": "Kích cỡ banner 1550x365",
+            "size": "1550x365"
+        },
+        "BANNER_JOURNEYS": {
+            "name": "Banner journeys home",
+            "description": "Kích cỡ banner 1300x550",
+            "size": "1300x550"
+        }
+    },
+    "contents": {
+        "HOME": {
+            "name": "Trang chủ",
+            "keys": {
+
+            }
+        }
+    }
+}

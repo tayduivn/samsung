@@ -1,0 +1,209 @@
+<header>
+    <nav class="menutop"><!-- menutop -->
+        <span class="title-menutop">BỘ SƯU TẬP MỚI NHẤT</span>
+        <div class="content-menu-top">
+            <a href="" class="content-menutop-item">MUA NGAY</a>
+            <a href="/album" class="content-menutop-item">XEM TOÀN BỘ BST MỚI</a>
+        </div>
+    </nav><!-- end menutop -->
+    <nav class="navbar">
+        <div class="container-lg container-sm-fluid">
+        <div class="navbar-body">
+
+                <input type="checkbox" id="click-show-input-search" class="click-show-input-search">
+                <div class="navbar-wrap">
+                    <div class="navbar-mobile-logo-click-js">
+                        <button class="toggle">
+                            <span></span>
+
+                        </button>
+                        <div class="title-menu-mobile-tablet">menu</div>
+                        <a href="/" class="logo-brand-mobile">
+                            <img src="{{ getLogoUri() }}" alt="logo" class="img-mobile" />
+                        </a>
+                        <div class="block-click-js-search-shoppingcart">
+                            <label for="click-show-input-search">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </label>
+                            <a href="javascript:0" class="click-js-shoppingcart button-live-cart"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <div class="navbar-nav">
+                        <div class="navbar-content">
+                            <button class="toggle">
+                                <span class="close-menu"></span>
+                            </button>
+                            <ul class="menu">
+                                <li class="menu-item menu-type2">
+                                    <div class="flex-arrow-fa">
+                                    <a href="/" class="menu-link">Trang chủ</a>
+                                    </div>
+                                </li>
+                                <li class="menu-item menu-type2">
+                                    <div class="flex-arrow-fa">
+                                    <a href="/product" class="menu-link">Sản Phẩm</a>
+                                    <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="submenu">
+                                            <ul>
+                                            {% set category = getCategories() %}
+                                                {% if(category is not empty) %}
+                                                    {% for category_array in category %}
+                                                <li>
+                                                    <a href="{{ category_array.viewLink }}"><img src="{{ category_array.imageUri }}" alt="{{ category_array.name }}"></a>
+                                                    <p><a href="{{ category_array.viewLink }}">{{ category_array.name }}</a></p>
+                                                </li>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </ul>
+
+                                    </div>
+                                </li>
+                                <li class="menu-item hot menu-type2">
+                                    <div class="flex-arrow-fa">
+                                    <a href="/promotion" class="menu-link">Sale</a>
+                                        <div class="submenu">
+                                            <ul>
+                                                {% for p in paginator.currentModels %}
+                                                    {% set image = p.thumbnailUri %}
+                                                    {% set options = {
+                                                        alt: p.name,
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    } %}
+                                                    {% set percent = p.calcDiscountPercent %}
+                                                    {% set priceDiscount = p.priceAfterDiscount %}
+                                                    {% set arrayIds = [p.id] %}
+                                                    <li>
+                                                        <a href="">{{ macroLazyFocusImager.LazyFocusImager(image,options) }}</a>
+                                                        <p><a href="{{ p.viewLink }}">{{ p.name }}</a></p>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                </li>
+                                <li class="menu-item news menu-type2">
+                                    <div class="flex-arrow-fa">
+                                    <a href="/news" class="menu-link">Tin Tức</a>
+                                    <i class="fa fa-angle-down arrow" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="submenu news">
+                                            <ul>
+                                                {% set newsCategory = getNewsCategories() %}
+                                                    {% if(newsCategory is not empty) %}
+                                                        {% for n in newsCategory %}
+                                                            <li>
+                                                                <a href="{{ n.viewLink }}">{{ n.name }}</a>
+                                                            </li>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                            </ul>
+
+                                    </div>
+                                </li>
+                                <li class="menu-item menu-type2">
+                                    <div class="flex-arrow-fa">
+                                        <a href="/agency" class="menu-link">CỬA HÀNG</a>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="second">
+                                <li class="second-item"><a href="#">Liên hệ</a></li>
+                                <li class="second-item"><a href="#">Hỗ trợ kỹ thuật</a></li>
+                                <li class="second-item"><a href="#">Email</a></li>
+                                <li class="second-item"><a href="#">Về chúng tôi</a></li>
+                                <li class="second-item"><a href="#">Tin tức</a></li>
+                                <li class="second-item"><a href="#">Chương trình</a></li>
+                                <li class="second-item login"><i class="fa fa-user-circle" aria-hidden="true"></i>
+                                    {% if(hasIdentity() != null) %}
+                                         <a href="/profile">Tài Khoản Của Bạn</a></li>
+                                    {% else %}
+                                    <a href="/user/signin">Đăng Nhập</a></li>
+                                {% endif %}
+                            </ul>
+                            <a href="/" class="logo logo-desktop">
+                                <img src="{{ getLogoUri() }}" alt="logo" class="img" />
+                                <img src="{{ getFavicon() }}" alt="logo" class="img-small" />
+                            </a>
+                            <div class="shoping-cart shoping-cart-desktop">
+                                {% if(hasIdentity() != null) %}
+                                <div class="block-signup-signin">
+                                    <a href="/profile">
+                                        Xin chào {{ getUser().fullName }}
+                                    </a>
+                                    <span>
+                                            <a href="/user/signout">
+
+                                                    Logout
+
+                                            </a>
+                                        </span>
+                                </div>
+                                {% else %}
+                                    <div class="block-signup-signin">
+                                        <a href="/user/signin">Đăng Nhập</a>
+                                        <span>
+                                            <a href="/user/signup">
+
+                                                    Đăng Ký
+
+                                            </a>
+                                        </span>
+                                    </div>
+                                {% endif %}
+                                <div class="block-click-js-search-shoppingcart">
+
+                                    <label for="click-show-input-search">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </label>
+                                    <a href="javascript:0" class="click-js-shoppingcart button-live-cart"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="navbar-overlay"></div>
+                </div>
+
+                <div class="blockjs-search">
+                    <div class="block-search">
+                        <form action="/search">
+                            <button><i class="fa fa-search"></i></button>
+                            <input type="text" name="q" placeholder="Bạn muốn tìm kiếm sản phẩm gì hôm nay ?">
+                        </form>
+                        <label for="click-show-input-search">x</label>
+                    </div>
+                </div>
+        </div>
+        </div>
+    </nav>
+    <div class="policy-header location-menufixed">
+        <div class="container border-top">
+            <div class="flex-container-policy-header">
+                <div class="policy-items">
+                    <div class="policy-item">
+                        <div class="policy-item-tilte"><i class="fa fa-clock-o"></i> Miễn phí đổi hàng</div>
+                        <div class="policy-item-content"><p>Mua sắm trực tuyến thả ga không ngại rủi ro với 7 ngày đổi hàng hoàn toàn miễn phí ( không áp dụng với các sản phẩm sale)</p></div>
+                    </div>
+                    <div class="policy-item">
+                        <div class="policy-item-tilte"><i class="fa  fa-truck "></i> Ship COD toàn quốc</div>
+                        <div class="policy-item-content"><p>Miễn phí vận chuyển nội thành TP.HCM cho đơn hàng trên 300.000 VND. Hỗ trợ phí vận chuyển cho các đơn hàng khác.</p></div>
+                    </div>
+                </div>
+            <div class="policy-slogan">BE YOUR STYLE – HÃY LÀ PHONG CÁCH CỦA CHÍNH BẠN</div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="shopping-cart-ajax">
+    <div class="text-right close close-shopping-cart-ajax">x</div>
+    <p class="text-uppercase">giỏ hàng<p>
+    <div class="shopping-cart-ajax-content">
+    </div>
+    <div class="total-button-shopping-cart-ajax pull">
+        <button onclick="window.location.href='/cart'" class="text-center btn-shopping-cart-ajax">Xem giỏ hàng</button>
+
+    </div>
+</div>
+<div class="layer-shopping-cart-live">
+
+</div>

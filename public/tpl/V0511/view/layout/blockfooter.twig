@@ -1,0 +1,52 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+<div style="margin: 40px auto" class="container">
+    <div class="row header">
+        <div class="col text-center">
+            <a class="link-1" href="/news">
+                <h3 style="white-space: nowrap;font-size: 1.55rem" id="new-new">BÀI VIẾT MỚI NHẤT</h3>
+            </a>
+        </div>
+    </div>
+    <div class="row header">
+        <div class="item-4 owl-carousel owl-theme owl-loaded">
+            <div class="owl-stage-outer">
+                <div class="owl-stage">
+                    {% set lastestNews = getLastestNews({'limit':4}) %}
+                    {% if(lastestNews is not empty) %}
+                        {% for n in lastestNews %}
+                            {% set image = n.imageUri %}
+                            {% set options = {
+                                alt: n.title|e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            {% set intro =  n.intro %}
+                            <div class="owl-item active" >
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div >
+                                            <a href="{{ n.viewLink }}" class="link-1" id="imgNewHome">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                        </div>
+                                        {% if(image is not empty) %}
+                                        <div class="tag-date">
+                                            {{ n.createdDateTime|date("d/m") }}
+                                            <br/>
+                                            {{ n.createdDateTime|date("Y") }}
+                                        </div>
+                                        {% endif %}
+                                        <div>
+                                            <a href="{{ n.viewLink }}" class="font-14 link-1" id="infoNewHome" title="{{ n.title|e('html') }}" >{{ n.title|e('html') }}</a>
+                                        </div>
+                                        <i class="font-14">{{ subString(intro ,128) }}</i>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

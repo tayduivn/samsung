@@ -1,0 +1,86 @@
+#footer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: white;
+}
+
+.mapTxt {
+    color: blue;
+}
+
+.leftTbl, .botfst {
+    margin-left: 50px;
+}
+
+.rightTbl {
+    margin-right: 50px;
+}
+
+.infTxt, .botTxt {
+    color: black;
+}
+
+.infTxtTl {
+    color: black;
+    font-weight: bold;
+}
+
+.infTxt, .mapTxt {
+    font-size: 14px;
+}
+
+.subBar {
+    background-color: #3e5cff;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.subR {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.subTxt {
+    color: white;
+}
+
+.firSub {
+    margin-left: 50px;
+}
+
+.secSub {
+    margin-left: 40px;
+}
+
+.thirSub {
+    margin-left: 40px;
+    margin-right: -10px;
+}
+
+form.example button {
+    float: right;
+    margin: 0;
+    padding: 4px 25px 4px 25px;
+    background: #f37f1b;
+    border: none;
+    color: white;
+    font-size: 15px;
+}
+
+form.example input[type=text] {
+    border: none;
+    padding: 3px 20px 3px 0;
+    border-radius: 5px;
+}
+
+.fa-search {
+    color: white;
+    font-weight: bold;
+}
+
+.sign {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    font-size: 14px;
+}

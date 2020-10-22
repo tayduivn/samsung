@@ -1,0 +1,338 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block meta %}
+    {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+    <div class="container container_blog  margin-bottom-50">
+        {% set category = [{'label': ' Tin tức', 'uri':'/news'}] %}
+        {{ breadcrumbs.build(category) }}
+        <div class="row row_blog">
+            <div class="wrap_border col-lg-12">
+                <span class="bordered"></span>
+            </div>
+
+
+
+            <aside id="aside_article"
+                   class="left left-content col-lg-3 col-md-3 col-sm-12 col-xs-12 col-md-push-9 col-lg-push-9">
+
+                <div class="wol_product margin-bottom-25">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_product_bg_1">
+                            <a href="/product?show=hot" title="Sản phẩm hot">
+                                {{ translate('Sản phẩm hot') }}</a>
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="product_col_dets clearfix">
+                        <div class="wrap_owl_topsale">
+                            {% set productBestseller = search({'limit':28,'showHot':1}) %}
+                            {% if(productBestseller)  %}
+                            {% set t = 0 %}
+                            <div class="owl_col_details owl-carousel owl-theme"  data-margin="15">
+                                <!-- ADD DIV -->
+
+                                <!-- chan le = true -->
+                                {% for p in productBestseller %}
+                                {% set t = t+1 %}
+                                {% set totalProduct = productBestseller|length %}
+                                {% set image = p.thumbnailUri %}
+                                {% set options = {
+                                    alt: p.name,
+                                    class: 'imageChange swatch-'~p.id,
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                {% if (t == 1 ) %}
+                                <div class="abcd">
+                                {% endif %}
+                                <div class="item">
+                                    <div class="hot_sale_product">
+                                        <div class="item-img-horizontal">
+                                            <a href="{{ p.viewLink }}"
+                                               class="product-image"
+                                               title="{{ p.name }}">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                        </div>
+                                        <div class="item-info-horizontal">
+                                            <h3 class="item-name text2line">
+                                                <a href="{{ p.viewLink }}"
+                                                   title="{{ p.name }}">
+                                                    {{ p.name }}
+                                                </a>
+                                            </h3>
+                                            <div class="price-box clearfix">
+                                                {% if (p.priceAfterDiscount > 0) %}
+                                                    <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                    <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                {% elseif (p.oldprice() > 0) %}
+                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                    <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                {% elseif (p.price == 0) %}
+                                                    <span class="price product-price">Liên hệ</span>
+                                                {% else %}
+                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if(t % 4 == 0 and t < totalProduct) %}
+                                </div>
+                                <div class="abcd">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có sản phẩm hot nào') }}!</p>
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="wol_product margin-bottom-25">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_blog_bg_2">
+                            <a href="/promotion" title="Sản phẩm khuyến mãi">
+                                Sản phẩm khuyến mãi</a>
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="product_col_dets clearfix">
+                        <div class="wrap_owl_topsale">
+                            {% set promotion = getPromotionProduct() %}
+                            {% if(promotion)  %}
+                            {% set t = 0 %}
+                            <div class="owl_col_details owl-carousel owl-theme"  data-margin="15">
+                                <!-- ADD DIV -->
+
+                                <!-- chan le = true -->
+                                {% for p in promotion %}
+                                {% set t = t+1 %}
+                                {% set totalPromotion = promotion|length %}
+                                {% set image = p.thumbnailUri %}
+                                {% set options = {
+                                    alt: p.name,
+                                    class: 'imageChange swatch-'~p.id,
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                {% if (t == 1 ) %}
+                                <div class="abcd">
+                                {% endif %}
+                                <div class="item">
+                                    <div class="hot_sale_product">
+                                        <div class="item-img-horizontal">
+                                            <a href="{{ p.viewLink }}"
+                                               class="product-image"
+                                               title="{{ p.name }}">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                        </div>
+                                        <div class="item-info-horizontal">
+                                            <h3 class="item-name text2line">
+                                                <a href="{{ p.viewLink }}"
+                                                   title="{{ p.name }}">
+                                                    {{ p.name }}
+                                                </a>
+                                            </h3>
+                                            <div class="price-box clearfix">
+                                                {% if (p.priceAfterDiscount > 0) %}
+                                                    <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                    <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                {% elseif (p.oldprice() > 0) %}
+                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                    <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                {% elseif (p.price == 0) %}
+                                                    <span class="price product-price">Liên hệ</span>
+                                                {% else %}
+                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if(t % 4 == 0 and t < totalPromotion) %}
+                                </div>
+                                <div class="abcd">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có khuyến mại nào') }}!</p>
+                                {% endif %}
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="aside-item">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_blog_bg_3">
+                            <a href="news" title="Tin tức nổi bật">
+                                Tin tức nổi bật</a>
+                        </h2>
+                    </div>
+                    <div class="list-blogs sidebar-blog-content">
+                        <div class="blog_list_item">
+                            {% set LastestNews = getLastestNews({'limit':24}) %}
+                            {% if (LastestNews) %}
+                            {% set t = 0 %}
+                            <div class="owl_col_details owl-carousel owl-theme"  data-margin="15">
+                                {% for p in LastestNews %}
+                                {% set t = t+1 %}
+                                {% set totalNews = LastestNews|length %}
+                                {% set time = p.createdDateTime|split(' ') %}
+                                {% set image = p.imageUri %}
+                                {% set options = {
+                                    alt: p.title | e('html'),
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                {% if (t == 1 ) %}
+                                <div class="abcd">
+                                {% endif %}
+                                <article class="blog-item blog-item-list ">
+                                    <div class="blog-item-thumbnail img1_news"
+                                         onclick="window.location.href='{{ p.viewLink }}';">
+                                        <a href="{{ p.viewLink }}">
+
+                                            <picture>
+                                                <source media="(max-width: 480px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 481px) and (max-width: 767px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 1200px)"
+                                                        srcset="{{ image }}">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </picture>
+
+                                        </a>
+                                    </div>
+
+                                    <div class="ct_list_item">
+                                        <h3 class="blog-item-name"><a class="text-one-line text2line"
+                                                                      href="{{ p.viewLink }}"
+                                                                      title="{{ p.title | raw }}">{{ p.title | raw }}</a></h3>
+                                        <span class="post_">
+                                        <span><span class="ti-time"></span> {{ time[0] }}</span>
+                                    </span>
+                                    </div>
+                                </article>
+                                {% if(t % 4 == 0 and t < totalNews) %}
+                                </div>
+                                <div class="abcd">
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <section id="blog_content"
+                     class="right-content col-lg-9 col-md-9 col-sm-12 col-xs-12 col-lg-pull-3 col-md-pull-3">
+                <div class="page_title page__ col-lg-12 col-md-12 col-sm-12 no-padding">
+                    <h1 class="title_page_h1"><span>Tin tức</span></h1>
+                </div>
+                <section class="list-blogs blog-main col-lg-12 col-md-12 col-xs-12 col-sm-12 no-padding">
+                    <div class="row">
+                        {% if(paginator.currentModels) %}
+                            {% for p in paginator.currentModels %}
+                                {% set time = p.createdDateTime|split(' ') %}
+                                {% set image = p.pictureUri %}
+                                {% set options = {
+                                    alt: p.title | e('html'),
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 item_blogg">
+                                    <div class="item_blog_owl" >
+                                        <article class="blog-item blog-item-grid">
+                                            <div class="wrap_blg">
+                                                <div class="blog-item-thumbnail img1 img_news"
+                                                     onclick="window.location.href='{{ p.viewLink }}';">
+                                                    <a href="{{ p.viewLink }}">
+
+                                                        <picture>
+                                                            <source media="(max-width: 480px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 481px) and (max-width: 767px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 1200px)"
+                                                                    srcset="{{ image }}">
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </picture>
+
+                                                    </a>
+                                                </div>
+                                                <span class="blog-item-title">Tin tức</span>
+                                                <div class="content_ar blog_large_item">
+                                                    <p class="meta">
+                                                        <span>{{ time[0] }}</span>
+
+                                                    </p>
+                                                    <h3 class="blog-item-name"><a class="text-one-line"
+                                                                                  href="{{ p.viewLink }}"
+                                                                                  title="{{ p.title | raw }}">{{ p.title | raw }}</a>
+                                                    </h3>
+                                                    <div class="summary_ sum text4line">
+                                                        {{ p.intro(true) | raw }}
+                                                    </div>
+                                                    <a href="{{ p.viewLink }}"
+                                                       class="readmore"><span>Đọc thêm</span> <i
+                                                                class="fas fa-arrow-right"></i></a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                            <div class="text-xs-right a-center col-lg-12 col-sm-12 col-xs-12 col-md-12">
+
+                            </div>
+
+                        {% endif %}
+
+
+                    </div>
+                    <div class="pagination" style="width: 100%">
+                        <div class="links">
+                            {{ render_paginator(paginator) }}
+                        </div>
+                    </div>
+                </section>
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}

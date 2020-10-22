@@ -1,0 +1,128 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{#{% import 'layout/breadcrumbs' as breadcrumbs %}#}
+
+{% block meta %}
+    {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{#    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">#}
+{% endblock %}
+{% block stylesheets %}
+{#    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/news.css' }}" type="text/css">#}
+{% endblock %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+
+    <section class="news-page">
+        <div class="top-bar__spacer"></div>
+        <div class="breadcrumb-Abus d-none d-sm-block">
+            <div class="breadcrumb-inner mx-auto">
+                <ul class="p-0 mb-0 d-flex flex-wrap">
+                    <li>
+                        <a href="/" class="d-inline-block">
+                            <span itemprop="name">Abus</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="d-inline-block" href="/news}">
+                            <span itemprop="name">News</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        {% set bnNews = getBannerByPositionCode('BANNER_NEWS',{'limit' : 1})  %}
+        {% if(bnNews) %}
+            {% for bn in bnNews %}
+                <div class="news-page__banner">
+                    <img src="{{ bn.imageSrc }}" alt="{{ bn.name }}">
+                </div>
+                <div class="container news-home__content mx-auto pt-4">
+                    <div class="col-12">
+                        {{ bn.intro }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="news-page__banner">
+                <img src="/tpl/V0512/img/kien-thuc-ve-an-ninh.jpg" alt="">
+            </div>
+            <div class="container news-home__content mx-auto pt-4">
+                <div class="col-12">
+                    <p>
+                        An ninh cho công ty của bạn - Tại sao một công ty cần phải bảo mật?
+                        Bất cứ ai có nhu cầu bảo vệ công ty của họ một cách có hiệu quả đều cần phải ngăn chặn bất kỳ truy
+                        cập trái phép nào tới tài sản và các khu vực cụ thể.
+                        Khóa cơ khí và hệ thống báo động ngăn chặn hoặc phát hiện bất kỳ sự xâm nhập nào, video giám sát lưu
+                        lại những hình ảnh của tất cả những gì đang xảy ra và cung cấp những bằng chứng có giá trị.
+                        Với sự trợ giúp của hệ thống khóa hoặc các hệ thống kiểm soát truy cập, bất kỳ người nào không được
+                        phép sẽ không thể tới được những nơi họ không có phận sự cụ thể trong một khoảng thời gian xác định
+                        hoặc mọi thời điểm.
+                        Một công ty thường không phải là một tòa nhà đồng nhất, mà thường bao gồm nhiều khu vực và các phòng
+                        ban, tất cả đều có những yêu cầu khác nhau đối với an ninh và truy cập. Một hệ thống khóa hoặc một
+                        hệ thống kiểm soát truy cập cung cấp cho các công ty một số cách thức để xác định quyền truy cập ra
+                        vào giúp ích cho công tác quản lý và do đó hạn chế những rủi ro liên quan.
+                        Điều này làm cho doanh nghiệp dễ dàng hơn khi xác định những người nào có thể đi đâu và vào thời
+                        gian nào.
+                        Hệ thống kiểm soát truy cập cũng có thể được kết hợp với hệ thống báo động, thiết bị điện tử như
+                        thang máy, rèm cuốn hoặc cửa ra vào điện tử, và mở rộng để tạo ra một hệ thống an ninh thực tế hơn
+                        và thuận tiện hơn. Cùng với giám sát video, do đó nó có thể tăng cường đáng kể an ninh tại các công
+                        ty, thông qua thiết lập một hệ thống dễ sử dụng mà nhân viên cũng vui vẻ chấp nhận.
+                    </p>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if(newsCategory is not empty) %}
+        <div class="news-list container mx-auto d-flex flex-wrap pt-4">
+            {% for cate in newsCategory %}
+            {% set image = cate.imageUri %}
+            {% set options = {
+                alt: cate.name | e('html'),
+                lazy: true,
+                openDiv: false,
+            } %}
+            <div class="item col-12 col-sm-6 col-xl-4">
+                <a class="d-block mb-4" href="{{ cate.viewLink }}" title="{{ cate.name | raw }}">
+                    <div class="image">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                    </div>
+                    <div class="box-text text-center">
+                        <h3 class="name text-uppercase font-weight-bold">
+                            {{ cate.name | raw }}
+                        </h3>
+                        {% if(cate.description) %}
+                        <p class="intro">
+                            {{ cate.description | striptags }}
+                        </p>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endif %}
+    </section>
+
+{#    <h1 style="display: none">Tin tức</h1>#}
+    <style>
+        header{
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        header .short-nav path{
+            color: #262626;
+        }
+        header span.search-field__label__text,header .search-form span.search-field__icon path{
+            color: #575557;
+        }
+        @media (min-width: 992px){
+            header .search-form {
+                border: 1px solid #f5f5f5;
+            }
+        }
+    </style>
+{% endblock %}

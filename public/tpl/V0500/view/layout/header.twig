@@ -1,0 +1,489 @@
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/search.js' }}"></script>
+{% endblock %}
+{% set quantity = serviceCart().totalQuantities %}
+{% set products= serviceCart().getProducts %}
+<header id="header" class="">
+    <div class="desktop-header medium--hide small--hide">
+        <div class="topbar medium-down--hide">
+            <div class="wrapper">
+                <div class="grid">
+                    <div class="grid__item large--one-half ">
+                        <div class="header-left">
+                            <a href="tel:(+84) 934 323 882"><i class="fa fa-phone" aria-hidden="true"></i> (+84) 934 323 882</a>
+                            <a href="mailto:support@suplo.vn"><i class="fa fa-envelope" aria-hidden="true"></i> support@suplo.vn</a>
+
+                            <a href="/agency"><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                Hệ thống cửa hàng</a>
+
+                        </div>
+                    </div>
+                    <div class="grid__item large--one-half ">
+                        <div class="header-right">
+                            <ul class="account inline-list">
+                                <li>
+                                    {% if (hasIdentity()) %}
+                                    <a href=""><i class="fa fa-user" aria-hidden="true"></i>{{ getUser().fullName? ' ' ~ getUser().fullName: 'Tài khoản' }}</a>
+                                    <ul class="the-account">
+                                        <li>
+                                            <a class="log" href="/profile" title="Profile">Profile</a>
+                                        </li>
+                                        <li>
+                                            <a class="reg" href="/user/signout" title="Đăng xuất">Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                    {% else %}
+                                        <a href=""><i class="fa fa-user" aria-hidden="true"></i> Tài khoản</a>
+                                        <ul class="the-account">
+                                            <li>
+                                                <a class="log" href="/user/signup" title="Profile">Đăng ký</a>
+                                            </li>
+                                            <li>
+                                                <a class="reg" href="/user/signin" title="Đăng xuất">Đăng nhập</a>
+                                            </li>
+                                        </ul>
+                                    {% endif %}
+                                </li>
+
+                                <li>
+                                    <div class="desktop-cart-wrapper wow fadeInRight">
+                                        <a href="javascript:void(0)" class="hd-cart">
+                                            <i class="fa fa-shopping-cart" aria-hidden="true"></i>Giỏ hàng(<span class="hd-cart-count">{{ quantity ? quantity : 0 }}</span>)
+                                        </a>
+                                        <div class="quickview-cart" id="cart-top">
+                                            {% if (products) %}
+                                                <h3>
+                                                    Giỏ hàng của tôi ({{ quantity }} sản phẩm)
+                                                    <span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                </h3>
+                                                <ul class="no-bullets text-left">
+                                                    {% for p in products %}
+                                                        {% set discount = p.priceAfterDiscount(p.quantity) %}
+                                                        <li class="cart-item cartItem_{{ p.id }}" price="{{ discount ? discount : p.price }}">
+                                                            <a class="cart__remove remove__top" psid="{{ p.id }}"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                                            <div class="grid mg-left-15">
+                                                                <div class="grid__item large--four-twelfths medium--four-twelfths small--four-twelfths pd-left15">
+                                                                    <div class="cart-item-img text-center">
+                                                                        <a href="{{ p.viewLink }}">
+                                                                            <img src="{{ p.thumbnailUri }}" alt="{{ p.name }}">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="pcart-info grid__item large--eight-twelfths medium--eight-twelfths small--eight-twelfths pd-left15">
+                                                                    <div class="cart-item-info text-left">
+                                                                        <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                                                    </div>
+                                                                    {% set discount = p.priceAfterDiscount(p.quantity) %}
+                                                                    <div class="cart-item-price-quantity text-left">
+                                                                        <span class="quantity" data-qty="{{ p.quantity }}">Số lượng: {{ p.quantity }}</span>
+                                                                        <span class="current-price">Giá/sp:
+                                                                            {% if(discount > 0) %}
+                                                                                {{ discount|number_format(0) }}₫
+                                                                            {% else %}
+                                                                                {% if (p.price is not empty and p.price <= 0) %}
+                                                                                    Liên hệ
+                                                                                {% else %}
+                                                                                    {{ p.price|number_format(0) }}₫
+                                                                                {% endif %}
+                                                                            {% endif %}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                <div class="qv-cart-total" style="display: flex; justify-content: space-between">
+                                                    {% set totalCartMoney = serviceCart().totalMoney %}
+                                                    <div>Tạm tính: <span>{{ totalCartMoney|number_format(0) }}₫</span></div>
+                                                    <span class="cart__remove__all" style="cursor:pointer;">Xóa tất cả</span>
+                                                </div>
+                                                <div class="quickview-cartactions clearfix">
+                                                    <a href="/cart">Xem giỏ hàng</a>
+                                                    <a href="/cart/checkout?emptylayout=true">Thanh toán</a>
+                                                </div>
+                                            {% else %}
+                                                <h3>
+                                                    Giỏ hàng trống
+                                                    <span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+                                                </h3>
+                                                <ul class="no-bullets text-left">
+                                                    <li>Bạn chưa có sản phẩm nào trong giỏ hàng!</li>
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="hdt-search">
+                                    <div class="hc-search-wrapper">
+                                        <a id="show_search_smart" href="javascript:void(0)"><i class="fa fa-search" aria-hidden="true"></i></a>
+
+                                        <div class="search-form-wrapper" data-id="im here">
+                                            <form id="searchauto" action="/search" class="searchform-categoris ultimate-search">
+                                                <div class="wpo-search">
+                                                    <div class="wpo-search-inner">
+                                                        <div class="input-group">
+                                                            <input id="searchtext" onkeyup="myKeyup()" name="q" value="" maxlength="40" class="form-control input-search" type="text" size="20" placeholder="Nhập từ khóa..." autocomplete="off">
+                                                            <span class="input-group-btn">
+                                                                <button type="submit" id="searchsubmit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="hidden" class="collection_id" value="(collectionid:product>=0)">
+                                                    <input type="hidden" class="collection_handle" value="all">
+                                                    <input type="hidden" class="collection_name" value="all">
+                                                </div>
+                                            </form>
+{#                                            <div id="search_smart" class="smart-search-wrapper search-wrapper" style="width: 100%; left: 1152.5px; top: 126px;">
+                                                <div id="product">
+                                                </div>
+                                                <div id="article">
+                                                </div>
+                                                <div id="load">
+                                                    <img src="//theme.hstatic.net/1000187250/1000280706/14/loading_2x.gif?v=1588" alt="loading">
+                                                </div>
+                                            </div>#}
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-content">
+            <div class="wrapper">
+                <div class="grid">
+                    <div class="grid__item large--two-twelfths">
+                        <div class="hd-logo">
+                            <h1>
+                                <a href="/">
+                                    <img src="//theme.hstatic.net/1000187250/1000280706/14/logo.png?v=1588" alt="Suplo Baby - Hệ thống cửa hàng thời trang và đồ dùng cho các bé">
+                                </a>
+                            </h1>
+                        </div>
+                    </div>
+                    {% include 'layout/menucache' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="inner mobile-header large--hide">
+        <div class="grid">
+            <div class="grid__item medium--one-third small--one-half">
+                <div class="hd-logo text-left wow fadeInLeft">
+                    <a href="/">
+                        <img src="//theme.hstatic.net/1000187250/1000280706/14/logo.png?v=1588" alt="Suplo Baby - Hệ thống cửa hàng thời trang và đồ dùng cho các bé">
+                    </a>
+                </div>
+            </div>
+            <div class="grid__item large--two-twelfths push--large--eight-twelfths medium--two-thirds small--one-half clearfix text-right">
+                <div class="hd-btnMenu wow fadeInRight" data-wow-duration="0.5s" data-wow-delay="0.25s">
+                    <a href="javascript:void(0)" class="icon-fallback-text site-nav__link js-drawer-open-right" aria-controls="NavDrawer" aria-expanded="false">
+                        <span>Menu</span>
+                        <i class="fa fa-bars" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="desktop-cart-wrapper1 wow fadeInRight" data-wow-duration="0.5s">
+                    <a href="javascript:void(0)" class="hd-cart">
+                        <span class="hd-cart-count">{{ quantity ? quantity : 0 }}</span>
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </a>
+                    <div class="quickview-cart">
+                        {% if (products) %}
+                            <h3>
+                                Giỏ hàng của tôi ({{ quantity }} sản phẩm)
+                                <span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+                            </h3>
+                            <ul class="no-bullets text-left">
+                                {% for p in products %}
+                                    {% set discount = p.priceAfterDiscount(p.quantity) %}
+                                    <li class="cart-item cartItem_{{ p.id }}" price="{{ discount ? discount : p.price }}">
+                                        <a class="cart__remove remove__top" psid="{{ p.id }}"><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        <div class="grid mg-left-15">
+                                            <div class="grid__item large--four-twelfths medium--four-twelfths small--four-twelfths pd-left15">
+                                                <div class="cart-item-img text-center">
+                                                    <a href="{{ p.viewLink }}">
+                                                        <img src="{{ p.thumbnailUri }}" alt="{{ p.name }}">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="pcart-info grid__item large--eight-twelfths medium--eight-twelfths small--eight-twelfths pd-left15">
+                                                <div class="cart-item-info text-left">
+                                                    <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                                </div>
+                                                {% set discount = p.priceAfterDiscount(p.quantity) %}
+                                                <div class="cart-item-price-quantity text-left">
+                                                    <span class="quantity" data-qty="{{ p.quantity }}">Số lượng: {{ p.quantity }}</span>
+                                                    <span class="current-price">Giá/sp:
+                                                        {% if(discount > 0) %}
+                                                            {{ discount|number_format(0) }}₫
+                                                        {% else %}
+                                                            {% if (p.price is not empty and p.price <= 0) %}
+                                                                Liên hệ
+                                                            {% else %}
+                                                                {{ p.price|number_format(0) }}₫
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <div class="qv-cart-total" style="display: flex; justify-content: space-between">
+                                {% set totalCartMoney = serviceCart().totalMoney %}
+                                <div>Tạm tính: <span>{{ totalCartMoney|number_format(0) }}₫</span></div>
+                                <span class="cart__remove__all" style="cursor:pointer;">Xóa tất cả</span>
+                            </div>
+                            <div class="quickview-cartactions clearfix">
+                                <a href="/cart">Xem giỏ hàng</a>
+                                <a href="/cart/checkout?emptylayout=true">Thanh toán</a>
+                            </div>
+                        {% else %}
+                            <h3>
+                                Giỏ hàng trống
+                                <span class="btnCloseQVCart"><i class="fa fa-times" aria-hidden="true"></i></span>
+                            </h3>
+                            <ul class="no-bullets text-left">
+                                <li>Bạn chưa có sản phẩm nào trong giỏ hàng!</li>
+                            </ul>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="NavDrawer" class="drawer drawer--right">
+        <div class="drawer__header">
+            <div class="drawer__close js-drawer-close">
+                <button type="button" class="icon-fallback-text">
+                    <span>Đóng</span><i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+        <!-- begin mobile-nav -->
+        <ul class="mobile-nav">
+            <li class="mobile-nav__item mobile-nav__search">
+                <form action="/search" method="get" class="input-group search-bar" role="search">
+                    <input type="hidden" name="type" value="product">
+                    <input type="search" id="main-search-form-input" name="q" value="" placeholder="Tìm sản phẩm..." class="input-group-field" aria-label="Tìm sản phẩm...">
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn icon-fallback-text">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </span>
+                </form>
+            </li>
+
+            <li class="mobile-nav__item mobile-nav__item--active">
+                <a href="/" class="mobile-nav__link">Trang chủ</a>
+            </li>
+
+            {% set category = getCategories() %}
+            {% if (category) %}
+                {% for c in category %}
+                    <li class="mobile-nav__item" aria-haspopup="true">
+                        <div class="mobile-nav__has-sublist">
+                            <a href="{{ c.viewLink }}" class="mobile-nav__link">{{ c.name|raw }}</a>
+                            {% if (c.childs) %}
+                                <div class="mobile-nav__toggle">
+                                    <button type="button" class="icon-fallback-text mobile-nav__toggle-open">
+                                        <span class="icon icon-plus" aria-hidden="true"></span>
+                                    </button>
+                                    <button type="button" class="icon-fallback-text mobile-nav__toggle-close">
+                                        <span class="icon icon-minus" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            {% endif %}
+
+                        </div>
+                        {% if (c.childs) %}
+                            <ul class="mobile-nav__sublist">
+                                {% for c1 in c.childs %}
+                                    <li class="mobile-nav__item" aria-haspopup="true">
+                                        <div class="mobile-nav__has-sublist">
+                                            <a href="{{ c1.viewLink }}" class="mobile-nav__link">{{ c1.name }}</a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            {% endif %}
+
+            <li class="mobile-nav__item" aria-haspopup="true">
+                <div class="mobile-nav__has-sublist">
+                    <a href="/news" class="mobile-nav__link">Tin tức</a>
+                    {% set newsCategory = getNewsCategories() %}
+                    {% if (newsCategory) %}
+                        <div class="mobile-nav__toggle">
+                            <button type="button" class="icon-fallback-text mobile-nav__toggle-open">
+                                <span class="icon icon-plus" aria-hidden="true"></span>
+                            </button>
+                            <button type="button" class="icon-fallback-text mobile-nav__toggle-close">
+                                <span class="icon icon-minus" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                {% if (newsCategory) %}
+                    <ul class="mobile-nav__sublist">
+                        {% for n in newsCategory %}
+                            <li class="mobile-nav__item" aria-haspopup="true">
+                                <div class="mobile-nav__has-sublist">
+                                    <a href="{{ n.viewLink }}" class="mobile-nav__link">{{ n.name }}</a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+            {% if (hasIdentity()) %}
+                <li class="mobile-nav__item">
+                    CHÀO, <a href="/profile" id="customer_profile_link">{{ getUser().fullName }}</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="/user/signout" id="customer_logout_link">Đăng xuất</a>
+                </li>
+            {% else %}
+                <li class="mobile-nav__item">
+                    <a href="/user/signin" id="customer_login_link">Đăng nhập</a>
+                </li>
+                <li class="mobile-nav__item">
+                    <a href="/user/signup" id="customer_register_link">Đăng kí</a>
+                </li>
+            {% endif %}
+        </ul>
+        <!-- //mobile-nav -->
+    </div>
+
+    <button id="popup-btn"></button>
+    <div id="popup-subscribe" class="popup">
+        <!-- Modal content -->
+        <div id="popup-modal" class="popup-content  animate down">
+            <span class="close-popup"><i class="fa fa-times" aria-hidden="true"></i></span>
+            <div class="grid">
+                <div class="grid__item push--large--one-half large--six-twelfths medium--one-whole small--one-whole">
+                    <div class="popup-wrapper">
+                        <div class="popup-title">
+                            ĐĂNG KÝ NHẬN TIN NGAY HÔM NAY
+                        </div>
+                        <div class="popup-desc">
+                            Suplo hứa sẽ không gửi những mail với nội dung không quan trọng hoặc spam. Các bạn là người đầu tiên biết được về:
+                        </div>
+                        <div class="popup-list">
+                            <ul class="no-bullets">
+                                <li>
+                                    Các sản phẩm khuyến mại với mức giá không thể thấp hơn.
+                                </li>
+                                <li>
+                                    Tin tức mới nhất về các sản phẩm mới, sản phẩm hot, flash sale, hot deal, ...
+                                </li>
+                                <li>
+                                    Các sản phẩm khuyến mại với mức giá không thể thấp hơn.
+                                </li>
+                                <li>
+                                    Tin tức mới nhất về các sản phẩm mới, sản phẩm hot, flash sale, hot deal, ...
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="popup-form">
+                            <div class="form-desc">
+                                Đăng ký:
+                            </div>
+
+                            <form accept-charset="UTF-8" action="/account/contact" class="contact-form" method="post">
+                                <input name="form_type" type="hidden" value="customer">
+                                <input name="utf8" type="hidden" value="✓">
+
+                                <div class="input-group">
+                                    <input type="email" value="" placeholder="Nhập email của bạn..." name="contact[email]" id="EmailTop" class="input-group-field" aria-label="email@example.com">
+                                    <input type="hidden" name="contact[tags]" value="newsletter">
+                                    <button type="submit" name="subscribe" id="subscribeTop" value="GỬI"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+
+                                    <a href="https://www.facebook.com/SuploTeam/" class="popup-social-network" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+
+                                    <a href="https://plus.google.com/" class="popup-social-network" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+
+                                    <a href="https://www.instagram.com/" class="popup-social-network" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+
+                                    <a href="https://twitter.com/" class="popup-social-network" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+
+                                    <a href="https://www.youtube.com/" class="popup-social-network" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-overlay"></div>
+    <div id="CartDrawer" class="drawer drawer--left">
+        <div class="drawer__header">
+            <div class="drawer__title h3">Giỏ hàng</div>
+            <div class="drawer__close js-drawer-close">
+                <button type="button" class="icon-fallback-text">
+                    <span class="icon icon-x" aria-hidden="true"></span>
+                    <span class="fallback-text">"Đóng"</span>
+                </button>
+            </div>
+        </div>
+        <div id="CartContainer"></div>
+    </div>
+    <section id="mobile-bottom-navigation" class="large--hide medium--hide">
+        <div class="grid mg-left-0">
+            <div class="grid__item medium--two-tenths small--two-tenths pd-left0">
+                <div class="mobile-nav-item">
+                    <a href="/product?show=new">
+                        <i class="fa fa-tag" aria-hidden="true"></i><br>Hàng mới
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid__item medium--two-tenths small--two-tenths pd-left0">
+                <div class="mobile-nav-item">
+                    <a href="/product?show=discount">
+                        <i class="fa fa-gift" aria-hidden="true"></i><br>Khuyến mãi
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid__item medium--two-tenths small--two-tenths pd-left0">
+                <div class="mobile-nav-item">
+                    <a href="/profile">
+                        <i class="fa fa-user" aria-hidden="true"></i><br>Tài khoản
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid__item medium--two-tenths small--two-tenths pd-left0">
+                <div class="mobile-nav-item">
+                    <a href="/contact">
+                        <i class="fa fa-phone" aria-hidden="true"></i> <br>Liên hệ
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid__item medium--two-tenths small--two-tenths pd-left0">
+                <div class="mobile-nav-item">
+                    <a href="/cart">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i><br>Giỏ hàng
+                        <span class="number">
+						{{ quantity ? quantity : 0 }}
+					</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</header>

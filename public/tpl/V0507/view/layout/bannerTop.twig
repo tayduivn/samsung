@@ -1,0 +1,49 @@
+
+<div class="banner__top">
+    {% set banner_top = getBannerByPositionCode('BANNER_TOP') %}
+        {% if (banner_main is not empty) %}
+            {% for m in banner_main %}
+            {% set imageSlide = m.imagesrc %}
+            {% set options = {
+                alt: m.name,
+                lazy: true,
+                openDiv: false,
+            } %}
+            <div class="banner__top--img">
+                {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+            </div>
+             <div class="banner__top--mobile">
+                {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="banner__top--img">
+                <img src="http://theme.hstatic.net/200000000133/1000569834/14/banner_countdown_top_desktop.jpg?v=1024" alt="">
+            </div>
+
+             <div class="banner__top--mobile">
+                <img src="http://theme.hstatic.net/200000000133/1000569834/14/banner_countdown_top_mobile.jpg?v=1024" alt="">
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="header__link">
+        <nav class="header__link--left">
+            <span>
+                <a href="#" title="CSKH">
+                    <span>Hệ thống <b>36</b> showroom</span>
+                </a>-
+                <a href="#" title="CSKH">
+                    <span>Hotline: Mua hàng(8h30-21h30 từ T2-CN) <b>1800 1327</b></span>
+                </a>-
+                <a href="#" title="CSKH">
+                    <span>CSKH(8h30-17h30 từ T2-T7) <b>1800 1731</b></span>
+                </a>
+            </span>
+            <div class="clear"></div>
+        </nav>
+        <nav class="header__link--right">
+            <a href="#" title="Chính sách mua hàng"><span>Chính sách mua hàng</span></a>
+        </nav>
+    </div>
+</div>

@@ -1,0 +1,150 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+    <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+    <meta property="og:title" content="{{ news.title | e('html') }}">
+    <meta property="og:url" content="{{ news.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+    {% set buildBread = buildBreadcrumbs(category)%}
+    {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}
+    {% set buildBread = buildBread | merge (buildBread1) %}
+    {{ breadcrumbs.build(buildBread) }}
+    <main class="wrapper main-content  custom_page ">
+        <section class="blog-pages">
+            <div class="inner">
+                <div class="grid">
+                    <article class=" grid__item large--nine-twelfths medium--one-whole small--one-whole" itemscope="" itemtype="http://schema.org/Article">
+                        <div class="article-content">
+                            <div class="article-head">
+                                <h1>{{ news.title | e('html') }}</h1>
+                                <div class="grid mg-left-15">
+                                    <div class="grid__item large--one-half medium--one-half small--one-half pd-left15">
+                                        <div class="article-date-comment">
+                                            <div class="date"><i class="fa fa-calendar"></i> {{ news.publishedDate }}</div>
+                                            <div class="comment"><i class="fa fa-comment-dots"></i> <span class="fb-comments-count fb_comments_count_zero_fluid_desktop" data-href="{{ new.viewLink }}" fb-xfbml-state="parsed" fb-iframe-plugin-query="app_id=&amp;container_width=0&amp;count=true&amp;height=100&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;locale=vi_VN&amp;sdk=joey&amp;version=v2.9&amp;width=550"><span class="fb_comments_count">0</span></span></div>
+                                            <div class="author">
+                                                <i class="fa fa-user"></i> Suplo Baby
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid__item large--one-half medium--one-half small--one-half pd-left15">
+                                        <div class="social-network-actions text-right">
+                                            <div class="fb-like fb_iframe_widget" data-href="{{ new.viewLink }}" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=&amp;container_width=413&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=true&amp;size=small"><span style="vertical-align: bottom; width: 138px; height: 20px;"><iframe name="f1563359759e06" width="1000px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v2.9/plugins/like.php?action=like&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df36a64928db3e6%26domain%3Dsuplo-baby.myharavan.com%26origin%3Dhttps%253A%252F%252Fsuplo-baby.myharavan.com%252Fffa1223ab199f4%26relation%3Dparent.parent&amp;container_width=413&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=true&amp;size=small" style="border: none; visibility: visible; width: 138px; height: 20px;" class=""></iframe></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="article-tldr clearfix">
+
+                            </div>
+
+                            <div class="article-body">
+                                {{ news.content | raw }}
+                            </div>
+
+                        </div>
+                        <div class="social-network-actions-outside text-right">
+                            <div class="fb-send" data-href="{{ new.viewLink }}"></div>
+                            <div class="fb-like fb_iframe_widget" data-href="https://suplo-baby.myharavan.com/blogs/news/thoi-trang-me-va-be-chat-nhat-showbiz-viet" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true" fb-xfbml-state="rendered" fb-iframe-plugin-query="action=like&amp;app_id=&amp;container_width=825&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;layout=button&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=true&amp;size=small"><span style="vertical-align: bottom; width: 128px; height: 20px;"><iframe name="f39b0fa46f5e79c" width="1000px" height="1000px" data-testid="fb:like Facebook Social Plugin" title="fb:like Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v2.9/plugins/like.php?action=like&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Dffa93179b30fa%26domain%3Dsuplo-baby.myharavan.com%26origin%3Dhttps%253A%252F%252Fsuplo-baby.myharavan.com%252Fffa1223ab199f4%26relation%3Dparent.parent&amp;container_width=825&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;layout=button&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;show_faces=true&amp;size=small" style="border: none; visibility: visible; width: 128px; height: 20px;" class=""></iframe></span></div>
+                        </div>
+                        <div id="section-fbcomment" class="fb-comments-wrapper">
+                            <div class="fb-comments fb_iframe_widget fb_iframe_widget_fluid_desktop" data-href="https://suplo-baby.myharavan.com/blogs/news/thoi-trang-me-va-be-chat-nhat-showbiz-viet" data-width="100%" data-numposts="5" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=&amp;container_width=840&amp;height=100&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v2.9" style="width: 100%;"><span style="vertical-align: bottom; width: 100%; height: 178px;"><iframe name="f2e4d32d959bbf4" width="1000px" height="100px" data-testid="fb:comments Facebook Social Plugin" title="fb:comments Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v2.9/plugins/comments.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df3b51141a91884c%26domain%3Dsuplo-baby.myharavan.com%26origin%3Dhttps%253A%252F%252Fsuplo-baby.myharavan.com%252Fffa1223ab199f4%26relation%3Dparent.parent&amp;container_width=840&amp;height=100&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v2.9" style="border: none; visibility: visible; width: 100%; height: 178px;" class=""></iframe></span></div>
+                        </div>
+
+                        <div class="related-articles">
+                            <div class="related-articles-head">
+                                <h3>Bài viết liên quan</h3>
+                            </div>
+                            <div class="related-articles-body">
+                                {% set relatedTitles = searchNewsByCategory(news.categoryId) %}
+                                {% if relatedTitles %}
+                                    <ul class="no-bullets">
+                                        {% for t in relatedTitles %}
+                                            <li>
+                                                <a href="{{ t.viewLink }}">{{ t.title }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </article>
+
+                    <div class="grid__item large--three-twelfths medium--one-whole small--one-whole">
+                        <!-- /snippets/blog-sidebar.liquid -->
+                        <div class="blog-sidebar">
+                            {% set newsCategory = getNewsCategories() %}
+                            {% if (newsCategory) %}
+                                <div class="blog-types">
+                                    <h3 class="title">Danh mục tin tức</h3>
+                                    <ul class=" no-bullets">
+                                        {% for n in newsCategory %}
+                                            <li>
+                                                <a href="{{ n.viewLink }}">- {{ n.name }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                            <div class="all-tags">
+                                <div class="blog-sb-title clearfix">
+                                    <h3 class="title">
+                                        Từ khóa
+                                    </h3>
+                                </div>
+                                <div class="all-tags-wrapper clearfix">
+                                    {% set tags = getTags({'itemId' : news.id, 'type' : 'article'}) %}
+                                    {% if (tags is not empty) %}
+                                        {% for t in tags %}
+                                            <a class="tag-item" href="{{ t.viewLink }}"><i class="fa fa-tag" aria-hidden="true"></i> {{ t.name }}</a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="blog-post">
+                                <h3 class="title">Bài viết liên quan</h3>
+                                {% set relatedNews = searchNewsByCategory(news.categoryId) %}
+                                {% if (relatedNews) %}
+                                    <ul class="no-bullets">
+                                        {% for n in relatedNews %}
+                                            <li class="grid">
+                                                <div class="grid__item large--five-twelfths medium--six-twelfths small--six-twelfths">
+                                                    <a href="{{ n.viewLink }}" class="article-img">
+                                                        <img src="{{ n.imageUri }}" alt="{{ n.title }}">
+                                                    </a>
+                                                </div>
+                                                <div class="grid__item large--seven-twelfths medium--six-twelfths small--six-twelfths" style="padding-left: 15px;">
+                                                    <a href="{{ n.viewLink }}" class="article-title">{{ n.title }}</a>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="shop-page">
+                                <div class="fb-page" data-href="nhanh.vn"
+                                     data-small-header="false" data-adapt-container-width="true"
+                                     data-hide-cover="false" data-show-facepile="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+{% endblock %}

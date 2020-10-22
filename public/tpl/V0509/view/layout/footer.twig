@@ -1,0 +1,90 @@
+<footer>
+    <section class="menu-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-left">
+                        <a href="index.html" class="logo">
+                            {% set urlLogo = getLogoUri() %}
+                            {% if urlLogo %}
+                                <img src="{{urlLogo}}" alt="Logo" class="img" />
+                            {% else %}
+                                <img src="/tpl/V0509/img/temp/logo-menu.png" alt="Logo" class="img" />
+                            {% endif %}
+                        </a>
+                        <span>Công Ty TNHH Thương Mại Dịch Vụ Vạn Thành Tài</span>
+                        <span>MST:0313162898 do sở KHĐT TPHCM cấp ngày 16/03/2015</span>
+                        <span>Đc: 2A Đường 1C - Phường Bình Trị Đông B - Quận Bình Tân - TP Hồ Chí Minh</span>
+                        <div class="footer-left__icon">
+                            <span>Kết nối với chúng tôi</span>
+                            <a href="https://www.facebook.com/">
+                                <span class="icon icon-facebook"></span>
+                            </a>
+                            <a href="https://www.youtube.com/">
+                                <span class="icon icon-youtube"></span>
+                            </a>
+                            <a href="instagram.com">
+                                <span class="icon icon-instagram"></span>
+                            </a>
+                            <a href="https://chat.zalo.me/" class="height-36">
+                                <span class="icon zalo-text d-flex justify-content-center align-items-center">Zalo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-mid w-100 justify-content-md-around">
+                        <div class="about">
+                            <p class="about-me general-title">
+                                <h4><p class="text-white font-weight-bold text-uppercase ">Về chúng tôi</p></h4>
+                            </p>
+                            <ul class="about-menu general">
+                                <li class="menu-item pb-2 ">
+                                    <a href="">Giới thiệu về</a>
+                                </li>
+                                <li class="menu-item pb-2 ">
+                                    <a href="">Tuyển dụng</a>
+                                </li>
+                                <li class="menu-item pb-2 ">
+                                    <a href="">Cửa hàng</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="support">
+                            <p class="support-customer general-title">
+                                <h4><p class="text-white font-weight-bold text-uppercase ">HỖ TRỢ KHÁCH HÀNG</p></h4>
+                            </p>
+                            <ul class="support-menu general">
+                                <li class="menu-item pb-2 ">
+                                    <a href="">Hướng dẫn mua hàng</a>
+                                </li>
+                                <li class="menu-item pb-2 ">
+                                    <a href="">Giao hàng và thanh toán</a>
+                                </li>
+                                <li class="menu-item pb-2 ">
+                                    <a href="">Chính sách bảo hành & đổi trả</a>
+                                </li>
+                                <li class="menu-item pb-2 ">
+                                    <a href="">Chính sách bảo mật</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-right">
+                        <p class="registration-title">Đang ký để nhận tin khuyến mãi</p>
+                        <div class="wrap-input-email d-flex ">
+                            <input type="text" placeholder="Nhập mail của bạn vào đây" class="input-text" name="subscribe" id="subsInput">
+                            <input type="submit" value="Đăng ký" class="input-submit" id="buttonSubs">
+                        </div>
+                        <img src="/tpl/V0509/temp/bct.png" alt="Bộ công thương">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</footer>
+<!-- start back top -->
+<a href="#" class="back-top"><span>Back to top</span></a>
+<!-- end back top -->

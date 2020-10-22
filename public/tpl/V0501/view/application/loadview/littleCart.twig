@@ -1,0 +1,98 @@
+<div class="top-cart-content" >
+    {% if (products) %}
+        <ul id="cart-sidebar" class="mini-products-list count_li">
+            <ul class="list-item-cart">
+                {% for p in products %}
+                    {% set priceDiscount=p.priceAfterDiscount(p.quantity) %}
+
+                    <li class="item productid-{{ p.id }} cartItem_{{ p.id }}"
+                        price="{{ p.price }}">
+                        <div class="wrap_item"><a class="product-image"
+                                                  href="{{ p.viewLink }}"
+                                                  title="{{ p.name }}"><img
+                                        alt="{{ p.name }}"
+                                        src="{{ p.thumbnailUri }}"
+                                        width="80"></a>
+                            <div class="detail-item">
+                                <div class="product-details">
+                                    <a
+                                            psid="{{ p.id }}"
+                                            title="Xóa"
+                                            class="value fa fa-times">&nbsp;</a>
+                                    <p class="product-name text2line"><a
+                                                href="{{ p.viewLink }}"
+                                                title="{{ p.name }}">{{ p.name }}</a>
+                                    </p></div>
+                                <div class="product-details-bottom"><span
+                                            class="price">
+                                                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                                                        <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                                        <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                                                    {% elseif (p.oldprice() > 0) %}
+                                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                                        <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                                                    {% elseif (p.price == 0) %}
+                                                                                        <span class="price product-price">Liên hệ</span>
+                                                                                    {% else %}
+                                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                                    {% endif %}
+                                                                                </span><span
+                                            class="quaty item_quanty_count">{{ p.quantity }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                {% endfor %}
+                <div class="wrap_total">
+                    <div class="top-subtotal">Tổng cộng: <span
+                                class="price">{{ serviceCart().totalMoney|number_format(0) }}</span>
+                    </div>
+                </div>
+                <div class="wrap_button">
+                    <div class="actions"><a href="/cart/checkout?emptylayout=true"
+                                            class="btn btn-gray btn-checkout pink"><span>Tiến hành thanh toán</span></a>
+                    </div>
+                </div>
+            </ul>
+        </ul>
+    {% endif %}
+</div>
+<script>
+    $('.remove-item-cart.fa-times').click(function () {
+        console.log('abc');
+        var id = $(this).attr('psid');
+        removeCartTop(id, true);
+    })
+    function removeCartTop(prodId, delItem) {
+        var check = confirm('bạn có muốn xóa sản phẩm này' + '?');
+        if (check) {
+            $.post('/cart/remove',{'psId' : prodId},
+                function(rp) {
+                    if (delItem) {
+                        $('.cartItem_' + prodId).remove();
+                        var totalPrice = 0;
+                        $totalItem = 0;
+                        $('.list-item-cart .item').each(function () {
+                            var t = $(this), price = parseInt(t.attr('price')),
+                                qty = parseInt(t.find('.item_quanty_count').val());
+                            t.find('.product-price').html(numberFomart(price * qty) + 'VNĐ');
+                            totalPrice += price * qty;
+                            $totalItem += qty;
+                        });
+                        $('.top-subtotal .price').text(numberFomart(totalPrice) + 'VNĐ');
+                        $('.mr_top .cartCount.count_item_pr').html($totalItem);
+                        ajaxLoadView({
+                            view: 'littleCart',
+                            onSuccess: function (rs) {
+                                $('.top-cart-content').html(rs);
+                            }
+                        });
+                        // document.location.href = '/cart';
+                    } else {
+                        document.location.href = '/cart';
+                    }
+                });
+        }
+    }
+</script>

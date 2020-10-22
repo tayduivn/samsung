@@ -1,0 +1,177 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ brand.name }}">
+    <meta property="og:url" content="{{ brand.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~brand.imgUri }}">
+    <meta property="og:type" content="brand">
+{% endblock %}
+{% block body %}
+{#    {% set itemCountPerPage =  pagin.setItemCountPerPage(24) %}#}
+    {% set nItems = 0 %}
+    {% set nItems = paginator.currentModels|length %}
+    {% set arrayIds = [] %}
+    {% block breadcrumbs %}
+        <section class="bread-crumb">
+            <span class="crumb-border"></span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 a-left">
+                        {% set brand = [{ 'label': brand.name, 'uri': brand.viewLink }] %}
+                        {{ breadcrumbs.build(brand) }}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endblock %}
+    <div class="container margin-bottom-15">
+        <div class="wrp_border_collection">
+            <div class="row">
+                <section class="main_container collection collection_container col-lg-12 col-md-12 col-sm-12 ">
+                    <div class="page_title margin-top-5">
+                        <h1 class="title_page_h1"><span>{{ brand.name | raw }}</span> <i>(<span class="slsp_col">{{ nItems }}</span>
+                                sản phẩm)</i></h1>
+                    </div>
+                    <div class="category-products products">
+                        <div class="sortPagiBar">
+                            <div class="srt">
+                                <div class="wr_sort col-sm-12">
+                                    <div class="text-sm-right">
+                                        <div class="sortPagiBar sortpage text-sm-right">
+                                            <div id="sort-by">
+                                                <label class="left hidden-xs">Sắp xếp: </label>
+                                                <div class="border_sort">
+                                                    <select name="SortBy" id="SortBy" onChange="window.location=this.options[this.selectedIndex].value">
+                                                        <option value="/product">Tùy chọn</option>
+                                                        <option value="{{ addFilter('show', 'discount', 2) }}" {{ shows[0] == 'discount' ? 'selected' : '' }}>Sản phẩm khuyến mãi</option>
+                                                        <option value="{{ addFilter('show', 'new', 2) }}" {{ shows[0] == 'new' ? 'selected' : '' }}>Sản phẩm mới</option>
+                                                        <option value="{{ addFilter('show', 'nameAsc', 2) }}" {{ shows[0] == 'nameAsc' ? 'selected' : '' }}>Từ A-Z</option>
+                                                        <option value="{{ addFilter('show', 'nameDesc', 2) }}" {{ shows[0] == 'nameDesc' ? 'selected' : '' }}>Từ Z-A</option>
+                                                        <option value="{{ addFilter('show', 'priceAsc', 2) }}" {{ shows[0] == 'priceAsc' ? 'selected' : '' }}>Giá tăng dần</option>
+                                                        <option value="{{ addFilter('show', 'priceDesc', 2) }}" {{ shows[0] == 'priceDesc' ? 'selected' : '' }}>Giá giảm dần</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <section class="products-view products-view-grid collection_reponsive">
+                            <div class="row">
+                                {% if(paginator.currentModels) %}
+                                    {% for p in paginator.currentModels %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            class: 'imageChange',
+                                            lazy: true,
+                                            openDiv: false,
+                                        }%}
+                                        {% set percent = p.calcDiscountPercent %}
+                                        {% set priceDiscount = p.priceAfterDiscount %}
+                                        {% set arrayIds = [p.id] %}
+                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 product-col">
+                                            <div class="item saler_item">
+                                                <div class="product-box">
+                                                    <div class="product-thumbnail">
+                                                        <a href="{{ p.viewLink }}"
+                                                           class="image_link display_flex"
+                                                           data-images="{{ image }}"
+                                                           title="{{ p.name }}">
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </a>
+                                                        {% if(percent > 0) %}
+                                                            <span class="sale_count"><span class="bf_">-{{ percent }}%</span></span>
+                                                        {%  endif %}
+                                                        <div class="product-action-grid clearfix">
+                                                            <div class="product-action-grid-wrap">
+                                                                <div class="__1">
+                                                                    <form action="/cart/add" method="post"
+                                                                          class="variants form-nut-grid"
+                                                                          data-id="product-actions-1017369837"
+                                                                          enctype="multipart/form-data">
+                                                                        <div>
+                                                                            <button type="button"
+                                                                                    class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                            >
+                                                                                <i class="fa fa-search"></i>
+                                                                                <span class="tooltips qv"><span>Xem nhanh</span></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="__2">
+                                                                    <div class="action__">
+                                                                        <div class="variants form-nut-grid" data-id="product-actions-1017369837">
+                                                                            <div class="button_wh_40">
+                                                                                {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                                                {% if(p.parentId == parentId) %}
+                                                                                    <button type="button"
+                                                                                            class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                    >
+                                                                                        <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                        <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                    </button>
+                                                                                {% else %}
+                                                                                    <button class=" cart_button_style btn-cart left-to add_to_cart btnQuickCart" ck="1" selid="{{ p.id }}"
+                                                                                            title="Cho vào giỏ hàng">
+                                                                                        <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                        <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                    </button>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <span class="product-vendor">{{ p.brandName }}</span>
+                                                        <h3 class="product-name"><a class="text2line"
+                                                                                    href="{{ p.viewLink }}"
+                                                                                    title="{{ p.name }}">{{ p.name }}</a>
+                                                        </h3>
+                                                        <div class="price-box clearfix">
+                                                            {% if (p.priceAfterDiscount > 0) %}
+                                                                <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                            {% elseif (p.oldprice() > 0) %}
+                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                            {% elseif (p.price == 0) %}
+                                                                <span class="price product-price">Liên hệ</span>
+                                                            {% else %}
+                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                            </div>
+                            <div class="pagination" style="width: 100%">
+                                <div class="links">
+                                    {{ render_paginator(paginator) }}
+                                </div>
+                            </div>
+
+                        </section>
+                        <script>
+                            var cuPage = 1
+                        </script>
+
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}

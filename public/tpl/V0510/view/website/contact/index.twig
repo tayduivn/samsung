@@ -1,0 +1,133 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Liên hệ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Liên hệ">
+    <meta name="keywords" content="Liên hệ">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Liên hệ">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+    <div class="containerMain">
+        {% set category = [{'label': 'Liên hệ', 'uri':'/lien-he'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <section class="page">
+        <div class="container contact-beemart roadtobee">
+            <div class="row">
+                <div class="select_maps col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div class="aa">
+                        <div class="page-title category-title">
+                            <h1 class="title-head"><a href="#">Đường đến beemart</a></h1>
+                        </div>
+                        <div class="mapp">
+                            <div class="box-maps">
+                                <div class="iFrameMap">
+                                    <div class="google-map">
+                                        <iframe src="javascript:;" class="lazyload" data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6711587959044!2d105.84898631432372!3d21.00581488601081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac753fbaf755%3A0xca9be88934d3da95!2zQ-G7rWEgaMOgbmcgQ0FQVE9ULnZuIC0gMTM4IELhuqFjaCBNYWk!5e0!3m2!1sen!2s!4v1547435663019" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="city_1 city-wrapper" style="display: block;">
+                            <div class="nano has-scrollbar">
+                                <div class="title_roadtobee">
+                                    <h2 class="title-head-contact">Danh sách cơ sở</h2>
+                                </div>
+                                <div class="content bee_hn">
+                                    <h2 class="text-center">Hà Nội</h2>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 no-padding f-left">
+                                        <div class="item-bee">
+                                            <div class="title-module-page">
+                                                <h2><span>Beemart Nguyễn Khánh Toàn</span></h2>
+                                            </div>
+                                            <span class="showroom-contact"><span class="bold_text">Giờ mở cửa:</span>
+											8h00 am - 21h00 pm
+										</span>
+                                            <span class="showroom-contact"><span class="bold_text">Điện thoại:</span>
+
+											<a href="tel:1900 636 546">1900 636 546</a>
+
+										</span>
+                                            <span class="showroom-address showroom-contact"><span class="bold_text">Địa chỉ:</span> Số 5 ngõ 26 Nguyễn Khánh Toàn, Cầu Giấy, HN</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 no-padding f-left">
+                                        <div class="item-bee">
+                                            <div class="title-module-page">
+                                                <h2><span>Beemart Lò Đúc</span></h2>
+                                            </div>
+                                            <span class="showroom-contact"><span class="bold_text">Giờ mở cửa:</span>
+											8h00 - 21h00
+										</span>
+                                            <span class="showroom-contact"><span class="bold_text">Điện thoại:</span>
+
+											<a href="tel:1900 636 546">1900 636 546</a>
+										</span>
+                                            <span class="showroom-address showroom-contact"><span class="bold_text">Địa chỉ:</span> Số 246 Lò Đúc, Hai Bà Trưng, HN</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="content bee_hcm">
+                                    <h2 class="text-center">Hồ Chí Minh</h2>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 no-padding f-left">
+                                        <div class="item-bee">
+                                            <div class="title-module-page">
+                                                <h2><span>Beemart Võ Thị Sáu</span></h2>
+                                            </div>
+                                            <span class="showroom-contact"><span class="bold_text">Giờ mở cửa:</span>
+											8h00 - 21h00
+										</span>
+                                            <span class="showroom-contact"><span class="bold_text">Điện thoại:</span>
+											<a href="tel:1900 636 546">1900 636 546</a>
+										</span>
+                                            <span class="showroom-address showroom-contact"><span class="bold_text">Địa chỉ:</span> Số 102 Võ Thị Sáu, Q.1, TP HCM</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 no-padding f-left">
+                                        <div class="item-bee">
+                                            <div class="title-module-page">
+                                                <h2><span>Beemart Âu Cơ</span></h2>
+                                            </div>
+                                            <span class="showroom-contact"><span class="bold_text">Giờ mở cửa:</span>
+											8h00 - 21h00
+										</span>
+                                            <span class="showroom-contact"><span class="bold_text">Điện thoại:</span>
+											<a href="tel:1900 636 546">1900 636 546</a>
+										</span>
+                                            <span class="showroom-address showroom-contact"><span class="bold_text">Địa chỉ:</span> Số 212 Âu Cơ, Q. Tân Bình, TP HCM</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 no-padding f-left">
+                                        <div class="item-bee">
+                                            <div class="title-module-page">
+                                                <h2><span>Beemart Gò Vấp</span></h2>
+                                            </div>
+                                            <span class="showroom-contact"><span class="bold_text">Giờ mở cửa:</span>
+											8h00 - 21h00
+										</span>
+                                            <span class="showroom-contact"><span class="bold_text">Điện thoại:</span>
+
+											<a href="tel:1900 636 546">1900 636 546</a>
+
+										</span>
+                                            <span class="showroom-address showroom-contact"><span class="bold_text">Địa chỉ:</span> 156 Thống Nhất, p.10, Q. Gò Vấp, TP. HCM</span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}

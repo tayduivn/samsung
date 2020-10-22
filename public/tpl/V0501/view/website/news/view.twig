@@ -1,0 +1,354 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    {% set buildBread = buildBreadcrumbs(category)%}
+    {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}
+    {% set buildBread = buildBread | merge (buildBread1) %}
+    {{ breadcrumbs.build(buildBread) }}
+    <div class="container article-wraper">
+        <div class="row row_article">
+            <div class="wrap_border col-lg-12">
+                <span class="bordered"></span>
+            </div>
+            <aside id="aside_article"
+                   class="left left-content col-lg-3 col-md-3 col-sm-12 col-xs-12 col-md-push-9 col-lg-push-9">
+                <div class="wol_product margin-bottom-25">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_product_bg_1">
+                            <a href="/product?show=hot" title="Sản phẩm hot">
+                                {{ translate('Sản phẩm hot') }}</a>
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="product_col_dets clearfix">
+                        <div class="wrap_owl_topsale">
+                            {% set productBestseller = search({'limit':28,'showHot':1}) %}
+                            {% if(productBestseller)  %}
+                            {% set t = 0 %}
+                            <div class="owl_col_details owl-carousel owl-theme"  data-margin="15">
+                                <!-- ADD DIV -->
+
+                                <!-- chan le = true -->
+                                    {% for p in productBestseller %}
+                                        {% set t = t+1 %}
+                                        {% set totalProduct = productBestseller|length %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            class: 'imageChange swatch-'~p.id,
+                                            lazy: true,
+                                            openDiv: false,
+                                        }%}
+                                        {% if (t == 1 ) %}
+                                        <div class="abcd">
+                                            {% endif %}
+                                            <div class="item">
+                                                <div class="hot_sale_product">
+                                                    <div class="item-img-horizontal">
+                                                        <a href="{{ p.viewLink }}"
+                                                           class="product-image"
+                                                           title="{{ p.name }}">
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </a>
+                                                    </div>
+                                                    <div class="item-info-horizontal">
+                                                        <h3 class="item-name text2line">
+                                                            <a href="{{ p.viewLink }}"
+                                                               title="{{ p.name }}">
+                                                                {{ p.name }}
+                                                            </a>
+                                                        </h3>
+                                                        <div class="price-box clearfix">
+                                                            {% if (p.priceAfterDiscount > 0) %}
+                                                                <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                            {% elseif (p.oldprice() > 0) %}
+                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                            {% elseif (p.price == 0) %}
+                                                                <span class="price product-price">Liên hệ</span>
+                                                            {% else %}
+                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% if(t % 4 == 0 and t < totalProduct) %}
+                                        </div>
+                                        <div class="abcd">
+                                            {% endif %}
+                                    {% endfor %}
+                                        </div>
+                                {% else %}
+                                    <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có sản phẩm hot nào') }}!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wol_product margin-bottom-25">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_blog_bg_2">
+                            <a href="/promotion" title="Sản phẩm khuyến mãi">
+                                Sản phẩm khuyến mãi</a>
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="product_col_dets clearfix">
+                        <div class="wrap_owl_topsale">
+                            {% set promotion = getPromotionProduct() %}
+                            {% if(promotion)  %}
+                            {% set t = 0 %}
+                            <div class="owl_col_details owl-carousel owl-theme"  data-margin="15">
+                                <!-- ADD DIV -->
+
+                                <!-- chan le = true -->
+                                {% for p in promotion %}
+                                {% set t = t+1 %}
+                                {% set totalPromotion = promotion|length %}
+                                {% set image = p.thumbnailUri %}
+                                {% set options = {
+                                    alt: p.name,
+                                    class: 'imageChange swatch-'~p.id,
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                {% if (t == 1 ) %}
+                                <div class="abcd">
+                                {% endif %}
+                                <div class="item">
+                                    <div class="hot_sale_product">
+                                        <div class="item-img-horizontal">
+                                            <a href="{{ p.viewLink }}"
+                                               class="product-image"
+                                               title="{{ p.name }}">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                        </div>
+                                        <div class="item-info-horizontal">
+                                            <h3 class="item-name text2line">
+                                                <a href="{{ p.viewLink }}"
+                                                   title="{{ p.name }}">
+                                                    {{ p.name }}
+                                                </a>
+                                            </h3>
+                                            <div class="price-box clearfix">
+                                                {% if (p.priceAfterDiscount > 0) %}
+                                                    <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                    <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                {% elseif (p.oldprice() > 0) %}
+                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                    <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                {% elseif (p.price == 0) %}
+                                                    <span class="price product-price">Liên hệ</span>
+                                                {% else %}
+                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if(t % 4 == 0 and t < totalPromotion) %}
+                                </div>
+                                <div class="abcd">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                    <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có khuyến mại nào') }}!</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="aside-item">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_blog_bg_3">
+                            <a href="news" title="Tin tức nổi bật">
+                                Tin tức nổi bật</a>
+                        </h2>
+                    </div>
+                    <div class="list-blogs sidebar-blog-content">
+                        <div class="blog_list_item">
+                            {% set LastestNews = getLastestNews({'limit':24}) %}
+                            {% if (LastestNews) %}
+                            {% set t = 0 %}
+                            <div class="owl_col_details owl-carousel owl-theme"  data-margin="15">
+                                {% for p in LastestNews %}
+                                {% set t = t+1 %}
+                                {% set totalNews = LastestNews|length %}
+                                {% set time = p.createdDateTime|split(' ') %}
+                                {% set image = p.imageUri %}
+                                {% set options = {
+                                    alt: p.title | e('html'),
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                {% if (t == 1 ) %}
+                                <div class="abcd">
+                                {% endif %}
+                                <article class="blog-item blog-item-list ">
+                                    <div class="blog-item-thumbnail img1_news"
+                                         onclick="window.location.href='{{ p.viewLink }}';">
+                                        <a href="{{ p.viewLink }}">
+
+                                            <picture>
+                                                <source media="(max-width: 480px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 481px) and (max-width: 767px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                        srcset="{{ image }}">
+                                                <source media="(min-width: 1200px)"
+                                                        srcset="{{ image }}">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </picture>
+                                        </a>
+                                    </div>
+
+                                    <div class="ct_list_item">
+                                        <h3 class="blog-item-name"><a class="text-one-line text2line"
+                                                                      href="{{ p.viewLink }}"
+                                                                      title="{{ p.title | raw }}">{{ p.title | raw }}</a></h3>
+                                        <span class="post_">
+                                        <span><span class="ti-time"></span> {{ time[0] }}</span>
+                                    </span>
+                                    </div>
+                                </article>
+                                {% if(t % 4 == 0 and t < totalNews) %}
+                                </div>
+                                <div class="abcd">
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <section id="content_article_"
+                     class="right-content col-lg-9 col-md-9 col-sm-12 col-xs-12 col-lg-pull-3 col-md-pull-3">
+                <article class="article-main" itemscope="" itemtype="http://schema.org/Article">
+                    <meta itemprop="mainEntityOfPage"
+                          content="/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch">
+                    <meta itemprop="description"
+                          content="Ảnh minh họaDòng J là dòng sản phẩm được nhiều người ưa thích nhất trong số các điện thoại thông minh của&nbsp;Samsung. Nguồn tin mới cho biết, trong thời gian tới Samsung sẽ tung ra Galaxy J7 (2018) và thiết bị này đã lộ diện trên FCC.Cụ thể, một thiết bị mang mã model SM-J720F vừa đạt chứng nhận bởi FCC và nó chính là Samsung Galaxy J7 (2018).FCC đã tiết lộ rất nhiều về các thông số kỹ thuật của Samsung Galaxy J7 (2018) bao gồm: chiều rộng 153 mm và chiều cao 76 mm và đi kèm với kích thước màn hình 5.6 inch.Trang&nbsp;Gizmochina, Galaxy J7 (2018) cho biết sẽ hỗ trợ băng tần LTE là FDD Band 5, Band 7, Band 38 và Band 41, cùng với kết nối Bluetooth 5.0. Đây là những chi tiết duy nhất xuất hiện trên danh sách của FCC.&nbsp;Trước đó, smartphone đã được phát hiện trên GeekBench với bộ vi xử lý Exynos 7885 8 nhân tốc độ 2.2 GHz kết hợp với 2 GB RAM.">
+                    <meta itemprop="author" content="admin shop">
+                    <meta itemprop="headline" content="Galaxy J7 (2018) lộ diện trên FCC với màn hình 5.6 inch">
+                    <meta itemprop="image" content="https:http://file.hstatic.net/1000329005/article/2.jpg">
+                    <meta itemprop="datePublished" content="10/18/2018 15:58:37">
+                    <meta itemprop="dateModified" content="10/18/2018 15:59:13">
+                    <div itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+                        <div class="hidden" itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject">
+                            <img src="//theme.hstatic.net/1000329005/1000419954/14/logo.png?v=85"
+                                 alt="DL Pelican - Giao diện bán hàng">
+                            <meta itemprop="url"
+                                  content="https://theme.hstatic.net/1000329005/1000419954/14/logo.png?v=85">
+                            <meta itemprop="width" content="400">
+                            <meta itemprop="height" content="60">
+                        </div>
+                        <meta itemprop="name" content="DL Pelican - Giao diện bán hàng">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content_ar">
+                            <div class="page_title hidden">
+                                <p class="title_page_h1">{{ news.title }}</p>
+                            </div>
+                            <h1 class="title-head-article"><a
+                                        href="{{ news.viewLink }}"
+                                        itemprop="name">{{ news.title }}</a></h1>
+                            <div class="image_first margin-top-10 hidden">
+                                <img src="{{ news.pictureUri }}"
+                                     alt="{{ news.title }}">
+                            </div>
+                            {% set time = news.createdDateTime|split(' ') %}
+                            <div class="article-meta">
+                                <b>Đăng bởi: </b><span class="main-color">admin shop</span> <i class="ti ti-time"></i>
+                                <span>{{ time[0] }}</span>
+                            </div>
+                            <div class="article-details">
+                                <div class="article-content">
+                                    {{ news.content |raw }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tags_share col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="share_row">
+                                <div class="tag_article col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="inline bold">THẺ: &nbsp;</span>
+                                    <a title="iphone" href="/blogs/all/tagged/iphone">iphone</a>,
+                                    <a title="điện thoại" href="/blogs/all/tagged/dien-thoai">điện thoại</a>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="socialsharing_product no-print">
+                                        <ul class="social-sharing list-unstyled">
+                                            <li>
+                                                <a class="btn social-sharing btn-twitter" href="javascript:void(0);"
+                                                   data-type="twitter">
+                                                    <i class="fab fa-twitter"></i> Tweet
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="btn social-sharing btn-facebook" href="javascript:void(0);"
+                                                   data-type="facebook">
+                                                    <i class="fab fa-facebook-f"></i> Facebook
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="btn social-sharing btn-pinterest" href="javascript:void(0);"
+                                                   data-type="pinterest">
+                                                    <i class="fab fa-pinterest"></i> Pinterest
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <script type="text/javascript">
+                                        $(document).ready(function () {
+                                            $('.btn.social-sharing').on('click', function () {
+                                                type = $(this).attr('data-type');
+                                                if (type.length) {
+                                                    switch (type) {
+                                                        case 'twitter':
+                                                            window.open('https://twitter.com/intent/tweet?text=Galaxy J7 (2018) lộ diện trên FCC với màn hình 5.6 inch https://dl-pelican.myharavan.com/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch', 'sharertwt', 'toolbar=0,status=0,width=640,height=445');
+                                                            break;
+                                                        case 'facebook':
+                                                            window.open('http://www.facebook.com/sharer/sharer.php?u=https://dl-pelican.myharavan.com/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch', 'sharer', 'toolbar=0,status=0,width=660,height=445');
+                                                            break;
+                                                        case 'google-plus':
+                                                            window.open('https://plus.google.com/share?url=https://dl-pelican.myharavan.com/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch', 'sharer', 'toolbar=0,status=0,width=660,height=445');
+                                                            break;
+                                                        case 'pinterest':
+                                                            window.open('http://pinterest.com/pin/create/button/?url=https://dl-pelican.myharavan.com/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch&media=//hstatic.net/0/0/global/noDefaultImage6_grande.gif', 'sharerpinterest', 'toolbar=0,status=0,width=660,height=445');
+                                                            break;
+                                                    }
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                            <div id="section-fbcomment" class="fb-comments-wrapper">
+                                <div class="fb-comments fb_iframe_widget fb_iframe_widget_fluid_desktop" data-href="https://suplo-baby.myharavan.com/blogs/news/thoi-trang-me-va-be-chat-nhat-showbiz-viet" data-width="100%" data-numposts="5" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=&amp;container_width=840&amp;height=100&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v2.9" style="width: 100%;"><span style="vertical-align: bottom; width: 100%; height: 178px;"><iframe name="f2e4d32d959bbf4" width="1000px" height="100px" data-testid="fb:comments Facebook Social Plugin" title="fb:comments Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v2.9/plugins/comments.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df3b51141a91884c%26domain%3Dsuplo-baby.myharavan.com%26origin%3Dhttps%253A%252F%252Fsuplo-baby.myharavan.com%252Fffa1223ab199f4%26relation%3Dparent.parent&amp;container_width=840&amp;height=100&amp;href=https%3A%2F%2Fsuplo-baby.myharavan.com%2Fblogs%2Fnews%2Fthoi-trang-me-va-be-chat-nhat-showbiz-viet&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v2.9" style="border: none; visibility: visible; width: 100%; height: 178px;" class=""></iframe></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </div>
+{% endblock %}

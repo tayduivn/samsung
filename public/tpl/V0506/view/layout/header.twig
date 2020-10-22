@@ -1,0 +1,85 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% set quantity = serviceCart().totalQuantities %}
+<header>
+    <div class="header_top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8 col-sm-8 col-12">
+                    <div class="bar_top_hd">
+                        <div class="hotline_top">
+                            <a href="tel:098765"><i class="fa fa-volume-control-phone" aria-hidden="true"></i>Hotline :
+                                0987654321</a>
+                        </div>
+                        <div class="showroom_top">
+                            <a href="/he-thong-cua-hang"><i class="fa fa-building" aria-hidden="true"></i>Hệ thống 94
+                                showroom</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-12">
+                    <div class="bar_top_right">
+                        <div class="box_sub_header">
+                            <a>Đăng ký để nhận 50k miễn phí</a>
+                        </div>
+                        {% if(hasIdentity()) %}
+                            <div class="user_ac">
+                                <a href="/profile"><i class="fa fa-user"
+                                                      aria-hidden="true"></i>{{ getUser().fullName? getUser().fullName: 'Tài khoản' }}
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="user_ac">
+                                <a href="/user/signin"><i class="fa fa-user" aria-hidden="true"></i>Đăng nhập</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="box_flex_header">
+                <div class="col-md-8 col-sm-8 col-5  position_unset flex_mobile">
+                    <div class="menu_mobile">
+                        <div class="icon_menu_bar">
+                            <a href="#boxMenu"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <div class="logo_header">
+                        <a href="/">
+                            <img class="img-logo" src="{{ getLogoUri() }}" alt="logo">
+                        </a>
+                    </div>
+                    <div class="menu_desktop">
+                        <ul id="menu-menu" class="menu tp_menu">
+                            {% if(menuIsExisted({'type': 'header' })) %}
+                                {% include 'layout/menucustom' %}
+                            {% else %}
+                                {% include 'layout/menucache' %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-7 position_unset no_pd_left_mb">
+                    <div class="flex flex_end">
+                        <div class="form_search">
+                            <form role="search" method="get" id="searchform" class="searchform"
+                                  action="/search">
+                                <button id="searchsubmit" value="Tìm kiếm" type="submit">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                                <input placeholder="Tìm kiếm" value="" name="q" id="text" type="text">
+                            </form>
+                        </div>
+                        <div class="cart_header">
+                            <a href="/cart"><img src="/tpl/V0506/img/temp/gio-hang-min.png">
+                                <span class="count_cart">{{ quantity }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,222 @@
+#bnCate {
+    height: 292px;
+    overflow: hidden;
+}
+
+#bnCate img {
+    max-width: 100%;
+}
+
+#childCate .generalBar {
+    background: #F44242;
+}
+
+.generalBar#labelCtPro {
+    text-align: left;
+    font-size: 14px;
+    padding: 8px 0 8px 20px;
+}
+
+#ct2 {
+    padding: 10px 0 0 0 !important;
+}
+
+#ct2 .index {
+    /*border-right: 10px solid #f1f1f1 !important;*/
+}
+
+.blockBanner {
+    display: inline-flex;
+    /*background: #f1f1f1;*/
+    padding-bottom: 18px
+}
+
+#ftTop {
+    margin: 0 !important;
+}
+
+#subMenuCate li a {
+    color: #333;
+    font-size: 12px;
+}
+
+#subMenuCate li {
+    list-style: none;
+    position: relative;
+    padding-bottom: 6px;
+}
+
+#subMenuCate li > i {
+    color: #F44242;
+    padding-right: 7px;
+}
+
+#subMenuCate {
+    margin-bottom: 20px;
+    list-style: none;
+    padding: 20px;
+    float: left;
+    border: 1px solid #eee;
+    width: 100%;
+}
+
+#subMenuCate li a.cateLv2 {
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#subMenuCate ul > li {
+    padding-left: 22px;
+}
+
+#iconCircle {
+    font-size: 5px;
+    position: absolute;
+    left: 3px;
+    top: 7px;
+    right: 14px;
+}
+
+#nameCate > h3, #nameCate > h1,
+.nameCate > h3, .nameCate > h1 {
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    position: relative;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+#nameCate > h3 > span, #nameCate > h1 > span,
+.nameCate > h3 > span, .nameCate > h1 > span {
+    position: absolute;
+    border-bottom: 2px solid #f44242;
+    width: 22%;
+    bottom: 0px;
+    left: 0;
+}
+
+#menuCate ul ul {
+    display: none;
+}
+
+.toggle {
+    float: right;
+    width: 15px;
+    height: 20px;
+}
+
+#attCate {
+    display: inline-block;
+    width: 100%;
+    /*background: #b9e2f8;*/
+    /*border-bottom: 1px solid #78c2ef;*/
+    background: #e6e6e6;
+    border-bottom: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 0 15px 0;
+    padding: 20px;
+}
+
+#attCate > ul > li {
+    float: left;
+    list-style: none;
+    width: 20%;
+}
+
+#attCate > ul {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-around;
+    -webkit-justify-content: space-around;
+}
+
+#attCate ul li p {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+#attCate ul li select {
+    width: 90%;
+    padding: 5px;
+}
+
+#attCate ul li .selectBtn {
+    width: 98%;
+    background: #fff;
+    border: 1px solid #DEDEDE;
+    text-align: left;
+    position: relative;
+}
+
+#attCate ul li .selectBtn i {
+    position: absolute;
+    right: 3%;
+    top: 25%;
+}
+
+#attCate ul li .selectBtn i[aria-controls="child"] {
+    display: none !important;
+}
+
+.wrpOption {
+    position: relative;
+}
+
+.wrpOption .dropdown-menu {
+    width: 98%;
+    margin-top: 0;
+}
+
+.wrpOption:hover .dropdown-menu {
+    display: block;
+}
+
+/*#itemsCate{*/
+/*padding-left: 28px;*/
+/*}*/
+#proItem:nth-child(1),
+#proItem:nth-child(2),
+#proItem:nth-child(3) {
+    border-top: 1px solid #eee;
+}
+
+#proItem:nth-child(3n) {
+    border-right: 1px solid #eee;
+}
+
+#proItem:last-child {
+    border-right: 1px solid #eee !important;
+}
+
+.labelOther {
+    margin-bottom: 20px !important;
+}
+
+#menuMain {
+    height: auto;
+}
+
+.dropdown-menu > li > a {
+    cursor: pointer;
+    font-size: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+/*#menuMain > ul{*/
+/*display: none;*/
+/*}*/
+
+
+
+
+
+
+
+
+
+

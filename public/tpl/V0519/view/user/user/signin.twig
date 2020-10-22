@@ -1,0 +1,50 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Tài khoản').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    <main class="wrapper main-content  custom_page ">
+        <!-- /templates/customers[login].liquid -->
+        <div class="grid">
+            <div class="grid__item large--one-third push--large--one-third text-center">
+                <div class="note form-success" id="ResetSuccess" style="display:none;">
+                    Chúng tôi đã gửi một email với đường dẫn để giúp bạn cập nhật mật khẩu.
+                </div>
+
+                <div id="CustomerLoginForm" class="form-vertical">
+                    {#<form accept-charset="UTF-8" action="/account/login" id="customer_login" method="post">
+                        <input name="form_type" type="hidden" value="customer_login">
+                        <input name="utf8" type="hidden" value="✓">
+                        <h1>Đăng nhập</h1>
+                        <label for="CustomerEmail" class="hidden-label">Email</label>
+                        <input type="email" name="customer[email]" id="CustomerEmail" class="input-full" placeholder="Email" autocorrect="off" autocapitalize="off" autofocus="">
+                        <label for="CustomerPassword" class="hidden-label">Mật khẩu</label>
+                        <input type="password" value="" name="customer[password]" id="CustomerPassword" class="input-full" placeholder="Mật khẩu">
+                        <p>
+                            <input type="submit" class="btn btn--full" value="Đăng nhập">
+                        </p>
+                        <p><a href="/">Trở về</a></p>
+                        <p><a href="/user/signup" id="customer_register_link">Đăng kí</a></p>
+
+                        <p><a href="#recover" id="RecoverPassword">Quên mật khẩu?</a></p>
+                   </form>#}
+                    <h1>Đăng nhập</h1>
+                    {{ partial('partial/form',{'form':form}) }}
+                    <p><a href="/">Trở về</a></p>
+                    <p><a href="/user/signup" id="customer_register_link">Đăng kí</a></p>
+                    <p><a href="/user/getpassword" id="RecoverPassword">Quên mật khẩu?</a></p>
+                </div>
+                <style>
+                    #UserSignin ul {
+                        list-style: none;
+                    }
+
+                    #UserSignin #btnSubmit {
+                        background: #53b7b7;
+                        color: #fff;
+                    }
+                </style>
+            </div>
+        </div>
+    </main>
+{% endblock %}

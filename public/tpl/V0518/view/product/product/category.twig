@@ -1,0 +1,403 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/tpl/'~ templateDir ~'/css/products.css' }}" type="text/css">
+{% endblock %}
+
+{% block body %}
+    {% block breadcrumb %}
+        {% set category = [{'label': 'Tất cả sản phẩm', 'uri':'/product'}] %}
+        {{ breadcrumbs.build(category) }}
+    {% endblock %}
+
+    <div class="main-container col2-left-layout">
+        <div class="container">
+            <div class="category-gallery">
+                <div class="descrip_coll content_coll add_apper">
+                    <div class="bg_cl"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-left sidebar sidebar_mobi col-sm-12 col-xs-12">
+                    <aside class="col-left sidebar">
+                        <div class="box_fill">
+                            <div class="filter-containers">
+                                <div class="heading">
+                                    <div class="h2 title-head">Bộ lọc sản phẩm</div>
+                                    <p>Giúp lọc nhanh sản phẩm bạn tìm kiếm</p>
+                                </div>
+                                <div class="filter-container__selected-filter">
+                                    <div class="filter-container__selected-filter-header clearfix">
+                                        <span class="filter-container__selected-filter-header-title">LỌC THEO:</span>
+                                        <a href="/product" class="filter-container__clear-all">
+                                            Xóa tất cả
+                                        </a>
+                                    </div>
+                                    <div class="filter-container__selected-filter-list">
+                                        <ul>
+                                            <li class="filter-container__selected-filter-item">
+                                                <a href="#">
+                                                    <img src="{{ '/tpl/'~ templateDir ~'/imgs/close.png' }}">
+                                                    {{ category.name | raw }}
+                                                </a>
+                                            </li>
+
+                                            {% set cPrice = getParam('price') %}
+                                            {% if(cPrice != '') %}
+                                                <li class="filter-container__selected-filter-item">
+                                                    <a href="#">
+                                                        <img src="{{ '/tpl/'~ templateDir ~'/imgs/close.png' }}">
+                                                        {{ cPrice | raw }}
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="aside-filter">
+                                <div class="aside-hidden-mobile">
+                                    <div class="filter-container">
+                                        <aside class="aside-item filter-vendor one">
+                                            <div class="aside-title">
+                                                <div class="h2 title-head margin-top-0" onclick="openFilter('nsx-filter')"><span>Nhà sản xuất</span></div>
+                                            </div>
+                                            <div class="aside-content filter-group" id="nsx-filter">
+                                                <ul class="filter-vendor">
+                                                    {% set brand = loadBrand({'categoryId':category.id}) %}
+                                                    {% if (brand) %}
+                                                        {% set prBrand = getParam('brand') %}
+                                                        {% for b in brand %}
+                                                            {% if b.id in prBrand %}
+                                                                <li class="filter-item filter-item--check-box filter-item--green">
+                                                                    <label>
+                                                                        <input type="checkbox" value="{{ removeFilter('brand', b.id) }}" {{ getParam('brand') == b.id ? 'checked' : '' }}>
+                                                                        <i class="fa"></i>
+                                                                        {{ b.name }}
+                                                                    </label>
+                                                                </li>
+                                                            {% else %}
+                                                                <li class="filter-item filter-item--check-box filter-item--green">
+                                                                    <label>
+                                                                        <input type="checkbox" value="/product?brand={{ b.id }}" {{ getParam('brand') == b.id ? 'checked' : '' }}>
+                                                                        <i class="fa"></i>
+                                                                        {{ b.name }}
+                                                                    </label>
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </aside>
+
+                                        {% set price = {} %}
+                                        {% if(price) %}
+                                            {% set price = price %}
+                                        {% endif %}
+                                        <aside class="aside-item filter-price one">
+                                            <div class="aside-title">
+                                                <div class="h2 title-head margin-top-0" onclick="openFilter('gia-filter')">
+                                                    <span>Lọc giá</span>
+                                                </div>
+                                            </div>
+                                            <div class="aside-content filter-group" id="gia-filter">
+                                                <ul class="filter-price">
+                                                    <li class="filter-item filter-item--check-box filter-item--green">
+								                        <span>
+									                        <label>
+										                        <input type="checkbox" data-price="0:max" value="/product" {{ getParam('price') == '' ? 'checked' : '' }}>
+										                        <i class="fa"></i>
+										                        Tất cả
+									                        </label>
+								                        </span>
+                                                    </li>
+                                                    {% if (price < 100000 and price > 0) %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="checkbox" name="price-filter" data-price="0:100000" value="{{ removeFilter('price', '0:100000') }}">
+                                                                    <i class="fa"></i>
+                                                                    Giá dưới 100.000đ
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="checkbox" name="price-filter" data-price="0:100000" value="{{ addFilter('price', '0:100000', 2) }}" {{ getParam('price') == '0:100000' ? 'checked' : '' }}>
+                                                                    <i class="fa"></i>
+                                                                    Giá dưới 100.000đ
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if (price < 200000 and price > 100000) %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="checkbox" name="price-filter" data-price="100000:200000" value="{{ removeFilter('price', '100000:200000') }}">
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 100,000₫ - 200,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="100000:200000" value="{{ addFilter('price', '100000:200000', 2) }}" {{ getParam('price') == '100000:200000' ? 'checked' : '' }}>
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 100,000₫ - 200,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if (price < 300000 and price > 200000) %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="200000:300000" value="{{ removeFilter('price', '200000:300000') }}">
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 200,000₫ - 300,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="200000:300000" value="{{ addFilter('price', '200000:300000', 2) }}" {{ getParam('price') == '200000:300000' ? 'checked' : '' }}>
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 200,000₫ - 300,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if (price < 400000 and price > 300000) %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="300000:400000" value="{{ removeFilter('price', '300000:400000') }}">
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 300,000₫ - 400,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="300000:400000" value="{{ addFilter('price', '300000:400000', 2) }}" {{ getParam('price') == '300000:400000' ? 'checked' : '' }}>
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 300,000₫ - 400,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if (price < 500000 and price > 400000) %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="400000:500000" value="{{ removeFilter('price', '400000:500000') }}">
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 400,000₫ - 500,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% else %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="400000:500000" value="{{ addFilter('price', '400000:500000', 2) }}" {{ getParam('price') == '400000:500000' ? 'checked' : '' }}>
+                                                                    <i class="fa"></i>
+                                                                    <span>Từ 400,000₫ - 500,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% endif %}
+
+                                                    {% if (price > 500000) %}
+                                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                                            <span>
+                                                                <label>
+                                                                    <input type="radio" name="price-filter" data-price="500000:max" value="{{ addFilter('price', '500000:max', 2) }}" {{ getParam('price') == '500000:max' ? 'checked' : '' }}>
+                                                                    <i class="fa"></i>
+                                                                    <span>Lớn hơn 500,000₫</span>
+                                                                </label>
+                                                            </span>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </aside>
+
+                                        <aside class="aside-item filter-type one">
+                                            <div class="aside-title">
+                                                <div class="h2 title-head margin-top-0" onclick="openFilter('loai-filter')"><span>Loại</span></div>
+                                            </div>
+                                            <div class="aside-content filter-group" id="loai-filter">
+                                                <ul class="filter-type">
+                                                    {% set category = getCategories() %}
+                                                    {% if (category) %}
+                                                        {% for c in category %}
+                                                            <li class="filter-item filter-item--check-box filter-item--green">
+                                                                <label>
+                                                                    <input type="radio" value="{{ c.viewLink }}" {{ c.viewLink in getCurrentUrl() ? 'checked' : '' }}>
+                                                                    <i class="fa"></i>
+                                                                    <span>{{ c.name | raw }}</span>
+                                                                </label>
+                                                            </li>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </aside>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+
+                <div class="col-xs-12 collection">
+                    <div class="category-description std">
+                        <div class="slider-items-products">
+                            <div class="cat-img-title cat-bg cat-box">
+                                <h1 class="cat-heading">Tất cả sản phẩm</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-products pull-left">
+                        <div class="sortPagiBar">
+                            <div id="sort-by">
+                                <label class="left hidden-xs">Sắp xếp: </label>
+                                <ul>
+                                    <li>
+                                        <select id="filter-right" onChange="window.location=this.options[this.selectedIndex].value">
+                                            <option value="/product">Tùy chọn</option>
+                                            <option value="{{ addFilter('show', 'nameAsc', 2) }}" {{ shows[0] == 'nameAsc' ? 'selected' : '' }}>A → Z</option>
+                                            <option value="{{ addFilter('show', 'nameDesc', 2) }}" {{ shows[0] == 'nameDesc' ? 'selected' : '' }}>Z → A</option>
+                                            <option value="{{ addFilter('show', 'priceAsc', 2) }}" {{ shows[0] == 'priceAsc' ? 'selected' : '' }}>Giá tăng dần</option>
+                                            <option value="{{ addFilter('show', 'priceDesc', 2) }}" {{ shows[0] == 'priceDesc' ? 'selected' : '' }}>Giá giảm dần</option>
+                                            <option value="{{ addFilter('show', 'new', 2) }}" {{ shows[0] == 'new' ? 'selected' : '' }}>Hàng mới nhất</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <section class="products-view products-view-grid margin-top-15 main-col">
+                            <div class="clearfix borderss slider-items row">
+                                {% if (paginator.currentModels) %}
+                                    {% for p in paginator.currentModels %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set percent = p.calcDiscountPercent %}
+                                        {% set priceDiscount = p.priceAfterDiscount %}
+                                        {#Single product#}
+                                        <div class="col-xs-6 col-sm-4 col-md-3 no-padding product-grid-item-lm">
+                                            <div class="col-item">
+                                                {% if (percent) %}
+                                                    <div class="sale-label sale-top-right">
+                                                        <span>-{{ percent }}%</span>
+                                                    </div>
+                                                {% endif %}
+
+                                                <div class="item-inner">
+                                                    <div class="product-wrapper">
+                                                        <div class="thumb-wrapper">
+                                                            <a href="#" class="thumb flip">
+                                                                <img class="lazyload loaded" src="{{ p.thumbnailUri }}" onerror="this.src='{{ '/tpl/'~ templateDir ~'/imgs/broken-img.png' }}';">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="item-info">
+                                                        <div class="info-inner">
+                                                            <h3 class="item-title">
+                                                                <a href="#">{{ p.name }}</a>
+                                                            </h3>
+                                                            <div class="item-content">
+                                                                <div class="item-price">
+                                                                    <div class="price-box">
+                                                                        {% if p.priceAfterDiscount > 0 %}
+                                                                            <p class="special-price">
+                                                                                <span class="price">{{ p.priceAfterDiscount | number_format(0,'.','.') }}₫</span>
+                                                                            </p>
+                                                                            <p class="old-price">
+                                                                                <span class="price">{{ p.price | number_format(0,'.','.') }}₫</span>
+                                                                            </p>
+                                                                        {% elseif (p.oldPrice > 0) %}
+                                                                            <p class="special-price">
+                                                                                <span class="price">{{ p.price | number_format(0,'.','.') }}₫</span>
+                                                                            </p>
+                                                                            <p class="old-price">
+                                                                                <span class="price">{{ p.oldPrice | number_format(0,'.','.') }}₫</span>
+                                                                            </p>
+                                                                        {% else %}
+                                                                            {% if (p.price!=0) %}
+                                                                                <span class="regular-price">
+                                                                                    <span class="price">{{ p.price | number_format(0,'.','.') }}₫</span>
+                                                                                </span>
+                                                                            {% else %}
+                                                                                <span class="regular-price">
+                                                                                    <span class="price">Liên hệ</span>
+                                                                                </span>
+                                                                            {% endif %}
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="actions hidden-xs hidden-sm remove_html">
+                                                            <form action="/cart/add" method="post" class="variants form-nut-grid form-ajaxtocart has-validation-callback">
+                                                                {% if (p.price!=0) %}
+                                                                    <button class="button btn-cart btn-more" type="button">
+                                                                        Chi tiết
+                                                                    </button>
+
+                                                                    <button class="button btn-cart" type="button">
+                                                                        Tùy chọn
+                                                                    </button>
+                                                                {% else %}
+                                                                    <button class="button btn-cart btn-more" type="button">
+                                                                        Chi tiết
+                                                                    </button>
+                                                                {% endif %}
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {#end Single product#}
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="a-center error" role="alert">
+                                        Không có sản phẩm nào trong danh mục này.
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </section>
+
+                        <div class="shop-pag text-xs-right">
+                            <div class="text-center pages">
+                                {{ render_paginator(paginator) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

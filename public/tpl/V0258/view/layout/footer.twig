@@ -1,0 +1,109 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+<div id="modalShow" class="modal fade" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content"></div>
+    </div>
+</div>
+<section class="footer-top">
+    <div class="footer-container tp_footer">
+        <div class="inner clear">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-5 col-sm-12 col-xs-12">
+                        <div class="col-inner">
+                            <h3 class="headtitle"><span>Nhanh.vn</span></h3>
+                            <div class="div-text">
+                                <p>Giấy phép kinh doanh số: 0106162265 do phòng Kinh doanh sở KH&ĐT TP Hà Nội cấp ngày: 25/04/2013</p>
+                                <p>Xưởng SX: Số 102 Thái Thịnh, phường Trung Liệt, quận Đống Đa, TP Hà Nội</p>
+                                <p>Showroom 1: Thái thịnh, Đống Đa, Hà Nội</p>
+                                <p>Mở cửa: 7h30 - 21h30 kể cả thứ 7 và Chủ Nhật, Có vị trí đỗ xe ô tô</p>
+                                <div class="box-social">
+                                    <ul class="clear">
+                                        {% set foot_banners = getBannerByPositionCode('FOOTER_CERTIFICATE') %}
+                                        {% if(foot_banners) %}
+                                            {% for b in foot_banners %}
+                                                {% set imageSlide = b.imagesrc %}
+                                                {% set options = {
+                                                    alt: b.name,
+                                                    lazy: true,
+                                                    openDiv: false,
+                                                } %}
+                                                <a href="{{ b.viewLink }}">
+                                                    {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+                                                </a>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="col-inner">
+                            <h3 class="headtitle"><span>Liên hệ & Thanh toán</span></h3>
+                            <div class="div-text">
+                                <p>Hotline<a href="tel:09xxx">09xxxx</a>
+                                </p>
+                                <p>Email : <a href="mailto:abc@gmail.com">abc@gmail.com</a>
+                                </p>
+                                <p>Website: <a href="nhanh.vn">nhanh.vn</a>
+                                </p>
+                            </div>
+                            <div role="form" class="wpcf7" id="wpcf7-f6741-o1" dir="ltr">
+                                <div class="screen-reader-response"></div>
+                                <form method="post" class="wpcf7-form">
+                                    <div class="form-subscriber">
+                                        <p class="headtitle">Đăng ký nhận thông tin khuyến mại qua Email</p>
+                                        <div class="field">
+                                            <span class="wpcf7-form-control-wrap your-sdt">
+                                                 <input id="eminput" type="email"
+                                                        class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required fieldEmail input-group-field"
+                                                        placeholder="Nhập email của bạn...">
+                                            </span>
+                                            <button id="emsubmit" type="button"
+                                                    class="wpcf7-form-control wpcf7-submit subBtnScribe"
+                                                    field=".fieldEmail" value="GỬI">Đăng ký
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div id="msgEmail"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                        <div class="col-inner">
+                            <h3 class="headtitle"><span>Hỗ trợ khách hàng</span></h3>
+                            <div class="div-text">
+                                <ul>
+                                    <li><a href="/">Chính sách bảo mật thông tin</a></li>
+                                    <li><a href="/">Chính sách và quy định</a></li>
+                                    <li><a href="/">Hướng dẫn mua hàng</a></li>
+                                    <li><a href="/">Sơ đồ chỉ đường</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                        <div class="col-inner">
+                            <h3 class="headtitle"><span>Fanpage</span></h3>
+                            <div class="fb-page" data-href="nhanh.vn"
+                                 data-small-header="false" data-adapt-container-width="true"
+                                 data-hide-cover="false" data-show-facepile="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="hotline-fix">
+    <a href="tel:09xxxxxx">
+        <div class="hotline-inner">
+            <span class="text">Hotline: </span><span class="phone">098 xxx xxx</span>
+        </div>
+    </a>
+</div>
+<div id="dialogMessage"></div>
+<div class="site-overlay"></div>

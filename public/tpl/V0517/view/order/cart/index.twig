@@ -1,0 +1,19 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+  {{ headTitle('Giỏ hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta property="og:title" content="Giỏ hàng">
+  <meta property="og:url" content="{{ getCurrentUrl() }}">
+  <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+
+
+{% block body %}
+
+  {# To do #}
+  
+{% endblock %}
+{% block script %}
+  <script type="text/javascript" src="{{ templatePath ~'/js/main.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>
+{% endblock %}

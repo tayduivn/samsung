@@ -1,0 +1,123 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    {% set setPageRange = paginator.setPageRange(4) %}
+    <section class="content">
+        <div class="container pt-4">
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    {% set newsCategory = getNewsCategories() %}
+                    {% if(newsCategory) %}
+                        <ul class="cate_news">
+                            {% for n in newsCategory %}
+                                <li>
+                                    <a href="{{ n.viewLink }}">{{ n.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="col-md-8 left_side_news">
+                    {% set newsCategory= getNewsCategories({'limit': 3}) %}
+                    {% if(newsCategory) %}
+                        <ul class="slide_news_index owl-carousel owl-theme">
+                            {% for cnew in newsCategory %}
+                                {% set news = searchNewsByCategory(cnew.id) %}
+                                {% if(news) %}
+                                    {% set image = news[0].imageUri %}
+                                    {% set options = {
+                                        alt: news[0].title|e('html'),
+                                        lazy: true,
+                                        openDiv: false,
+                                    } %}
+                                    <li>
+                                        <div class="img_news_slide">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            <div class="absl_news">
+                                                <p class="date_news_slide">{{ news[0].createdDateTime|date("m/d/Y") }}</p>
+                                                <a href="{{ news[0].viewLink }}"
+                                                   title="{{ news[0].title }}">
+                                                    {{ news[0].title }}
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 right_side_news">
+                    <div class="block_hot_news">
+                        {% set hotNews = getLastestNews({'limit':2}) %}
+                        {% if(hotNews) %}
+                            {% for n in hotNews %}
+                                {% set image = n.imageUri %}
+                                {% set options = {
+                                    alt: n.title|e('html'),
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <div class="item_hot_news">
+                                    <div class="img_hot_new">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </div>
+                                    <div class="title_hot_news">
+                                        <a class="title" href="{{ n.viewLink }}"
+                                           title="{{ n.title }}">{{ n.title }}</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-8 col-sm-6 col-12">
+                    {% if(paginator) %}
+                        {% for n in paginator %}
+                            {% set image = n.pictureUri %}
+                            {% set options = {
+                                alt: n.title | e('html'),
+                                lazy: true,
+                                class: 'wp_news_image',
+                                openDiv: false,
+                            } %}
+                            <div class="list_item_news">
+                                <div class="show_thumb">
+                                    <a href="{{ n.viewLink }}"
+                                       title="{{ n.title }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="show_tite">
+                                    <h2>
+                                        <a href="{{ n.viewLink }}" title="{{ n.title }}">{{ n.title|raw }}</a>
+                                    </h2>
+                                    <div class="intro_news">
+                                        {{ n.intro(true)|raw }}
+                                    </div>
+                                    <div class="show_more_news">
+                                        <a href="{{ n.viewLink }}">Xem thêm <span><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="col-md-12 content_sortPagiBar pagi">
+                            <div id="pagination" class="clearfix">
+                                {{ paginationControl(paginator, 'Sliding', 'partial/paginatorBoostrap') }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-4 col-sm6 col-12">
+                    {% include 'website/news/right_side_news' %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

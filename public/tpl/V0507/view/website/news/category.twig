@@ -1,0 +1,124 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+    {% set buildBread = buildBreadcrumbs(category)%}
+    {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}
+    {% set buildBread = buildBread | merge (buildBread1) %}
+    {{ breadcrumbs.build(buildBread) }}
+<main>
+    <section class="header-detail"> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="#">Blog - tin tức</a></li>
+        </ol>
+    </nav>
+    <!-- New Posts -->
+    <section class="new-posts">
+
+            <div class="card-news">
+                {% if (paginator.currentModels is not empty) %}
+                  {% for new in paginator.currentModels %}
+                    {% set image = new.pictureUri %}
+                    {% set options = {
+                      alt: new.title | e('html'),
+                      lazy: true,
+                      openDiv: false,
+                    } %}
+                    <div class="infoCardNews">
+                      <div class="news-body">
+                        <a href="{{ new.viewLink }}">
+                          {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </a>
+                        
+                        <div class="contentCatenew">
+                            <span>
+                                <span class="titleCateNews">{{ new.title | e('html') }}</span>
+                                {% set time = new.createdDateTime|split(' ') %}
+                                {% set date = time[0]|split('-') %}
+                                <div class="dateNewsContent">
+                                    <span class="timeDate">{{ date[2] }}.{{ date[1] }}.{{ date[0] }}</span>
+                                    <span class="iconComment">0</span>
+                                </div>
+                                <span>{{ new.intro(true) | raw }}</span>
+                            </span>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="contemtNewRight">
+                <div class="contemtNewRight-item">
+                    <h4>Bài viết nổi bậc</h4>
+                    <div class="new__right--post">
+                        {% set highlight_new = getNewsCategories() %}
+                        {% if(highlight_new is not empty) %}
+                            {% set New_hight = getLastestNews({'limit': 3, 'categoryId': showHot.id}) %}
+                            {% for nitem in New_hight %}
+                                {% set c_n = nitem.imageUri %}
+                                {% set options = {
+                                    alt: nitem.title,
+                                    lazy: true,
+                                    openDiv: false,
+                                    class:'card-img-top'
+                                } %}
+                                <div class="content_new-right">
+                                    <div class="new__right--post-img">
+                                        <a href="{{ nitem.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(c_n,options) }}
+                                        </a>
+                                    </div>
+        
+                                    <div class="new__right--post-event">
+                                        <h4> {{ nitem.createdDateTime }}  </h4>
+                                        <span>{{ subString(nitem.intro, 70) }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="contemtNewRight-item">
+                    <h4>Theo dõi chúng tôi trên</h4>
+                    <div class="right--icon">
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+    <div class="pagination">
+        <div class="links">
+            {{ render_paginator(paginator) }}
+        </div>
+    </div>
+</main>
+<style>
+    .pagination {
+        margin-bottom: 2em;
+    }
+</style>
+{% endblock %}

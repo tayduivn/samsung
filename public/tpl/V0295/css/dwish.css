@@ -1,0 +1,720 @@
+.dWish__btn--hidden,
+.dWish__hidden {
+    display:none!important
+}
+.dWish__btn-wrap {
+    position:relative;
+    display:inline-block;
+    margin:0;
+    padding:0;
+    min-width:30px;
+    min-height:30px
+}
+.dWish__btn-wrap.dWish__bg {
+    padding:5px 10px 5px 5px
+}
+.dWish__btn-wrap.dWish__only-icon .dWish__btn {
+    font-size:0!important
+}
+.dWish__btn-wrap.dWish__btn-count:before {
+    border:1px solid #d3d3d3;
+    border-right:0;
+    border-top:0;
+    background-color:#FEFEFE;
+    border-color:-moz-use-text-color -moz-use-text-color #D3D3D3 #D3D3D3;
+    border-image:none;
+    border-style:none none solid solid;
+    border-width:0 0 1px 1px;
+    content:"";
+    position:absolute;
+    -webkit-transform:rotate(45deg);
+    transform:rotate(45deg);
+    z-index:1;
+    zoom:1;
+    right:-13px;
+    top:calc(50% - 4px);
+    height:8px;
+    width:8px
+}
+.dWish__btn-wrap.dWish__btn-count:after {
+    text-shadow:none;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px;
+    background-color:#FEFEFE;
+    border:1px solid #D3D3D3;
+    color:#999;
+    content:attr(data-count);
+    font-weight:400;
+    left:100%;
+    margin-left:8px;
+    position:absolute;
+    padding:0 8px;
+    top:50%;
+    transform:translateY(-50%);
+    -webkit-transform:translateY(-50%)
+}
+.dWish__btn-wrap-collection .dWish__btn {
+    border-radius:50%;
+    box-shadow:0 0 4px 0 #dbdbdb
+}
+.dWish__btn-wrap-collection .dWish__btn.dWish__added {
+    box-shadow:0 0 4px 0 #d75a4a
+}
+.dWish__btn {
+    display:inline-block;
+    width:auto!important;
+    margin:0!important;
+    line-height:25px
+}
+.dWish__btn--added {
+    color:#ea9999!important
+}
+.dWish__add.dWish__loading,
+.dWish__added.dWish__loading {
+    cursor:not-allowed;
+    color:#d2d2d2!important;
+    pointer-events:none
+}
+.dWish__icon-heart {
+    display:inline-block;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    padding:5px 6px;
+    text-align:center;
+    float:left
+}
+.dWish__btn-wrap:not(.dWish__btn-wrap-collection):not(.dWish__only-icon) .dWish__btn .dWish__icon-heart {
+    margin-top: 5px
+}
+.dWish__btn .dWish__icon-heart svg {
+    width:100%;
+    height:100%
+}
+.dWish__btn:hover .dWish__icon-heart {
+    -webkit-animation:pulse-shadow--collection 2s infinite;
+    animation:pulse-shadow 2s infinite;
+}
+.dWish__button-side-wrapper {
+    background-color:rgba(0,0,0,0)!important;
+    position:fixed;
+    right:0;
+    top:50%!important;
+    width:33px;
+    z-index:1200000;
+    transition:transform .2s ease 0;
+    -webkit-transition:-webkit-transform .2s ease 0
+}
+.dWish__bottom-right {
+    right:0!important;
+    bottom:0!important;
+    top:auto!important;
+    left:auto!important
+}
+.dWish__bottom-left {
+    right:auto!important;
+    bottom:0!important;
+    top:auto!important;
+    left:0!important
+}
+.dWish__left,
+.dWish__right {
+    bottom:auto!important;
+    top:50%!important
+}
+.dWish__right {
+    right:0!important;
+    left:auto!important
+}
+.dWish__left {
+    right:auto!important;
+    left:0!important
+}
+.dWish__button-side-action {
+    display:inline-block;
+    transform:rotate(-90deg);
+    -webkit-transform:rotate(-90deg);
+    white-space:nowrap;
+    width:30px;
+    box-sizing:border-box
+}
+.dWish__button-side-action>.dWish__button-caption {
+    background-color:#F44336;
+    border:2px solid transparent;
+    border-radius:3px 3px 0 0;
+    box-shadow:0 0 10px rgba(0,0,0,.2),0 0 0 rgba(255,255,255,.5) inset;
+    color:#fff;
+    cursor:pointer;
+    display:inline-block;
+    font-size:14px;
+    letter-spacing:2px;
+    line-height:24px;
+    padding:.3em .5em;
+    text-align:center;
+    text-transform:uppercase
+}
+.dWish__button-side-action i,
+.dWish__button-side-action svg {
+    transform:rotate(90deg);
+    transition:transform .2s ease,opacity .2s ease;
+    -webkit-transform:rotate(90deg);
+    -webkit-transition:-webkit-transform .2s ease,opacity .2s ease;
+    width:15px;
+    height:15px;
+    padding-left:3px
+}
+.dWish__btn-wrap.dWish__bg .dWish__btn,
+.dWish__btn-wrap.dWish__bg svg path {
+    color:#fff;
+    fill:#fff
+}
+.dWish__no-icon i {
+    display:none!important
+}
+.dWish__button-side-wrapper .dWish__badge-count {
+    position:absolute;
+    background:#FF4500;
+    z-index:1;
+    width:26px;
+    text-align:center;
+    box-sizing:border-box;
+    font-size:10px;
+    color:#fff;
+    border-radius:100%;
+    height:26px;
+    line-height:20px;
+    font-weight:700;
+    border:1px solid #e83737;
+    text-shadow:1px 1px 1px rgba(255,255,255,.3);
+    box-shadow:1px 1px 1px 1px rgba(0,0,0,.2);
+    max-width:26px;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    padding:2px;
+    visibility:visible;
+    bottom:25px;
+    transform:rotate(90deg);
+    -webkit-transform:rotate(90deg)
+}
+.dWish__page--listing {
+    min-height:350px;
+    margin:10px 0;
+    width:100%
+}
+.dWish__page--listing:after,
+.dWish__page--listing:before {
+    display:table;
+    content:' ';
+    clear:both
+}
+.dWish__no-product {
+    text-align:center;
+    padding:10px
+}
+.dWish__quickview {
+    display:-ms-flexbox;
+    display:-webkit-flex;
+    display:flex;
+    -ms-flex-align:center;
+    -webkit-align-items:center;
+    -webkit-box-align:center;
+    align-items:center;
+    z-index:9999;
+    text-align:center;
+    overflow:hidden;
+    visibility:hidden;
+    opacity:0;
+    -webkit-transition:all .3s ease-in-out;
+    transition:all .3s ease-in-out
+}
+.dWish__quickview.overlay,
+.dWish__quickview.overlay:before {
+    position:fixed;
+    width:0;
+    height:0;
+    top:0!important;
+    left:0;
+    right:0;
+    bottom:0
+}
+.dWish__quickview:before {
+    content:'';
+    background-color:rgba(0,0,0,.3);
+    color:rgba(0,0,0,.4);
+    top:0!important;
+    margin:auto
+}
+.dWish__quickview.open {
+    visibility:visible;
+    opacity:1;
+    height:auto;
+    width:auto
+}
+.dWish__quickview.open:before {
+    width:100%;
+    height:100%
+}
+.dWish__quickview-content {
+    max-width:992px;
+    max-height:100%;
+    padding:0;
+    margin:0 auto;
+    text-align:left;
+    position:relative;
+    background:#fff;
+    min-width:750px;
+    -webkit-transition:all .3s ease-in-out;
+    -moz-transition:all .3s ease-in-out;
+    -ms-transition:all .3s ease-in-out;
+    -o-transition:all .3s ease-in-out;
+    transition:all .3s ease-in-out
+}
+.dWish__quickview-header {
+    padding:15px;
+    background:#ea9999;
+    color:#fff
+}
+a.dWish__quickview-close {
+    font-size:36px;
+    float:right;
+    color:#fff;
+    line-height:20px!important
+}
+.dWish__quickview-list {
+    padding:3px
+}
+.dWish__quickview-title {
+    color:#000;
+    height:36px;
+    overflow:hidden;
+    font-size:12px;
+    line-height:18px;
+    margin-bottom:10px
+}
+.dWish__list-wrap {
+    position:relative;
+    background:#fcfcfc;
+    height:450px;
+    width:100%;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch
+}
+.dWish__list-wrap::-webkit-scrollbar-track {
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+    background-color:#F5F5F5
+}
+.dWish__list-wrap::-webkit-scrollbar {
+    width:6px;
+    background-color:#F5F5F5
+}
+.dWish__list-wrap::-webkit-scrollbar-thumb {
+    background-color:#000
+}
+.dWish__list-product {
+    width:25%;
+    padding:15px;
+    float:left;
+    list-style:none;
+    position:relative
+}
+.dWish__list-product * {
+    font:inherit;
+    line-height:1.4em;
+    vertical-align:baseline;
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -ms-box-sizing:border-box;
+    -webkit-box-sizing:border-box
+}
+.dWish__list-image {
+    height:200px;
+    position:relative;
+    overflow:hidden;
+    background-size:cover!important
+}
+.dWish__list-information {
+    height:80px;
+    padding:9px
+}
+.dWish__list-price {
+    color:#ea9999;
+    font-size:14px;
+    line-height:16px
+}
+.dWish__list-old {
+    color:#999;
+    font-size:11px;
+    text-decoration:line-through
+}
+.dWish__removeProduct {
+    position:absolute;
+    top:0;
+    right:0;
+    width:30px;
+    height:30px;
+    background:#dbdbdb;
+    color:red;
+    font-size:20px;
+    text-align:center;
+    z-index:10;
+    display:none
+}
+.dWish__list-product:hover .dWish__removeProduct {
+    display:block
+}
+.dWish__list-add-to-cart {
+    text-align:center;
+    border-top:1px solid #DDD;
+    position:relative;
+    height:30px;
+    overflow:hidden;
+    background-color:#ea9999;
+    z-index:10
+}
+.dWish__list-add-to-cart a {
+    padding:5px 0;
+    display:block;
+    color:#FFF;
+    text-decoration:none
+}
+.dWish__list-link {
+    z-index:9;
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    bottom:0
+}
+.dWish__loading {
+    position:relative;
+    margin:0;
+    border:2px solid transparent;
+    border-radius:5px;
+    cursor:pointer;
+    display:inline-block
+}
+.dWish__loading:not(.dWish__list-wrap):after {
+    content:'';
+    box-sizing:border-box;
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+.dWish__btn-wrap-collection .dWish__loading:not(.dWish__list-wrap):after,
+.dWish__btn-wrap-collection.dWish__loading:after {
+    border-radius:50%
+}
+.dWish__box-loading {
+    animation:timeline;
+    animation-duration:1s;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    background:linear-gradient(to right,#eee 8%,#ddd 18%,#eee 33%);
+    background-size:800px auto;
+    background-position:100px 0;
+    border-radius:50%
+}
+@keyframes timeline {
+    0% {
+        background-position:-350px 0
+    }
+    100% {
+        background-position:400px 0
+    }
+}
+@-webkit-keyframes spinner {
+    to {
+        transform:rotate(360deg)
+    }
+}
+@keyframes spinner {
+    to {
+        transform:rotate(360deg)
+    }
+}
+@-webkit-keyframes pulse-shadow {
+    0% {
+        -webkit-box-shadow:0 0;
+        box-shadow:0 0
+    }
+    70% {
+        -webkit-box-shadow:0 0 5px 10px rgba(255,255,255,0);
+        box-shadow:0 0 5px 10px rgba(255,255,255,0)
+    }
+    100% {
+        -webkit-box-shadow:0 0 0 0 rgba(255,255,255,0);
+        box-shadow:0 0 0 0 rgba(255,255,255,0)
+    }
+}
+@keyframes pulse-shadow {
+    0% {
+        -webkit-box-shadow:0 0;
+        box-shadow:0 0
+    }
+    70% {
+        -webkit-box-shadow:0 0 5px 10px rgba(255,255,255,0);
+        box-shadow:0 0 5px 10px rgba(255,255,255,0)
+    }
+    100% {
+        -webkit-box-shadow:0 0 0 0 rgba(255,255,255,0);
+        box-shadow:0 0 0 0 rgba(255,255,255,0)
+    }
+}
+.dWish__heart {
+    background-color:red;
+    display:inline-block;
+    height:30px;
+    margin:0 10px;
+    position:relative;
+    top:0;
+    transform:rotate(-45deg);
+    width:30px
+}
+.dWish__heart:after,
+.dWish__heart:before {
+    content:"";
+    background-color:red;
+    border-radius:50%;
+    height:30px;
+    position:absolute;
+    width:30px
+}
+.d__page-loading:after,
+.d__page-loading:before {
+    content:'';
+    position:fixed
+}
+.dWish__heart:before {
+    top:-15px;
+    left:0
+}
+.dWish__heart:after {
+    left:15px;
+    top:0
+}
+@media screen and (max-width:992px) {
+    .dWish__quickview-content {
+        min-width:80%
+    }
+    .dWish__list-product {
+        width:33.33%;
+        margin:0;
+        padding:0 15px
+    }
+}
+@media screen and (max-width:768px) {
+    .dWish__quickview-content {
+        min-width:90%
+    }
+    .dWish__list-product {
+        width:50%
+    }
+}
+@media screen and (max-width:480px) {
+    .dWish__button-side-action>.dWish__button-caption span {
+        display:none
+    }
+    .dWish__button-side-action i,
+    .dWish__button-side-action svg {
+        width:30px;
+        height:30px;
+        padding-left:0
+    }
+}
+@media screen and (max-width:320px) {
+    .dWish__list-product {
+        width:100%
+    }
+}
+[class*=d__box-] {
+    height:6px;
+    background:#f6f7f9;
+    margin-bottom:13px;
+    margin-right:5px
+}
+.d__box-loading {
+    background:#fff;
+    height:150px;
+    padding:10px;
+    display:block;
+    margin:0 auto;
+    box-shadow:0 0 0 rgba(0,0,0,.1);
+    -o-box-shadow:0 0 0 rgba(0,0,0,.1);
+    -moz-box-shadow:0 0 0 rgba(0,0,0,.1);
+    -webkit-box-shadow:0 0 0 rgba(0,0,0,.1);
+    border-radius:3px;
+    -o-border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px
+}
+.d__box-thumbnail {
+    height:100px;
+    width:150px;
+    float:left;
+    margin-right:20px;
+    display:inline-block
+}
+.d__box-line-sm {
+    width:270px;
+    margin-top:10px;
+    margin-left:160px
+}
+.d__box-line-xs {
+    width:80px;
+    margin-left:160px
+}
+.d__box-line-df {
+    margin-top:30px;
+    width:380px;
+    height:20px
+}
+.d__box-line-lg {
+    width:200px;
+    margin-left:160px
+}
+.d__box-line-lgx {
+    width:450px
+}
+.d__box-thumbnail,
+[class*=d__box-line] {
+    animation:d_timeline;
+    animation-duration:1s;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    background:linear-gradient(to right,#eee 8%,#ddd 18%,#eee 33%);
+    background-size:800px auto;
+    background-position:100px 0
+}
+@keyframes d_timeline {
+    0% {
+        background-position:-350px 0
+    }
+    100% {
+        background-position:400px 0
+    }
+}
+.d__page-loading {
+    position:fixed;
+    z-index:99999999999;
+    height:2em;
+    width:2em;
+    overflow:show;
+    margin:auto;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0
+}
+.d__page-loading:before {
+    display:block;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(255,255,255,.3)
+}
+.d__page-loading:after {
+    border:2px solid #f3f3f3;
+    border-top:2px solid #3498db;
+    border-radius:50%;
+    width:80px;
+    height:80px;
+    /*-webkit-transform-origin:%50;*/
+    /*-o-transform-origin:%50;*/
+    /*-ms-transform-origin:%50;*/
+    /*transform-origin:%50;*/
+    -moz-animation:spinner .7s infinite linear;
+    -ms-animation:spinner 1.5s infinite linear;
+    -webkit-animation:spinner .7s infinite linear;
+    -o-animation:spinner .7s infinite linear;
+    animation:spinner .7s infinite linear
+}
+.d__listsavelater-wrap {
+//min-height:150px
+}
+.d__cart-headtitle {
+    font-size:20px
+}
+.d__cart-list {
+    padding:10px;
+    background:#fbfbfb;
+    border-radius:10px;
+    margin:10px 0
+}
+.d__cart-item {
+    margin-bottom:20px;
+    padding-bottom:10px;
+    border-bottom:1px solid #eee;
+    position:relative
+}
+.d__btn-addtocart,
+.d__cart-remove {
+    color:#007ff0;
+    position:static;
+    font-size:13px
+}
+.d__cart-item:after,
+.d__cart-item:before {
+    content:'';
+    display:table;
+    clear:both
+}
+.d__cart-item_image {
+    text-align:center;
+    float:left;
+    width:15%
+}
+.d__cart-item_image img {
+    width:70px
+}
+.d__cart-item_details {
+    float:left;
+    width:40%
+}
+.d__cart-product_title {
+    margin-right:20px;
+    line-height:1.3
+}
+.d__cart-product_variant {
+    margin:5px 20px 5px 0;
+    line-height:1.4em
+}
+.d__cart-remove {
+    margin-right:30px;
+    padding:0
+}
+.d__btn-addtocart {
+    visibility:visible!important;
+    display:inline!important;
+    background:0 0;
+    border:0;
+    margin-right:12px;
+    padding-left:7px;
+    padding-right:0;
+    margin-top:10px;
+    font-weight:400
+}
+.d__cart-price {
+    float:left;
+    width:20%
+}
+.d__cart-price del {
+    font-weight:300;
+    font-size:12px
+}
+@media screen and (max-width:560px) {
+    .d__cart-item_details {
+        width:80%;
+        padding:10px
+    }
+    .d__cart-product_title {
+        margin-right:5px
+    }
+    .d__cart-price {
+        width:100%;
+        text-align:center
+    }
+}

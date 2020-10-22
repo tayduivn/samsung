@@ -1,0 +1,329 @@
+{% set products = serviceCart().products %}
+{% set totalCartMoney = serviceCart().totalMoney %}
+{#<script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>#}
+<script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+<style>
+    #modalAddComplete-close {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        border-radius: 50%;
+        display: inline-block;
+        text-align: center;
+        padding: 0px;
+        margin: 0px;
+        background: #53b7b7;
+        color: #fff;
+        font-size: 18px;
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        z-index: 99;
+        cursor: pointer;
+    }
+</style>
+
+<span id="modalAddComplete-close" class="modalAddComplete-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+<div class="modalAddComplete-body">
+    {% if (products) %}
+        <div class="modal-cart-status">
+            <h2>
+                {#            Giỏ hàng của bạn (Đang có 3 sản phẩm)#}
+            </h2>
+        </div>
+        <form action="/cart" method="post" novalidate="" class="cart table-wrap added-form">
+            <div class="modal-main-cart">
+                <div class="modal-tbl-cart medium--hide small--hide">
+                    <table class="cart-table full table--responsive">
+                        <thead>
+                        <tr><th></th>
+                            <th>Sản phẩm</th>
+                            <th>Đơn giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                            <th></th>
+                        </tr></thead>
+                        <tbody>
+                        {% for p in products %}
+                            {% set image = p.thumbnailUri %}
+                            {% set discount = p.priceAfterDiscount(p.quantity) %}
+                            <tr class="product-row cartItem_{{ p.id }}" price="{{ p.price }}">
+                                <td data-label="Sản phẩm" class="product-img ">
+                                    <a href="">
+                                        <img src="{{ image }}" alt="{{ p.name }}">
+                                    </a>
+                                </td>
+                                <td class="product-title">
+                                    <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                </td>
+                                <td data-label="Đơn giá" class="product-price">
+                                    {% if (discount > 0) %}
+                                        <span class="current-price">{{discount|number_format(0) }}₫</span>
+                                        <span class="original-price"><s>{{ p.price|number_format(0) }}₫</s></span>
+                                        <span class="sale-off">{{ p.calcDiscountPercent }}%</span>
+                                    {% else %}
+                                        {% if (p.price is not empty and p.price <= 0) %}
+                                            <span class="current-price">Liên hệ</span>
+                                        {% else %}
+                                            <span class="current-price">{{ p.price|number_format(0) }}₫</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td class="product-actions" data-label="Số lượng" data-value="{{ p.quantity }}">
+                                    {#                                <input class="js-qty__num" type="number" item-price="{{ discount ? discount : p.price }}" name="updates[]" id="Quantity" psid="{{ p.id }}" data-id="" value="{{ p.quantity }}" min="1" max="{{ p.inventory.calcAvailable }}">#}
+                                    {{ p.quantity }}
+                                </td>
+                                <td class="product-money" data-label="Tổng giá">{{ ((discount ? discount : p.price) * p.quantity)|number_format(0) }}₫</td>
+                                {#                            <td class="product-remove"><a href="/cart/change?line=1&amp;quantity=0" class="cart__remove"><i class="fa fa-trash" aria-hidden="true"></i></a></td>#}
+                                <td class="product-remove"><a href="" class="cart__remove" psid="{{ p.id }}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mobile-modal-tbl-cart large--hide">
+                    <ul class="no-bullets">
+                        {% for p in products %}
+                            {% set image = p.thumbnailUri %}
+                            {% set discount = p.priceAfterDiscount(p.quantity) %}
+                            <li class="cart-item">
+                                <div class="grid mg-left-10">
+                                    <div class="grid__item medium--four-twelfths small--five-twelfths pd-left10">
+                                        <div class="cart-item-img">
+                                            <a href="{{ p.viewLink }}">
+                                                <img src="{{ image }}" alt="{{ p.name }}">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="grid__item medium--eight-twelfths small--seven-twelfths pd-left10">
+                                        <div class="cart-item-info">
+                                            <div class="cart-item-title">
+                                                <a href="{{ p.viewLink }}">
+                                                    {{ p.name }}
+                                                </a>
+                                            </div>
+                                            <div class="cart-item-price clearfix">
+                                                {% if (discount > 0) %}
+                                                    <span class="current-price">{{discount|number_format(0) }}₫</span>
+                                                    <span class="original-price"><s>{{ p.price|number_format(0) }}₫</s></span>
+                                                {% else %}
+                                                    {% if (p.price is not empty and p.price <= 0) %}
+                                                        <span class="current-price">Liên hệ</span>
+                                                    {% else %}
+                                                        <span class="current-price">{{ p.price|number_format(0) }}₫</span>
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                            <div class="cart-item-actions">
+                                                Số lượng: {{ p.quantity }} <a href="" psid="{{ p.id }}" class="cart__remove">Xóa</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="modal-checkout-actions">
+                    <div class="grid">
+                        <div class="grid__item large--one-half">
+                            <div class="cart-note-wrapper">
+                                <div class="cart-note">
+                                    <textarea name="note" placeholder="Ghi chú" class="input-full" id="CartSpecialInstructions"></textarea>
+                                </div>
+                            </div>
+                            <div class="text-left">
+                                <a href="javascript:void(0)" class="modalAddComplete-close"><i class="fa fa-reply" aria-hidden="true"></i> Tiếp tục mua hàng</a>
+                            </div>
+                        </div>
+                        <div class="grid__item large--one-half">
+                            <div class="modal-cart-checkout text-right">
+                                <div class="modal-cart-sum">
+                                    <h3>Tổng: <span>{{ totalCartMoney|number_format(0) }}₫</span></h3>
+                                </div>
+                                <div class="modal-cart-actions clearfix">
+                                    {#                                <button type="button" name="update" class="btnRefreshModal update-cart medium--hide small--hide">Cập nhật giỏ hàng</button>#}
+                                    <a href="/cart/checkout?emptylayout=true" class="btnProceedCheckout">Tiến hành thanh toán</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% else %}
+        <div class="modal-cart-status">
+            <h2>
+                Giỏ hàng của bạn (Đang có 0 sản phẩm)
+            </h2>
+        </div>
+        <form action="/cart" method="post" novalidate="" class="cart table-wrap added-form">
+            <div class="modal-main-cart">
+                <div class="grid__item">
+                    <p>Giỏ hàng trống</p>
+                    <p>Tiếp tục mua hàng <a href="/product">tại đây</a>.</p>
+                </div>
+
+            </div>
+        </form>
+    {% endif %}
+
+</div>
+<script>
+    $(document).ready(function () {
+        /*********************** Quantily up Down ***************************/
+        $('#Quantity').change(function () {
+            var products = [], ps = {};
+            ps['id'] = $(this).attr('psid');
+            ps['quantity'] = $(this).val();
+            products.push(ps);
+            addToCart(products, 2, function (rs) {
+                $('.update-cart').click(function (e) {
+                    if (e.target) {
+                        $('#modalAddComplete').fadeOut();
+                        addToCart(products, 2, function (rs) {
+                           if (rs.status == 1) {
+                               $('.modal-cart-sum h3 span').html(numberFomart(rs.data.totalMoney));
+                               $('#modalAddComplete').fadeIn();
+                           }
+                        });
+                    }
+                })
+            });
+
+        });
+
+        $('.modalAddComplete-close').click(function () {
+            $('#modalAddComplete').fadeOut();
+        });
+
+        $(".added-form").submit(function(e){
+            e.preventDefault();
+
+        });
+
+        $('.js-qty__adjust--minus').on('click', function () {
+            var item = $(this).next('#Quantity'),
+                min = 1, qty = parseInt(item.val());
+            if (qty > min) {
+                qty--;
+                item.val(qty);
+                changeQtyCart(item.attr('psId'), qty);
+            } else {
+                alert('Bạn phải đặt số lượng tối thiểu là 1 sản phẩm !');
+            }
+        });
+        $('.js-qty__adjust--plus').on('click', function () {
+            var item = $(this).prev('#Quantity'),
+                max = parseInt(item.attr('max')),
+                qty = parseInt(item.val());
+            qty++;
+            if (qty <= max) {
+                item.val(qty);
+                changeQtyCart(item.attr('psId'), qty);
+
+            } else {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+            }
+        });
+
+        $('.cart__remove').click(function (e) {
+            var id = $(this).attr('psid');
+            removeCart(id, true);
+            e.preventDefault();
+        });
+
+        $('.btnCloseQVCart').click(function () {
+            $('.quickview-cart').hide();
+        })
+    });
+
+    function changeQtyCart(id, qty) {
+        var products = [{id: id, quantity: qty}];
+        addToCart(products, 2, function (rs) {
+            if (rs.status) {
+                //window.location.reload();
+                var totalPrice = 0;
+                $totalItem = 0;
+                $('.cart__row.table__section').each(function () {
+                    var t = $(this), price = parseInt(t.attr('price')),
+                        qty = parseInt(t.find('#Quantity').val());
+                    t.find('.itemPrice span').html(numberFomart(price * qty) + 'VNĐ');
+                    totalPrice += price * qty;
+                    $totalItem += qty;
+                    $('.mg-left-15').each(function () {
+                        if (t.find('a').attr('href') == $(this).find('a').attr('href')) {
+                            $(this).find('.quantity').html('Số lượng: ' + qty);
+                        }
+                    });
+                    $('.qv-cart-total span').html(totalPrice + '₫');
+                });
+                $('.cart__subtotal').html(numberFomart(totalPrice) + 'VNĐ');
+                $('.hd-cart-count').html($totalItem);
+                // $('.desktop-cart-wrapper1.wow.fadeInRight .hd-cart .hd-cart-count').html($totalItem);
+                $('#cart-top h3').html('Giỏ hàng của tôi (' + $totalItem + ' sản phẩm)')
+                $('.count-cart').html($totalItem);
+            }
+        });
+    }
+
+
+    function removeCart(prodId, delItem) {
+        var check = confirm('bạn có muốn xóa sản phẩm này' + '?');
+        if (check) {
+            $('#modalAddComplete').fadeOut();
+            $.post('/cart/remove',{'psId' : prodId},
+                function(rp) {
+                    if (delItem) {
+                        $('.cartItem_' + prodId).remove();
+                        var totalPrice = 0;
+                        var $totalItem = 0;
+                        $('.modal-tbl-cart .product-row').each(function () {
+                            var t = $(this), price = parseInt(t.attr('price')),
+                                qty = parseInt(t.find('.product-actions').attr('data-value'));
+                            t.find('.product-money').html(numberFomart(price * qty) + 'VNĐ');
+                            totalPrice = price * qty;
+                            $totalItem += qty;
+                        });
+                        $('.modal-cart-sum').text(numberFomart(totalPrice) + 'VNĐ');
+                        $('.hd-cart-count').html($totalItem);
+                        ajaxLoadView({
+                            view: 'topCart',
+                            onSuccess: function (rs) {
+                                var t = $('#modalAddCompleteContent');
+                                t.html(rs);
+                                $('#modalAddComplete').fadeIn();
+                                $('#modalAddComplete .modal-cart-status h2').html('Giỏ hàng của bạn (Đang có ' + $totalItem + ' sản phẩm)');
+                            }
+                        });
+                        ajaxLoadView({
+                            view: 'cartTop',
+                            onSuccess: function (rs) {
+                                $('#cart-top').html(rs);
+                                $('.desktop-cart-wrapper .hd-cart-count').html($('.desktop-cart-wrapper .total-qty-line').attr('data-quantity'));
+                                $('.desktop-cart-wrapper1 .hd-cart-count').html($('.desktop-cart-wrapper1 .total-qty-line').attr('data-quantity'));
+                            }
+                        });
+                        // document.location.href = '/cart';
+                    } else {
+                        document.location.href = '/cart';
+                    }
+                });
+        }
+    }
+
+    $(window).click(function (e) {
+        var modal = document.getElementById('modalAddComplete');
+        if (e.target == modal) {
+            $('#modalAddComplete').fadeOut();
+        }
+    })
+
+    // $(document).ready(function () {
+    //     if ($(window).width() <= 768) {
+    //         $('.desktop-cart-wrapper1.wow.fadeInRight .hd-cart').click(function () {
+    //             window.location.href = '/cart';
+    //         })
+    //     }
+    // })
+</script>

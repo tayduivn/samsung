@@ -1,0 +1,149 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Đăng nhập').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng nhập">
+    <meta name="keywords" content="Đăng nhập">
+    <meta property="og:url" content="/user/signin">
+    <meta property="og:title" content="Đăng nhập">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{  ''~ templatePath  ~'/css/product/index-product.css '}}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="container-fluid top-product">
+    {% set category = [{'label':'Đăng nhập tài khoản', 'uri':'/user/signin'}] %}
+    {{ breadcrumbs.build(category) }}
+</div>
+    <div style="margin-top: 40px;font-size: 16px" class="container">
+        <h1 class="title-head"><span>Đăng nhập tài khoản</span></h1>
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <div style="margin-bottom: 30px" class="page-login">
+                    <div id="login">
+                        <span>
+                            Nếu bạn đã có tài khoản, đăng nhập tại đây.
+                        </span>
+                        <div style="margin-top: 20px;margin-bottom: 10px" id="signGF">
+                            <a href="/user/fbsignin?redirect=/" id="signFacebook"><i class="fa fa-facebook"></i><span>Sign in with Facebook</span></a>
+                            <a href="/user/ggsignin" id="signGoogle"><i class="fa fa-google-plus"></i><span>Sign in with Google</span></a>
+                        </div>
+
+                        <div class="login">
+                            {{ partial('partial/form',{'form':form}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+                <div id="recover-password" class="form-signup">
+				<span>
+					Bạn quên mật khẩu? Nhập địa chỉ email để lấy lại mật khẩu qua email.
+				</span>
+                    <form accept-charset="utf-8" action="/user/getpassword" id="recover_customer_password" method="post" class="has-validation-callback">
+                        <div class="action_bottom">
+                            <input class="btn btn-success" style="margin-top: 15px;" type="submit" value="Lấy lại mật khẩu">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .title-head{
+            font-size: 22px;
+        }
+        .required{
+            color: red;
+        }
+        .btn-success{
+            background: #67bd45;
+        }
+        .btn-success:hover{
+            color: green;
+            background: #67bd45;
+        }
+        input:focus{
+            box-shadow: rgba(185, 74, 72,0.2);
+        }
+        #signGF>a i{
+            text-align: center;
+            border-radius: 3px 0  0 3px;
+            font-size: 25px;
+            width: 40px;
+            padding: 5px 0;
+            border-right: 1px solid rgba(140, 137, 137, 0.55);
+        }
+        #signGF>a span{
+            text-align: center;
+            width: 160px;
+            display: inline-block;
+            vertical-align: top;
+            padding: 8px 0;
+            font-weight: bold;
+        }
+        #signGF>a{
+            display: inline-block !important;
+            width: 200px;
+            height: 36px;
+            border-radius: 3px;
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 5px;
+        }
+        #signFacebook>i{
+            background: #2f5181;
+        }
+        #signGoogle>i {
+            background: #b33924;
+        }
+        #signGoogle{
+            background: #e64d2d;
+        }
+        #signFacebook{
+            background: #3b5c91;
+        }
+        @media screen and (max-width: 480px) {
+            #signGF {
+                position: initial !important;
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+        /*đăng nhập*/
+        .login ul li{
+            list-style-type: none;
+        }
+        .login ul{
+            padding: 0;
+        }
+        .login ul li strong{
+            font-weight: 500;
+        }
+        .login input[type=text],.login input[type=password]{
+            width: 100%;
+            border: 1px solid rgb(185, 74, 72);
+            border-radius: .3rem;
+            font-size: 14px;
+            height: 40px;
+            padding-left: 10px;
+         }
+        .dangky a{
+            padding: 0;
+        }
+        .dangky {
+            width: 110px;
+            margin-left: 20px;
+        }
+    </style>
+    <script>
+        $(document).ready(function () {
+            $('.login input[type=text],.login input[type=password]').addClass('form-control');
+
+            $('.login input[type=text]').before('<strong>Email</strong><span style="color: red">*</span>');
+            $('.login input[type=password]').before('<div class="header"><strong >Mật Khẩu</strong><span style="color: red">*</span></div>')
+            $('.login input[type=submit]').attr('class','btn btn-success header').after('<button class="btn btn-success dangky header" type="submit" value="Đăng ký"><a class="link-2" href="/user/signup">Đăng ký</a></button>')
+        });
+    </script>
+{% endblock %}

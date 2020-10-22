@@ -1,0 +1,53 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Chương trình khuyến mãi').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Chương trình khuyến mãi">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/lib/index.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/catePro.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+   <main>
+       <div class="layoutpromotion">
+           <div class="container">
+               <h1 class="text-center mb-3">CÁC CHƯƠNG TRÌNH KHUYẾN MẠI HẤP DẪN TẠI NHANH.VN</h1>
+               <div class="promotiontotal">
+                   {% if(promotions is not empty) %}
+                       {% for p in promotions %}
+                           {% set image = p.imageUri %}
+                           {% set options = {
+                               alt: p.name,
+                               lazy: true,
+                               openDiv: false,
+                           }%}
+                       <div class="promotiontotal-item">
+                   <div class="promotiontotal-item-img">
+                       <a href="{{ p.viewLink }}">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                       </a>
+                   </div>
+                   <div class="promotiontotal-item-title">
+                       <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                   </div>
+               </div>
+           </div>
+           {% endfor %}
+               {% else %}
+                <p class="notpromotion">Hiện tại chưa có khuyến mại nào</p>
+           {% endif %}
+           </div>
+       </div>
+
+       <!-- pargination -->
+       <div class="pagination d-flex justify-content-center mt-5 text-center">
+           <div class="links">
+               {{ render_paginator(paginator) }}
+           </div>
+       </div>
+       <!-- end pargination -->
+   </main>
+{% endblock %}

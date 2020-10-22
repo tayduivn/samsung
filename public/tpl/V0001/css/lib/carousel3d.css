@@ -1,0 +1,341 @@
+.fily3d {
+    display: none;
+    overflow: hidden;
+    padding-top: 30px;
+    background: #f2f2f2 url(../../img/i/ga.png) no-repeat center top;
+}
+
+.fily3d h2 {
+    text-align: center;
+    height: 80px;
+    font-size: 26px;
+    margin-bottom: 25px;
+    background: url(../../img/2019/bg-title2.png) no-repeat center 45px;
+    color: #414143;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.slide3D .buttons #prev:before, .slide3D .buttons #next:before {
+    font-family: "fontello";
+    font-style: normal;
+    font-weight: 400;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    margin-left: .2em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.slide3D {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+    max-width: 1366px;
+}
+
+.slide3D #carousel {
+    position: relative;
+    /*height: 450px;*/
+    min-height: 328px;
+    top: 0;
+    overflow: hidden;
+}
+
+.slide3D #carousel article {
+    position: absolute;
+    transition: transform 1s, left 1s, opacity 1s, z-index 0s;
+    opacity: 1
+}
+
+.slide3D #carousel article img {
+    width: 400px;
+    transition: width 1s;
+    position: relative;
+    z-index: 1;
+}
+
+.slide3D #carousel article.hideLeft {
+    left: 0%;
+    opacity: 0;
+    transform: translateY(50%) translateX(-50%)
+}
+.slide3D #carousel article.hideLeft img {
+    width: 150px
+}
+
+
+.slide3D #carousel article.hideRight {
+    left: 100%;
+    opacity: 0;
+    transform: translateY(50%) translateX(-50%)
+}
+
+.slide3D #carousel article.hideRight img {
+    width: 150px
+}
+
+
+.slide3D #carousel article.prevLeftSecond {
+    z-index: 4;
+    left: 15%;
+    transform: translateY(50%) translateX(-48%);
+    opacity: 0.7;
+}
+.slide3D #carousel article.prevLeftSecond .over{
+    position: relative;
+    border-radius: 20px 0 20px 0;
+    width: 150px;
+    height: 100px;
+}
+.slide3D #carousel article.prevLeftSecond .over:before{
+    position: absolute;
+    background: #e8343f;
+    content: '';
+    z-index: 1;
+    left: 4px;
+    top: 4px;
+    border-radius: 30px 0;
+    width: 100%;
+    height: 100%;
+    transition: all .3s;
+}
+.slide3D #carousel article.prevLeftSecond img {
+    width: 100%;
+    border-radius: 30px 0;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+.slide3D #carousel article.prev {
+    z-index: 5;
+    left: 30%;
+    transform: translateY(50px) translateX(-50%)
+}
+
+.slide3D #carousel article.prev .over{
+    position: relative;
+    border-radius: 20px 0 20px 0;
+    width: 190px;
+    height: 127px;
+}
+.slide3D #carousel article.prev .over:before{
+    position: absolute;
+    background: #e8343f;
+    content: '';
+    z-index: 1;
+    left: -4px;
+    top: -4px;
+    border-radius: 30px 0;
+    width: 100%;
+    height: 100%;
+    transition: all .3s;
+}
+.slide3D #carousel article.prev img {
+    width: 100%;
+    border-radius: 30px 0;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+.slide3D #carousel article.selected {
+    z-index: 10;
+    left: 50%;
+    transform: translateY(0px) translateX(-50%)
+}
+.slide3D #carousel article.selected .over{
+    width: 265px;
+    height: 177px;
+}
+.slide3D #carousel article.selected .over:before{
+    position: absolute;
+    background: #e8343f;
+    content: '';
+    z-index: 1;
+    left: 4px;
+    top: 4px;
+    border-radius: 30px 0;
+    width: 100%;
+    height: 100%;
+    transition: all .3s;
+}
+.slide3D #carousel article.selected img {
+    border-radius: 30px 0;
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+.slide3D #carousel article.next {
+    z-index: 5;
+    left: 70%;
+    transform: translateY(50px) translateX(-49%)
+}
+.slide3D #carousel article.next .over{
+    position: relative;
+    border-radius: 20px 0 20px 0;
+    width: 190px;
+    height: 127px;
+}
+.slide3D #carousel article.next .over:before{
+    position: absolute;
+    background: #e8343f;
+    content: '';
+    z-index: 1;
+    left: -4px;
+    top: -4px;
+    border-radius: 30px 0;
+    width: 100%;
+    height: 100%;
+    transition: all .3s;
+}
+.slide3D #carousel article.next img {
+    width: 100%;
+    border-radius: 20px 0 20px 0;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+.slide3D #carousel article.nextRightSecond {
+    z-index: 4;
+    left: 85%;
+    transform: translateY(50%) translateX(-50%);
+    opacity: 0.7
+}
+.slide3D #carousel article.nextRightSecond .over{
+    position: relative;
+    border-radius: 20px 0 20px 0;
+    width: 150px;
+    height: 100px;
+}
+.slide3D #carousel article.nextRightSecond .over:before{
+    position: absolute;
+    background: #e8343f;
+    content: '';
+    z-index: 1;
+    left: 4px;
+    top: 4px;
+    border-radius: 30px 0;
+    width: 100%;
+    height: 100%;
+    transition: all .3s;
+}
+.slide3D #carousel article.nextRightSecond img {
+    border-radius: 20px 0 20px 0;
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+
+.slide3D #carousel article img {
+    width: 290px;
+}
+
+
+
+
+
+
+
+
+.slide3D #carousel article.selected .tt {
+    height: 100px
+}
+
+.slide3D #carousel article .tt {
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 105%;
+    left: -50%;
+    right: -50%;
+    width: 200%;
+    text-align: center;
+    transition: 1.6s;
+    z-index: 11;
+    color: #333;
+}
+
+.slide3D #carousel article a.tt{
+    color: #333;
+    font-size: 13px;
+    text-decoration: none
+}
+
+.slide3D #carousel article a:hover {
+    color: Red;
+}
+
+.fily3d .tt strong {
+    display: block;
+    font-family: "Roboto", sans-serif !important;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.fily3d .tt span {
+    display: block;
+    font-size: 14px;
+}
+
+.fily3d .tt .t {
+    padding-top: 10px;
+    height: 25px;
+}
+
+.fily3d .tt .g {
+    background-color: #ef4136;
+    height: 3px;
+    width: 45px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fily3d .tt .f {
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 18px;
+    overflow: hidden;
+    padding-top: 10px;
+}
+
+.slide3D .buttons #prev, .slide3D .buttons #next {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 35px;
+    height: 100%;
+    cursor: pointer;
+    padding-bottom: 90px;
+    z-index: 10
+}
+
+.slide3D .buttons #prev:before, .slide3D .buttons #next:before {
+    font-size: 40px;
+    display: block
+}
+
+.slide3D .buttons #next, .slide3D .buttons #prev {
+    width: 22px;
+    height: 200px;
+}
+
+.slide3D .buttons #prev {
+    left: 20px;
+    background: url(../../img/i/l.png) no-repeat left center;
+}
+
+.slide3D .buttons #next {
+    right: 20px;
+    background: url(../../img/i/r.png) no-repeat left center;
+}

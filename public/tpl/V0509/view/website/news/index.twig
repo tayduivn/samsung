@@ -1,0 +1,156 @@
+{% extends 'news_layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% block meta %}
+  {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta property="og:title" content="Tin tức">
+  <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %} 
+
+{% block body %}
+  <style>
+    body {
+      background: #fbfbfb url('/tpl/V0509/img/temp/background-blog.jpg') no-repeat scroll center top;
+      padding: 2rem;
+    }
+  </style>
+
+  <!-- main blog -->
+  <main class="main" id="main">
+    <!-- news blog -->
+    <section class="news-blog">
+      <div class="container border-container">
+        <div class="row">
+        {% set cate_news = getNewsCategories() %}
+          {% if(cate_news) %}
+            {% for new in cate_news %}
+              {% set image = new.imageUri %}
+              {% set options = {
+                alt: new.name | e('html'),
+                lazy: true,
+                openDiv: false
+              } %} 
+              <div class="col-6 col-md-6 col-lg-3" >
+              <div class="border-news">
+                <div class="news-items" id="{{ new.id }}">
+                  <a href="{{ new.viewLink }}">
+                    <p class="news-items__title text-center">{{ new.name | raw }}</p>
+                  </a>
+                  <a href="{{ new.viewLink }}">
+                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                  </a>
+                  {% if (new.childs is not empty) %}
+                    {% for items in new.childs %}
+                      <p class="news-items__content text-center">{{ items.description | raw }}</p>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </section>
+    <!-- news blog -->
+
+    <!-- New Posts -->
+    <section class="new-posts">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-lg-9">
+            <div class="card-news">
+{#              <label class="heading-title text-uppercase">Các bài viết mới</label>#}
+              <div class="row">
+                {% set newsCategory = getNewsCategories() %}
+                {% if(newsCategory is not empty) %}
+                  {% set i = 0 %}
+                  {% for new_post in newsCategory %}
+                    {% set ex_news = searchNewsByCategory(new_post.id) %}
+                    {% if (ex_news) %}
+                      <a href="{{ new_post.viewLink }}" class="title{{ i }}">
+                        <h2 class="text-secondary">
+                          {{ translate(new_post.name) }}
+                        </h2>
+                      </a>
+                      {% set k = 0 %}
+                      {% for nPostItem in ex_news %}
+                        {% set image = nPostItem.imageUri %}
+                        {% set options = {
+                          alt: nPostItem.title | e('html'),
+                          lazy: true,
+                          openDiv: false,
+                          class: 'img img-fluid is-full h-310'
+                        } %}
+                        {% if (k < 4) %}
+                          <div class="col-12 col-lg-6 mr-bottom-50">
+                            <div class="news-items">
+                              <a href="{{ nPostItem.viewLink }}">
+                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                              </a>
+                              <a href="{{ nPostItem.viewLink }}">
+                                <p class="title-news text-uppercase color-gray">
+                                  {{ nPostItem.title | e('html') }}
+                                </p>
+                              </a>
+                              <p class="date color-gray">
+                                {{ nPostItem.createdDateTime }}
+                              </p>
+                              <p class="content color-gray">
+                                {{ subString(nPostItem.intro, 130) }}
+                              </p>
+                            </div>
+                          </div>
+                        {% endif %}
+                        {% set k = k+1 %}
+                      {% endfor %}
+                    {% endif %}
+                    {% set i = i + 1 %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3">
+             {% set productNew = search({'limit': 4, 'brands':true, 'showNew': 1 }) %}
+             {% if (productNew) %}
+                <div class="suggestions-news">
+                <label class="heading-title text-uppercase">Sản phẩm mới</label>
+              {% for item in productNew %}
+              {% set image = item.imageUri %}
+              {% set options = {
+                alt: item.name,
+                lazy: true,
+                class: 'img img-fluid',
+                openDiv: false
+              } %}
+                  <div class="suggestions-news__items">
+                    <a href="{{ item.viewLink }}">
+                      {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                    </a>
+                    <p class="des color-gray text-center">
+                      {{ item.name | raw }}
+                    </p>
+              {% endfor %}
+                  </div>
+                </div>
+             {% endif %}
+            <div class="search-about">
+              <label class="heading-title text-uppercase">Nhận sản phẩm nhất từ chúng tôi</label>
+              <input type="text" 
+                     class="form-control" 
+                     placeholder="Nhập email tại đây" 
+                     id="subsInput"
+                     name="subscriber"
+                     >
+              <button class="btn btn-primary" id="buttonSubs" ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- New Posts -->
+  </main>
+  <!-- main blog -->
+{% endblock %}
+

@@ -1,0 +1,86 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+    {% set nav = nav ~'<div id="menuNav" class="header_2">' %}
+       {% if(getCategories() is not empty) %}
+           {% set nav = nav ~ '  <ul class="nav container">' %}
+           {% set nav = nav ~ '<li class="nav-item"><a class="nav-link link-2 font-weight-bold font-14 " href="/">' ~ translate('Trang chủ') ~ '</a></li>' %}
+           {% set nav = nav ~ '<li class="nav-item"><a class="nav-link link-2 font-weight-bold font-14" href="/product">' ~ translate('Sản Phẩm') ~ '</a></li>' %}
+           {% for c in getCategories() %}
+               {% set proNew = search({'limit':4,'categoryId':c.id}) %}
+               {% set nav = nav ~ '<li class="nav-item dropdown-1">' %}
+               {% set nav = nav ~ '<a style="display: inline-block" class="nav-link link-2 font-weight-bold font-14" href="'~ c.viewLink ~ '" itemprop="url">' ~ c.name | raw ~ '</a>' %}
+               {% if(c.childs is not empty) %}
+                   {% set nav = nav ~ '<span class="fa fa-angle-right link-2"></span>' %}
+                   {% set nav = nav ~ '<div class="dropdown-content-2"' %}
+                   {% set nav = nav ~ '<div class="container-fluid"><div class="row zoom">' %}
+                   {% set nav = nav~'<div style="margin: 0" class="col-md-3 col-3"><ul class="nav flex-column text-dark">' %}
+                   {% for c1 in c.childs %}
+                       {% set nav = nav ~ ' <li class="nav-item dropdown-2 font-14"><a  href="'~ c1.viewLink ~ '" itemprop="url">' ~ c1.name | raw ~ '' %}
+                       {% if(c1.childs is not empty) %}
+                           {% set nav = nav ~'<i class="fa fa-angle-right float-right"></i></a>' %}
+                           {% set nav = nav ~'<div class="dropdown-content-3"><ul class="nav flex-column">' %}
+                           {% for c2 in c1.childs %}
+                               {% set nav = nav ~ '<li class="nav-item font-14"><a href="'~ c2.viewLink ~ '" itemprop="url">' ~ c2.name | raw ~ '</a></li>' %}
+                           {% endfor %}
+                           {% set nav = nav ~'</ul></div>' %}
+                       {% else %}
+                           {% set nav = nav ~'</a>' %}
+                       {% endif %}
+                       {% set nav = nav ~ '</li>' %}
+                   {% endfor %}
+
+                   {% set nav = nav ~ '</ul></div>' %}
+                   {% for p in proNew %}
+                       {% set image = p.thumbnailUri %}
+                       {% set options = {
+                           alt: p.name,
+                           class: 'imageChange',
+                           lazy: true,
+                           openDiv: false,
+                       } %}
+                       {% set nav = nav~'<div style="margin: 0" class="col-2 product">' %}
+                       {% set values = p.options.attrValues %}
+                       {% set nav=nav~'<a style="padding:0" class="img-product" href='~ p.viewLink~ '>' %}
+                       {% set nav = nav~'<img class="img-fluid" src="'~image ~'" alt="'~ p.name ~'">' %}
+                       {% set nav = nav~'<h4 style="margin-top: 22px" class="title-product font-14">'~p.name~'</h4>' %}
+                       {% set nav = nav~'</a>' %}
+                       {% set percent = p.discountPercent %}
+                       {% set priceDiscount = p.priceAfterDiscount %}
+                       {% if (priceDiscount > 0) %}
+                           {% set nav=nav~'<div class="font-weight-bold color-greeen1 font-14">' %}
+                           {% set nav=nav~''~ priceDiscount|number_format(0)~'<u>đ</u>' %}
+                           {% set nav=nav~'</div>' %}
+                           {% set nav=nav~'<div class="font-14">' %}
+                           {% set nav=nav~'<strike>'~ p.price|number_format(0)~'đ</strike>' %}
+                           {% set nav=nav~' <span style="background: #67bd45" class="badge badge-primary">-'~ percent ~'%</span>' %}
+                           {% set nav=nav~' </div>' %}
+                       {% elseif (p.oldprice() > 0) %}
+                           {% set nav=nav~'<div class="font-weight-bold color-greeen1 font-14">' %}
+                           {% set nav=nav~''~ p.price|number_format(0)~' <u>đ</u>' %}
+                           {% set nav=nav~'  </div>' %}
+                           {% set nav=nav~'<div class="font-14">' %}
+                           {% set nav=nav~' <strike>{{ p.oldprice|number_format(0) }}</strike>' %}
+                           {% set nav=nav~' <span style="background: #67bd45" class="badge badge-primary">-'~ percent ~'%</span>' %}
+                           {% set nav=nav~' </div>' %}
+                       {% else %}
+                           {% set nav=nav~' <div class="font-weight-bold color-greeen1 font-14">' %}
+                           {% set nav=nav~' '~ p.price|number_format(0)~'<u>đ</u>' %}
+                           {% set nav=nav~'</div>' %}
+                       {% endif %}
+                       {% set nav = nav~'</div>' %}
+                   {% endfor %}
+                   {% set nav = nav ~'</div' %}
+               {% endif %}
+               {% set nav = nav ~ '</li>' %}
+           {% endfor %}
+           {% set nav = nav ~ '<li class="nav-item"><a class="nav-link link-2 font-weight-bold font-14" href="/news">' ~ translate('Tin Tức') ~ '</a></li>' %}
+           {% set nav = nav ~ '<li class="nav-item"><a class="nav-link link-2 font-weight-bold font-14" href="/contact">' ~ translate('Liên Hệ') ~ '</a></li>' %}
+           {% set nav = nav ~ '</ul>' %}
+       {% endif %}
+    {% set nav = nav ~ '</div>' %}
+
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

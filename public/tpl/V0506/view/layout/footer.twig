@@ -1,0 +1,236 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% set image = 'https://file.hstatic.net/1000003969/file/bgbannerstore_3da0d50c411e4500a1ea88c3e3f7827f.jpg' %}
+{% set foot_banners = getBannerByPositionCode('FOOTER_CERTIFICATE',{'limit':1}) %}
+{% if(foot_banners) %}
+    {% for bn in foot_banners %}
+        {% set image = bn.imagesrc %}
+    {% endfor %}
+{% endif %}
+<section id="sectionHomeStore" class="clearfix">
+    <div class="padding-rl-40">
+        <div class="innerHomeStore"
+             style="background-image: url({{ image }})">
+            <div class="contentHomeStore">
+                <div class="textStore"><a href="" title="Xem hệ thống cửa hàng">Xem hệ thống cửa hàng</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="block_icon_footer container">
+        <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="flex justify_center block_child_icon">
+                    <div class="img_icon">
+                        <img src="{{ '/tpl/'~templateDir~'/img/temp/ttoan.png' }}">
+                    </div>
+                    <div class="text_icon">
+                        <p>
+                            Thanh toán
+                        </p>
+                        <p>tại nhà</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="flex justify_center block_child_icon">
+                    <div class="img_icon">
+                        <img src="{{ '/tpl/'~templateDir~'/img/temp/tdmp.png' }}">
+                    </div>
+                    <div class="text_icon">
+                        <p>
+                            đổi trả
+                        </p>
+                        <p>miễn phí 15 ngày</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="flex justify_center block_child_icon">
+                    <div class="img_icon">
+                        <img src="{{ '/tpl/'~templateDir~'/img/temp/fship.png' }}">
+                    </div>
+                    <div class="text_icon">
+                        <p>freeship</p>
+                        <p>cho đơn hàng từ 400.000đ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="sectionInfoFooter" class="clearfix bgr_f1">
+    <div class="wrapper-new container clearfix">
+        <div class="icon_caret"><i class="fa fa-caret-down" aria-hidden="true"></i></div>
+        <div class="innerInfoFooter row">
+            <div class="col-12 col-sm-3 nth-1"><h4>GỌI MUA HÀNG ( 08:30-21:30 )</h4>
+                <div class="infoContent"><p>
+                        <span class="iconFooter"><i class="fa fa-phone "></i></span> <span class="titleHotline"><a
+                                    class="btnHL" href="tel:1100 2468">1100 2468</a></span>
+                        <span class="moreInfoFooter">Tất cả các ngày trong tuần</span></p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 site-animation"><h4>GÓP Ý, KHIẾU NẠI ( 08:30-20:30 )</h4>
+                <div class="infoContent"><p>
+                        <span class="iconFooter"><i class="fa fa-phone "></i></span>
+                        <span class="titleHotline"><a class="btnHL" href="tel:1101 3579">1101 3579</a></span>
+                        <span class="moreInfoFooter">Các ngày trong tuần ( trừ ngày lễ )</span></p>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 site-animation block-newsletter"><h4>ĐĂNG KÝ NHẬN THÔNG TIN MỚI</h4>
+                <div id="mc_embed_signup" class="newsletter-form">
+                    <form id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate">
+                        <div id="mc_embed_signup_scroll">
+                            <input type="email" value="" name="EMAIL"
+                                   class="newsletter-input form-control input-lg email" id="contactFormEmail"
+                                   placeholder="Nhập email của bạn tại đây...">
+                            <button type="button" name="subscribe" id="mc-embedded-subscribe" class="btn-newsletter">
+                                <span>Đăng ký</span>
+                            </button>
+                            <div class="check_subscribe">
+                                <input type="checkbox"
+                                       id="vehicle1"><span>Tôi đồng ý với các điều kiện && điều khoản</span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3 site-animation"><h4>LIKE YODY TRÊN MẠNG XÃ HỘI</h4>
+                <ul class="navbar-social">
+                    <li class="social">
+                        <a href="https://www.facebook.com/nhanh.vn/" target="_blank" rel="nofollow">
+                            <i class="fa fa-facebook"></i>
+                        </a></li>
+                    <li>
+                        <a href="/" target="_blank" rel="nofollow">
+                            <i class="fa fa-instagram"></i>
+                        </a>
+                    </li>
+                    <li class="social-youtube">
+                        <a href="/" target="_blank" rel="nofollow">
+                            <i class="fa fa-youtube"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/" target="_blank" rel="nofollow">
+                            <img src="{{ '/tpl/'~templateDir~'/img/temp/logozalo.png' }}">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <section id="footerBottom" class="clearfix tp_footer bgr_f1">
+        <div class="wrapper-new container clearfix">
+            <div class="innerInfoFooter row">
+                <div class="col-xs-12 col-sm-3 footer-div footer-active"><h4 class="footer-title">HỖ TRỢ KHÁCH HÀNG</h4>
+                    <div class="footer-content">
+                        <ul>
+                            <li><a href="">Hướng dẫn chọn size</a></li>
+                            <li><a href="">Chính sách khách hàng thân thiết</a></li>
+                            <li><a href="">Chính sách đổi/Trả</a></li>
+                            <li><a href="">Chính sách bảo mật</a></li>
+                            <li><a href="">Thanh toán, Giao nhận</a></li>
+                            <li><a href="">Câu hỏi thường gặp</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-3 footer-div"><h4 class="footer-title">VỀ YODY</h4>
+                    <div class="footer-content">
+                        <ul>
+                            <li><a href="">Giới thiệu</a></li>
+                            <li><a href="">Liên hệ</a></li>
+                            <li><a href="">Tìm đại lý</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-3 footer-div"><h4 class="footer-title">HỆ THỐNG SHOWROOM</h4>
+                    <div class="footer-content">
+                        <a href="" class="a-link">Facebook</a>
+                        <a href="" class="a-link">Pinterest</a>
+                        <a href="" class="a-link">Instagram</a>
+                        <a href="" class="a-link">Spotify</a></div>
+                </div>
+                <div class="col-xs-12 col-sm-3 footer-div"><h4 class="footer-title">FANPAGE CỦA CHÚNG TÔI</h4>
+                    <div class="footer-content">
+                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fnhanh.vn%2F&amp;tabs=timeline&amp;small_
+                            header=false&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true"
+                                height="215">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="bottomBar">
+        <div class="wrapper-new">
+            <p>© 2018 YODY. Công ty Cổ phần thời trang YODY.</p>
+            <div>
+                <img class="bct_img" src="/cdn/boCongThuong.png">
+            </div>
+        </div>
+    </div>
+    <div id="quickview_products" class="modal fade" role="dialog" tabindex="-1" aria-labelledby="memberModalLabel"
+         aria-hidden="true">
+        <div id="quickview_desktop" class="modal-dialog modal-lg" role="document">
+        </div>
+    </div>
+    <div id="alertFixed" style="display: none;"></div>
+</footer>
+{% set time = "now"|date("U") %}
+{% set tg = time+3600 %}
+{% set popup = setCookies('cookie','popup' , 86400) %}
+{% set getck = getCookies('cookie') %}
+{% if(getck is null) %}
+    <div class="modal fade cookie" id="popupHome" tabindex="-1" role="dialog" aria-labelledby="memberModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body row">
+                    {% set image_popup = '/tpl/V0506/img/demo/baner3-min.jpg' %}
+                    {% set banner_popup = getBannerByPositionCode('BANNER_POPUP',{'limit':1}) %}
+                    {% if(banner_popup) %}
+                        {% for bn in banner_popup %}
+                            {% set image_popup = bn.imagesrc %}
+                        {% endfor %}
+                    {% endif %}
+                    <div class="col-md-6 col-12 no_padding hide_mobile">
+                            <img class="img_cover" src="{{ image_popup }}">
+                    </div>
+                    <div class="col-md-6 col-12 no_padding bgr_fcb9">
+                        <div class="popup_sub_left">
+                            <div class="header_popup">
+                                <img src="{{ getLogoUri() }}">
+                                <h2>Tặng ngay</h2>
+                                <div class="ellips">
+                                    <h1>Voucher <strong>50.000đ</strong></h1>
+                                </div>
+                                <p class="text_bot_popup">
+                                    <span>Nhập số điện thoại mua hàng tại YODY</span></br>
+                                    <span>để được tích điểm và kiểm tra<br>thông tin tích điểm của mình</span>
+                                </p>
+                            </div>
+                            <div class="form_sub_popup">
+                                <form accept-charset="UTF-8" class="contact-form">
+                                    <div class="form-group">
+                                        <input id="contactFormName-popup" class="inputNew form-control newsletter-input" required="" type="text" placeholder="Nhập họ tên" size="18" autocomplete="off">
+                                        <input id="contactFormPhone-popup" class="inputNew form-control newsletter-input" required="" type="text" placeholder="Số điện thoại" size="18" autocomplete="off">
+                                        <input id="contactFormEmail-popup" class="inputNew form-control newsletter-input" required="" type="email" placeholder="Nhập Email tại đây" size="18" autocomplete="off">
+                                        <button type="submit" name="submitNewsletter" id="contactFormSubmit-popup" class="submitNewsletter">
+                                            <span>Đăng ký</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="footer_popup">
+                                <h5>*** Ưu đãi dành riêng cho <br>khách hàng đăng ký thông tin</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

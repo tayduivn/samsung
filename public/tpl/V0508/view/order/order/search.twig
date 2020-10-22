@@ -1,0 +1,86 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Tra cứu thông tin đơn hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tra cứu thông tin đơn hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://NHANH.VN/tpl/T0002/img/logoShare.png">
+{% endblock %}
+{% block body %}
+    <div class="layout-profile-search">
+        <div class="container">
+            <h1 class="title-profile">Tra Cứu Đơn Hàng Của Bạn</h1>
+        </div>
+        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-lg-3">
+                    <div class="proflie-controler">
+
+                        {% include 'layout/profile-controler' %}
+                        <p><a href="/profile"><i class="fa fa-info-circle"></i> Trở về tài khoản</a></p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-12 col-lg-9">
+                    <form class="form-search-profile" id="frmIndexOrder" action="">
+{#                        <input type="text" class="form-control" name="q" placeholder="Nhập mã số điện thoại hoặc email">#}
+{#                        <button type="submit" class="btn btn-danger btn-research">Kiểm tra</button>#}
+                        <input type="text" name="q" placeholder="Nhập mã số điện thoại hoặc email">
+                        <button type="submit" class="btn-research"><i class="fa fa-search"></i></button>
+                    </form>
+                    <div class="table-responsive-sm">
+                        <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Ngày đặt hàng</th>
+                            <th>Mã đơn hàng</th>
+                            <th>Tên khách hàng</th>
+                            <th>Tổng tiền thanh toán</th>
+                            <th>Trạng thái đơn hàng</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if(orders is not empty) %}
+                            {% for order in orders %}
+                                <tr>
+                                    <td>{{ order.createdDate | date("d/m/Y") }}</td>
+                                    <td>{{ order.id }}</td>
+                                    <td>{{ order.customerName }}</td>
+                                    <td>
+                                        {{ order.calculateTotalMoney | number_format(0) }} vnđ
+                                    </td>
+                                    <td>{{ order.statusName(order.status) }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            {% if(getParam('q')) %}
+                                <td colspan="5" style="padding:20px; color: #333;text-align: center">Không tìm thấy đơn hàng theo yêu cầu.</td>
+                            {% else %}
+                                <td colspan="5" style="padding:20px; color: #333;text-align: center"> Bạn vui lòng nhập thông tin để tìm đơn hàng</td>
+                            {% endif %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    </div>
+                    {% if(orders is not empty) %}
+                        <div id="noteStatus">
+                            <p><b><i class="fa fa-2x fa-lightbulb-o" style="color: #f37021"></i> Chú thích trạng thái đơn hàng:</b></p>
+                            <p><b>- "Mới":</b>  NHANH.VN đang trong quá trình liên hệ bạn để xác nhận đơn hàng. </p>
+                            <p><b>- "Đang đóng gói":</b> NHANH.VN đang tiến hành đóng gói và gửi hàng cho bạn</p>
+                            <p><b>- "Chờ đi nhận":</b> Hãng vận chuyển đang tới lấy hàng, khi nào hãng lấy hàng xong sẽ có mã bưu phẩm cho bạn kiểm tra lịch trình.</p>
+                            <p><b>- "Đang chuyển":</b> Hãng vận chuyển đang trong quá trình xử lý và giao hàng cho bạn đó. </p>
+                            <p><b>- "Thất bại":</b> Bưu tá phát đến địa chỉ khách hàng nhưng thất bại do không liên lạc được với bạn/ không tìm thấy địa chỉ.</p>
+                            <p><b>- "Đang chuyển hoàn/ Đã chuyển hoàn":</b> Đơn hàng sau 3 lần phát không thành công, sẽ hoàn về cho NHANH.VN.</p>
+                            <p><b>- "Thành công":</b> Bạn đã nhận được hàng rồi</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.min.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/profile.js' }}"></script>
+{% endblock %}

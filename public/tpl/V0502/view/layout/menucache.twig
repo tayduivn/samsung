@@ -1,0 +1,256 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+
+
+{% set nav = nav ~ '<div class="main-nav mrbottom">' %}
+    {% set nav = nav ~ '<div class="container nav-head">' %}
+        {% set nav = nav ~ '<div class="row">' %}
+            {% set nav = nav ~ '<div class="col-lg-9 col-md-8">' %}
+                {% set nav = nav ~ '<nav class="hidden-sm hidden-xs nav-main">' %}
+                    {% set nav = nav ~ '<div class="menu_hed head_1">' %}
+                        {% set nav = nav ~ '<ul class="nav nav_1">' %}
+                            {% set category = getCategories() %}
+
+                            {% if(category) %}
+                                {% for c in category %}
+                                    {% set childs = c.childs() %}
+                                    {% set nav = nav ~ '<li class="menu_hover nav-item nav-items   has-mega">' %}
+                                        {% set nav = nav ~ '<a href="/collections/all" class="nav-link ">' %}
+                                            {{ c.name }} {% set nav = nav ~ '<i class="fa fa-caret-down" data-toggle="dropdown"></i>' %}
+                                            {% set nav = nav ~ '<span class="label_"></span>' %}
+                                        {% set nav = nav ~ '</a>' %}
+
+                                        {% if(childs) %}
+                                           {% set nav = nav ~ '<div class="mega-content hidden-md">' %}
+                                                {% set nav = nav ~ '<div class="level0-wrapper2">' %}
+                                                    {% set nav = nav ~ '<div class="nav-width nav-block nav-block-center">' %}
+                                                        {% set nav = nav ~ '<div class="col-lg-12 col-md-12 parent-mega-menu">' %}
+                                                            {% set nav = nav ~ '<ul class="level0 row">' %}
+
+                                                                {% for childs in childs %}
+                                                                    {% set nav = nav ~ '<li class="level1 parent item3 col-lg-3 col-md-3">' %}
+
+                                                                        {% set nav = nav ~ '<ul class="level2">' %}
+                                                                            {% set nav = nav ~ '<li class="level2 parent item"> <a href="/collections/all"><span>'childs.name'</span></a></li>' %}
+
+                                                                        {% set nav = nav ~ '</ul>' %}
+                                                                    {% set nav = nav ~ '</li>' %}
+                                                                {% endfor %}
+                                                            {% set nav = nav ~ '</ul>' %}
+                                                        {% set nav = nav ~ '</div>' %}
+
+
+
+                                                    {% set nav = nav ~ '</div>' %}
+
+                                                {% set nav = nav ~ '</div>' %}
+                                            {% set nav = nav ~ '</div>' %}
+                                        {% endif %}
+                                        {% set nav = nav ~ '<ul class="dropdown-menu border-box hidden-lg hidden-sm hidden-xs">' %}
+
+
+                                            {% set nav = nav ~ '<li class="dropdown-submenu nav-items nav-item-lv2">' %}
+                                                {% set nav = nav ~ '<a class="nav-link" href="/products/">Mobile & Tablet </a>' %}
+                                                {% set nav = nav ~ '<i class="fa fa-caret-right" data-toggle="dropdown"></i>' %}
+                                                {% set nav = nav ~ '<ul class="dropdown-menu border-box">' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/collections/all">Điện Thoại</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/collections/all">Laptop & PC</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/collections/all">Tablet</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                {% set nav = nav ~ '</ul>' %}
+                                            {% set nav = nav ~ '</li>' %}
+
+
+
+                                            {% set nav = nav ~ '<li class="dropdown-submenu nav-items nav-item-lv2">' %}
+                                                {% set nav = nav ~ '<a class="nav-link" href="/products/">Kỹ thuật số </a>' %}
+                                                {% set nav = nav ~ '<i class="fa fa-caret-right" data-toggle="dropdown"></i>' %}
+                                                {% set nav = nav ~ '<ul class="dropdown-menu border-box">' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">Smart TV</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">TV thông minh</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">âm thanh</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                {% set nav = nav ~ '</ul>' %}
+                                            {% set nav = nav ~ '</li>' %}
+
+
+
+                                            {% set nav = nav ~ '<li class="dropdown-submenu nav-items nav-item-lv2">' %}
+                                                {% set nav = nav ~ '<a class="nav-link" href="/products/">Điện máy </a>' %}
+                                                {% set nav = nav ~ '<i class="fa fa-caret-right" data-toggle="dropdown"></i>' %}
+                                                {% set nav = nav ~ '<ul class="dropdown-menu border-box">' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">Điều hòa</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">Tủ Lạnh</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">Máy giặt</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                {% set nav = nav ~ '</ul>' %}
+                                            {% set nav = nav ~ '</li>' %}
+
+
+
+                                            {% set nav = nav ~ '<li class="dropdown-submenu nav-items nav-item-lv2">' %}
+                                                {% set nav = nav ~ '<a class="nav-link" href="/products/">Gia dụng </a>' %}
+                                                {% set nav = nav ~ '<i class="fa fa-caret-right" data-toggle="dropdown"></i>' %}
+                                                {% set nav = nav ~ '<ul class="dropdown-menu border-box">' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">Bếp gas,Bếp điện</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">Nồi cơm điện</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                    {% set nav = nav ~ '<li class="nav-item-lv3">' %}
+                                                        {% set nav = nav ~ '<a class="nav-link" href="/">Lò vi sóng</a>' %}
+                                                    {% set nav = nav ~ '</li>' %}
+
+                                                {% set nav = nav ~ '</ul>' %}
+                                            {% set nav = nav ~ '</li>' %}
+
+
+
+                                        {% set nav = nav ~ '</ul>' %}
+                                    {% set nav = nav ~ '</li>' %}
+
+                                {% endfor %}
+                            {% endif %}
+
+                        {% set nav = nav ~ '</ul>' %}
+
+                    {% set nav = nav ~ '</div>' %}
+                {% set nav = nav ~ '</nav>' %}
+            {% set nav = nav ~ '</div>' %}
+            {% set nav = nav ~ '<div class="col-lg-3 col-md-4 content_search_cart">' %}
+                {% set nav = nav ~ '<div class="list-action hidden-sm hidden-xs">' %}
+                    {% set nav = nav ~ '<ul>' %}
+
+                        {% set nav = nav ~ '<li>' %}
+                            {% set nav = nav ~ '<a href="tel:0912117494"><i style=" display: inline-block; border: 1px solid #ebebeb; padding: 3px; border: 1px solid #bebebe; margin-right: 5px; border-radius: 50%; /* color: red; */ " class="fa fa-phone"></i> 0912117494</a>' %}
+                        {% set nav = nav ~ '</li>' %}
+                    {% set nav = nav ~ '</ul>' %}
+                {% set nav = nav ~ '</div>' %}
+                {% set nav = nav ~ '<div class="top-cart-contain f-right">' %}
+                    {% set nav = nav ~ '<div class="mini-cart text-xs-center">' %}
+                        {% set nav = nav ~ '<div class="heading-cart">' %}
+                            {% set nav = nav ~ '<a href="/cart">' %}
+                                {% set nav = nav ~ '<i class="fa fa-shopping-bag"></i>' %}
+                                {% set nav = nav ~ '<span class="cartCount count_item_pr" id="cart-total"></span>' %}
+                            {% set nav = nav ~ '</a>' %}
+                        {% set nav = nav ~ '</div>' %}
+                        {% set nav = nav ~ '<div class="top-cart-content">' %}
+                            {% set nav = nav ~ '<ul id="cart-sidebar" class="mini-products-list count_li">' %}
+                                {% set nav = nav ~ '<li class="list-item">' %}
+                                    {% set nav = nav ~ '<ul></ul>' %}
+                                {% set nav = nav ~ '</li>' %}
+                                {% set nav = nav ~ '<li class="action">' %}
+                                    {% set nav = nav ~ '<ul>' %}
+                                        {% set nav = nav ~ '<li class="li-fix-1">' %}
+                                            {% set nav = nav ~ '<div class="top-subtotal">' %}
+                                                Tổng tiền thanh toán:
+                                                {% set nav = nav ~ '<span class="price"></span>' %}
+                                            {% set nav = nav ~ '</div>' %}
+                                        {% set nav = nav ~ '</li>' %}
+                                        {% set nav = nav ~ '<li class="li-fix-2" style="">' %}
+                                            {% set nav = nav ~ '<div class="actions">' %}
+                                                {% set nav = nav ~ '<a href="/cart" class="btn btn-primary">' %}
+                                                    {% set nav = nav ~ '<span>Giỏ hàng</span>' %}
+                                                {% set nav = nav ~ '</a>' %}
+                                                {% set nav = nav ~ '<a href="/checkout" class="btn btn-checkout btn-gray">' %}
+                                                    {% set nav = nav ~ '<span>Thanh toán</span>' %}
+                                                {% set nav = nav ~ '</a>' %}
+                                            {% set nav = nav ~ '</div>' %}
+                                        {% set nav = nav ~ '</li>' %}
+                                    {% set nav = nav ~ '</ul>' %}
+                                {% set nav = nav ~ '</li>' %}
+                            {% set nav = nav ~ '</ul>' %}
+                        {% set nav = nav ~ '</div>' %}
+                    {% set nav = nav ~ '</div>' %}
+                {% set nav = nav ~ '</div>' %}
+            {% set nav = nav ~ '</div>' %}
+        {% set nav = nav ~ '</div>' %}
+    {% set nav = nav ~ '</div>' %}
+{% set nav = nav ~ '</div>' %}
+<!-- Menu mobile -->
+{% set nav = nav ~ '<div class="menu_mobile sidenav max_991 hidden-md hidden-lg" id="mySidenav">' %}
+    {% set nav = nav ~ '<div class="acction">' %}
+        {% set nav = nav ~ '<div class="log">' %}
+
+            {% set nav = nav ~ '<img src="//theme.hstatic.net/1000329721/1000424884/14/product-1.gif?v=22" data-lazyload="//theme.hstatic.net/1000329721/1000424884/14/user.png?v=22" alt="Tạo tài khoản hoặc đăng nhập">' %}
+
+            {% set nav = nav ~ '<div class="linkacc">' %}
+
+                {% set nav = nav ~ '<a href="/account/login">Đăng nhập</a>' %}
+                {% set nav = nav ~ '<a href="/account/register">Đăng ký</a>' %}
+
+            {% set nav = nav ~ '</div>' %}
+        {% set nav = nav ~ '</div>' %}
+
+    {% set nav = nav ~ '</div>' %}
+
+    {% set nav = nav ~ '<ul class="ul_collections">' %}
+        {% set nav = nav ~ '<li class="special">' %}
+            {% set nav = nav ~ '<a href="/collections/all">Tất cả danh mục</a>' %}
+        {% set nav = nav ~ '</li>' %}
+        {% set category = getCategories() %}
+
+        {% if(category) %}
+            {% for c in category %}
+                {% set childs = c.childs() %}
+            {% set nav = nav ~ '<li class="level0 level-top parent">' %}
+            {% set nav = nav ~ '<a href="/collections/all"> 'c.name' </a>' %}
+
+                {% set nav = nav ~ '<i class="fa fa-angle-down"></i>' %}
+                    {% if(childs) %}
+                        {% set nav = nav ~ '<ul class="level0" style="display:none;">' %}
+                            {% for childs in childs %}
+                                {% set nav = nav ~ '<li class="level1 ">' %}
+                                {% set nav = nav ~ '<a href="/products/"> <span>'childs.name' </span> </a>' %}
+
+
+
+
+                                {% set nav = nav ~ '</li>' %}
+                            {% endfor %}
+                                {% set nav = nav ~ '</ul>' %}
+                    {% endif %}
+                        {% set nav = nav ~ '</li>' %}
+            {% endfor %}
+        {% endif %}
+{% set nav = nav ~ '</ul>' %}
+
+
+
+    {% set nav = nav ~ '</div>' %}
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

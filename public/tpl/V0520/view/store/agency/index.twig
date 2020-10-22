@@ -1,0 +1,431 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block meta %}
+    {{ headTitle('Hệ thống phân phối').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    {% set itemCountPerPage =  pagin.setItemCountPerPage(24) %}
+    <div class="container container_blog  margin-bottom-50">
+        {% set category = [{'label': 'Hệ thống phân phối', 'uri':'/agency'}] %}
+        {{ breadcrumbs.build(category) }}
+        <div class="filterCity">
+            <form action="/he-thong-dai-ly" method="get" id="formCheckOut">
+                <div class="col-md-4 col-xs-12 col-sm-12">
+                    <span>Tìm theo tỉnh, thành phố</span>
+                    <select class="validate[required] input col-xs-12 col-sm-12" name="cityId" id="cityId">
+                        <option value="">{{ translate('Thành phố') }}</option>
+                        {{ toSelectBox(getCity()) | raw }}
+                    </select>
+                </div>
+                <div class="col-md-1 col-xs-12 col-sm-12"></div>
+                <div class="col-md-4 col-xs-12 col-sm-12">
+                    <span>Tìm theo quận, huyện</span>
+                    <select class="validate[required] input col-xs-12 col-sm-12" name="districtId" id="districtId">
+                        <option value="">{{ translate('Quận Huyện') }}</option>
+                    </select>
+
+                </div>
+                <div class="col-md-1 col-xs-12 col-sm-12"></div>
+                <div class="filterSearch col-md-2 col-xs-12 col-sm-12">
+                    <button type="submit">Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+        <div class="row row_blog">
+            <div class="wrap_border col-lg-12">
+                <span class="bordered"></span>
+            </div>
+
+
+            <aside id="aside_blog"
+                   class="left left-content col-lg-3 col-md-3 col-sm-12 col-xs-12 col-lg-push-9 col-md-push-9">
+
+
+                <div class="wol_product margin-bottom-25">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_product_bg_1">
+                            <a href="/product?show=hot" title="Sản phẩm hot">
+                                {{ translate('Sản phẩm hot') }}</a>
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="product_col_dets clearfix">
+                        <div class="wrap_owl_topsale">
+                            <div class="owl_col_details owl-carousel owl-theme owl-loaded owl-drag" data-nav="true"
+                                 data-lg-items="1" data-md-items="1" data-height="false" data-xs-items="1"
+                                 data-sm-items="1" data-margin="15">
+
+                                <!-- ADD DIV -->
+
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage"
+                                         style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 253px;">
+                                        <div class="owl-item active" style="width: 238px; margin-right: 15px;">
+                                            <div class="item">
+
+                                                <!-- chan le = true -->
+                                                {% set productBestseller = search({'limit':4,'showHot':1}) %}
+                                                {% if(productBestseller)  %}
+                                                    {% for p in productBestseller %}
+                                                        {% set image = p.thumbnailUri %}
+                                                        {% set options = {
+                                                            alt: p.name,
+                                                            class: 'imageChange swatch-'~p.id,
+                                                            lazy: true,
+                                                            openDiv: false,
+                                                        }%}
+                                                        {% set percent = p.calcDiscountPercent %}
+                                                        {% set priceDiscount = p.priceAfterDiscount %}
+                                                        {% set image = p.thumbnailUri  %}
+                                                        <div class="hot_sale_product">
+                                                            <div class="item-img-horizontal">
+                                                                <a href="{{ p.viewLink }}"
+                                                                   class="product-image"
+                                                                   title="{{ p.name }}">
+                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item-info-horizontal">
+                                                                <h3 class="item-name text2line">
+                                                                    <a href="{{ p.viewLink }}"
+                                                                       title="{{ p.name }}">
+                                                                        {{ p.name }}
+                                                                    </a>
+                                                                </h3>
+                                                                <div class="price-box clearfix">
+                                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                                        <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                        <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                                    {% elseif (p.oldprice() > 0) %}
+                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                        <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                                    {% elseif (p.price == 0) %}
+                                                                        <span class="price product-price">Liên hệ</span>
+                                                                    {% else %}
+                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="wol_product margin-bottom-25">
+                    <div class="dear_title">
+                        <h2 class="title_head_ border_content sb_blog_bg_2">
+                            <a href="/promotion" title="Sản phẩm khuyến mãi">
+                                Sản phẩm khuyến mãi</a>
+                        </h2>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="product_col_dets clearfix">
+                        <div class="wrap_owl_topsale">
+                            <div class="owl_col_details owl-carousel owl-theme owl-loaded owl-drag" data-nav="true"
+                                 data-lg-items="1" data-md-items="1" data-height="false" data-xs-items="1"
+                                 data-sm-items="1" data-margin="15">
+
+                                <!-- ADD DIV -->
+
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage"
+                                         style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 253px;">
+                                        <div class="owl-item active" style="width: 238px; margin-right: 15px;">
+                                            <div class="item">
+
+                                                <!-- chan le = true -->
+                                                {% set promotion = search({'limit':4}) %}
+                                                {% if(promotion)  %}
+                                                    {% for p in promotion %}
+                                                        {% set image = p.thumbnailUri %}
+                                                        {% set options = {
+                                                            alt: p.name,
+                                                            class: 'imageChange swatch-'~p.id,
+                                                            lazy: true,
+                                                            openDiv: false,
+                                                        }%}
+                                                        {% set percent = p.calcDiscountPercent %}
+                                                        {% set priceDiscount = p.priceAfterDiscount %}
+                                                        {% set image = p.thumbnailUri  %}
+                                                        <div class="hot_sale_product">
+                                                            <div class="item-img-horizontal">
+                                                                <a href="{{ p.viewLink }}"
+                                                                   class="product-image"
+                                                                   title="{{ p.name }}">
+                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                </a>
+                                                            </div>
+                                                            <div class="item-info-horizontal">
+                                                                <h3 class="item-name text2line">
+                                                                    <a href="{{ p.viewLink }}"
+                                                                       title="{{ p.name }}">
+                                                                        {{ p.name }}
+                                                                    </a>
+                                                                </h3>
+                                                                <div class="price-box clearfix">
+                                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                                        <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                        <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                                    {% elseif (p.oldprice() > 0) %}
+                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                        <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                                    {% elseif (p.price == 0) %}
+                                                                        <span class="price product-price">Liên hệ</span>
+                                                                    {% else %}
+                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có khuyến mại nào') }}!</p>
+                                                {% endif %}
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="aside-item">
+                    <div>
+                        <div class="dear_title">
+                            <h2 class="title_head_ border_content sb_blog_bg_3">
+                                <a href="news" title="Tin tức nổi bật">
+                                    Tin tức nổi bật</a>
+                            </h2>
+                        </div>
+                        <div class="list-blogs sidebar-blog-content">
+                            <div class="blog_list_item">
+
+                                <article class="blog-item blog-item-list ">
+                                    <div class="blog-item-thumbnail img1"
+                                         onclick="window.location.href='/blogs/news/lenovo-chinh-thuc-trinh-lang-bo-ba-s5-k5-va-k5-play';">
+                                        <a href="/blogs/news/lenovo-chinh-thuc-trinh-lang-bo-ba-s5-k5-va-k5-play">
+
+                                            <picture>
+                                                <source media="(max-width: 480px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/1_large.jpg">
+                                                <source media="(min-width: 481px) and (max-width: 767px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/1_large.jpg">
+                                                <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/1_large.jpg">
+                                                <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/1_medium.jpg">
+                                                <source media="(min-width: 1200px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/1_large.jpg">
+                                                <img src="http://file.hstatic.net/1000329005/article/1.jpg"
+                                                     style="max-width:100%;" class="img-responsive"
+                                                     alt="Lenovo chính thức trình làng bộ ba S5, K5 và K5 Play">
+                                            </picture>
+
+                                        </a>
+                                    </div>
+                                    <div class="ct_list_item">
+                                        <h3 class="blog-item-name"><a class="text-one-line text2line"
+                                                                      href="/blogs/news/lenovo-chinh-thuc-trinh-lang-bo-ba-s5-k5-va-k5-play"
+                                                                      title="Lenovo chính thức trình làng bộ ba S5, K5 và K5 Play">Lenovo
+                                                chính thức trình làng bộ ba S5, K5 và K5 Play</a></h3>
+                                        <span class="post_">
+							<span><span class="ti-time"></span> 18/10/2018</span>
+						</span>
+                                    </div>
+                                </article>
+
+                                <article class="blog-item blog-item-list ">
+                                    <div class="blog-item-thumbnail img1"
+                                         onclick="window.location.href='/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch';">
+                                        <a href="/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch">
+
+                                            <picture>
+                                                <source media="(max-width: 480px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/2_large.jpg">
+                                                <source media="(min-width: 481px) and (max-width: 767px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/2_large.jpg">
+                                                <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/2_large.jpg">
+                                                <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/2_medium.jpg">
+                                                <source media="(min-width: 1200px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/2_large.jpg">
+                                                <img src="http://file.hstatic.net/1000329005/article/2.jpg"
+                                                     style="max-width:100%;" class="img-responsive"
+                                                     alt="Galaxy J7 (2018) lộ diện trên FCC với màn hình 5.6 inch">
+                                            </picture>
+
+                                        </a>
+                                    </div>
+                                    <div class="ct_list_item">
+                                        <h3 class="blog-item-name"><a class="text-one-line text2line"
+                                                                      href="/blogs/news/galaxy-j7-2018-lo-dien-tren-fcc-voi-man-hinh-5-6-inch"
+                                                                      title="Galaxy J7 (2018) lộ diện trên FCC với màn hình 5.6 inch">Galaxy
+                                                J7 (2018) lộ diện trên FCC với màn hình 5.6 inch</a></h3>
+                                        <span class="post_">
+							<span><span class="ti-time"></span> 18/10/2018</span>
+						</span>
+                                    </div>
+                                </article>
+
+                                <article class="blog-item blog-item-list ">
+                                    <div class="blog-item-thumbnail img1"
+                                         onclick="window.location.href='/blogs/news/thuy-sy-iphone-chay-mu-mit-ngay-trong-apple-store-khien-ca-khach-va-nhan-vien-so-tan-khan-cap';">
+                                        <a href="/blogs/news/thuy-sy-iphone-chay-mu-mit-ngay-trong-apple-store-khien-ca-khach-va-nhan-vien-so-tan-khan-cap">
+
+                                            <picture>
+                                                <source media="(max-width: 480px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/3_large.jpg">
+                                                <source media="(min-width: 481px) and (max-width: 767px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/3_large.jpg">
+                                                <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/3_large.jpg">
+                                                <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/3_medium.jpg">
+                                                <source media="(min-width: 1200px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/3_large.jpg">
+                                                <img src="http://file.hstatic.net/1000329005/article/3.jpg"
+                                                     style="max-width:100%;" class="img-responsive"
+                                                     alt="Thụy Sỹ: iPhone cháy mù mịt ngay trong Apple Store khiến cả khách và nhân viên sơ tán khẩn cấp">
+                                            </picture>
+
+                                        </a>
+                                    </div>
+                                    <div class="ct_list_item">
+                                        <h3 class="blog-item-name"><a class="text-one-line text2line"
+                                                                      href="/blogs/news/thuy-sy-iphone-chay-mu-mit-ngay-trong-apple-store-khien-ca-khach-va-nhan-vien-so-tan-khan-cap"
+                                                                      title="Thụy Sỹ: iPhone cháy mù mịt ngay trong Apple Store khiến cả khách và nhân viên sơ tán khẩn cấp">Thụy
+                                                Sỹ: iPhone cháy mù mịt ngay trong Apple Store khiến cả khách và nhân
+                                                viên sơ tán khẩn cấp</a></h3>
+                                        <span class="post_">
+							<span><span class="ti-time"></span> 18/10/2018</span>
+						</span>
+                                    </div>
+                                </article>
+
+                                <article class="blog-item blog-item-list ">
+                                    <div class="blog-item-thumbnail img1"
+                                         onclick="window.location.href='/blogs/news/6-hang-nong-apple-du-kien-ra-mat-trong-nam-2018-khien-ai-cung-ngong-cho';">
+                                        <a href="/blogs/news/6-hang-nong-apple-du-kien-ra-mat-trong-nam-2018-khien-ai-cung-ngong-cho">
+
+                                            <picture>
+                                                <source media="(max-width: 480px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/4_large.jpg">
+                                                <source media="(min-width: 481px) and (max-width: 767px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/4_large.jpg">
+                                                <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/4_large.jpg">
+                                                <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/4_medium.jpg">
+                                                <source media="(min-width: 1200px)"
+                                                        srcset="//file.hstatic.net/1000329005/article/4_large.jpg">
+                                                <img src="http://file.hstatic.net/1000329005/article/4.jpg"
+                                                     style="max-width:100%;" class="img-responsive"
+                                                     alt="6 'hàng nóng' Apple dự kiến ra mắt trong năm 2018 khiến ai cũng ngóng chờ">
+                                            </picture>
+
+                                        </a>
+                                    </div>
+                                    <div class="ct_list_item">
+                                        <h3 class="blog-item-name"><a class="text-one-line text2line"
+                                                                      href="/blogs/news/6-hang-nong-apple-du-kien-ra-mat-trong-nam-2018-khien-ai-cung-ngong-cho"
+                                                                      title="6 'hàng nóng' Apple dự kiến ra mắt trong năm 2018 khiến ai cũng ngóng chờ">6
+                                                'hàng nóng' Apple dự kiến ra mắt trong năm 2018 khiến ai cũng ngóng
+                                                chờ</a></h3>
+                                        <span class="post_">
+							<span><span class="ti-time"></span> 18/10/2018</span>
+						</span>
+                                    </div>
+                                </article>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <section id="blog_content"
+                     class="right-content col-lg-9 col-md-9 col-sm-12 col-xs-12 col-lg-pull-3 col-md-pull-3">
+                <div class="page_title page__ col-lg-12 col-md-12 col-sm-12 no-padding">
+                    <h1 class="title_page_h1"><span>Hệ thống phân phối</span></h1>
+                </div>
+                <section class="list-blogs blog-main col-lg-12 col-md-12 col-xs-12 col-sm-12 no-padding">
+                    <div class="row">
+                        {% if(paginator.currentModels) %}
+                            {% for p in paginator.currentModels %}
+                                {% set image = p.imageSrc %}
+                                {% set options = {
+                                    alt: p.title | e('html'),
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                    <div class="item_blog_owl" style="width: 270px; height: 376px;">
+                                        <article class="blog-item blog-item-grid">
+                                            <div class="wrap_blg">
+                                                <div class="blog-item-thumbnail img1"
+                                                     onclick="window.location.href='{{ p.viewLink }}';">
+                                                    <a href="{{ p.viewLink }}">
+
+                                                        <picture>
+                                                            <source media="(max-width: 480px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 481px) and (max-width: 767px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 768px) and (max-width: 1023px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 1024px) and (max-width: 1199px)"
+                                                                    srcset="{{ image }}">
+                                                            <source media="(min-width: 1200px)"
+                                                                    srcset="{{ image }}">
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </picture>
+
+                                                    </a>
+                                                </div>
+                                                <div class="content_ar blog_large_item">
+                                                    <h3 class="blog-item-name"><a class="text-one-line"
+                                                                                  href="{{ p.viewLink }}"
+                                                                                  title="{{ p.name }}">{{ p.name }}</a>
+                                                    </h3>
+                                                    <span style="height: 38px">{{ p.address }}</span>
+                                                    <span>Hotline {{ p.phone }}</span>
+                                                    <span>Email: {{ p.email }}</span>
+                                                </div>
+                                                <div class="disButton">
+                                                    <a href="{{ p.viewLink }}"><i class="fa fa-map-marker" aria-hidden="true"></i>Bản đồ đường đi</a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                        {% endif %}
+
+                    </div>
+                </section>
+
+            </section>
+
+        </div>
+    </div>
+{% endblock %}

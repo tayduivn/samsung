@@ -1,0 +1,29 @@
+<div class="stocking">
+      <!-- Modal -->
+    <div class="modal fade" id="show__stocking" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" id="exampleModalLabel">SHOWROOMS CÒN HÀNG</span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% if(depotInventories and ivt > 0) %}
+                    {% for depot in depotInventories %}
+                        {% set av = depot.available %}
+                        {% if(av > 0) %}
+                            <span class="name__tore"> 
+                                {{ depot.option('depotName') }} - Kho hàng bán ({{ depot.option('depotMobile') }})
+                            </span>
+                            <span  class="info__store">{{ depot.option('depotAddress') }}</span>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+

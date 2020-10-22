@@ -1,0 +1,28 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+
+{% set banner_home = getBannerByPositionCode('BANNER_HOME') %}
+
+{% set banner = banner ~ '<div class="row row-guter">' %}
+    {% set banner = banner ~ '<div class="col-padding col-lg-6 col-md-6 col-sm-6 col-xs-12">' %}
+        {% set banner = banner ~ '<a class="banner" href="#" title="banner">' %}
+            {% set banner = banner ~ '<img class="hvr-buzz-out" src="//theme.hstatic.net/1000329721/1000424884/14/banner_01.png?v=22" alt="banner"/>' %}
+        {% set banner = banner ~ '</a>' %}
+    {% set banner = banner ~ '</div>' %}
+
+
+    {% set banner = banner ~ '<div class="col-padding col-lg-6 col-md-6 col-sm-6 col-xs-12">' %}
+        {% set banner = banner ~ '<a class="banner" href="#" title="banner">' %}
+            {% set banner = banner ~ '<img class="hvr-buzz-out" src="//theme.hstatic.net/1000329721/1000424884/14/banner_02.png?v=22" alt="banner"/>' %}
+        {% set banner = banner ~ '</a>' %}
+    {% set banner = banner ~ '</div>' %}
+
+{% set banner = banner ~ '</div>' %}
+
+{{ saveCache(keyMenu, banner | raw, 1800) }}
+{{ banner | raw }}

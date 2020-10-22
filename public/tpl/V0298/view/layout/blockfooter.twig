@@ -1,0 +1,113 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+<div class="blockFooter">
+    <div class="containerMain">
+        <div id="ct7" class="col-lg-12 col-md-12 col-xs-12 hidden-sm hidden-xs">
+            <div class="col-lg-12 col-md-12 col-xs-12">
+                <h3>Tin tức hữu ích<span></span></h3>
+                {% set lastestNews = getLastestNews({'limit':6}) %}
+                {% if(lastestNews) %}
+                    {% for n in lastestNews %}
+                        {% set image = n.pictureUri %}
+                        {% set options = {
+                            alt: n.title|e('html'),
+                            lazy: true,
+                            openDiv: false,
+                        }%}
+                        <div class="col-lg-4 col-md-4 col-xs-12 boxImageFooter" >
+                            <a href="{{ n.viewLink }}" class="col-lg-4 col-md-4 col-xs-4" id="imgNewHome" style="padding-bottom: 12px;">
+                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                            </a>
+                            <a href="{{ n.viewLink }}" class="col-lg-8 col-md-8 col-xs-8" id="infoNewHome" style="font-size: 12px; font-weight: bold;">{{ n.title|e('html') }}</a>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="cus-service clearfix">
+        <div class="cus-title clearfix">
+            <span>DỊCH VỤ KHÁCH HÀNG</span>
+        </div>
+        <div class="containerMain cus-list clearfix">
+            {% set bnService = getBannerByPositionCode('BANNER_SERVICE') %}
+            {% if(bnService) %}
+                {% for b in  bnService %}
+                    {% set image = b.imageSrc %}
+                    {% set options = {
+                        alt: b.name,
+                        lazy: true,
+                        openDiv: false,
+                    }%}
+                    <a class="item col-md-3 col-sm-4 col-xs-6" href="{{ b.viewLink }}" title="{{ b.name }}" rel="nofollow">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        <span>{{ b.description() }}</span>
+                        <div class="cus-title">{{ b.name() }}</div>
+                    </a>
+                {% endfor %}
+                {% else %}
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/ic-phone.png" alt="icons">
+                        <span>Hotline</span>
+                        <div class="cus-title">0988 344 445</div>
+                    </a>
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/ic-maps.png" alt="icons">
+                        <span>Địa chỉ</span>
+                        <div class="cus-title">Show room</div>
+                    </a>
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/ic-pc.png" alt="icons">
+                        <span>Hướng dẫn</span>
+                        <div class="cus-title">Mua hàng online</div>
+                    </a>
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/ic-mouse.png" alt="icons">
+                        <span>Kinh nghiệm hay</span>
+                        <div class="cus-title">Từ cặp tốt</div>
+                    </a>
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/ic-setting.png" alt="icons">
+                        <span>Chính sách</span>
+                        <div class="cus-title">Bảo hành</div>
+                    </a>
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/ic-user.png" alt="icons">
+                        <span>Chính sách</span>
+                        <div class="cus-title">Bảo mật thông tin</div>
+                    </a>
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/policy-1.png" alt="icons">
+                        <span>Chính sách</span>
+                        <div class="cus-title">Vận chuyển</div>
+                    </a>
+                    <a href="" class="item col-md-3 col-sm-4 col-xs-6" rel="nofollow">
+                        <img src="/tpl/V0001/img/2019/ic-pen.png" alt="icons">
+                        <span>Chính sách</span>
+                        <div class="cus-title">Đổi trả sản phẩm</div>
+                    </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="block-brand containerMain">
+        <div class="brandFooter owl-carousel owl-theme">
+            {% set bnBrands = loadBrand() %}
+            {% if(bnBrands) %}
+                {% for b in bnBrands %}
+                    {% set image = b.imageUri %}
+                    {% set options = {
+                        alt: b.name,
+                        lazy: true,
+                        openDiv: false,
+                    }%}
+                    <a href="{{ b.viewLink }}" title="{{ b.name }}" class="item" style="display:block">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>

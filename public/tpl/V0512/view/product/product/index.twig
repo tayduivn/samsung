@@ -1,0 +1,386 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{#{% import 'layout/breadcrumbs' as breadcrumbs %}#}
+{% block meta %}
+    {{ headTitle('Danh mục - Sản phẩm').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block stylesheets %}
+{#    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/index.css' }}" type="text/css">#}
+{#    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/catePro.css' }}" type="text/css">#}
+{% endblock %}
+{% block body %}
+
+    {% set bnPro = getBannerByPositionCode('BANNER_PRODUCT',{'limit' : 7})  %}
+    {% if(bnPro) %}
+    <section class="banner-product">
+        <div class="owl-carousel owl-theme">
+            {% for bn in bnPro %}
+            <div class="item position-relative" style="background-image: url('{{ bn.imageSrc }}')">
+                <div class="hero-text">
+                    <div class="hero-text__inner">
+                        <div class="hero-text__content">
+                            <h2 class="text-center text-uppercase font-weight-bold">{{ bn.name }}</h2>
+                            <a href="{{ bn.viewLink }}" class="btn-custom font-weight-bold text-uppercase d-inline-block text-center" title="{{ bn.name }}">{{ bn.description }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% else %}
+        <section class="banner-product">
+            <div class="owl-carousel owl-theme">
+                <div class="item position-relative" style="background-image: url('/tpl/V0512/img/8087-SmartX.jpg')">
+                    <div class="hero-text">
+                        <div class="hero-text__inner">
+                            <div class="hero-text__content">
+                                <h2 class="text-center text-uppercase font-weight-bold"> Crash Detection</h2>
+                                <a href="javascript:" class="btn-custom font-weight-bold text-uppercase d-inline-block text-center">ABUS StormChaser</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item position-relative" style="background-image: url('/tpl/V0512/img/8087-SmartX.jpg')">
+                    <div class="hero-text">
+                        <div class="hero-text__inner">
+                            <div class="hero-text__content">
+                                <h2 class="text-center text-uppercase font-weight-bold"> Crash Detection</h2>
+                                <a href="javascript:" class="btn-custom font-weight-bold text-uppercase d-inline-block text-center">ABUS StormChaser</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="item position-relative" style="background-image: url('/tpl/V0512/img/8087-SmartX.jpg')">
+                    <div class="hero-text">
+                        <div class="hero-text__inner">
+                            <div class="hero-text__content">
+                                <h2 class="text-center text-uppercase font-weight-bold"> Crash Detection</h2>
+                                <a href="javascript:" class="btn-custom font-weight-bold text-uppercase d-inline-block text-center">ABUS StormChaser</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {% if(getCategories()) %}
+        <section class="category-list d-flex flex-wrap">
+            {% for c in getCategories() | slice(0,4) %}
+                {% set image = c.iconUri %}
+                {% set options = {
+                    alt: c.name,
+                    lazy: true,
+                    openDiv: false,
+                }%}
+                <div class="col-12 col-md-6 col-xl-3 p-0 category-list__item">
+                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+{#                    <img src="{{ c.iconUri ? :'/tpl/V0512/img/BSS Gothard_0D9A1289.jpg' }}" alt="{{ c.name | raw }}">#}
+                    <a href="{{ c.viewLink }}" class="name position-absolute font-weight-bold d-flex justify-content-end text-center text-uppercase" title="{{ c.viewLink }}">
+                        <span>{{ c.name | raw}}</span>
+                    </a>
+                </div>
+            {% endfor %}
+        </section>
+    {% endif %}
+
+    <section class="section-teaser">
+        <div class="width-content mx-auto">
+            <div class="pd-teaser clearfix teaser-block">
+                <div class="name-teaser float-left">
+                    <h1 class="text-uppercase font-weight-bold position-relative beforePremium">
+                        <span class="d-block title-span">ABUS</span>
+                        Sicherheit unterwegs
+                    </h1>
+                </div>
+                <div class="content-teaser float-left">
+                    <p class="copy--bold font-weight-bold">Mobile Sicherheit ist uns wichtig</p>
+                    <p>ABUS schützt mobiles Eigentum und bietet Menschen Produkte und Dienstleistungen für Ihre
+                        Sicherheit unterwegs. Unser Portfolio umfasst unter anderem Fahrradschlösser, Fahrradhelme,
+                        Motorradschlösser, Schlösser und Sicherungen für Ihr Boot, für Ihr ATV/Quad/Snowmobil und
+                        Ladungssicherungen.</p>
+                </div>
+            </div>
+        </div>
+
+        {% set bnPro1 = getBannerByPositionCode('BANNER_PRODUCT_1',{'limit' : 1})  %}
+        {% if(bnPro1) %}
+            {% for bn1 in bnPro1 %}
+                {% set image = bn1.imageSrc %}
+                {% set options = {
+                    alt: bn1.name,
+                    lazy: true,
+                    openDiv: false,
+                }%}
+            <div class="teaser-news position-relative clearfix">
+                <div class="teaser-block-img">
+                    <div class="teaser-box-img position-relative">
+                        <div class="teaser-img" style="background-image: url('{{ bn1.imageSrc }}')">
+                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="teaser-block-text">
+                    <div class="teaser-box-text">
+                        <div class="teaser-text">
+                            <h3 class="text-uppercase font-weight-bold">{{ bn1.name | raw }}</h3>
+                            <p class="font-weight-bold">{{ bn1.description | raw }}</p>
+                            {{ bn1.intro | raw }}
+                            <a href="{{ bn1.viewLink }}" class="btn-custom d-inline-block text-center text-uppercase" title="{{ bn1.name | raw }}">Zur
+                                Bestellung</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="teaser-news position-relative clearfix">
+                <div class="teaser-block-img">
+                    <div class="teaser-box-img position-relative">
+                        <div class="teaser-img" style="background-image: url('/tpl/V0512/img/Keyorder-USA.png')">
+                            <img src="/tpl/V0512/img/Keyorder-USA.png"
+                                 alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="teaser-block-text">
+                    <div class="teaser-box-text">
+                        <div class="teaser-text">
+                            <h3 class="text-uppercase font-weight-bold">ABUS SCHLÜSSELSERVICE</h3>
+                            <p class="font-weight-bold">Ein Service für Fahrrad - und Motorradschlösser!</p>
+                            <p>Der einfachste Weg zum Ersatzschlüssel
+                                Sie haben Ihren Schlüssel verloren oder hätten gerne
+                                einen Zweit- oder Drittschlüssel für Ihr Fahrrad- oder Motorradschloss?</p>
+                            <a href="javascript:" class="btn-custom d-inline-block text-center text-uppercase">Zur
+                                Bestellung</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+    </section>
+
+    {% if(getCategories()) %}
+        {% for c in getCategories() %}
+            {% set image = c.imageUri %}
+            {% set options = {
+                alt: c.name,
+                class: 'd-none',
+                lazy: true,
+                openDiv: false,
+            } %}
+            {% if(c.childs) %}
+                <section class="section-cate">
+                    <div class="section-cate__head">
+                        <div class="head-image" style="background-image: url('{{ c.imageUri }}')">
+                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </div>
+                        <div class="short-descript position-relative mx-auto">
+                            <div class="short-descript__box-text">
+                                <div class="boxtext-left">
+                                    <h3 class="position-relative font-weight-bold text-uppercase beforePremium">
+                                        <span class="d-block title-span">{{ c.name | raw }}</span>
+                                        {{ c.description }}
+                                    </h3>
+                                </div>
+                                <div class="boxtext-right">
+                                    {{ c.content | raw }}
+                                    <a href="{{ c.viewLink }}" class="btn-custom d-inline-block text-center" alt="{{ c.name }}">
+                                        ABUS Fahrradhelme
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-cate__cateChild list-cate">
+                        <div class="width-content mx-auto">
+                            <div class="owl-carousel owl-theme">
+                                {% for c1 in c.childs | slice(0,4) %}
+                                    {% set image = c1.iconUri %}
+                                    {% set options = {
+                                        alt: c1.name,
+                                        lazy: true,
+                                        openDiv: false,
+                                    } %}
+                                    <div class="item">
+                                        <div class="item-content">
+                                            <div class="cateChild-image position-relative">
+                                                <a href="{{ c1.viewLink }}" class="d-block position-absolute" title{{ c1.name }}>
+                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                </a>
+                                            </div>
+                                            <div class="cateChild-name">
+                                                <a href="{{ c1.viewLink }}" class="font-weight-bold text-uppercase d-block text-center" title="{{ c1.name }}">{{ c1.name }}</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+        {% endfor %}
+    {%  endif %}
+
+
+
+    {% set bnPro2 = getBannerByPositionCode('BANNER_PRODUCT_2',{'limit' : 2})  %}
+    {% if(bnPro2) %}
+        {% set n = 0 %}
+        {% set class = '' %}
+        {% for bn2 in bnPro2 %}
+            {% set image = bn2.imageSrc %}
+            {% set options = {
+                alt: bn2.name,
+                lazy: true,
+                openDiv: false,
+            }%}
+            {% if( n > 0) %}
+                {% set class = 'section-teaser__two' %}
+            {% endif %}
+
+            <section class="section-teaser {{ class }}">
+                <div class="teaser-news position-relative clearfix">
+                    <div class="teaser-block-img">
+                        <div class="teaser-box-img position-relative">
+                            <div class="teaser-img" style="background-image: url('{{ bn2.imageSrc }}')">
+                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="teaser-block-text">
+                        <div class="teaser-box-text">
+                            <div class="teaser-text">
+                                <h3 class="text-uppercase font-weight-bold">{{ bn2.name | raw }}</h3>
+                                <p class="font-weight-bold">{{ bn2.description | raw }}</p>
+                                {{ bn2.intro | raw }}
+                                <a href="{{ bn2.viewLink }}" class="btn-custom d-inline-block text-center text-uppercase" title="{{ bn2.name }}">Zur Bestellung</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            {% set n = n+1 %}
+        {% endfor %}
+    {% else %}
+        <section class="section-teaser">
+            <div class="teaser-news position-relative clearfix">
+                <div class="teaser-block-img">
+                    <div class="teaser-box-img position-relative">
+                        <div class="teaser-img" style="background-image: url('/tpl/V0512/img/Keyorder-USA.png')">
+                            <img src="/tpl/V0512/img/Keyorder-USA.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="teaser-block-text">
+                    <div class="teaser-box-text">
+                        <div class="teaser-text">
+                            <h3 class="text-uppercase font-weight-bold">ABUS SCHLÜSSELSERVICE</h3>
+                            <p class="font-weight-bold">Ein Service für Fahrrad - und Motorradschlösser!</p>
+                            <p>Der einfachste Weg zum Ersatzschlüssel
+                                Sie haben Ihren Schlüssel verloren oder hätten gerne
+                                einen Zweit- oder Drittschlüssel für Ihr Fahrrad- oder Motorradschloss?</p>
+                            <a href="javascript:" class="btn-custom d-inline-block text-center text-uppercase">Zur Bestellung</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-teaser section-teaser__two">
+            <div class="teaser-news position-relative clearfix">
+                <div class="teaser-block-img">
+                    <div class="teaser-box-img position-relative">
+                        <div class="teaser-img" style="background-image: url('/tpl/V0512/img/Keyorder-USA.png')">
+                            <img src="/tpl/V0512/img/Keyorder-USA.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="teaser-block-text">
+                    <div class="teaser-box-text">
+                        <div class="teaser-text">
+                            <h3 class="text-uppercase font-weight-bold">ABUS SCHLÜSSELSERVICE</h3>
+                            <p class="font-weight-bold">Ein Service für Fahrrad - und Motorradschlösser!</p>
+                            <p>Der einfachste Weg zum Ersatzschlüssel
+                                Sie haben Ihren Schlüssel verloren oder hätten gerne
+                                einen Zweit- oder Drittschlüssel für Ihr Fahrrad- oder Motorradschloss?</p>
+                            <a href="javascript:" class="btn-custom d-inline-block text-center text-uppercase">Zur Bestellung</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {#        </div>#}
+        </section>
+    {% endif %}
+
+    <section class="banner-premium position-relative">
+        <div class="width-content mx-auto d-flex justify-content-center">
+            <div class="content-bannerPre d-flex justify-content-center">
+                <div class="banner-premium__inner">
+                    {% set bnPro3 = getBannerByPositionCode('BANNER_PRODUCT_3',{'limit' : 1})  %}
+                    {% if(bnPro3) %}
+                        {% for bn3 in bnPro3 %}
+                            {% set image = bn3.imageSrc %}
+                            {% set options = {
+                                alt: bn3.name,
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            <div class="banner-premium__media">
+                                <div class="banner-premium__img">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    <span class="banner-premium__name">{{ bn3.name | raw }}</span>
+                                </div>
+                            </div>
+                            {{ bn3.intro | raw }}
+                        {% endfor %}
+                    {% else %}
+                        <div class="banner-premium__media">
+                            <div class="banner-premium__img">
+                                <img src="/tpl/V0512/img/ABUS_Website_Helme_Road.jpg" alt="">
+                                <span class="banner-premium__name">ABUS AirBreaker</span>
+                            </div>
+                        </div>
+                        <p style="text-align:left;">Egal, ob Sie Ihr Fahrrad vor Diebstahl schützen, Ihren Kopf bei einem Sturz mit einem&nbsp; Fahrradhelm schützen oder einfach nur ein paar Dinge schadenfrei transportieren&nbsp;möchten. Für all diese Aufgaben bietet ABUS die richtige Lösung! Beginnend beim Basisschutz bis zum Hochtechnologieschloss in punkto Diebstahlschutz. Oder bei Fahrradhelmen vom ersten Kinderhelm bis zum Profi-Radsporthelm. Bei ABUS finden Sie das richtige für jedes Einsatzgebiet.</p>
+                        <p style="text-align:left;">ABUS - seit über 80 Jahren mobile Sicherheit made in Germany. Speziell für Motorräder produziert ABUS Kettenschlösser, Bügelschlösser und Bremsscheibenschlösser. Ständige Weiterentwicklung in Sachen Konstruktion und Materialien sorgt dafür, dass ABUS potenziellen Dieben immer einen Schritt voraus ist.&nbsp;</p>
+                    {% endif %}
+                    <div class="made-in">
+                        <div class="made-in__img">
+                            <img src="/tpl/V0512/img/Made-in-Germany.jpg" alt="Made in Germany">
+                            <span class="d-block">ABUS Markenzeichen "Made in Germany"</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section-newsLetter">
+        <div class="section-newsLetter__content mx-auto">
+            <h3 class="newsletter__title ml-auto mr-auto text-uppercase font-weight-bold text-center">
+                <span class="d-block">Neuheiten für Ihre Sicherheit</span>
+                Newsletter
+            </h3>
+
+            <div class="form-newsLetter ml-auto mr-auto position-relative">
+                <form action="" class="hide-submit" method="POST">
+                    <input type="email" name="email" class="p-0" required="" id="contactFormEmail">
+                    <label class="position-absolute font-weight-bold text-uppercase m-0">E-Mail</label>
+                    <button class="position-absolute font-weight-bold text-uppercase m-0 btn_dk">
+                        <i class="far fa-long-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+{% block script %}
+{#    <script type="text/javascript" src="{{ templatePath ~'/js/category.js' }}"></script>#}
+{% endblock %}

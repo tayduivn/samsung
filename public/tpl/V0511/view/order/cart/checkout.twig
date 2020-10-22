@@ -1,0 +1,248 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Thanh toán | ABC').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~ templatePath  ~'/css/checkout.css ' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {#    getPaymentAccount(constant('Order\\Service\\Payment\\Payment::PAYMENT_METHOD_COD'))#}
+    {% set products = serviceCart().products %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    <div class="container-fluid content">
+        <form style="width: 100%" action="" method="post" id="formCheckOut">
+            <div class="row">
+                <div class="logo-reponsive">
+                    <img src="/tpl/V0511/image/logo.png">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-push-8">
+                    <div class="hoadon">
+                        <div class="row">
+                            <div class="col-8"><h2>Đơn hàng({{ serviceCart().totalQuantities }} sản phẩm) </h2></div>
+                            <div class="col-4 list-reponsive"> Xem chi tiết
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+                        </div>
+                        <hr/>
+
+                        <div class="sanpham">
+                            {% for p in products %}
+                                {% set image = p.thumbnailUri %}
+                                {% set options = {
+                                    alt: p.name,
+                                    lazy: true,
+                                    openDiv: false,
+                                    class: 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
+                                } %}
+                                <div class="row margin-top">
+                                    <div class="col-3">
+                                        <img class="img-fluid" src="{{ image }}">
+                                        <div class="tags" style="z-index: 100">{{ p.quantity }}</div>
+                                    </div>
+                                    <div class="col-6">
+                                        <a class="link-1">{{ p.name }}</a>
+                                    </div>
+                                    <div class="col-3">
+                                        <span>{{ (p.price * p.quantity) | number_format(0) }}<u>đ</u></span>
+                                    </div>
+
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group margin-top">
+                            <input style="height: 40px;" id="coupon" class="font-14 form-control" type="text"
+                                   placeholder="Nhập mã giảm giá">
+                            <button style="background: #2a9dcc" id="getCoupon" class="btn btn-primary">Áp dụng</button>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <span class="left"><strong>Tạm tính:</strong></span>
+                            <span class="right">
+                                <strong class="font-14 totals_price">{{ totalCartMoney }}<u>đ</u></strong>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="left"><strong>Phí vận chuyển:</strong></span>
+                            <span class="right">
+                                <strong id="shipFee" class="font-14 totals_price">0<u>đ</u></strong>
+                            </span>
+                        </div>
+                        <hr/>
+
+                        <div class="row">
+                            <span class="left"><strong>Tổng cộng:</strong></span>
+                            <span class="right">
+                                <strong style="font-size: 23px"
+                                        class="font-14 totals_price" id="showTotalMoney"
+                                        value="{{ totalCartMoney }}">{{ totalCartMoney }}<u>đ</u></strong>
+                            </span>
+                        </div>
+                        <div class="row margin-top ">
+                            <a href="/cart" class="left link-1 back-cart repon">
+                                <span style="margin-right: 5px " class="fa fa-angle-left"></span>Quay về giỏ
+                                hàng
+                            </a>
+                            <input type="submit" class="right repon button" value="Đặt mua">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-12 col-push-4 margin-top">
+                    <div class="ttkhachang">
+                        <div class="row logo">
+                            <a href="/" class="repon"> <img class="img-fluid" src="/tpl/V0511/image/logo.png"></a>
+                        </div>
+                        <div class="row margin-top">
+                            <div style="margin-bottom: 20px" class="col-lg-6 col-md-12">
+                                <div class="row ">
+                                    <div style="padding: 0" class="col-8">
+                                        <h2>Thông tin khách hàng</h2>
+                                    </div>
+                                    <div style="padding: 0" class="col-4">
+                                        {% if(hasIdentity() != null) %}
+                                            <a style="display: block;width: 100%" class="link-1" href="/user/signout">
+                                                <i class="fa fa-sign-out"></i><span>Đăng xuất</span>
+                                            </a>
+                                        {% else %}
+                                            <a style="display: block;width: 100%" class="link-1" href="/user/signin">
+                                                <i class="fa fa-user"></i><span>Đăng Nhập</span>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class=" placeholder">Email</label>
+                                        <input name="customerEmail" class="form-control nhap font-14" type="email"
+                                               value="{{ user?user.email:'' }}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class=" placeholder">Họ và tên</label>
+                                        <input name="customerName" class="form-control nhap font-14" type="text"
+                                               value="{{ user?user.fullName:'' }}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class=" placeholder">Số điện thoại (tùy chọn)</label>
+                                        <input name="customerMobile" class="form-control nhap font-14" type="text"
+                                               value="{{ user ? (user.mobile | replace({'+84': '0'})):'' }}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="placeholder">Địa chỉ (tùy chọn)</label>
+                                        <input name="customerAddress" class="form-control nhap font-14" type="text"
+                                               value="{{ user?user.address }}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label style="font-size: 13px" class="placeholder">Tỉnh thành</label>
+                                        <select id="cityId" name="customerCityId"
+                                                class="form-control font-14">
+                                            <option class="font-14" data-code="null" value="null" selected="">
+                                               ---
+                                            </option>
+                                            {% for city in cities %}
+                                                <option class="font-14" {{ (user and user.cityLocationId == city.id ? 'selected' : '') }}
+                                                        value="{{ city.Id }}">
+                                                    {{ city.nativeName }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label style="font-size: 13px" class="placeholder">Quận huyện</label>
+                                        <select id="districtId" name="customerDistrictId"
+                                                class="form-control font-14">
+                                            <option value="" selected="">
+                                                ---
+                                            </option>
+                                            {% if(user) %}
+                                                {% set dts = getDistrict(user.cityLocationId) %}
+                                                {{ toSelectBox(dts, user.districtLocationId) }}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="placeholder">Ghi chú(tùy chọn)</label>
+                                        <textarea name="description" class="input nhap font-14 form-control" rows="3"
+                                                  style="width: 100%;padding-top: 15px"></textarea>
+
+                                    </div>
+                                </div>
+                                <div id="tableShipFee" class="row"></div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="chinhsach">
+                                    <div class="row">
+                                        <h2>Vận chuyển</h2>
+                                        <div class="vanchuyen">
+                                            <div class="radio-wrapper">
+                                                <label style="margin-bottom: 10px" for="shippingMethod-345122_0"
+                                                       class="radio__label">
+                                                    <input style="width: 30px;height: auto" type="radio" checked>
+                                                    <span class="radio__label__primary">Giao hàng tận nơi</span>
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <h2>Thanh toán</h2>
+                                        <div class="thanhtoan">
+                                            <div class="radio-wrapper">
+                                                <div style="display: inline" class="">
+                                                    <input style="width: 30px;height: auto" type="radio" checked>
+                                                </div>
+                                                <label style="margin-bottom: 10px" for="shippingMethod-345122_0"
+                                                       class="radio__label">
+                                                    <span class="radio__label__primary">Thanh toán khi giao hàng</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 15px" class="row margin-top datmua">
+                            <input style="padding-top:10px" type="submit" class="button" value="Đặt mua">
+                            <a href="/cart" class="left link-1 back-cart">
+                                <span style="margin-right: 5px " class="fa fa-angle-left"></span>
+                                Quay về giỏ hàng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: none">
+                    <div id="progressbar" style="text-align: center;">
+                        <p style="font-size:13px;background-color: #F0F0F0;line-height: 40px;padding: 0 10px;width:200px;">
+                            Đang xử lý !</p>
+                        <img class="lazyload" data-sizes="auto" src="/tpl/V0511/image/loading.gif"
+                             data-src="/tpl/V0511/image/loading.gif"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ ''~ templatePath  ~'/js/checkout.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+
+{% endblock %}

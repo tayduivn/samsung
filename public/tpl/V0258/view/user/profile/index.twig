@@ -1,0 +1,63 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Thông tin người dùng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Thông tin người dùng">
+    <meta name="keywords" content="Thông tin người dùng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Thông tin người dùng">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="breadcrumb breadcrumbs">
+                <div class="rdfa-breadcrumb">
+                    <div>
+                        <p>
+                            <span class="breadcrumbs-title"></span>
+                            <span typeof="v:Breadcrumb">
+                            <a href="/" class="home">{{ translate('Trang chủ') }}</a>
+                        </span>
+                            <span class='separator'>|</span>{{ translate('Trang khách hàng') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="container">
+                    <h1 class="title-user">{{ translate('Tài khoản') }}</h1>
+                    <div class="clearfix"></div>
+
+                    <div class="interlist col-sm-12 col-xs-12">
+                        <div class="inter-title">{{ translate('Thông tin tài khoản') }}</div>
+                        <div class="clearfix"></div>
+                        <div class="inter-info">
+                            <a href="/profile/edit" class="text-green">
+                                {{ translate('Thay đổi thông tin tài khoản') }}
+                            </a>
+                            <a href='/profile/changepassword' class="text-green">
+                                {{ translate('Trang đổi mật khẩu tài khoản') }}</a>
+                            <a href="/order" class="text-green">
+                               {{ translate('Đơn hàng')}}
+                            </a>
+                            <a href="/user/signout" class="text-green">
+                                <i class="fa fa-sign-out"></i>{{ translate('Đăng xuất') }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="hidden interlist col-sm-6 col-xs-12">
+                        <div class="inter-title">{{ translate('Quản lý đơn hàng') }}</div>
+                        <div class="clearfix"></div>
+                        <div class="inter-info">
+                            <a href="/order/index" class="text-green">
+                                {{ translate('Quản lý đơn hàng')}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

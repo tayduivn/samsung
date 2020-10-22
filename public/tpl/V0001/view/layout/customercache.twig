@@ -1,0 +1,37 @@
+{% set banner_customer = getBannerByPositionCode('BANNER_CUSTOMER',{'limit' : 1}) %}
+{% if(banner_customer is not empty) %}
+        <div class="fily3d">
+            <h2>CẢM NHẬN KHÁCH HÀNG VỀ CẶP TỐT</h2>
+            <div class="slide3D">
+                <div id="carousel">
+                    {% for key, b in banner_customer %}
+                        {% set arrClass = {
+                            0: 'prevLeftSecond',
+                            1: 'prev',
+                            2: 'selected',
+                            3: 'next',
+                            4: 'nextRightSecond'
+                        } %}
+                        {% set class = 'hideRight' %}
+                        {% if arrClass[key] is defined %}
+                            {% set class = arrClass[key] %}
+                        {% endif %}
+                        <article class="{{ class }}">
+                            <div class="over">
+                                <img src="{{ b.imagesrc }}" alt="{{ b.name }}"/>
+                                <a href="{{ b.viewlink }}" class="tt">
+                                    <strong>{{ b.name }}</strong>
+                                    <span class="g"></span>
+                                    <span class="f">{{ b.description }}</span>
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+                <div class="buttons">
+                    <div id="prev"></div>
+                    <div id="next"></div>
+                </div>
+            </div>
+        </div>
+    {% endif %}

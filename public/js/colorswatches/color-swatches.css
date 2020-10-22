@@ -1,0 +1,28 @@
+.relative{
+    position: relative;
+}
+.color-swatches {
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 10;
+    padding-top: 3px;
+}
+.color-swatches li {
+    display: inline-block;
+    padding: 0 5px;
+    cursor: pointer;
+    margin: auto !important;
+}
+.color-swatches img {
+    position: relative !important;
+    width: 30px;
+    height: auto;
+    max-width: 100%;
+    max-height: 35px;
+    display: block;
+    transition: all .05s ease-in-out;
+}
+.color-swatches li:hover img, .color-swatches li.active img{
+    box-shadow: 0 0 0 1px #e32124;
+}

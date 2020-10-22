@@ -1,0 +1,27 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% block meta %}
+  {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta property="og:title" content="{{ category.name }}">
+  <meta property="og:url" content="{{ category.viewLink }}">
+  <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+  <meta property="og:type" content="category">
+{% endblock %}
+{% block body %}
+
+{% set nItems = 0 %}
+    {% if(paginator is not empty) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.pages.totalItemCount %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+
+
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{{ templatePath ~'/js/slick.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/loadView.js' }}"></script>
+{% endblock %}

@@ -1,0 +1,525 @@
+{#banner.css#}
+
+<div class="container ben-animate mb-3 fadeInUp ben-animated">
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-default border-right-0 border-bottom-0">
+                <div class="card-header p-0  border-right">
+                    <ul class="nav nav-tabs card-header-tabs m-0" id="home-tab-products">
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="loadTab('tabSpHot')" data-toggle="tab" href="#tabSpHot">SẢN PHẨM HOT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="loadTab('tabSpBanChay')" data-toggle="tab" href="#tabSpBanChay">SẢN PHẨM BÁN CHẠY </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="loadTab('tabSpMoi')" data-toggle="tab" href="#tabSpMoi">SẢN PHẨM MỚI</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" onclick="loadTab('tabSpKhuyenMai')" data-toggle="tab" href="#tabSpKhuyenMai">SẢN PHẨM KHUYẾN MẠI</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body tab-content p-0" id="home-tab-slider">
+{#                    <div class="tab-pane" id="tabSpHot">#}
+{#                        <div class="list-products owl-carousel owl-theme owl-loaded">#}
+
+{#                            <div class="owl-stage-outer owl-height" id="">#}
+{#                                <div class="owl-stage" id="">#}
+{#                                    {% set productHot = search({'showHot':1}) %}#}
+{#                                    {% if(productHot) %}#}
+{#                                        {% for n in productHot %}#}
+{#                                            {% set image = n.thumbnailUri %}#}
+{#                                            {% set options = {#}
+{#                                                alt: n.name,#}
+{#                                                class: 'imageChange swatch-'~n.id,#}
+{#                                                lazy: true,#}
+{#                                                openDiv: false,#}
+{#                                            } %}#}
+
+{#                                            {% set oldPrc = n.price + 1000000 %}#}
+{#                                            <div class="owl-item product-box" data-id="{{ n.id }}" data-storeId="{{ n.storeId }}" psId="{{ n.id }}" style="width: 100%">#}
+{#                                                <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">#}
+
+{#                                                    <div class="product-image-box">#}
+{#                                                        <img src="{{ image }}" class="product-image" alt="...">#}
+{#                                                    </div>#}
+{#                                                    <div class="card-body p-1">#}
+{#                                                        <p class="card-text product-name">#}
+{#                                                            <a href="{{ n.viewLink }}">{{ n.name }}</a>#}
+{#                                                        </p>#}
+{#                                                    </div>#}
+{#                                                    <div class="card-footer">#}
+{#                                                        <div class="product-price-block">#}
+{#                                                            <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>#}
+{#                                                            <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>#}
+{#                                                        </div>#}
+{#                                                        <div class="prd-stock d-flex justify-content-between align-items-center">#}
+
+{#                                                            <div class="cl-left">#}
+
+{#                                                            </div>#}
+{#                                                            <div class="cl-right">#}
+{#                                                                <span class="product-shoping">#}
+{#                                                                    <a class="btnAddToCart" href="/cart">#}
+{#                                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ#}
+{#                                                                    </a>#}
+{#                                                                </span>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+
+{#                    <div class="tab-pane" id="tabSpBanChay">#}
+{#                        <div class="list-products owl-carousel owl-theme owl-loaded">#}
+{#                            <div class="owl-stage-outer owl-height" id="">#}
+{#                                <div class="owl-stage" id="">#}
+{#                                    {% set bestsellerPro = search({'limit':8,'showHome':1}) %}#}
+{#                                    {% if(bestsellerPro) %}#}
+{#                                        {% for n in bestsellerPro %}#}
+{#                                            {% set image = n.thumbnailUri %}#}
+{#                                            {% set options = {#}
+{#                                                alt: n.name,#}
+{#                                                class: 'imageChange swatch-'~n.id,#}
+{#                                                lazy: true,#}
+{#                                                openDiv: false,#}
+{#                                            } %}#}
+
+{#                                            {% set oldPrc = n.price + 1000000 %}#}
+{#                                            <div class="owl-item product-box" data-id="{{ n.id }}" data-storeId="{{ n.storeId }}" psId="{{ n.id }}" style="width: 100%">#}
+{#                                                <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">#}
+
+{#                                                    <div class="product-image-box">#}
+{#                                                        <img src="{{ image }}" class="product-image" alt="...">#}
+{#                                                    </div>#}
+{#                                                    <div class="card-body p-1">#}
+{#                                                        <p class="card-text product-name">#}
+{#                                                            <a href="{{ n.viewLink }}">{{ n.name }}</a>#}
+{#                                                        </p>#}
+{#                                                    </div>#}
+{#                                                    <div class="card-footer">#}
+{#                                                        <div class="product-price-block">#}
+{#                                                            <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>#}
+{#                                                            <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>#}
+{#                                                        </div>#}
+{#                                                        <div class="prd-stock d-flex justify-content-between align-items-center">#}
+
+{#                                                            <div class="cl-left">#}
+
+{#                                                            </div>#}
+{#                                                            <div class="cl-right">#}
+{#                                                                <span class="product-shoping">#}
+{#                                                                    <a class="btnAddToCart" href="/cart">#}
+{#                                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ#}
+{#                                                                    </a>#}
+{#                                                                </span>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+
+{#                    <div class="tab-pane" id="tabSpMoi">#}
+{#                        <div class="list-products owl-carousel owl-theme owl-loaded">#}
+{#                            <div class="owl-stage-outer owl-height" id="">#}
+{#                                <div class="owl-stage" id="">#}
+{#                                    {% set newProduct = search({'limit':8,'showNew':1}) %}#}
+{#                                    {% if(newProduct) %}#}
+{#                                        {% for n in newProduct %}#}
+{#                                            {% set image = n.thumbnailUri %}#}
+{#                                            {% set options = {#}
+{#                                                alt: n.name,#}
+{#                                                class: 'imageChange swatch-'~n.id,#}
+{#                                                lazy: true,#}
+{#                                                openDiv: false,#}
+{#                                            } %}#}
+
+{#                                            {% set oldPrc = n.price + 1000000 %}#}
+{#                                            <div class="owl-item product-box" data-id="{{ n.id }}" data-storeId="{{ n.storeId }}" psId="{{ n.id }}" style="width: 100%">#}
+{#                                                <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">#}
+
+{#                                                    <div class="product-image-box">#}
+{#                                                        <img src="{{ image }}" class="product-image" alt="...">#}
+{#                                                    </div>#}
+{#                                                    <div class="card-body p-1">#}
+{#                                                        <p class="card-text product-name">#}
+{#                                                            <a href="{{ n.viewLink }}">{{ n.name }}</a>#}
+{#                                                        </p>#}
+{#                                                    </div>#}
+{#                                                    <div class="card-footer">#}
+{#                                                        <div class="product-price-block">#}
+{#                                                            <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>#}
+{#                                                            <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>#}
+{#                                                        </div>#}
+{#                                                        <div class="prd-stock d-flex justify-content-between align-items-center">#}
+
+{#                                                            <div class="cl-left">#}
+
+{#                                                            </div>#}
+{#                                                            <div class="cl-right">#}
+{#                                                                <span class="product-shoping">#}
+{#                                                                    <a class="btnAddToCart" href="/cart">#}
+{#                                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ#}
+{#                                                                    </a>#}
+{#                                                                </span>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        {% endfor %}#}
+{#                                    {% endif %}#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+
+                    <div class="tab-pane tab-prds" id="tabSpHot">
+
+                    </div>
+
+                    <div class="tab-pane tab-prds" id="tabSpBanChay">
+
+                    </div>
+
+                    <div class="tab-pane tab-prds" id="tabSpMoi">
+
+                    </div>
+
+                    <div class="tab-pane active" id="tabSpKhuyenMai">
+                        <div class="list-products owl-carousel owl-theme owl-loaded">
+                            <div class="owl-stage-outer owl-height" id="">
+                                <div class="owl-stage" id="">
+                                    {% set saleProducts = search({'limit':8,'discount':1}) %}
+                                    {% if(saleProducts) %}
+                                        {% for n in saleProducts %}
+                                            {% set image = n.thumbnailUri %}
+                                            {% set options = {
+                                                alt: n.name,
+                                                class: 'imageChange swatch-'~n.id,
+                                                lazy: true,
+                                                openDiv: false,
+                                            } %}
+
+                                            {% set oldPrc = n.price + 1000000 %}
+                                            <div class="owl-item product-box" data-id="{{ n.id }}" data-storeId="{{ n.storeId }}" psId="{{ n.id }}" style="width: 100%">
+                                                <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">
+
+                                                    <div class="product-image-box">
+                                                        <img src="{{ image }}" class="product-image" alt="...">
+                                                    </div>
+                                                    <div class="card-body p-1">
+                                                        <p class="card-text product-name">
+                                                            <a href="{{ n.viewLink }}">{{ n.name }}</a></p>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <div class="product-price-block">
+                                                            <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                            <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                        </div>
+                                                        <div class="prd-stock d-flex justify-content-between align-items-center">
+{#                                                            <span class="product-stock text-green">#}
+{#                                                                <i class="fas fa-check"></i> Còn hàng#}
+{#                                                            </span>#}
+                                                            <div class="cl-left">
+
+                                                            </div>
+                                                            <div class="cl-right">
+                                                                <span class="product-shoping">
+                                                                    <a class="btnAddToCart" href="/cart">
+                                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                                    </a>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% set category = getCategories() %}
+{% if(category) %}
+    {% for i in 3..5 %}
+        {% set brand = loadBrand({'categoryId':category[i].id}) %}
+        <div class="container ben-animate mb-3 fadeInUp ben-animated">
+            <div class="row pc">
+                <div class="col-12">
+
+                    <div class="card card-default card-home-block">
+                        <div class="card-header d-flex align-items-center p-0 justify-content-between">
+                            <h3 class="">{{ category[i].name }}</h3>
+                            <ul class="nav card-header-pills nav-pills">
+                                {% if(brand) %}
+                                    {% for b in brand %}
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                               href="{{ category[i].viewLink }}?brand={{ b.id }}">{{ b.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ category[i].viewLink }}">Xem tất cả &gt;&gt;</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body p-0 slide-mobile">
+                            <div class="row m-0" data-items="13">
+                                <div class="col-ben-2 p-0">
+                                    <a href="#" target="_blank">
+                                        <img src="/tpl/V0505/img/2019/img-bn1.jpg">
+                                    </a>
+                                </div>
+                                {% set newProduct = search({'limit':13,'categoryId':category[i].id}) %}
+                                {% if(newProduct) %}
+                                    {% for n in newProduct %}
+                                        {% set image = n.thumbnailUri %}
+                                        {% set options = {
+                                            alt: n.name,
+                                            class: 'imageChange swatch-'~n.id,
+                                            lazy: true,
+                                            openDiv: false,
+                                        } %}
+
+                                        {% set oldPrc = n.price + 1000000 %}
+                                        <div class="col-ben-1 p-0 product-box" data-id="{{ n.id }}">
+                                            <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">
+
+                                                <div class="product-image-box">
+                                                    <img src="{{ image }}" class="product-image" alt="...">
+                                                </div>
+                                                <div class="card-body p-1">
+                                                    <p class="card-text product-name">
+                                                        <a href="{{ n.viewLink }}">{{ n.name }}</a></p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="product-price-block">
+                                                        <span class="price-new price-m">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                        <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                    </div>
+
+                                                    <div class="prd-stock d-flex justify-content-between align-items-center">
+{#                                                        <span class="product-stock text-green">#}
+{#                                                            <i class="fas fa-check"></i> Còn hàng#}
+{#                                                        </span>#}
+                                                        <div class="cl-left">
+
+                                                        </div>
+                                                        <div class="cl-right">
+                                                                <span class="product-shoping">
+                                                                    <a class="btnAddToCart" href="/cart">
+                                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                                    </a>
+                                                                </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mobile" id="ft-mb">
+                <div class="col-12">
+                    <div class="card card-default card-home-block">
+                        <div class="card-header d-flex align-items-center p-0 justify-content-between">
+                            <h3 class="">{{ category[i].name }}</h3>
+                            <ul class="nav card-header-pills nav-pills" style="border: none">
+                                {% if(brand) %}
+                                    {% for b in brand %}
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ category[i].viewLink }}?brand={{ b.id }}">{{ b.name }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ category[i].viewLink }}">Xem tất cả &gt;&gt;</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body p-0 border-right-0 border-bottom-0">
+                            <div class="row m-0 infinite-container">
+                                {% set newProductmb = search({'limit':6,'categoryId':category[i].id}) %}
+                                {% if(newProductmb) %}
+                                    {% for n in newProductmb %}
+                                        {% set image = n.thumbnailUri %}
+                                        {% set options = {
+                                            alt: n.name,
+                                            class: 'imageChange swatch-'~n.id,
+                                            lazy: true,
+                                            openDiv: false,
+                                        } %}
+
+                                        <div class="col-md-3 col-sm-4 col-6 p-0 infinite-item product-box" data-id="{{ n.id }}">
+
+                                            {% set oldPrc = n.price + 1000000 %}
+                                            <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">
+
+                                                <div class="product-image-box">
+                                                    <img src="{{ n.imageUri }}" class="product-image" alt="{{ n.name }}">
+                                                </div>
+                                                <div class="card-body p-1">
+                                                    <p class="card-text product-name">
+                                                        <a href="{{ n.viewLink }}">{{ n.name }}</a>
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="product-price-block">
+                                                        <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' ₫' }}</span><br>
+                                                        <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' ₫' }}</span><br>
+                                                    </div>
+
+                                                    <div class="prd-stock d-flex justify-content-between align-items-center">
+{#                                                        <span class="product-stock text-green">#}
+{#                                                            <i class="fas fa-check"></i> Còn hàng#}
+{#                                                        </span>#}
+                                                        <div class="cl-left">
+
+                                                        </div>
+                                                        <div class="cl-right">
+                                                            <span class="product-shoping">
+                                                                <a class="btnAddToCart" href="/cart">
+                                                                    <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<script>
+    $(document).ready(function () {
+        var width = $(window).width();
+
+        if (width < 1200) {
+            $('.list-products').owlCarousel({
+                loop: true,
+                margin: 1,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true
+                    },
+                    100: {
+                        items: 2,
+                        nav: false
+                    }
+                }
+            })
+        } else {
+            $('.list-products').owlCarousel({
+                loop: true,
+                margin: 1,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true
+                    },
+                    100: {
+                        items: 2,
+                        nav: false
+                    },
+                    1000: {
+                        items: 5,
+                        nav: false
+                    }
+                }
+            })
+        }
+
+        var ps = [];
+        $('.product-box').each(function () {
+            var t = $(this);
+            ps.push({storeId: t.attr('data-storeId'), id: t.attr('data-id')});
+        });
+        InventoryLoad(ps);
+    });
+
+    function InventoryLoad(ps) {
+        if (ps.length) {
+            checkInventory(ps, function (rs) {
+                if (rs.inventories != "") {
+                    $.each(rs.inventories, function (key, vl) {
+                        if (vl <= 0) {
+                            $('.product-box[data-id="' + key + '"] .prd-stock .cl-left').append('<span class="product-stock text-red"><i class="fas fa-times"></i>' + 'Hết hàng' + '</span>');
+                        } else {
+                            $('.product-box[data-id="' + key + '"] .prd-stock .cl-left').append('<span class="product-stock text-green"><i class="fas fa-check"></i>' + 'Còn hàng' + '</span>');
+                        }
+                    });
+                }
+            });
+        }
+    }
+
+    $('.nav-link').click(function () {
+        // var type = $('.tab-prds').attr('id');
+        //
+        // ajaxLoadView({
+        //     view: 'loadTabView&type=' + type, onSuccess: function (rs) {
+        //         $('.tab-prds').html(rs);
+        //     }
+        // });
+
+        if (!this.classList.contains('active')) {
+            this.classList.add('active');
+            var x = document.getElementsByClassName('nav-link');
+            for (var i = 0; i < x.length; i++) {
+                if (x[i] != this) {
+                    x[i].classList.remove('active');
+                }
+            }
+        }
+    });
+
+    function loadTab(id) {
+        ajaxLoadView({
+            view: 'loadTabView&type=' + id, onSuccess: function (rs) {
+                $('.tab-prds').html(rs);
+            }
+        });
+    }
+
+</script>

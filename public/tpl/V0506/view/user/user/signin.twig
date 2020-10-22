@@ -1,0 +1,36 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đăng nhập').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng nhập">
+    <meta name="keywords" content="Đăng nhập">
+    <meta property="og:url" content="/user/signin">
+    <meta property="og:title" content="Đăng nhập">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="row-fluid">
+                <div class="columnRight" style="text-align: center">
+                    <div class="viewProduct">
+                        <div class="featuredProducts">
+                            <div class="defaultTitle"></div>
+                            <div class="loginForm">
+                                {{ partial('partial/form',{'form':form}) }}
+                                <div class="blkSign">
+                                    <a class="loginFb" href="/user/fbsignin?redirect=/" target="_top"><i class="fa fa-facebook"></i> Facebook</a></a>
+                                    <a class="loginGg" href="/user/ggsignin" target="_top"><i class="fa fa-google"></i> Google</a>
+                                </div>
+                                <p class="btnforget">
+                                    <a rel="nofollow" href="/user/getpassword" style="text-decoration:underline;font-weight:bold">
+                                        <i class="fa fa-question-circle"></i>
+                                        {{ translate('Quên mật khẩu') }}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

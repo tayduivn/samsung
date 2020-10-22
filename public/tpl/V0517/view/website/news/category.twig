@@ -1,0 +1,17 @@
+{% extends 'news_layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+  {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta name="keywords" content="{{ category.name }}">
+  <meta name="description" content="{{ (category.description ?: category.Name) }}">
+  <meta property="og:title" content="{{ category.name }}">
+  <meta property="og:url" content="{{ category.viewLink }}">
+  <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+  <meta property="og:type" content="category">
+{% endblock %}
+
+{% block body %}
+
+
+
+{% endblock %}

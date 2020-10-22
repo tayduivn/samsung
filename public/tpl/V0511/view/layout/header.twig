@@ -1,0 +1,160 @@
+{% set quantity = serviceCart().totalQuantities %}
+{% set translate = getTranslate() %}
+{% set supportedDefault = constant('Website\\Model\\Domain::TRANSLATE_TYPE_DEFAULT') %}
+{% set supportedGoogle = constant('Website\\Model\\Domain::TRANSLATE_TYPE_GOOGLE') %}
+
+<header id="top" class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-12">
+                <div class="shop-menu-icon float-left">
+                    <div id="mySidenav" class="sidenav">
+                        <div class="row">
+                            <div class="top-menu">
+                                <a class="float-right" href="javascript:void(0)" onclick="closeNav()">
+                                    <img style=";margin-top: -30px;"
+                                         src="http://bizweb.dktcdn.net/100/289/886/themes/629773/assets/ic-close-menu.png?1594432541646">
+                                </a>
+                                <a href="javascrip:void(0)">
+                                    <div style="color: #67bd45" class="icon fa fa-user"></div>
+                                </a>
+                                {% if(hasIdentity() == null) %}
+                                    <p>xin chào</p>
+                                    <div>
+                                        <a href="/user/signin" class="sign-in link-2">Đăng nhập</a>
+                                        <a href="/user/signup" class="sign-up link-2">Đăng ký</a>
+                                    </div>
+                                {% else %}
+                                    <p>xin chào, {{ getUser().name? getUser().name: getUser().fullName }}</p>
+                                    <div>
+                                        <a href="/profile" class="sign-in link-2">Tài Khoản</a>
+                                        <a href="/user/signout" class="sign-up link-2">Đăng Xuất</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% include 'layout/menumobie' %}
+                        </div>
+                    </div>
+                    <div id="main">
+                        <span onclick="openNav()">&#9776;</span>
+                    </div>
+                </div>
+                <div style="padding-top: 20px" class="shop-menu-icon float-right">
+                    <a href="/cart">
+                        <span value="{{ quantity }}"
+                              class="badge badge-primary search_button float-right">{{ quantity }}</span>
+                        <span class="fa fa-shopping-basket float-right"></span>
+                    </a>
+                </div>
+                <div class="logo">
+                    <a href="http://v0511.vietvkstore2.bot3s.net/">
+                        <img class="img-fluid" src="\tpl\V0511\image\logo.png" alt="logo"/>
+                    </a>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12">
+                <div>
+                    <form style="width: 100%" action="/search">
+                        <div class="search">
+                            <div class="input-group mb-3">
+                                <input id="txtSearch" name="q" value="" type="text" class="form-control"
+                                       placeholder="tìm kiếm sản phẩm...">
+                                <div id="btnsearch" class="input-group-append">
+                                    <button class="btn btn-success" type="submit">
+                                        <i class="fa fa-search">
+                                        </i>
+                                        Tìm kiếm
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 c0l-12 col-md-6">
+                <div class="count">
+                    <div class="row">
+                        <div class="col">
+                            {% if(hasIdentity() == null) %}
+                                <div style="display: flex;width: 100%;position: relative" class="dropdown-1 float-right">
+                                    <i style="flex: 1;font-size: 30px;margin-top: 5px" class="fa fa-user"></i>
+                                    <div style="flex: 4">
+                                        <b>Chào Khách</b>
+                                        <br/>
+                                        <small>Tài Khoản</small>
+                                    </div>
+                                    <div style="top: 100%" class="dropdown-content">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a class="font-14" href="/user/signup">
+                                                    <span class="fa fa-sign-in"></span>
+                                                    <span>Đăng Ký</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="font-14" href="/user/signin">
+                                                    <span class="fa fa-user-plus"></span>
+                                                    <span>Đăng Nhập</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="font-14" href="#">
+                                                    <span class="fa fa-heart"></span>
+                                                    <span>Yêu Thích</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div style="display: flex;width: 100%;position: relative" class="dropdown-1 float-right">
+                                    <i style="flex: 1;font-size: 30px;margin-top: 5px" class="fa fa-user">
+                                    </i>
+                                    <div style="flex: 4">
+                                        <b>Chào Khách</b>
+                                        <br/>
+                                        <small> {{ getUser().name? getUser().name: getUser().fullName }}</small>
+                                    </div>
+                                    <div style="top: 100%" class="dropdown-content">
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item">
+                                                <a class="font-14" href="/user/signout">
+                                                    <span class="fa fa-sign-out"></span>
+                                                    <span>Đăng Xuất</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="font-14" href="/profile">
+                                                    <span class="fa fa-user"></span>
+                                                    <span>Tài Khoản</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="font-14" href="#">
+                                                    <span class="fa fa-heart"></span>
+                                                    <span>Yêu Thích</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div style="margin-top: 10px" class="col">
+                            <a href="/cart" class="text-center border-1 link-1">
+                                <i class="fa fa-shopping-basket">
+                                </i>
+                                <b>Giỏ hàng</b>
+                                <span value="{{ quantity }}"
+                                      class="badge badge-primary search_button">{{ quantity }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'layout/menucache' %}
+
+</header>

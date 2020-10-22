@@ -1,0 +1,45 @@
+{% set urlLogo = getLogoUri() %}
+<!-- footer blog -->
+<footer class="footer" id="footer">
+  <section class="footer-menu">
+    <div class="container">
+      <div class="box-menu">
+        <ul class="parent">
+          <li class="menu-items">
+            <a href="">
+              <span class="icon icon-home"></span>
+            </a>
+          </li>
+          <li class="menu-items">
+            <a href="">Mẹo vặt hữu ích</a>
+          </li>
+          <li class="menu-items">
+            <a href="">Kinh nghiệm du lịch</a>
+          </li>
+          <li class="menu-items">
+            <a href="">Câu chuyện thương hiệu</a>
+          </li>
+          <li class="menu-items">
+            <a href="">hảo luận với LUG</a>
+          </li>
+          <li class="menu-items">
+            <a href="">Báo chí nói về chúng tôi</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <section class="logo-footer">
+    <div class="wrapper">
+      <a href="/" class="logo">
+        {% if urlLogo %}
+          <img src="{{urlLogo}}" alt="Logo" class="" />
+        {% else %}
+          <img src="/tp/V0509/img/temp/logo-menu.png" alt="Logo" class="" />
+        {% endif %}
+      </a>
+      <p class="team">© LUG Team</p>
+    </div>
+  </section>
+</footer>
+<!-- footer blog -->

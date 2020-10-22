@@ -1,0 +1,23 @@
+{% set categories = getCategories() %}
+{% if(categories) %}
+    <ul>
+        <li>
+            <a class="gaTracking" data-e-action="click" data-e-category="link" data-e-label="MENU_MOBILE_LINK" href="/">{{ translate('Trang chủ') }}</a>
+        </li>
+        {% for cate in categories %}
+            <li>
+                <a class="gaTracking" data-e-action="click" data-e-category="link" data-e-label="MENU_MOBILE_LINK" href="{{ cate.viewLink }}">{{ cate.name }}</a>
+                {% if(cate.childs) %}
+                    <ul>
+                        {% for c2 in cate.childs %}
+                            <li>
+                                <a class="gaTracking" data-e-action="click" data-e-category="link" data-e-label="MENU_MOBILE_LINK" href="{{ c2.viewLink }}">{{ c2.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+

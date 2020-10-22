@@ -1,0 +1,228 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/tpl/'~ templateDir ~'/css/news.css' }}" type="text/css">
+{% endblock %}
+
+{% block body %}
+    {% block breadcrumb %}
+        {% set category = [{'label': 'Tin tức', 'uri':'/news'}] %}
+        {{ breadcrumbs.build(category) }}
+    {% endblock %}
+
+    <section class="col2-right-layout">
+        <div class="main container blogs">
+            <div class="row">
+                <div class="col-main col-md-9 col-xs-12">
+                    <div class="page-title">
+                        <h1>Tin tức</h1>
+                    </div>
+                    <div class="blog-wrapper" id="main">
+                        <div class="site-content" id="primary">
+                            <div role="main" id="content">
+                                <div class="row">
+                                    <div class="col-xs-12 blog_item">
+                                        <article class="blog_entry clearfix">
+                                            <div class="entry-content">
+                                                <div class="featured-thumb">
+                                                    <a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS"><img class="lazyload loaded" src="//bizweb.dktcdn.net/100/368/970/articles/7-650x339.jpg?v=1574742097003" data-src="//bizweb.dktcdn.net/100/368/970/articles/7-650x339.jpg?v=1574742097003" alt="Nội thất biệt thự mang phong cách xe sang LEXUS" data-was-processed="true"></a>
+                                                </div>
+                                                <div class="info_blo">
+                                                    <h3 class="title_blo"><a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS">Nội thất biệt thự mang phong cách xe sang LEXUS</a> </h3>
+
+                                                    <span class="entry-date">08/07/2020</span>
+
+                                                    <div class="entry-content">
+
+                                                        Vinhomes Impera Hải Phòng – Nội thất biệt thự sang trọng và ấn tượng mang phong cách xe sang Lexus nhờ ứng dụng...
+
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </article>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pager clearfix">
+                        <div class="pages">
+                            <label>Trang:</label>
+                            <ul class="pagination">
+                                <li class="active"><a href="#" style="pointer-events:none">1</a></li>
+                                <li><a href="/tin-tuc?page=2">2</a></li>
+                                <li><a href="/tin-tuc?page=2" title="2">»</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="col-right sidebar col-md-3 col-xs-12 wow bounceInRight animated">
+                    <div class="side-nav-categories">
+                        <div class="block-title"><h2>Danh mục tin</h2></div>
+                        <div class="box-content box-category">
+                            <ul id="magicat">
+                                <li class="level0- level0">
+                                    <span class="magicat-cat"><a href="/"><span>Trang chủ</span></a></span>
+                                </li>
+
+                                <li class="level0- level0 open">
+                                    <span class="magicat-cat"><a href="/collections/all"><span>Sản phẩm</span></a></span>
+                                    <ul style="display: none;">
+
+
+                                        <li class="level1- level1 open"> <span class="magicat-cat"><a href="/phong-ngu"><span>Phòng ngủ</span></a></span>
+                                            <ul style="display: none;">
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Giường ngủ hiện đại</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Tủ đầu giường</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Đèn ngủ</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Phụ kiện trang trí</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Đệm ngủ sang trọng</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Chăn, ga, gối bộ</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Tủ quần áo</span></a></span> </li>
+
+                                            </ul>
+                                            <em class="open-close">&nbsp;</em></li>
+
+
+
+                                        <li class="level1- level1 open"> <span class="magicat-cat"><a href="/phong-khach"><span>Phòng khách</span></a></span>
+                                            <ul style="display: none;">
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Ghế Sofa Bộ</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Ghế Sofa Đơn</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Bàn Trà</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Kệ TiVi</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Ghế gỗ cao cấp</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Gối tựa lưng</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Thảm Trang Trí</span></a></span> </li>
+
+                                            </ul>
+                                            <em class="open-close">&nbsp;</em></li>
+
+
+
+                                        <li class="level1- level1 open"> <span class="magicat-cat"><a href="/phong-bep"><span>Nhà bếp</span></a></span>
+                                            <ul style="display: none;">
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Bàn ghế ăn</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Tủ bếp gỗ</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Chạn bát treo tường</span></a></span> </li>
+
+                                                <li class="level2- level2"> <span class="magicat-cat"><a href="/"><span>Phụ kiện dùng bếp</span></a></span> </li>
+
+                                            </ul>
+                                            <em class="open-close">&nbsp;</em></li>
+
+
+
+                                        <li class="level1- level1"> <span class="magicat-cat"><a href="/san-pham-noi-bat"><span>Sản phẩm nổi bật</span></a></span></li>
+
+
+
+                                        <li class="level1- level1"> <span class="magicat-cat"><a href="/san-pham-khuyen-mai"><span>Sản phẩm khuyến mãi</span></a></span></li>
+
+
+
+                                        <li class="level1- level1"> <span class="magicat-cat"><a href="/san-pham-moi"><span>Sản phẩm mới</span></a></span></li>
+
+
+                                    </ul>
+                                    <em class="open-close">&nbsp;</em></li>
+
+
+
+
+                                <li class="level0- level0">
+                                    <span class="magicat-cat"><a href="/tin-tuc"><span>Tin tức</span></a></span>
+                                </li>
+
+
+
+
+                                <li class="level0- level0">
+                                    <span class="magicat-cat"><a href="/gioi-thieu"><span>Giới thiệu</span></a></span>
+                                </li>
+
+
+
+
+                                <li class="level0- level0">
+                                    <span class="magicat-cat"><a href="/lien-he"><span>Liên hệ</span></a></span>
+                                </li>
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div role="complementary" class="widget_wrapper13" id="secondary">
+                        <div class="popular-posts widget widget__sidebar" id="recent-posts-4">
+                            <a href="tin-tuc" title="Bài viết khác"><h3 class="widget-title">Bài viết khác</h3></a>
+                            <div class="widget-content latest-blog">
+                                <div class="item_bl_index_list unstyled clearfix">
+
+                                    <div class="blog_inner">
+                                        <div class="blog-l">
+
+                                            <a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS">
+                                                <img class="lazyload loaded" src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/7-650x339.jpg?v=1574742097003" data-src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/7-650x339.jpg?v=1574742097003" alt="Nội thất biệt thự mang phong cách xe sang LEXUS" data-was-processed="true">
+                                            </a>
+
+                                        </div>
+                                        <div class="blog-c">
+                                            <h3><a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS">Nội thất biệt thự mang phong cách xe sang LEXUS</a> </h3>
+                                            <span class="entry-date">08/07/2020</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="blog_inner">
+                                        <div class="blog-l">
+
+                                            <a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS">
+                                                <img class="lazyload loaded" src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/7-650x339.jpg?v=1574742097003" data-src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/7-650x339.jpg?v=1574742097003" alt="Nội thất biệt thự mang phong cách xe sang LEXUS" data-was-processed="true">
+                                            </a>
+
+                                        </div>
+                                        <div class="blog-c">
+                                            <h3><a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS">Nội thất biệt thự mang phong cách xe sang LEXUS</a> </h3>
+                                            <span class="entry-date">08/07/2020</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!--widget-content-->
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

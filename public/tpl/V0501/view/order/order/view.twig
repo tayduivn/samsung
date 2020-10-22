@@ -1,0 +1,53 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đặt hàng thành công').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán thành công">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <!-- RDFa Breadcrumbs Plugin by Nitin Yawalkar -->
+            <div class="breadcrumb breadcrumbs">
+                <div class="rdfa-breadcrumb">
+                    <div>
+                        <p>
+                            <span class="breadcrumbs-title"></span>
+                            <span typeof="v:Breadcrumb">
+                            <a href="/" class="home">Trang chủ</a>
+                        </span>
+                            <span class='separator'>|</span>Thanh toán hàng thành công
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="container">
+                    <div class="orderview">
+                        <span class="sidebar-title">- Cảm ơn ! -</span>
+                        <div class="clearfix"></div>
+                        <p>Mã đơn đặt hàng của bạn là <b>{{ order.id }}</b><br></p>
+                        <p>Bạn sẽ sớm nhận được email đến <b class="red">{{ order.email }}</b>
+                            xác nhận thông tin đơn hàng và một đường link để kiểm tra tình trạng đơn hàng. </br>
+                            Hy vọng bạn sẽ hài lòng với sản phẩm vừa đặt mua.</p>
+                        <div class="text-center col-xs-12"><a href="/" class="btn btn-green">Tiếp tục mua sắm</a></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <style type="text/css">
+        .orderview {
+            text-align: center;
+            font-size: 16px;
+            margin: 10px 0;
+            display: inline-block;
+            width: 100%;
+        }
+        .orderview{
+            margin-top: 20px;
+        }
+
+    </style>
+{% endblock %}

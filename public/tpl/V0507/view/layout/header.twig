@@ -1,0 +1,153 @@
+<!-- Header -->
+{% include 'layout/bannerTop' %}
+<header>
+    <div class="header__menu">
+        <div class="menu-content">
+            <div class="header__menu--logo">
+                <a href="/"><img class="img-logo" src="{{ getLogoUri() }}" alt="logo"></a>
+            </div>
+
+            <label for="menu__mobile--click" class="icon-menu"></label>
+
+            <input type="checkbox" class="btn-click" id="menu__mobile--click">
+
+            <label for="menu__mobile--click" class="overlay"></label>
+
+        <div class="header__menu--list">
+        {% set categories = getCategories() %}
+        {% if(categories is not empty) %}
+                
+            <ul class="menu__main">
+                <span class="header__menu--name">MENU</span>
+                <li class="menu-item">
+                    <a href="#" class="menu-link">HÀNG MỚI VỀ </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/product" class="menu-link">SẢN PHẨM</a>
+                    <span class="arrow"></span>
+                    <div class="sub__menu">
+                        <ul class="sub__menu--product">
+                            <div class="cate__menu--prev">
+                                <div class="arrow"></div>
+                                <span class="header__menu--name">SẢN PHẨM</span>
+                            </div>
+                            {% for cate in categories %}
+                                <li class="list_sub-menu">
+                                    <a href="{{ cate.viewLink }}">
+                                        <img src="{{ cate.imageUri }}" alt="{{ cate.name | raw }}">
+                                    </a>
+                                    <p><a href="{{ cate.viewLink }}">{{ cate.name | raw }}</a></p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a href="/album" class="menu-link">BỘ SƯU TẬP</a>
+                </li>
+                <li class="menu-item menu-type2">
+                    <a href="/news" class="menu-link">TIN TỨC</a>
+                    <span class="arrow"></span>
+                    <div class="sub__menu--type">
+                        <ul class="sub__menu--new">
+                            <div class="cate__menu--prev">
+                            <div class="arrow"></div>
+                            <span class="header__menu--name">TIN TỨC</span>
+                        </div>
+                        {% set newsCategory = getNewsCategories() %}
+                        {% if(newsCategory is not empty) %}
+                            {% for n in newsCategory %}
+                                <li>
+                                    <a href="{{ n.viewLink }}">{{ n.name }}</a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                {% if(hasIdentity() != null) %}
+                    <div class="moblie-box-acount">
+                        <a href="/profile" rel="nofollow">
+                            <span>Xin chào {{ getUser().fullName }}</span> 
+                        </a>  
+                        <a href="/user/signout" rel="nofollow">
+                            <span>Logout</span> 
+                        </a>
+                    </div>    
+                    {% else %}
+                    <div class="moblie-box-acount">
+                        <a href="/user/signin">
+                            <span>Đăng nhập</span>
+                        </a>
+                        <a href="/user/signup">
+                            <span>Đăng ký</span>
+                        </a>
+                    </div>  
+                {% endif %}
+            </ul>
+        {% endif %}
+        </div>
+
+        <div class="search-general">
+            <div class="search-content">
+                <form action="/search" class="search-top" role="search" method="get">
+                    <input class="search-top-txt" type="text" placeholder="Bạn tìm gì..." name="q">
+                    <button class="sutmit-search"  value="Tìm kiếm" type="submit">
+                        <span class="icon__search"></span>
+                        <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
+                    </button>
+                </form>
+
+                <div class="icon__mobile-search">
+                    <i>
+                        <span class="icon__search"></span>
+                    </i>
+                </div>
+
+                <div class="icon-header">
+                    <div class="account-top">
+
+                    {% if(hasIdentity() != null) %}
+                        <a href="/profile" class="hello-men" title="Xin chào {{ getUser().fullName }}">
+                            <img src="//theme.hstatic.net/200000000133/1000569834/14/accountIcon.png?v=1090"> 
+                        </a>
+                        {% else %}
+                            <a href="/user/signin" title="Đăng nhập">
+                                <img src="//theme.hstatic.net/200000000133/1000569834/14/accountIcon.png?v=1090">
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <div class="oder-top">
+                        <a href="/cart" title="Đăng nhập">
+                            <img src="//theme.hstatic.net/200000000133/1000569834/14/bagIcon2.png?v=1090">
+                        </a>
+                        {% set quantity = serviceCart().totalQuantities %}
+                        <div class="header__menu--oder">
+                            <span class="oder">{{ quantity }}</span>
+                        </div
+                    </div>
+                </div>
+                <label for="menu__mobile--click" class="icon-menu-table"></label>
+            </div>
+            <div class="over-search"></div>
+            <div class="search__mobile hiden-search">
+                <div class="title-mobile-search">
+                    <span>TÌM KIẾM</span>
+                    <div class="but-close"></div>
+                </div>
+
+                <label class="search__mobile-top">
+                    <form action="/search" role="search" method="get">
+                        <input class="search-mobile-txt" type="text" placeholder="Bạn tìm gì..." name="q">
+                        <button class="sutmit-mobile-search"  value="Tìm kiếm" type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                </label>              
+            </div>
+        </div>
+        </div>
+    </div>
+</header>
+<!--End header-->

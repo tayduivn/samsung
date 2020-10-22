@@ -1,0 +1,17 @@
+/*Error > stdin:1325*/
+/*Invalid CSS after "...-filter: progid": expected "}", was ": DXImageTransform."*/
+.tpclear {
+    clear: both
+}
+.tp-bullets {
+    z-index: 1000;
+    position: absolute;
+    /*-ms-filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);*/
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+    -webkit-transition: opacity .2s ease-out;
+    -moz-transition: opacity .2s ease-out;
+    -o-transition: opacity .2s ease-out;
+    -ms-transition: opacity .2s ease-out;
+}

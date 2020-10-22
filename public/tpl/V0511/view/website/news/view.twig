@@ -1,0 +1,100 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+    <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+    <meta property="og:title" content="{{ news.title | e('html') }}">
+    <meta property="og:url" content="{{ news.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~templatePath ~'/css/product/index-product.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {#    Danh mục Thông tin tuyển dụng#}
+    {% set idRecrui = 4009 %}
+    {% set newsCategory = getNewsCategories() %}
+    <link rel="canonical" href="{{ news.viewLink }}" />
+    <div class="top-product">
+        {% set buildBread = buildBreadcrumbs(category)%}
+        {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}
+        {% set buildBread = buildBread | merge (buildBread1) %}
+        {{ breadcrumbs.build(buildBread) }}
+    </div>
+    <div class="container header>">
+        <div class="row news">
+            <div style="margin-top: 30px;" class="col-lg-9  col-lg-push-3">
+                <div class="row"><h1 style="text-transform: uppercase;font-size: 20px;padding: 5px 30px">{{ news.title }}</h1></div>
+                <div style="margin-left: 20px" class="row font-14"> <i class="date">Đăng ngày:{{ news.createdDateTime|date('d/m/Y') }}, Lượt xem: {{ news.hits }}</i></div>
+                <div style="margin-left: 20px" class="row header content-new">{{ news.content |raw }}</div>
+                <div class="row news-concern">
+                    <div style="font-size: 15px" class="col-12"><h3>Bài viết lên quan</h3></div>
+                    {% set newReleated = searchArticleNews({'limit':4, 'categoryId':category.id}) %}
+                    {% if newReleated is not empty %}
+                        {% for n in  newReleated %}
+                            <div class="col-12 font-14">
+                                <i style="padding-right: 10px" aria-hidden="true" class="fa fa-angle-right"></i>
+                                <a class="link-1" href="{{ n.viewLink }}">{{ n.title }}</a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert-empty">không có bài viết nào liên quan</div>
+                    {% endif %}
+                </div>
+                <div style="margin-left: 20px" class="row comment">
+                    <h5 >Bình luận:</h5>
+                    <div class="fb-comments" data-href="{{ getCurrentUrl() }}" data-numposts="5" data-width=""></div>
+                </div>
+            </div>
+            <div style="margin-top: 30px" class="col-lg-3  col-lg-push-9">
+                <div  class="row header font-14"><h5 style="font-weight: 400;text-transform: uppercase">Danh Mục Bài Viết</h5></div>
+                <div style="border: 1px solid #ebebeb" class="container-fluid">
+                    {% if(newsCategory is not empty) %}
+                        <div class="row">
+                            <ul style="width: 100%" class="nav flex-column">
+                                <li  class="nav-item">
+                                    <div class="col box-b"> <a style="padding: 5px 0 5px 10px;display: inline-block" class="link-1 nav-link" href="/news">Tất cả</a></div>
+                                </li>
+                                {% for n in newsCategory %}
+                                    <li class="nav-item">
+                                        <div class="col box-b"> <a style="padding: 5px 0 5px 10px;display: inline-block" class="link-1 nav-link" href="{{ n.viewLink }}">{{ n.name }}</a></div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+                <div style="margin-top: 30px;border-bottom: 1px solid gainsboro" class="row header font-14"><h5 style="font-weight: 400;text-transform: uppercase">Bài Viết Mới Nhất</h5></div>
+                <div class="container-fluid">
+                    {% set lastestNews = getLastestNews({'limit':4}) %}
+                    {% if(lastestNews is not empty) %}
+                        {% for n in lastestNews %}
+                            {% set image = n.imageUri %}
+                            {% set options = {
+                                alt: n.title|e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            <div style="margin-top: 10px;margin-left: 0" class="row news-list font-14" >
+                                <div style="padding: 0;margin-top: 10px" class="col-4 ">
+                                    <a href="{{ n.viewLink }}" class="link-1" id="imgNewHome">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div style="padding: 0 0 0 5px" class="col-8">
+                                    <a style="display: block" href="{{ n.viewLink }}" class="font-14 link-1" id="infoNewHome" title="{{ n.title|e('html') }}" >{{ n.title|e('html') }}</a>
+                                    <i class="date">
+                                        {{ n.createdDateTime|date("d/m/Y") }}
+                                    </i>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

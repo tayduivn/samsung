@@ -1,0 +1,20 @@
+.ui-dialog{
+    background: #ffb095;
+}
+#ui-id-1{
+    font-size: 18px;
+}
+
+@media screen and (max-width:750px){
+    #orderManager div{
+        width:100%;
+        overflow-x: scroll;
+    }
+    #orderManager table{
+        width:750px;
+
+    }
+    .main-content{
+        padding: 0 10px;
+    }
+}

@@ -1,0 +1,16 @@
+.ddmn {float:left; background: url(./menuBg.gif) bottom repeat-x; width:100%}
+.ddmn ul {margin:0; padding:0; list-style:none}
+
+.ddmn ul li {float:left; position:relative; border-left:1px solid #fff; z-index:10}
+.ddmn ul li.h {background:url(./menuBgHover.gif) bottom repeat-x; z-index:20}
+.ddmn ul li a {display:block; padding:7px 10px; color:#fff; text-decoration:none}
+
+.ddmn ul li a.hasSub {padding-right:22px; white-space:nowrap}
+.ddmn ul li a span.arrowDown {background:url(./arrowDown.gif) no-repeat; width:11px; height:8px; position:absolute; top:10px; right:5px}
+.ddmn ul li a span.arrowRight{background:url(./arrowRight.gif) no-repeat; width:8px; height:11px; position:absolute; top:6px; right:5px}
+
+.ddmn ul li ul {position:absolute; background:#3D272A; display:block; visibility:hidden}
+.ddmn ul li ul li {float:none; display:list-item; padding:1px; border:0}
+.ddmn ul li ul li a{width:170px; padding:5px 5px 6px 10px; margin:0; border-bottom:1px solid gray}
+.ddmn ul li ul li a.h {background:#fff; color:black}
+.ddmn ul li ul li a.last {border:0}

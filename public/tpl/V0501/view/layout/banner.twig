@@ -1,0 +1,57 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+
+{% set banner_home = getBannerByPositionCode('BANNER_HOME') %}
+
+{% set banner = banner ~ '<div class="slider-layout-1 col-md-9 col-sm-12 col-xs-12">' %}
+{% set banner = banner ~ '<div class="owl-carousel__ owl-carousel owl-theme">' %}
+
+{% if(banner_home) %}
+    {% for c in banner_home %}
+        {% set imageSlide = c.imagesrc %}
+        {% set options = {
+            alt: c.name,
+            lazy: true,
+            openDiv: false,
+        }%}
+        {% set banner = banner ~ '<div class="item">' %}
+        {% set banner = banner ~ '<a href="#">'~macroLazyFocusImager.LazyFocusImager(imageSlide,options) %}
+        {% set banner = banner ~ '</a>' %}
+        {% set banner = banner ~ '</div>' %}
+    {% endfor %}
+{% else %}
+    {% set banner = banner ~ '<div class="item">
+                                <a href="#"><img src="//theme.hstatic.net/1000329005/1000419954/14/slide_img_1.png?v=85"
+                                                 alt="slide 1"/></a>
+                            </div>
+                            <div class="item">
+                                <a href="#"><img src="//theme.hstatic.net/1000329005/1000419954/14/slide_img_2.png?v=85"
+                                                 alt="slide 2"/></a>
+                            </div>
+                            <div class="item">
+                                <a href="#"><img src="//theme.hstatic.net/1000329005/1000419954/14/slide_img_3.png?v=85"
+                                                 alt="slide 3"/></a>
+                            </div>' %}
+{% endif %}
+{% set banner = banner ~ '</div>' %}
+{% set banner = banner ~ '</div>' %}
+{{ saveCache(keyMenu, banner | raw, 1800) }}
+{{ banner | raw }}
+<script>
+    if($("body .owl-carousel__").length) {
+        $(".owl-carousel__").owlCarousel({
+            lazyLoad:true,
+            items :1,
+            loop: true,
+            autoplay:false,
+            dots: false,
+            nav: false,
+        });
+    }
+</script>

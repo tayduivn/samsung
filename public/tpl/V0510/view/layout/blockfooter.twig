@@ -1,0 +1,142 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+<section class="section_brand">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-xs-12 ">
+                <div class="owl-carousel owl-theme brand_content not-nav not-dot owl-loaded owl-drag" data-loop="false" data-nav="true" data-dot="false" data-lg-items="10" data-md-items="8" data-xs-items="3" data-sm-items="4" data-margin="0">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage">
+                            {% set bnBrands = loadBrand() %}
+                            {% if(bnBrands is not empty) %}
+                                {% for b in bnBrands %}
+                                    {% set image = b.imageUri %}
+                                    {% set options = {
+                                        alt: b.name,
+                                        lazy: true,
+                                        openDiv: false,
+                                    }%}
+                                    <div class="owl-item">
+                                        <div class="item item_brand">
+                                            <a href="{{ b.viewLink }}" title="{{ b.name }}" target="_blank">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section_blog_main d-xl-none">
+    <div class="wrap_main_blog container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="section">
+                    <h2>
+                        <a href="tin-tuc" title="Tin tức">Tin tức</a>
+                    </h2>
+                </div>
+                <div class="section wrap_owl owl1 not_owlnav">
+                    <div class="owl-carousel owl-loaded owl-drag" data-loop="false" data-nav="false" data-lg-items="4" data-md-items="3" data-xs-items="1" data-sm-items="2" data-margin="15">
+                        <!-- ADD DIV -->
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                {% set lastestNews = getLastestNews({'limit':8}) %}
+                                {% if(lastestNews is not empty) %}
+                                    {% for n in lastestNews |batch(2, 'No item') %}
+                                        <div class="owl-item">
+                                            {% for n1 in n %}
+                                                {% set image = n1.imageUri %}
+                                                {% set options = {
+                                                    alt: n1.title|e('html'),
+                                                    lazy: true,
+                                                    openDiv: false,
+                                                }%}
+                                                <div class="itblog">
+                                                    <div class="blog_index">
+                                                        <div class="image-blog-left">
+                                                            <a href="{{ n1.viewLink }}" title="{{ n1.title|e('html') }}">
+                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                            </a>
+                                                        </div>
+                                                        <div class="content_blog">
+                                                            <h3>
+                                                                <a href="{{ n1.viewLink }}">{{ n1.title|e('html') }}</a>
+                                                            </h3>
+                                                            <span class="date">{{ n1.createdDateTime|date("d/m/Y") }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+<section class="section_blog_main d-none d-xl-block">
+    <div class="container">
+        <div class="wrap_main_blog">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="section">
+                        <h2>
+                            <a href="tin-tuc" title="Tin tức">Tin tức</a>
+                        </h2>
+                    </div>
+                    <div class="section wrap_owl owlnav_style1 owl1">
+                        <div class="owl-carousel owl-loaded owl-drag" data-loop="false" data-nav="true" data-lg-items="4" data-md-items="4" data-xs-items="1" data-sm-items="2" data-margin="30">
+                            <div class="owl-stage-outer">
+                                <div class="owl-stage">
+                                    {% set lastestNews = getLastestNews({'limit':6}) %}
+
+                                    {% if(lastestNews is not empty) %}
+                                        {% for n in lastestNews %}
+                                            {% set image = n.imageUri %}
+                                            {% set options = {
+                                                alt: n.title|e('html'),
+                                                lazy: true,
+                                                openDiv: false,
+                                            }%}
+                                            <div class="owl-item">
+                                                <div class="itblog">
+                                                    <div class="blog_index">
+                                                        <div class="image-blog-left-pc">
+                                                            <a href="{{ n.viewLink }}" title="{{ n.title|e('html') }}">
+                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                            </a>
+                                                        </div>
+                                                        <div class="content_blog">
+                                                            <span class="date"><i class="fa fa-calendar" aria-hidden="true"></i> {{ n1.createdDateTime|date("d/m/Y") }}</span>
+                                                            <h3>
+                                                                <a href="{{ n.viewLink }}">{{ n.title|e('html') }}</a>
+                                                            </h3>
+                                                            <div class="summary_item_blog">
+                                                                <p>{{subString(n.intro ,130) }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

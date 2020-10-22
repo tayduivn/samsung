@@ -1,0 +1,249 @@
+{% extends "layout/layout" %}
+
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block body %}
+    {% set title = getParam('q') %}
+    {% set itemCountPerPage =  paginator.setItemCountPerPage(30) %}
+    {% set nItems = 0 %}
+    {% if(paginator) %}
+        {% set pageRanger =  paginator.setPageRange(10) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.getTotalItemCount() %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = [] %}
+
+    {% set prdByCate = search({'categoryId':category.id}) %}
+
+    <div class="container-fluid">
+
+        <div class="container">
+
+            <div class="row d-block p-2">
+                <a href="/">Trang chủ </a><i class="fas fa-angle-right" style="color: black;"></i> <a href="">Tìm kiếm</a> <br>
+                <span style="font-size: 18px"> Tìm thấy <b>{{ nItems }}</b> kết quả cho từ khóa <b>“{{ title }}”</b></span>
+            </div>
+
+            <div class="row">
+                {#Filter#}
+                <div class="col-xl-2 pr-0 pc" id="fillter-box">
+                    <div class="card card-default" id="fillterWindow" style="max-height: max-content">
+                        <div class="card-header p-2 d-flex align-items-baseline justify-content-between">
+                            <h4 class="card-title m-0">LỌC SẢN PHẨM</h4>
+                        </div>
+
+                        <div class="card-body p-2">
+                            {% set category = getCategories() %}
+                            {% set t = 0 %}
+                            {% if(category) %}
+                                {% for c in category %}
+                                    <div class="form-group">
+                                        <br>
+                                        <a onclick="showFilter({{ t }})">{{ c.name|replace({'&amp;':"&"}) }}</a>
+                                        {#Giá tiền#}
+                                        <div class="form-control" id="{{ t }}" style="display: none">
+                                            <ul class="filter-vendor">
+                                                {% for c1 in c.childs %}
+                                                    <li>
+                                                        <label data-filter="{{ c1.name }}" class="filter-vendor__item {{ c1.name }}">
+                                                            <input type="checkbox" value="{{ c1.viewLink }}">
+                                                            <span>{{ c1.name }}</span>
+                                                        </label>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                    {% set t = t + 1 %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {#end Filter#}
+
+                <div class="col-xl-10 col-lg-12">
+                    <div class="card card-default" id="cardProducts">
+                        <div class="card-header d-flex align-items-baseline justify-content-between">
+                            <h4 class="card-title mt-1 mb-0">LỌC THEO</h4>
+
+                            <div class="btn-group wrpOption form-control" style="width: fit-content">
+                                <span>Chọn hướng sắp xếp <i class="fa fa-angle-down" aria-hidden="true" style="color: black"></i></span>
+                                <ul class="dropdown-menu">
+                                    {% if 'nameAsc' in shows %}
+                                        <li class="active">
+                                            <a rel="noindex" title="{{ removeFilter('show', 'nameAsc') }}" class=""> Theo tên từ A-Z</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a rel="noindex" title="{{ addFilter('show', 'nameAsc', 2) }}"> Theo tên từ A-Z</a>
+                                        </li>
+                                    {% endif %}
+
+                                    {% if 'nameAsc' in shows %}
+                                        <li class="active">
+                                            <a rel="noindex" title="{{ removeFilter('show', 'nameAsc') }}" class=""> Theo tên từ Z-A</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a rel="noindex" title="{{ addFilter('show', 'nameAsc', 2) }}"> Theo tên từ Z-A</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                            <div class="fillter-mobile-button">
+                                <button class="btn btn-sm btn-danger" style="margin-left: 4px;"
+                                        onclick="openNav1()" title="Lọc sản phẩm"
+                                        aria-expanded="false">
+                                    <i class="fa fa-filter"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0 border-right-0 border-bottom-0">
+                            <div class="row m-0 infinite-container" id="appendPlace">
+                                {% if(paginator.currentModels) %}
+                                    {% for p in paginator.currentModels %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            class: 'imageChange',
+                                            lazy: true,
+                                            openDiv: false,
+                                        } %}
+                                        {% set percent = p.calcDiscountPercent %}
+
+                                        {% set arrayIds = [p.id] %}
+                                        <div class="col-md-3 col-sm-4 col-6 p-0 infinite-item">
+
+                                            {% set oldPrc = p.price + 1000000 %}
+                                            <div class="card product-single"
+                                                 onclick="location.href='{{ p.viewlink }}'"
+                                                 style="cursor: pointer">
+
+                                                <div class="product-image-box">
+                                                    <img src="{{ p.imageUri }}"
+                                                         class="product-image"
+                                                         alt="{{ p.name }}">
+                                                </div>
+                                                <div class="card-body p-1">
+                                                    <p class="card-text product-name"><a
+                                                                href="{{ p.viewlink }}">
+                                                            {{ p.name ~ ' ' ~ p.categoryId }}</a></p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="product-price-block">
+                                                        <span class="price-new price-xm">{{ p.price|number_format(0, '.', ',') ~ ' ₫' }}</span>
+                                                        <br>
+                                                        <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', ',') ~ ' ₫' }}</span>
+                                                        <br>
+
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span class="product-stock text-green">
+                                                            <i class="fas fa-check"></i> Còn hàng
+                                                        </span>
+                                                        <span class="product-shoping">
+                                                            <a href="/Products/Shopping/5670">
+                                                                <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="pagination">
+                            <div class="links">
+                                {{ render_paginator(paginator) }}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#Filter mobile#}
+    <div id="fillter-mobile-box" class="show" style="width: 0">
+        <div class="card card-default" id="fillterWindow">
+            <div class="card-header p-2 d-flex align-items-baseline justify-content-between">
+                <h4 class="card-title m-0">LỌC SẢN PHẨM</h4>
+                <button type="button" class="btn btn-sm btn-danger fillter-button-close" onclick="closeNav1()"
+                        data-target="#fillter-mobile-box" aria-expanded="true">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+
+            <div class="card-body p-2">
+                {% if(category) %}
+                    {% set ttmb = 0 %}
+                    {% for c in category %}
+                        <div class="form-group">
+                            <a onclick="showFilter({{ ttmb }})">{{ c.name|replace({'&amp;':"&"}) }}</a>
+                            {#Giá tiền#}
+                            <div class="form-control" id="{{ ttmb }}" style="display: block; height: 100%;">
+                                <ul class="filter-vendor">
+                                    {% for c1 in c.childs %}
+                                        <li>
+                                            <label data-filter="{{ c1.name }}" class="filter-vendor__item {{ c1.name }}">
+                                                <input type="checkbox" value="{{ c1.viewLink }}">
+                                                <span>{{ c1.name }}</span>
+                                            </label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <hr>
+                        </div>
+                        {% set ttmb = ttmb + 1 %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="card-footer p-0 border-0 d-flex justify-content-between">
+                <button type="button" id="btnClearFilter" class="btn btn-secondary">XÓA LỌC</button>
+                <button type="button" id="btnDoFilter" class="btn btn-danger">ÁP DỤNG</button>
+            </div>
+
+        </div>
+    </div>
+
+{#    {% include 'layout/footer' %}#}
+
+    {% block fixfoot %}
+        <div class="fixbot-detail">
+            <a href="https://www.messenger.com/t/bencomputers" class="btn-red-home"><i
+                        class="fab fa-facebook-messenger text-white fa-fw"></i> Chat với tư vấn viên</a>
+            <a href="tel:0899179991" class="btn-icon"><i class="fas fa-phone-alt"></i><span>Gọi điện</span></a>
+            <a href="#" class="btn-icon" id="showFloatButton"><i class="fas fa-ellipsis-h"></i></a>
+        </div>
+    {% endblock %}
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function openNav1() {
+            document.getElementById("fillter-mobile-box").style.width = "340px";
+        }
+
+        function closeNav1() {
+            document.getElementById("fillter-mobile-box").style.width = "0";
+        }
+    </script>
+
+    <script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+    <script type="text/javascript" src="{{ '/tpl/'~ templateDir ~'/js/category.js' }}"></script>
+    <script type="text/javascript" src="{{ '/tpl/'~ templateDir ~'/js/jquery.nice-select.min.js' }}"></script>
+{% endblock %}

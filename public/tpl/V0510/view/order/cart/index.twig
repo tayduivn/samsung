@@ -1,0 +1,483 @@
+{% extends "layout/layout" %}
+{% set quantity = serviceCart().totalQuantities %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Giỏ hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tp/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    {% set products = serviceCart().products %}
+    {% set prodIds = [] %}
+    <div class="col-md-12" id="cartWrp">
+        <div class="containerMain container">
+            <div class="breadcrumb_background">
+                <section class="bread-crumb">
+                    <span class="crumb-border"></span>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 px-0 a-center">
+                                <ul class="breadcrumb" itemscope="" itemtype="https://data-vocabulary.org/Breadcrumb">
+                                    <li class="home">
+                                        <a itemprop="url" href="/"><span itemprop="title">Trang chủ</span></a>
+                                        <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                                    </li>
+
+                                    <li><strong><span itemprop="title">Giỏ hàng</span></strong></li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="main ">
+                <div class="wrap_background_aside  margin-bottom-40">
+                    <div class="header-cart section">
+                        <div class="block_page">
+                            <div class="title_full">
+                                <div class="a-left">
+                                    <h1 class="title_page">Giỏ hàng</h1>
+                                </div>
+                            </div>
+                            <p class="title_cart notify_cart section d-none">
+                                <i class="fa fa-info-circle"></i>Sản phẩm trong giỏ hàng chưa đủ giá trị trên 100.000đ để đặt hàng. Bạn vui lòng chọn thêm sản phẩm để hoàn tất đơn hàng.
+                            </p>
+                        </div>
+                        <div class="f-right inline-block fcontinue d-none d-md-block">
+                            <a class="button_acc" href="/" title="Tiếp tục mua hàng" admicro-data-event="100354" admicro-data-auto="1" admicro-data-order="false">Tiếp tục mua hàng</a>
+                        </div>
+                        <div class="header-cart title_cart_pc hidden-sm hidden-xs">
+
+                        </div>
+                    </div>
+                    <div class="col-main cart_desktop_page cart-page section container">
+                        <div class="cart page_cart cart_des_page hidden-xs-down row">
+                            <div class="infocart col-12 d-md-none">
+                                <span><i class="fa fa-check"></i><span class="countCart" id="cart-total">{{ quantity }}</span> Sản phẩm trong giỏ hàng</span>
+                            </div>
+                            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 cart_desktop px-0 cart_page_mobile_inner">
+                                <form action="/cart" method="post" novalidate="">
+                                    <div class="bg-scroll">
+
+                                        {% set orderValuePrices = 0 %}
+                                        {% if(products is not empty) %}
+                                            {% set k = 0 %}
+                                            {% set productShipFee = [] %}
+                                            {% set countPs = 0 %}
+                                            {% if(products) %}
+                                                <div class="cart-thead d-none d-md-block">
+                                                    <div class="text-center" style="width: 42%;">
+                                                        <span>Tên sản phẩm<span></span></span>
+                                                    </div><div style="width: 18%" class="a-center">
+                                                        <span class="nobr">Giá bán lẻ</span>
+                                                    </div>
+                                                    <div style="width: 13%" class="a-center">Số lượng</div>
+                                                    <div style="width: 18%" class="a-center">Tạm tính</div>
+                                                    <div style="width: 9%" class="a-center"></div>
+                                                </div>
+                                                {% set countPs = (products | length)? (products | length) : 0 %}
+                                            {% endif %}
+                                            {% set arrBarCode = {} %}
+                                            <div class="cart-tbody">
+                                                {% for p in products %}
+                                                    {% set arrBarCode = {(p.id): p.barcode} %}
+                                                    {% set productIds = {(k):p.id} %}
+                                                    {% set priceCurrent = p.price * p.quantity %}
+                                                    {% set orderValuePrices = priceCurrent + (p.price * p.quantity) %}
+                                                    {% set image = p.thumbnailUri %}
+                                                    {% set options = {
+                                                        alt: p.name,
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    }%}
+                                                    <div class="item-cart productid-{{ p.id }} wpitem" price="{{ p.price }}" discount="{{ p.moneyDiscount }}">
+                                                        <div class="content_ content_s cart_product_image">
+                                                            <a class="product-image" href="{{ p.viewLink }}" title="{{ p.name | raw }}">
+                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                            </a>
+                                                        </div>
+                                                        <div class="content_ content_s name_product_cart" >
+                                                            <h3 class="product-name">
+                                                                <a class="text2line" href="{{ p.viewLink }}" title="{{ p.name | raw }}">{{ p.name }}</a>
+                                                            </h3>
+
+                                                        </div>
+                                                        <div class="a-center d-md-none cart_remove">
+                                                            <a class="fa fa-trash removeCart" href="javascript: void(0)" rel="{{ p.id }}"></a>
+                                                        </div>
+                                                        <div id="cart_item_price_mobile" class="a-center">
+                                                    <span  class="item-price">
+                                                        {% if(p.moneyDiscount) %}
+                                                                {% set mnDiscount = ( p.moneyDiscount//p.quantity) %}
+                                                                {% if (countPs == 1) %}
+                                                            {% set mnDiscount = serviceCart().moneyDiscount//p.quantity %}
+                                                        {% endif %}
+                                                                {% set ttMoney = p.price - mnDiscount %}
+                                                            <span class="price bold-price">{{ ttMoney | number_format(0) }} ₫</span><br>
+                                                            <span class="price-old bold-price">{{ p.price | number_format(0) }} ₫</span>
+                                                            <span class="price-old bold-price d-none">KM: -{{ mnDiscount | number_format(0) }} ₫</span>
+                                                        {% else %}
+                                                            <span class="price bold-price">{{ p.price | number_format(0) }}₫</span>
+                                                        {% endif %}
+
+                                                    </span>
+                                                        </div>
+                                                        <div class="a-center cart_price d-none ">
+                                                    <span class="item-price cart-price">
+                                                        {% if (p.moneyDiscount) %}
+                                                            {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                                            {% if (countPs == 1) %}
+                                                                {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}
+                                                            {% endif %}
+                                                            <span class="price pink itemPrice"> {{ ttsMoney | number_format(0) }}₫</span>
+                                                        {% else %}
+                                                            <span class="price pink itemPrice">{{ (p.price * p.quantity) | number_format(0) }} ₫</span>
+                                                        {% endif %}
+                                                    </span>
+                                                        </div>
+                                                        <div id="cart_quantity" class="cart_quantity a-center">
+                                                            <div class="input_qty_pr product-quatity">
+                                                                <span class="minus reduced_pop items-count btn-minus"><i class="fa fa-minus"></i></span>
+                                                                <input type="text" class="input-text number-sidebar input_pop input_pop updateCart" min="1" max="{{ p.inventory.calcAvailable }}" value="{{ p.quantity }}"
+                                                                       maxlength="10" psId={{ p.id }} >
+                                                                <span class="plus increase_pop items-count btn-plus"><i class="fa fa-plus"></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <div  class="a-center cart_price d-none d-md-block">
+                                                    <span class="item-price cart-price">
+                                                        {% if (p.moneyDiscount) %}
+                                                            {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                                            {% if (countPs == 1) %}
+                                                                {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}
+                                                            {% endif %}
+                                                            <span class="price pink itemPrice"> {{ ttsMoney | number_format(0) }}₫</span>
+                                                        {% else %}
+                                                            <span class="price pink itemPrice">{{ (p.price * p.quantity) | number_format(0) }} ₫</span>
+                                                        {% endif %}
+                                                    </span>
+                                                        </div>
+                                                        <div style="width: 9%" class="a-center d-none d-md-block">
+                                                            <a class="fa fa-trash removeCart" href="javascript: void(0)" rel="{{ p.id }}"></a>
+                                                        </div>
+                                                    </div>
+                                                    {% set k = k + 1 %}
+                                                {% endfor %}
+                                            </div>
+                                            {{ setCookies('productOrderBarCode',arrBarCode | json_encode,3600) }}
+                                        {% else %}
+                                            <div><h2>{{ translate('Không có sản phẩm nào trong giỏ hàng') }}</h2></div>
+                                        {% endif %}
+                                    </div>
+                                </form>
+                            </div>
+                            {% if(products) %}
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 cart-collaterals cart_submit pl-xl-3 px-0 pb-3">
+                                <div class="totals">
+                                    <div class="totals">
+                                        <div class="inner">
+                                            <div class="wrap_checkprice">
+                                                <div class="li_table shopping-cart-table-total d-none">
+                                                    <span class="li-left">Tạm tính:</span>
+                                                    <span class="li-right totals_price price pink">{{ totalCartMoney | number_format(0) }} ₫</span>
+                                                </div>
+                                                <div class="infor_order d-none d-md-block">
+                                                    <p>Thông tin đơn hàng</p>
+                                                </div>
+                                                <div class="li_table shopping-cart-table-total title_cart_bottom_mobile h3">
+                                                    <span class="li-left li_text">Tổng tiền:</span>
+                                                    <span class="li-right totals_price price">{{ totalCartMoney | number_format(0) }} ₫</span>
+                                                </div>
+                                            </div>
+                                            <div class="notify_freeship d-none">
+                                                <p>Miễn phí vận chuyển cho đơn hàng có giá trị từ <span>99.000</span>, giảm tối đa <span>30.000VNĐ</span></p>
+                                            </div>
+                                            <div class="wrap_btn">
+                                                <a class="button btn-proceed-checkout button_checkfor_buy" title="Tiến hành đặt hàng" type="button" onclick="window.location.href='/cart/checkout'" admicro-data-event="100351" admicro-data-auto="1" admicro-data-order="false">
+                                                    <span><i class="fa fa-check"></i>Tiến hành đặt hàng</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                                <div></div>
+                            {% endif %}
+                            <div class="checkout col-12 px-0">
+                                <button class="btn btn-white f-left button_acc" title="Tiếp tục mua hàng" type="button" onclick="window.location.href='/product'">
+                                    <span>Tiếp tục mua hàng</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           {# <form action="" method="post" id="formCheckOut">
+                <div class="cartPage main">
+                    {% if(products is not empty) %}
+                        <h2 style="font-size:2em;padding:0.83em;text-align: center;text-transform:uppercase;margin: 0">Giỏ hàng</h2>
+                        <div class="orderProducts cartPageItem">
+                            <div class="wrapper" style="border-top:solid 1px #ededed;">
+                                <div id="tableShipFee"></div>
+                                <div class="wrapperDetail">
+                                    <div class="orderInfo cartPageItem d-none">
+                                        <h3 style="font-size:18px;font-weight:normal;text-transform: uppercase;margin:10px 0;text-align: left;padding:10px 0;">Thông tin khách hàng</h3>
+                                        <div class="purchaseInfo">
+                                            <input placeholder="Họ và tên người nhận hàng" type="text" name="customerName" class="validate[required] input short"
+                                                   value="{{ user ? user.fullName:'' }}"  autocomplate="off"/>
+                                            <input placeholder="Số điện thoại để chúng tôi liên hệ giao hàng" type="text" id="customerMobile" name="customerMobile"
+                                                   onkeypress="makeAliasFor(this,'customerMobile')"  onchange="makeAliasFor(this,'customerMobile')"
+                                                   maxlength="11" class="validate[required,custom[phone]] input short"  autocomplate="off"
+                                                   value="{{ user ? (user.mobile | replace({'+84': '0'})):'' }}"/>
+                                            <input placeholder="Địa chỉ email để chúng tôi gửi thông tin đơn hàng" type="text" name="customerEmail"
+                                                   class="validate[required,custom[email]] input short"
+                                                   value="{{ user ? user.email:'' }}"/>
+                                            <select id="cityId" name="customerCityId" class="validate[required] input short">
+                                                <option value="">{{ translate('Thành phố') }}</option>
+                                                {% for city in cities %}
+                                                    <option {{ (user and user.cityLocationId == city.id ? 'selected' : '') }} value="{{ city.Id }}">{{ city.nativeName }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <select id="districtId" name="customerDistrictId" class="validate[required] input short">
+                                                <option value="">{{ translate('Quận Huyện') }}</option>
+                                                {% if(user is not empty) %}
+                                                    {% set dts = getDistrict(user.cityLocationId) %}
+                                                    {{ toSelectBox(dts, user.districtLocationId) }}
+                                                {% endif %}
+                                            </select>
+                                            <input placeholder="Địa chỉ nhận hàng từ 8h00-17h30 ( trừ CN)" type="text" name="customerAddress" autocomplate="off"
+                                                   class="validate[required] input short" value="{{ user ? user.address : '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="paymentMethod cartPageItem d-none">
+                                        <h3 style="font-weight:normal;font-size: 18px;font-weight:normal;text-transform: uppercase;margin:10px 0;text-align: left;padding:10px 0;">Phương thức thanh toán</h3>
+                                        <div class="checkoutStep">
+                                            <div id="paymentMethod">
+                                                <div class="couponId">
+                                                    <div class="titleCou"><span>Nhập mã giảm giá </span><i>(Nếu có)</i></div>
+                                                    <div class="flex">
+                                                        <input id="coupon" type="text" name="couponCode"/>
+                                                        <button type="button" id="getCoupon" class="btn">{{ translate('Kiểm tra') }}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea name="description" class="input" autocomplate="off" placeholder=" Thông tin xuất hoá đơn VAT ( nếu có ), thời gian giao hàng,..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <table width="90%" cellspacing='0'>
+                                <div class="titlec d-none">
+                                    <p>{{ translate('Xóa') }}</p>
+                                    <p>{{ translate('Sản phẩm') }}</p>
+
+                                    <p>{{ translate('Số lượng') }}</p>
+
+                                    <p class="hidden-sm hidden-xs">{{ translate('Tồn') }}</p>
+
+                                    <p style="padding-right: 25px">{{ translate('Giá') }}</p>
+
+                                    <p>{{ translate('Thành tiền') }}</p>
+                                </div>
+                                <!--end title-->
+                                {% set orderValuePrices = 0 %}
+                                {% if(products is not empty) %}
+                                    {% set k = 0 %}
+                                    {% set productShipFee = [] %}
+                                    {% set countPs = 0 %}
+                                    {% if(products) %}
+                                        {% set countPs = (products | length)? (products | length) : 0 %}
+                                    {% endif %}
+                                    {% set arrBarCode = {} %}
+                                    {% for p in products %}
+                                        {% set arrBarCode = {(p.id): p.barcode} %}
+                                        {% set productIds = {(k):p.id} %}
+                                        {% set priceCurrent = p.price * p.quantity %}
+                                        {% set orderValuePrices = priceCurrent + (p.price * p.quantity) %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            lazy: true,
+                                            openDiv: false,
+                                        }%}
+                                    <div class="cartItem">
+                                        <div class="cartItemElement">
+                                            <a class="fa fa-minus-circle removeCart" href="javascript: void(0)" rel="{{ p.id }}"></a>
+                                        </div>
+                                        <div class="cartItemElement">
+                                            <div class="cartItemProd">
+                                                <div class="cartItemProdInfo imageInfo">
+                                                    <a href="{{ p.viewLink }}" style="margin-right: 5px;display: block;float: left;">
+                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                    </a>
+                                                    <h3>{{ p.name }}</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cartItemElement">
+                                            <div class="product-quatity">
+                                                <span class="minus"><i class="fa fa-minus"></i></span>
+                                                <input type="text" class="updateCart" min="1" max="{{ p.inventory.calcAvailable }}" value="{{ p.quantity }}"
+                                                       maxlength="10" data-psId="{{ p.id }}" >
+                                                <span class="plus"><i class="fa fa-plus"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="cartItemElement hidden-sm hidden-xs">
+                                            <p>{{ p.inventory.calcAvailable }}</p>
+                                        </div>
+                                        <div class="cartItemElement cartPri" style="text-align: right">
+                                            {% if(p.moneyDiscount) %}
+                                                <s>{{ p.price | number_format(0) }} đ</s>
+                                                {% set mnDiscount = ( p.moneyDiscount//p.quantity) %}
+                                                {% if (countPs == 1) %}
+                                                    {% set mnDiscount = serviceCart().moneyDiscount//p.quantity %}
+                                                {% endif %}
+                                                {% set ttMoney = p.price - mnDiscount %}
+                                                <p>KM: -{{ mnDiscount | number_format(0) }} đ</p>
+                                                <p style="font-weight: bold; color: red">{{ ttMoney | number_format(0) }} đ</p>
+                                            {% else %}
+                                                {{ p.price | number_format(0) }} đ
+                                            {% endif %}
+                                        </div>
+                                        <div class="cartItemElement cartPriTol">
+                                            <p class="totalprice" style="color: #f44242; text-align:center;">
+                                                {% if (p.moneyDiscount) %}
+                                                    {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                                    {% if (countPs == 1) %}
+                                                        {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}
+                                                    {% endif %}
+                                                    {{ ttsMoney | number_format(0) }} đ
+                                                {% else %}
+                                                    {{ (p.price * p.quantity) | number_format(0) }} đ
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {% set k = k + 1 %}
+                                    {% endfor %}
+                                    {{ setCookies('productOrderBarCode',arrBarCode | json_encode,3600) }}
+                                {% else %}
+                                    <div><h2>{{ translate('Không có sản phẩm nào trong giỏ hàng') }}</h2></div>
+                                {% endif %}
+                            </table>
+
+                            <div class="lastStepCart">
+                                <ul>
+                                    <li class="">
+                                        <div class="totalCart">
+                                            <p>Tổng trị giá đơn hàng:
+                                                <span>{{ orderValuePrices | number_format(0) }} đ</span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="totalCart">
+                                            <p>Số tiền giảm giá:
+                                                <span id="txtCode" value="0" value-start="{{ serviceCart().moneyDiscount}}">- {{ serviceCart().moneyDiscount | number_format(0) }} đ</span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="totalCart">
+                                            <p class="shipfee">
+                                                Phí giao hàng
+                                                <span id="shipFee" value="0">0 đ</span>
+                                                <span id="showCarrier"></span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="totalCart">
+                                            <p class="totalPay">Tổng trị giá thanh toán:
+                                                <span id="showTotalMoney" value="{{ totalCartMoney }}">{{ totalCartMoney | number_format(0) }} đ</span>
+                                            </p>
+                                            <input type="hidden" id="getMn"
+                                                   value="{{ serviceCart().totalMoney }}"/>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- end lastStepCart -->
+
+                            <input type="hidden" id="baokimPmMethodId" name="baokimBankPaymentMethodId"/>
+                            <input type="hidden" name="shipFee" value="0"/>
+                            <input type="hidden" id="totalCartMoney" value="{{ totalCartMoney }}"/>
+
+                            <div class="orderBtn">
+                                <div class="col-md-4 hidden-xs">
+                                    <div class="continue-mb">
+                                        <a href="/">
+                                            <i class="fa fa-angle-left"></i>
+                                            Tiếp tục mua hàng
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="hidden image iconStore" href="javascript:void(0)"></a>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <button type="submit" class="iconCheckout">Đặt hàng</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="continue-mb visible-xs col-xs-12 text-center">
+                            <a href="/">
+                                <i class="fa fa-angle-left"></i>
+                                Tiếp tục mua hàng
+                            </a>
+                        </div>
+                    {% else %}
+                        <h3>{{ translate('Giỏ hàng của bạn hiện chưa có sản phẩm nào') }}</h3>
+                    {% endif %}
+                </div>
+            </form> #}
+        </div>
+    </div>
+    <h1 style="display:none;">Thanh toán</h1>
+    <!-- Facebook Pixel Code -->
+    <script>
+
+    </script>
+    <!-- End Facebook Pixel Code -->
+    <div class="loading" style="display:none;">
+        <p style="color:#333;text-transform:uppercase;font-size:14px;text-align:center;font-weight:bold;">Đơn hàng đang được thực hiện</p>
+        <img alt="thanh toán" src="/tp/V0001/img/ajax-loader.gif">
+    </div>
+
+    <div style="display: none;">
+        <div id="dMsg"></div>
+    </div>
+
+    <div id="confirm" class="modal hide fade">
+        <div class="modal-body">
+            Bạn có muốn xóa sản phẩm ?
+        </div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete">Xóa</button>
+            <button type="button" data-dismiss="modal" class="btn">Hủy</button>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .cartPri{
+            padding-right: 25px;
+            text-align: right;
+        }
+        .imageInfo img{
+            max-width: 80px;
+        }
+        .cartPri p{
+            padding-right: 0 !important;
+        }
+    </style>
+
+{% endblock %}
+{% block script %}
+{% endblock %}

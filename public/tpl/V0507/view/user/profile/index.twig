@@ -1,0 +1,178 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Thông tin người dùng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Thông tin người dùng">
+    <meta name="keywords" content="Thông tin người dùng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Thông tin người dùng">
+    <meta property="og:type" content="article">
+{% endblock %}
+
+
+{% block body %}
+
+<style>
+.containerMain {
+    width: 100%;
+}
+.header-profile {
+    width: 96%;
+    margin: 0 auto;
+}
+.list-menu-pro {
+    display: flex;
+    background: #ededed;
+}
+.list-menu-pro > li {
+    padding: .35em 1em;
+}
+.name-profile > span {
+    position: relative;
+    font-size: 2.3em;
+    font-weight: 600;
+}
+.name-profile > span::after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 2.3em;
+    height: .15em;
+    background: #000;
+    top: 2.2em;
+    left: 3.8em;
+}
+.name-profile {
+    padding: 7em 0 10em 0;
+    text-align: center;
+    border-bottom: 1px solid #ededed;
+}
+.wrap-profile {
+    display: flex;
+    margin: 0 auto 4.5em auto;
+    width: 78%;
+}
+.infor-men {
+    width: 34%;
+}
+.headerProfile {
+    padding: 1.4em 0 0 0;
+    line-height: 2;
+    font-size: .92em;
+}
+.infor-men > span,
+.conten-profile > span {
+    display: block;
+    padding: 4.7em 0 .5em 0;
+    font-weight: 700;
+    font-size: .9em;
+    letter-spacing: 0.18em;
+}
+.conten-profile {
+    width: 100%;
+}
+.conten-profile > span {
+    border-bottom: 1px solid #ededed;
+}
+.headerProfile > li {
+    position: relative;
+    padding-left: 1.5em;
+}
+.headerProfile > li > a:hover {
+    color: #000;
+}
+.headerProfile > li::before {
+    position: absolute;
+    content: '';
+    width: .45em;
+    height: .45em;
+    background: #000;
+    top: .6em;
+    left: 0;
+}
+.pf > span:first-child {
+    padding: 1em 0 .4em 0;
+    font-weight: 500;
+}
+.pf > span {
+    display: block;
+    line-height: 1.5;
+}
+.pf > span:last-child {
+    padding-top: 1em;
+}
+.pf-email {
+    font-size: .8em;
+}
+@media (max-width: 1024px) {
+    .wrap-profile {
+        width: 90%;
+    }
+}
+@media (max-width: 720px) {
+    .wrap-profile {
+        flex-direction: column;
+        width: 90%;
+        margin: 0 auto 2em;
+    }
+    .name-profile {
+        padding: 2.5em 0 5em 0;
+        font-size: .9em;
+    }
+    .name-profile > span::after {
+        left: 3.3em;
+    }
+    .infor-men {
+        width: 100%;
+    }
+    .infor-men > span {
+        padding: 1em 0 0 0;
+    }
+    .conten-profile > span {
+        padding: 1em 0;
+    }
+    .headerProfile {
+        padding: .5em 0 0 0;
+        line-height: 1.7;
+    }
+}
+</style>
+    <div class="containerMain">
+        <div class="header-profile">
+            <ul class="list-menu-pro">
+                <li><a href=""></a>Trang chủ</li>
+                <li><a href=""></a>Tài khoản</li>
+            </ul>
+        </div>
+
+        <div class="name-profile">
+            <span>Tài khoản của bạn</span>
+        </div>
+
+        <div class="wrap-profile">
+
+            <div class="infor-men">
+                <span>TÀI KHOẢN</span>
+                <ul class="headerProfile">
+                    {# <p class="avatarProfile">
+                        <img  src="/img/avatar_comment.png" alt="avatar"/>
+                    </p>
+                    <li>{{ user.fullName | e('html') }}</li>
+                    <li>{{ user.email }}</li> #}
+                    <li class="active"><a href="/profile">{{ translate('Trang cá nhân') }}</a></li>
+                    <li><a href="/order">{{ translate('Quản lý đơn hàng') }}</a></li>
+                    <li><a href="/profile/changepassword"> {{ translate('Đổi mật khẩu') }}</a></li>
+                    <li><a href="/user/signout">{{ translate('Đăng xuất') }}</a></li>
+                </ul>
+            </div>
+
+            <div class="conten-profile">
+                <span>THÔNG TIN TÀI KHOẢN</span>
+                <div class="pf">
+                    <span>{{ user.fullName }}</span>
+                    <span class="pf-email">{{ user.email }}</span>
+                    <span><a href="/profile/edit" class="btnGreen">{{ translate('Sửa thông tin') }}</a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

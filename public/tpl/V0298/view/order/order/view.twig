@@ -1,0 +1,189 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đặt hàng thành công').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán thành công">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/order.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set money = order.calculateTotalMoney  %}
+    <div class="col-md-12" id="cartWrp">
+        <div class="containerMain">
+            <div id="orderV">
+                <div id="orderVTT">
+                    <div></div>
+                    <span>{{ statusPayment ? statusPayment : translate('Đặt hàng thành công') }}</span>
+                </div>
+                <div id="orderVct">
+                    {% if(statusPayment) %}
+                        <p>Mã đơn hàng: {{ order.id }}</p>
+                        <p>Số tiền: {{ money | number_format(0) }}đ</p>
+                        <p>Thời gian: {{ getParam('vnp_PayDate') }}</p>
+                        <p>Trạng thái thanh toán: {{ statusPayment }}</p>
+                        {% if(statusPayment == 'Giao dịch thành công') %}
+                            <p> Chúc mừng quý khách hàng đã thanh toán thành công đơn hàng <span
+                                        style="font-weight:bold;color:#000;font-size:14px;">#{{ order.id }}</span> tại cửa
+                                hàng. Nhân viên chăm sóc khách hàng của cửa hàng sẽ liên hệ với quý khách hàng khi đơn hàng
+                                <span style="font-weight:bold;color:#000;font-size:14px;">#{{ order.id }}</span> được xác
+                                nhận. <br>Chúng tôi sẽ gửi link theo dõi đơn hàng đến Email của quý khách hàng.
+                            </p>
+                        {% else %}
+                            <h3>Chúc mừng quý khách đã đặt hàng thành công!</h3>
+                        {% endif %}
+                    {% endif %}
+                    <p>
+                        Quý khách hàng cũng có thể theo dõi đơn hàng bằng cách đăng nhập và theo dõi đơn hàng trên
+                        Web-site <a href="/">{{ getCurrentDomain() }}</a>
+                    </p>
+
+                    <p>Cảm ơn quý khách hàng đã mua sắm trên <a href="/">{{ getCurrentDomain() }}</a></p>
+                    <p><a href="/">Về trang chủ</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% set arrayIds = {} %}
+    {% set arrayPrices = {} %}
+    {% set k = 0 %}
+    {% for a in order.products %}
+        {% set arrayIds = arrayIds | merge({(k):a.id})%}
+        {% set arrayPrices = arrayPrices | merge({(k):a.price})%}
+        {% set k = k+1 %}
+    {% endfor %}
+    <script type="text/javascript">
+        var google_tag_params = {
+            dynx_itemid: {{ (arrayIds | json_encode) | raw }},
+        dynx_pagetype: 'purchase',
+            dynx_totalvalue: {{ (arrayPrices | json_encode) | raw }}
+        };
+    </script>
+    <!-- Google Code for Order_web Conversion Page -->
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var google_conversion_id = 955526277;
+        var google_conversion_language = "en";
+        var google_conversion_format = "3";
+        var google_conversion_color = "ffffff";
+        var google_conversion_label = "kX3yCIrCw2UQhdnQxwM";
+        var google_remarketing_only = true;
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+    </script>
+    <noscript>
+        <div style="display:inline;">
+            <img height="1" width="1" style="border-style:none;" alt=""
+                 src="//www.googleadservices.com/pagead/conversion/955526277/?label=kX3yCIrCw2UQhdnQxwM&amp;guid=ON&amp;script=0"/>
+        </div>
+    </noscript>
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        // Insert Your Facebook Pixel ID below.
+        fbq('init', '301355526702377');
+        fbq('track', 'PageView');
+        fbq('track', 'Purchase', {value: '<?=number_format($money)?>', currency: 'VND'});
+
+    </script>
+    <!-- End Facebook Pixel Code -->
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        dataLayer.push({
+            'transactionId': '{{ order.id }}',
+            'transactionTotal': {{ money }},
+            'transactionProducts': [
+                {% if(order.products) %}
+                    {% for a in order.products %}
+                        {% set item = a.product %}
+                        {% if(item) %}
+                            {
+                                'sku': '{{ item.id }}',
+                                'name': '{{ item.name }}',
+                                'category': '{{ item.categoryName }}',
+                                'price': {{ a.price }},
+                                'quantity': {{ a.quantity }}
+                            }
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            ]
+        });
+    </script>
+{#     Kiểm tra nếu merchant đã push thì xóa bỏ data đi#}
+    {% set nCookie = 'countLoadOrder_'.order.id %}
+    {% if(getCookies(nCookie)) %}
+        {{ unsetCookies('productOrderBarCode') }}
+    {% else %}
+        {{ setCookies(nCookie,1) }}
+        {% if(getCookies('productOrderBarCode')) %}
+            {% set psOrderBarCode = jsonDecode(getCookies('productOrderBarCode')) %}
+{#            [{"gtin":"GTIN1"}, {"gtin":"GTIN2">}]#}
+
+            {% set productsMerchantId = {} %}
+            {% for id in arrayIds %}
+               {% if (psOrderBarCode[id]!= null) %}
+                   {% set productsMerchantId = productsMerchantId | merge({"gtin": psOrderBarCode[id]}) %}
+               {% endif %}
+            {% endfor %}
+            {% set dateShip = order.createdDate %}
+        {% endif %}
+    {% endif %}
+    <!------------------ Google Merchant Code ------------------------------------->
+    <script src="https://apis.google.com/js/platform.js?onload=renderBadge" async defer></script>
+    <script>
+        window.renderBadge = function () {
+            var ratingBadgeContainer = document.createElement("div");
+            document.body.appendChild(ratingBadgeContainer);
+            window.gapi.load('ratingbadge', function () {
+                window.gapi.ratingbadge.render(ratingBadgeContainer, {"merchant_id": 14148631});
+            });
+        }
+    </script>
+
+    <script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+    <script>
+        window.renderOptIn = function () {
+            window.gapi.load('surveyoptin', function () {
+                window.gapi.surveyoptin.render({
+                    // REQUIRED
+                    "merchant_id": "14148631",
+                    "order_id": {{ order.id }},
+                    "email": "{{ order.customerEmail }}",
+                    "delivery_country": "VN",
+                    "estimated_delivery_date": "{{ dateShip|date("Y-m-d") }}",
+
+                    // OPTIONAL
+                    "products": {{ productsMerchantId | json_encode }},
+                "opt_in_style": "CENTER_DIALOG"
+            });
+            });
+        };
+        window.___gcfg = {
+            lang: 'vi'
+        };
+    </script>
+    <!------------------ End Google Merchant Code ------------------------------------->
+    <?php }
+} ?>
+{% endblock %}

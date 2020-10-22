@@ -1,0 +1,321 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="nhanh.vn">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ getLogoUri() }}">
+{% endblock %}
+{% block body %}
+    {#slide home#}
+    <section>
+        <div class="header_promotion_ship"><h3>Thêm vào giỏ 499.000₫ để miễn phí vận chuyển</h3></div>
+        {% include 'layout/bannercache' %}
+    </section>
+    {#banner#}
+    {#test#}
+    {% set promo = getPromotions({'litmit':1,'id':71838}) %}
+    {% if(promo1) %}
+        {% set productspromo = getPromotionProduct({'limit':8}) %}
+        {% if(productspromo) %}
+            <section class="padding_left_right_30 padding_top_bot_15">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="title_products">
+                            <h2>{{ promo[0].name }}</h2>
+                            <a href="{{ promo[0].viewLink }}">Xem thêm</a>
+                        </div>
+                        <div class="block_slide_products owl-carousel owl-theme">
+                            {% for p in productspromo %}
+                                {% set image = p.thumbnailUri %}
+                                {% set percent = p.discountPercent %}
+                                {% set priceDiscount = p.priceAfterDiscount %}
+                                {% set options = {
+                                    alt: p.name,
+                                    class: 'img_thumb_product',
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <div class="product_box" data-id="{{ p.id }}">
+                                    <div class="box_image">
+                                        <a class="a-image" href="{{ p.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                    </div>
+                                    <div class="box_info">
+                                        <div class="box_text">
+                                            <a class="tp_product_name">{{ p.name }}</a>
+                                        </div>
+                                        <div class="box_price">
+                                            {% if(priceDiscount > 0) %}
+                                                <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                                <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                    ₫
+                                                </del>
+                                            {% elseif(p.oldPrice) %}
+                                                <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                                <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                    ₫
+                                                </del>
+                                            {% elseif(p.price <= 0 ) %}
+                                                <span class="tp_product_price">Liên hệ</span>
+                                            {% else %}
+                                                <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                            {% endif %}
+                                            {% if(percent>0) %}
+                                                <span class="percent">
+                                            -{{ percent }}%
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="box_action">
+                                        <div><a class="quickView" href="javascript:void(0)">Xem nhanh</a></div>
+                                        <div><a href="javascript:void(0)">Mua ngay</a></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+    {% endif %}
+    {#test ctkm#}
+    {% set banner_hot = getBannerByPositionCode('HOME_HOT', {'limit': 2}) %}
+    {% if(banner_hot) %}
+        <section>
+            <div class="container padding_top_bot_15">
+                <div class="row">
+                    {% for b in banner_hot %}
+                        {% set image = b.imagesrc %}
+                        {% set options = {
+                            alt: b.name,
+                            lazy: true,
+                            openDiv: false,
+                        } %}
+                        <div class="col-md-6 col-sm-6 col-6">
+                            <div class="block_banner_index">
+                                <a href="{{ b.viewLink }}">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% else %}
+        {#sau xóa đi#}
+        <section>
+            <div class="container padding_top_bot_15">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <div class="block_banner_index">
+                            <img src="/tpl/V0506/img/demo/baner2-min.jpg">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-6">
+                        <div class="block_banner_index">
+                            <img src="/tpl/V0506/img/demo/baner3-min.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    {#bar dmsp#}
+    {% set category = getCategories() %}
+    {% if(category) %}
+        <section>
+            <div class="container-fluid">
+            <ul class="bar_index_cate">
+                {% for c in category %}
+                    <li><a href="{{ c.viewLink~'?show=hot' }}">{{ c.name }}</a></li>
+                {% endfor %}
+            </ul>
+            </div>
+        </section>
+    {% endif %}
+    {#sản phẩm hot, new#}
+    {% set productHot = search({'limit':20,'showHot':1}) %}
+    {% set productNew = search({'limit':20,'showNew':1}) %}
+    <section class="padding_left_right_30 padding_top_bot_15">
+        <div class="container-fluid">
+            <div class="row">
+                {% if(productHot is not empty) %}
+                    {% set t=0 %}
+                    {% set count_hot = 0 %}
+                    {% for cm in productHot %}
+                        {% set count_hot = count_hot+1 %}
+                    {% endfor %}
+                    <div class="title_products">
+                        <h2>Sản phẩm hot</h2>
+                        <a href="/product?show=hot">Xem thêm</a>
+                    </div>
+                    <div class="block_slide_products owl-carousel owl-theme">
+                        {% for p in productHot %}
+                            {% set t = t+1 %}
+                            {% if(t==1) %}
+                                <ul class="item_nomargin">
+                            {% endif %}
+                            {% set image = p.thumbnailUri %}
+                            {% set percent = p.discountPercent %}
+                            {% set priceDiscount = p.priceAfterDiscount %}
+                            {% set options = {
+                                alt: p.name,
+                                class: 'img_thumb_product',
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+                            <div class="product_box" data-id="{{ p.id }}">
+                                <div class="box_image">
+                                    <a class="a-image" href="{{ p.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="box_info">
+                                    <div class="box_text">
+                                        <a class="tp_product_name">{{ p.name }}</a>
+                                    </div>
+                                    <div class="box_price">
+                                        {% if(priceDiscount > 0) %}
+                                            <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                            <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                ₫
+                                            </del>
+                                        {% elseif(p.oldPrice) %}
+                                            <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                            <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                ₫
+                                            </del>
+                                        {% elseif(p.price <= 0 ) %}
+                                            <span class="tp_product_price">Liên hệ</span>
+                                        {% else %}
+                                            <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                        {% endif %}
+                                        {% if(percent>0) %}
+                                            <span class="percent">
+                                            -{{ percent }}%
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="box_action">
+                                    <div><a class="quickView" href="javascript:void(0)">Xem nhanh</a></div>
+                                    <div><a href="javascript:void(0)">Mua ngay</a></div>
+                                </div>
+                            </div>
+                                    {% if(t % 2 == 0 or t == count_hot ) %}
+                                    </ul>
+                                    {% endif %}
+                                    {% if(t % 2 == 0 and t < count_hot) %}
+                                    <ul class="item_nomargin">
+                                    {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if(productNew is not empty) %}
+                    {% set t=0 %}
+                    {% set count_new = 0 %}
+                    {% for cm in productNew %}
+                        {% set count_new = count_new+1 %}
+                    {% endfor %}
+                    <div class="title_products">
+                        <h2>Sản phẩm mới</h2>
+                        <a href="/product?show=new">Xem thêm</a>
+                    </div>
+                    <div class="block_slide_products owl-carousel owl-theme">
+                        {% for p in productNew %}
+                            {% set t = t+1 %}
+                            {% if(t==1) %}
+                                <ul class="item_nomargin">
+                            {% endif %}
+                            {% set image = p.thumbnailUri %}
+                            {% set percent = p.discountPercent %}
+                            {% set priceDiscount = p.priceAfterDiscount %}
+                            {% set options = {
+                                alt: p.name,
+                                class: 'img_thumb_product',
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+
+                            <div class="product_box" data-id="{{ p.id }}">
+                                <div class="box_image">
+                                    <a class="a-image" href="{{ p.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="box_info">
+                                    <div class="box_text">
+                                        <a class="tp_product_name">{{ p.name }}</a>
+                                    </div>
+                                    <div class="box_price">
+                                        {% if(priceDiscount > 0) %}
+                                            <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                            <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                ₫
+                                            </del>
+                                        {% elseif(p.oldPrice) %}
+                                            <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                            <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                ₫
+                                            </del>
+                                        {% elseif(p.price <= 0 ) %}
+                                            <span class="tp_product_price">Liên hệ</span>
+                                        {% else %}
+                                            <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                        {% endif %}
+                                        {% if(percent>0) %}
+                                            <span class="percent">
+                                            -{{ percent }}%
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="box_action">
+                                    <div><a class="quickView" href="javascript:void(0)">Xem nhanh</a></div>
+                                    <div><a href="javascript:void(0)">Mua ngay</a></div>
+                                </div>
+                            </div>
+                            {% if(t % 2 == 0 or t == count_hot ) %}
+                            </ul>
+                            {% endif %}
+                            {% if(t % 2 == 0 and t < count_hot) %}
+                            <ul class="item_nomargin">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+    {#banner home bot#}
+    {% set banner_home_bot = getBannerByPositionCode('BANNER_HOME_BOT', {'limit': 1}) %}
+    {% if(banner_home_bot) %}
+        <section>
+            <div class="container-fluid">
+                {% for b in banner_home_bot %}
+                    {% set image = b.imagesrc %}
+                    {% set options = {
+                        alt: b.name,
+                        lazy: true,
+                        openDiv: false,
+                    } %}
+                    <a href="{{ b.viewLink }}">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+    {% else %}
+        <section>
+            <div class="container-fluid">
+                    <a href="/">
+                       <img src="/tpl/V0506/img/demo/baner-bo-suu-tap-chan-trang-min.jpg">
+                    </a>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

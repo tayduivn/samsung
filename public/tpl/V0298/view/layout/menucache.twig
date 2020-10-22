@@ -1,0 +1,46 @@
+{% set categories = getCategories() %}
+{% if(categories) %}
+    {% for c in categories %}
+        <li><a href="{{ c.viewLink }}" class="tp_menu_item">{{ c.name }}</a>
+            {% if c.childs %}
+                <ul class="sub_menu megaMenu">
+                    <div class="col-xs-12 col-sm-4">
+                        {% for cc in c.childs %}
+                            <li><a href="{{ cc.viewLink }}" class="tp_menu_item">{{ cc.name }}</a></li>
+                            {% if cc.childs %}
+                                <ul class="sub_menu megaMenu-level3">
+                                    <li><a class="menu-level3 tp_menu_item" href="'. $ccc->getViewLink() .'">'.
+                                            $ccc->getName() .'</a></li>
+                                </ul>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% set products = search({'limit':3,'categoryId':c.id}) %}
+                    <div class="menu-productimg">
+                        {% if (products) %}
+                            <div class="col-xs-12 col-sm-8">
+                                <div class="row">
+                                    {% for p in products %}
+                                        <div class="col-xs-12 col-sm-4">
+                                            <div class="itemImgMega">
+                                                <div class="boxImgMega">
+                                                    <a href="{{ p.viewLink }}">
+                                                        <img class="lazyload" data-sizes="auto" src="/img/lazyLoading.gif"
+                                                             data-src="{{ p.thumbnailUri }}" alt="{{ p.name }}">
+                                                    </a>
+                                                </div>
+                                                <div class="boxNameMega">
+                                                    <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </ul>
+            {% endif %}
+        </li>
+    {% endfor %}
+{% endif %}

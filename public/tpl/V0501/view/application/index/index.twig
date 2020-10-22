@@ -1,0 +1,653 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="nhanh.vn">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ getLogoUri() }}">
+
+{% endblock %}
+
+{% block body %}
+    {#<div class="overlay-menu"></div>
+    <div class="hidden-md hidden-lg opacity_menu"></div>
+    <div class="opacity_filter"></div>
+    <div class="body_opactiy"></div>#}
+    <!-- Main content -->
+    <!-- Menu mobile -->
+    <h1 class="hidden">DL Pelican - Giao diện bán hàng - Giao diện Pelican - Giao diện bán hàng trên Haravan</h1>
+
+    <section class="awe-section-1">
+        <h3 class="hidden">&nbsp;</h3>
+        <section class="section_slider_banner">
+            <h3 class="hidden">&nbsp;</h3>
+            <div class="container">
+                <div class="">
+                    {% include 'layout/banner' %}
+
+                    <div class="banner-top-layout-1 col-md-3 col-sm-12 hidden-xs clearfix spcustom_html">
+                        {% set banner_top = getBannerByPositionCode('BANNER_TOP') %}
+                        {% if (banner_top) %}
+                            {% for c in banner_top %}
+                                {% set imageSlide = c.imagesrc %}
+                                {% set options = {
+                                    alt: c.name,
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <div class="col-md-12 col-xs-6">
+                                    <a class="banner banner-1" href="#">
+                                        {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-md-12 col-xs-6">
+                                <a class="banner banner-1" href="#"><img class="lazy"
+                                                                         src="https://via.placeholder.com/1x1"
+                                                                         data-original="//theme.hstatic.net/1000329005/1000419954/14/banner_slide_img_1.png?v=85"
+                                                                         alt="banner 1"></a>
+                            </div>
+                            <div class="col-md-12 col-xs-6">
+                                <a class="banner banner-2" href="#"><img class="lazy"
+                                                                         src="https://via.placeholder.com/1x1"
+                                                                         data-original="//theme.hstatic.net/1000329005/1000419954/14/banner_slide_img_2.png?v=85"
+                                                                         alt="banner 2"></a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-0">
+                        <div class="owl-carousel_ owl-carousel owl-theme">
+                            {% set banner_bot = getBannerByPositionCode('BANNER_BOT') %}
+                            {% if (banner_bot) %}
+                                {% for c in banner_bot %}
+                                    {% set imageSlide = c.imagesrc %}
+                                    {% set options = {
+                                        alt: c.name,
+                                        lazy: true,
+                                        openDiv: false,
+                                    } %}
+                                    <div class="item">
+                                        <a href="#">{{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}</a>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="item">
+                                    <a href="#"><img
+                                                src="//theme.hstatic.net/1000329005/1000419954/14/banner_bot_slide_img_1.png?v=85"
+                                                alt="banner 1"/></a>
+                                </div>
+                                <div class="item">
+                                    <a href="#"><img
+                                                src="//theme.hstatic.net/1000329005/1000419954/14/banner_bot_slide_img_2.png?v=85"
+                                                alt="banner 2"/></a>
+                                </div>
+                                <div class="item">
+                                    <a href="#"><img
+                                                src="//theme.hstatic.net/1000329005/1000419954/14/banner_bot_slide_img_3.png?v=85"
+                                                alt="banner 3"/></a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="awe-section-2">
+        <h3 class="hidden">&nbsp;</h3>
+        <section class="section_product_loopp loop_one">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dear_title">
+                        <h2 class="title_head_ border_content title_head_bg_1">
+                            <a href="/product" title="Điện thoại">Sản phẩm</a>
+                        </h2>
+                        <ul class="nav nav-tabs">
+                            <li><a href="/" title="Trang chủ">Trang chủ</a></li>
+                            <li><a href="/" title="Giới thiệu">Giới thiệu</a></li>
+                            <li><a href="/news" title="Tin tức">Tin tức</a></li>
+                            <li><a href="/contact" title="Liên hệ">Liên hệ</a></li>
+                        </ul>
+                    </div>
+                    {% set m = 1 %}
+                    {% set proNew = search({'limit':11,'categoryId':c.id}) %}
+                    {% if(proNew) %}
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wrap_owl_product_">
+                            <div class="wrap-prod clearfix">
+                                {% for p in proNew %}
+                                    {% set image = p.thumbnailUri %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        class: 'imageChange',
+                                        lazy: true,
+                                        openDiv: false,
+                                    } %}
+                                    {% set percent = p.calcDiscountPercent %}
+                                    {% set priceDiscount = p.priceAfterDiscount %}
+                                    {% if (m == 1) %}
+                                        <div class="col-lg-4 col-md-4 hidden-sm hidden-xs padding-0">
+                                            <div class="prod-banner">
+                                                <div class="item saler_item">
+                                                    <div class="owl_item_product">
+                                                        <div class="product-box" data-storeId="{{ p.storeId }}"
+                                                             data-pid="{{ p.id }}">
+                                                            <div class="product-thumbnail">
+                                                                <a href="{{ p.viewLink }}"
+                                                                   class="image_link display_flex"
+                                                                   data-images="{{ image }}"
+                                                                   title="{{ p.name }}">
+                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                </a>
+                                                                {% if(percent > 0) %}
+                                                                    <span class="sale_count"><span
+                                                                                class="bf_">-{{ percent }}%</span></span>
+                                                                {% endif %}
+                                                                <div class="product-action-grid clearfix">
+                                                                    <div class="product-action-grid-wrap">
+                                                                        <div class="__1">
+                                                                            <form action="/cart/add" method="post"
+                                                                                  class="variants form-nut-grid"
+                                                                                  data-id="product-actions-1017369837"
+                                                                                  enctype="multipart/form-data">
+                                                                                <div>
+                                                                                    <button type="button"
+                                                                                            class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                            >
+                                                                                        <i class="fa fa-search"></i>
+                                                                                        <span class="tooltips qv"><span>Xem nhanh</span></span>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                        <div class="__2">
+                                                                            <div class="action__">
+                                                                                <div
+                                                                                        class="variants form-nut-grid"
+                                                                                        data-id="product-actions-1017369837"
+                                                                                >
+                                                                                    <div class="button_wh_40">
+                                                                                        {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                                                        {% if(p.parentId == parentId) %}
+                                                                                            <button type="button"
+                                                                                                    class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                            >
+                                                                                                <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                                <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                            </button>
+                                                                                        {% else %}
+                                                                                            <button class=" cart_button_style btn-cart left-to add_to_cart btnQuickCart" ck="1" selid="{{ p.id }}"
+                                                                                                    title="Cho vào giỏ hàng">
+                                                                                                <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                                <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                            </button>
+                                                                                        {% endif %}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="product-info">
+                                                                <span class="product-vendor">{{ p.brandName }}</span>
+                                                                <h3 class="product-name"><a class="text2line"
+                                                                                            href="{{ p.viewLink }}"
+                                                                                            title="{{ p.name }}">{{ p.name }}</a>
+                                                                </h3>
+                                                                <div class="price-box clearfix">
+                                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                                        <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                        <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                                    {% elseif (p.oldprice() > 0) %}
+                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                        <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                                    {% elseif (p.price == 0) %}
+                                                                        <span class="price product-price">Liên hệ</span>
+                                                                    {% else %}
+                                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                            <p class="discount-percent sold-out"></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 padding-0">
+                                            <div class="item saler_item">
+                                                <div class="owl_item_product">
+                                                    <div class="product-box">
+                                                        <div class="product-thumbnail">
+                                                            <a href="{{ p.viewLink }}"
+                                                               class="image_link display_flex"
+                                                               data-images="{{ image }}"
+                                                               title="{{ p.name }}">
+                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                            </a>
+                                                            {% if(percent > 0) %}
+                                                                <span class="sale_count"><span
+                                                                            class="bf_">-{{ percent }}%</span></span>
+                                                            {% endif %}
+                                                            <div class="product-action-grid clearfix">
+                                                                <div class="product-action-grid-wrap">
+                                                                    <div class="__1">
+                                                                        <form action="/cart/add" method="post"
+                                                                              class="variants form-nut-grid"
+                                                                              data-id="product-actions-1017369837"
+                                                                              enctype="multipart/form-data">
+                                                                            <div>
+                                                                                <button type="button"
+                                                                                        class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                        >
+                                                                                    <i class="fa fa-search"></i>
+                                                                                    <span class="tooltips qv"><span>Xem nhanh</span></span>
+                                                                                </button>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                    <div class="__2">
+                                                                        <div class="action__">
+                                                                            <div
+                                                                                    class="variants form-nut-grid"
+                                                                                    data-id="product-actions-1017369837"
+                                                                                    >
+                                                                                <div class="button_wh_40">
+                                                                                    {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                                                    {% if(p.parentId == parentId) %}
+                                                                                        <button type="button"
+                                                                                                class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                        >
+                                                                                            <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                            <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                        </button>
+                                                                                    {% else %}
+                                                                                        <button class=" cart_button_style btn-cart left-to add_to_cart btnQuickCart" ck="1" selid="{{ p.id }}"
+                                                                                                title="Cho vào giỏ hàng">
+                                                                                            <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                            <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                        </button>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <span class="product-vendor">{{ p.brandName }}</span>
+                                                            <h3 class="product-name"><a class="text2line"
+                                                                                        href="{{ p.viewLink }}"
+                                                                                        title="{{ p.name }}">{{ p.name }}</a>
+                                                            </h3>
+                                                            <div class="price-box clearfix">
+                                                                {% if (p.priceAfterDiscount > 0) %}
+                                                                    <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                    <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                                {% elseif (p.oldprice() > 0) %}
+                                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                    <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                                {% elseif (p.price == 0) %}
+                                                                    <span class="price product-price">Liên hệ</span>
+                                                                {% else %}
+                                                                    <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    {% set m = m + 1 %}
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wrap_owl_product_">
+                        <div class="brand-col-wrap clearfix">
+                            <div class="owl_product_ owl-carousel owl-theme">
+                                {% set bnBrands = loadBrand() %}
+                                {% if (bnBrands) %}
+                                    {% for b in bnBrands %}
+                                        {% set image = b.imageUri %}
+                                        {% set options = {
+                                            alt: b.name,
+                                            lazy: true,
+                                            openDiv: false,
+                                        } %}
+                                        <div class="item">
+                                            <a href="{{ b.viewLink }}">
+                                                <img src="{{ image }}" alt="{{ b.name }}">
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    {% set category = getCategories() %}
+    {% if (category) %}
+        {% set t = 0 %}
+        {% for c in category %}
+            {% set imageCategory = c.imageSrc %}
+            {% set options = {
+                alt: c.name,
+                class: 'imageChange',
+                lazy: true,
+                openDiv: false,
+            } %}
+            {% set t = t + 1 %}
+            {% set m = 1 %}
+            {% set proNew = search({'limit':11,'categoryId':c.id}) %}
+            {% if (proNew) %}
+                <section class="awe-section-4 ">
+                    <h3 class="hidden">&nbsp;</h3>
+                    <section class="section_product_loopp loop_two">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 dear_title">
+                                    <h2 class="title_head_ border_content background_{{ t }}">
+                                        <a href="{{ c.viewLink }}" title="{{ c.name | raw }}">{{ c.name | raw }}</a>
+                                    </h2>
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs">
+                                        {% set childs = c.childs %}
+                                        {% if (childs) %}
+                                            {% for child in childs %}
+                                                <li >
+                                                    <a href="{{ child.viewLink }}">{{ child.name }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wrap_owl_product_">
+                                    <div class="wrap-prod clearfix">
+                                        {% for p in proNew %}
+                                            {% set image = p.thumbnailUri %}
+                                            {% set options = {
+                                                alt: p.name,
+                                                class: 'imageChange',
+                                                lazy: true,
+                                                openDiv: false,
+                                            } %}
+                                            {% set percent = p.calcDiscountPercent %}
+                                            {% set priceDiscount = p.priceAfterDiscount %}
+                                            {% if (m == 1) %}
+                                                <div class="col-lg-4 col-md-4 hidden-sm hidden-xs padding-0">
+                                                    <div class="prod-banner">
+                                                        <div class="item saler_item">
+                                                            <div class="owl_item_product">
+                                                                <div class="product-box">
+                                                                    <div class="product-thumbnail">
+                                                                        <a href="{{ p.viewLink }}"
+                                                                           class="image_link display_flex"
+                                                                           data-images="{{ image }}"
+                                                                           title="{{ p.name }}">
+                                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                        </a>
+                                                                        {% if(percent > 0) %}
+                                                                            <span class="sale_count"><span
+                                                                                        class="bf_">-{{ percent }}%</span></span>
+                                                                        {% endif %}
+                                                                        <div class="product-action-grid clearfix">
+                                                                            <div class="product-action-grid-wrap">
+                                                                                <div class="__1">
+                                                                                    <form action="/cart/add"
+                                                                                          method="post"
+                                                                                          class="variants form-nut-grid"
+                                                                                          data-id="product-actions-1017369837"
+                                                                                          enctype="multipart/form-data">
+                                                                                        <div>
+                                                                                            <button type="button"
+                                                                                                    class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                            >
+                                                                                                <i class="fa fa-search"></i>
+                                                                                                <span class="tooltips qv"><span>Xem nhanh</span></span>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                                <div class="__2">
+                                                                                    <div class="action__">
+                                                                                        <div
+                                                                                                class="variants form-nut-grid"
+                                                                                                data-id="product-actions-1017369837"
+                                                                                        >
+                                                                                            <div class="button_wh_40">
+                                                                                                {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                                                                {% if(p.parentId == parentId) %}
+                                                                                                    <button type="button"
+                                                                                                            class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                                    >
+                                                                                                        <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                                        <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                                    </button>
+                                                                                                {% else %}
+                                                                                                    <button class=" cart_button_style btn-cart left-to add_to_cart btnQuickCart" ck="1" selid="{{ p.id }}"
+                                                                                                            title="Cho vào giỏ hàng">
+                                                                                                        <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                                        <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                                    </button>
+                                                                                                {% endif %}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-info">
+                                                                        <span class="product-vendor">{{ p.brandName }}</span>
+                                                                        <h3 class="product-name"><a class="text2line"
+                                                                                                    href="{{ p.viewLink }}"
+                                                                                                    title="{{ p.name }}">{{ p.name }}</a>
+                                                                        </h3>
+                                                                        <div class="price-box clearfix">
+                                                                            {% if (p.priceAfterDiscount > 0) %}
+                                                                                <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                                <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                                            {% elseif (p.oldprice() > 0) %}
+                                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                                <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                                            {% elseif (p.price == 0) %}
+                                                                                <span class="price product-price">Liên hệ</span>
+                                                                            {% else %}
+                                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </div>
+                                                                    <p class="discount-percent sold-out"></p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 padding-0">
+                                                    <div class="item saler_item">
+                                                        <div class="owl_item_product">
+                                                            <div class="product-box">
+                                                                <div class="product-thumbnail">
+                                                                    <a href="{{ p.viewLink }}"
+                                                                       class="image_link display_flex"
+                                                                       data-images="{{ image }}"
+                                                                       title="{{ p.name }}">
+                                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                    </a>
+                                                                    {% if(percent > 0) %}
+                                                                        <span class="sale_count"><span
+                                                                                    class="bf_">-{{ percent }}%</span></span>
+                                                                    {% endif %}
+                                                                    <div class="product-action-grid clearfix">
+                                                                        <div class="product-action-grid-wrap">
+                                                                            <div class="__1">
+                                                                                <form action="/cart/add" method="post"
+                                                                                      class="variants form-nut-grid"
+                                                                                      data-id="product-actions-1017369837"
+                                                                                      enctype="multipart/form-data">
+                                                                                    <div>
+                                                                                        <button type="button"
+                                                                                                class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                        >
+                                                                                            <i class="fa fa-search"></i>
+                                                                                            <span class="tooltips qv"><span>Xem nhanh</span></span>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                            <div class="__2">
+                                                                                <div class="action__">
+                                                                                    <div
+                                                                                            class="variants form-nut-grid"
+                                                                                            data-id="product-actions-1017369837"
+                                                                                    >
+                                                                                        <div class="button_wh_40">
+                                                                                            {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                                                            {% if(p.parentId == parentId) %}
+                                                                                                <button type="button"
+                                                                                                        class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                                >
+                                                                                                    <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                                    <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                                </button>
+                                                                                            {% else %}
+                                                                                                <button class=" cart_button_style btn-cart left-to add_to_cart btnQuickCart" ck="1" selid="{{ p.id }}"
+                                                                                                        title="Cho vào giỏ hàng">
+                                                                                                    <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                                    <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                                </button>
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="product-info">
+                                                                    <span class="product-vendor">{{ p.brandName }}</span>
+                                                                    <h3 class="product-name"><a class="text2line"
+                                                                                                href="{{ p.viewLink }}"
+                                                                                                title="{{ p.name }}">{{ p.name }}</a>
+                                                                    </h3>
+                                                                    <div class="price-box clearfix">
+                                                                        {% if (p.priceAfterDiscount > 0) %}
+                                                                            <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                            <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                                        {% elseif (p.oldprice() > 0) %}
+                                                                            <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                            <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                                        {% elseif (p.price == 0) %}
+                                                                            <span class="price product-price">Liên hệ</span>
+                                                                        {% else %}
+                                                                            <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% set m = m + 1 %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 wrap_owl_product_">
+                                    <div class="banner-bottom">
+                                        <a href="{{ c.viewLink }}" class="banner bannerr">
+                                            {% if(c.imageSrc) %}
+                                                {{ macroLazyFocusImager.LazyFocusImager(imageCategory,options) }}
+                                            {% else %}
+                                                <img class="lazy" src="https://via.placeholder.com/1x1"
+                                                     data-original="//theme.hstatic.net/1000329005/1000419954/14/banner_full_width.png?v=85"
+                                                     alt="alt">
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <section class="awe-section-8">
+        <h3 class="hidden">&nbsp;</h3>
+        <section class="section_service_index_end no_loop">
+            <div class="container">
+                <div class="wrab">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ser">
+                            <div class="wrap_ser">
+                                <span class="font_icon"><img class="lazy" src="https://via.placeholder.com/1x1"
+                                                             data-original="//theme.hstatic.net/1000329005/1000419954/14/icondv_1.png?v=85"
+                                                             alt="DL Pelican - Giao diện bán hàng"/></span>
+                                <div class="content_ser">
+                                    <p class="large_">Miễn phí vận chuyển</p>
+                                    <span class="des_ser">Cho đơn hàng từ 500k</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ser">
+                            <div class="wrap_ser">
+                                <span class="font_icon"><img class="lazy" src="https://via.placeholder.com/1x1"
+                                                             data-original="//theme.hstatic.net/1000329005/1000419954/14/icondv_2.png?v=85"
+                                                             alt="DL Pelican - Giao diện bán hàng"/></span>
+                                <div class="content_ser">
+                                    <p class="large_">Hoàn tiền</p>
+                                    <span class="des_ser">nếu có lỗi</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ser">
+                            <div class="wrap_ser">
+                                <span class="font_icon"><img class="lazy" src="https://via.placeholder.com/1x1"
+                                                             data-original="//theme.hstatic.net/1000329005/1000419954/14/icondv_3.png?v=85"
+                                                             alt="DL Pelican - Giao diện bán hàng"/></span>
+                                <div class="content_ser">
+                                    <p class="large_">Hỗ trợ thân thiện</p>
+                                    <span class="des_ser">Hỗ trợ 24/7</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 ser">
+                            <div class="wrap_ser">
+                                <span class="font_icon"><img class="lazy" src="https://via.placeholder.com/1x1"
+                                                             data-original="//theme.hstatic.net/1000329005/1000419954/14/icondv_4.png?v=85"
+                                                             alt="DL Pelican - Giao diện bán hàng"/></span>
+                                <div class="content_ser">
+                                    <p class="large_">Thanh toán</p>
+                                    <span class="des_ser">Bảo mật thanh toán</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <div class="bizweb-product-reviews-module"></div>
+{% endblock %}
+{% block script %}
+    <script>
+        $(function () {
+            $("img.lazy").lazyload();
+        });
+    </script>
+
+{% endblock %}

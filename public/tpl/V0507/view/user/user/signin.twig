@@ -1,0 +1,52 @@
+{% extends 'layout/layout' %}
+{% block meta %}
+    {{ headTitle('Đăng nhập').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng nhập">
+    <meta name="keywords" content="Đăng nhập">
+    <meta property="og:url" content="/user/signin">
+    <meta property="og:title" content="Đăng nhập">
+    <meta property="og:type" content="article">
+{% endblock %}
+
+{% block body %}
+<main>
+    <div class="wrap-login">
+        <div class="header-login">
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="/user/signin">Tài khoản</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Đăng nhập</li>
+            </ol>
+            </nav>
+        </div>
+        <div class="content--login">
+            <div class="text-login-left">
+                <span class="left-item">ĐĂNG NHẬP</span>
+            </div>
+            <div class="text-login-right">
+                <div class="border-login">
+                    {{ partial('partial/form',{'form':form}) }}
+                    {# <input type="text" class="page-login" placeholder="Email">
+                    <input type="text" class="page-login" placeholder="Mật khẩu"> #}
+
+                    <div class="signin-user">
+                        <a href="#"><span class="font-w6">Quên mật khẩu?</span></a><span>hoặc <a href="/user/signup"><span class="font-w6">Đăng ký</span></a></span>
+                    </div>
+
+                    <div class="option-login">
+                        <a href="/user/ggsignin" class="custom-option">
+                            <img src="/tp/V0507/img/temp/google-plus.svg" alt="">
+                            <span> Đăng nhập Google</span>   
+                        </a>
+                        <a href="/user/fbsignin?redirect=/" class="custom-option">
+                            <img src="/tp/V0507/img/temp/facebook.svg" alt="">
+                            <span>Đăng nhập Facebook</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

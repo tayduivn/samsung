@@ -1,0 +1,198 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Giỏ hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Giỏ hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/checkout.css' }}">
+{% endblock %}
+{% block body %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    {% set products = serviceCart().products %}
+    <main>
+    <div id="cart">
+        <div class="container">
+            <!-- Begin empty cart -->
+            {% if(products) %}
+                <div id="layout-page" class="col-md-12 mt-5">
+                    <div class="main-title2 mb30 col-12">
+                        <h1 class="text-center">Giỏ hàng của bạn</h1>
+                        <p class="text-center">Có <span class="count-items-product"></span> sản phẩm trong giỏ hàng</p>
+                    </div>
+                    <div id="cartformpage" class="pb30">
+{#                        <table class="cart cart-hidden">#}
+{#                            <tbody>#}
+{#                            {% for p in products %}#}
+{#                                {% set countPs = (products | length)? (products | length) : 0 %}#}
+{#                                {% set image = p.thumbnailUri %}#}
+{#                                {% set options = {#}
+{#                                    alt: p.name,#}
+{#                                    lazy: true,#}
+{#                                    openDiv: false,#}
+{#                                } %}#}
+{#                                <tr class="item border-bottom pb-5 cartItem_{{ p.id }}" data-price="{{ p.price }}">#}
+{#                                    <td class="image">#}
+{#                                        <div class="product_image">#}
+{#                                            <a href="{{ p.viewLink }}">#}
+{#                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}#}
+{#                                            </a>#}
+{#                                        </div>#}
+{#                                    </td>#}
+{#                                    <td class="item-child text-left">#}
+{#                                        <a href="{{ p.viewLink }}">#}
+{#                                            <strong>{{ p.name }}</strong>#}
+{#                                        </a><br>#}
+{#                                        {{ p.price | number_format() }} ₫#}
+{#                                        <br>#}
+
+{#                                        <button class="amout-minus__checkout" >-</button>#}
+{#                                            <input type="number" min="1" max="{{ p.inventory.calcAvailable }}"#}
+{#                                                   value="{{ p.quantity }}"#}
+{#                                                   class="item-quantity updateCart" data-id="{{ p.id }}"/>#}
+{#                                        <button class="amout-plus__checkout">+</button>#}
+{#                                        <br>#}
+
+{#                                    </td>#}
+{#                                    <td class="price text-right">#}
+{#                                        {% if (p.moneyDiscount) %}#}
+{#                                            {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}#}
+{#                                            {% if (countPs == 1) %}#}
+{#                                                {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}#}
+{#                                            {% endif %}#}
+{#                                            {{ ttsMoney | number_format(0) }} ₫#}
+{#                                        {% else %}#}
+{#                                            {{ (p.price * p.quantity) | number_format(0) }} ₫#}
+{#                                        {% endif %}#}
+{#                                        <a href="javascript:" class="close removeCart" psid="{{ p.id }}">x</a>#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+
+{#                            </tbody>#}
+{#                        </table>#}
+                        <div class="cart-product-table-total">
+                            {% for p in products %}
+                                {% set countPs = (products | length)? (products | length) : 0 %}
+                                {% set image = p.thumbnailUri %}
+                                {% set options = {
+                                    alt: p.name,
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                    <div class="cart-product-table-item cartItem_{{ p.id }}" data-price="
+  {% set priceDiscount = p.priceAfterDiscount(p.quantity) %}
+                                                    {% if(priceDiscount > 0) %}
+                                                       {{ priceDiscount}}
+                                                    {% elseif(p.price <= 0) %}
+
+                                                    {% else %}
+                                                       {{ p.price }}
+                                                    {% endif %}
+">
+                                        <div class="cart-product-table-item-img">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </div>
+                                        <div class="cart-product-table-item-desc">
+                                            <div class="cart-product-table-item-desc-right">
+                                                <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                                <span class="price-defaul">
+
+                                                    {% set priceDiscount = p.priceAfterDiscount(p.quantity) %}
+                                                    {% if(priceDiscount > 0) %}
+                                                       {{ priceDiscount|number_format(0) }} ₫
+                                                    {% elseif(p.price <= 0) %}
+                                                        Liên hệ
+                                                    {% else %}
+                                                       {{ p.price|number_format(0) }} ₫
+                                                    {% endif %}
+
+                                                </span>
+                                                <div class="number-ascending">
+                                                    <button class="number-ascending-plus amout-minus__checkout">-</button>
+                                                    <input type="text" min="1"
+                                                           max="{{ p.inventory.calcAvailable }}"
+                                                           data-id="{{ p.id }}"
+                                                           value="{{ p.quantity }}"
+                                                           class="item-quantity updateCart number-ascending-input">
+                                                    <button class="number-ascending-minus amout-plus__checkout">+</button>
+                                                </div>
+                                                <span class="price-ascending-total">
+                                                       <span class="price-ascending-title">Thành tiền:</span>
+                                                          <span class="price-ascending">
+                                                           {% if (p.moneyDiscount) %}
+                                                               {% set countPs = (products | length)? (products | length) : 0 %}
+                                                               {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                                               {% if (countPs == 1) %}
+                                                                   {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}
+                                                               {% endif %}
+                                                               {{ ttsMoney|number_format(0) }} đ
+                                                           {% else %}
+                                                               {{ (p.price * p.quantity)|number_format(0) }} đ
+                                                           {% endif %}
+                                                          </span>
+                                                    </span>
+
+                                            </div>
+
+                                            <div class="cart-product-table-item-desc-left">
+                                                <div class="removex removeCart" psId="{{ p.id }}">
+                                                    <i class="fa fa-close"></i>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                            {% endfor %}
+                                </div>
+
+                        <div class="redirect-checkout">
+                            <div class="row">
+                            <div class="col-lg-6">
+
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="price-total-desktop">
+                                                <span class="title-name">
+                                                    Tổng tiền
+                                                </span>
+                                    <span class="total">
+										            <strong class="total-price">{{ totalCartMoney|number_format(0) }} ₫</strong>
+									             </span>
+                                </div>
+                                <div class="cart-buttons cart-buttons-visible inner-right inner-left">
+                                    <div class="buttons clearfix text-right">
+                                        <div class="button-redirect-checkout pull">
+                                            <button onclick="location.href = '/'">Tiếp tục mua sắm</button>
+                                        </div>
+                                        <div class="button-redirect-checkout pull">
+                                            <button onclick="location.href = '/cart/checkout?emptylayout=true'">Thanh toán</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            {% else %}
+                <div id="layout-page" class="col-md-12">
+                    <p class="text-center">Không có sản phẩm nào trong giỏ hàng!</p>
+                    <p class="text-center">
+                        <a href="/"><i class="fa fa-reply"></i> Tiếp tục mua hàng</a>
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    </main>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.min.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>
+{% endblock %}

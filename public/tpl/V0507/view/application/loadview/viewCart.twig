@@ -1,0 +1,416 @@
+{% set products= serviceCart().getProducts %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <button type="button" class="close__view-cart" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <div class="modal-body content_modal_cart">
+            <div class="title_quantity">
+                <span><i class="fa fa-shopping-cart"></i> <span>Giỏ hàng</span>
+                    <span> ({{ serviceCart().totalQuantities }} sản phẩm)</span>
+                </span>
+            </div>
+            <div class="popup_header">
+                <div class="pd_name">SẢN PHẨM</div>
+                <div class="pd_price">ĐƠN GIÁ</div>
+                <div class="pd_quantity">SỐ LƯỢNG</div>
+                <div class="pd_total">THÀNH TIỀN</div>
+            </div>
+            <div class="popup_content">
+                {% if(products is not empty) %}
+                    {% for p in products %}
+                        {% set priceDiscount=p.priceAfterDiscount(p.quantity) %}
+                        {% set countPs = (products | length)? (products | length) : 0 %}
+                        <div class="popup_item cartItem_{{ p.id }}" price="{{ p.price }}">
+                            <div class="popup_item_img">
+                                <a href="{{ p.viewLink }}">
+                                    <img data-sizes="auto" class="lazyload" src="img/lazyLoading.gif"
+                                         data-src="{{ p.thumbnailUri }}">
+                                </a>
+                            </div>
+                            <div class="box__view--cart">
+                                <div class="popup_item_info">
+                                    <a href="{{ p.viewLink }}" class="hover-text">{{ p.name }}</a>
+                                    <a class="remove_item" title="Xóa" psId="{{ p.id }}">
+                                        <i class="fa fa-trash-o"></i> <span class="text-delete">Xóa sản phẩm này</span>
+                                    </a>
+                                </div>
+                                <div class="popup_item_price">
+                                    <div class="line_price">
+                                        {% if(priceDiscount>0) %}
+                                            {{ priceDiscount|number_format(0) }} VNĐ
+                                        {% elseif(p.price<=0) %}
+                                            Liên hệ
+                                        {% else %}
+                                            {{ p.price|number_format(0) }} VNĐ
+                                        {% endif %}
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="product-quantity">
+                                            <input id="quantity" type="number" maxlength="10"
+                                                   value="{{ p.quantity }}" data-id="{{ p.id }}"
+                                                   class="updateCart" min="1"
+                                                   max="{{ p.inventory().calcAvailable() }}" disabled/>
+                                        </div>
+                                    </div>
+                                    <span class="line_total_price">
+                                        {% if (p.moneyDiscount) %}
+                                            {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                            {% if (countPs == 1) %}
+                                                {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}
+                                            {% endif %}
+                                            {{ ttsMoney|number_format(0) }} VNĐ
+                                        {% else %}
+                                            {{ (p.price * p.quantity)|number_format(0) }} VNĐ
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="popup_footer">
+                <div class="popup_amount">
+                    <a href="/">
+                        <i class="fa fa-caret-left"></i> Tiếp tục mua hàng
+                    </a>
+                </div>
+                <div class="popup_action">
+                    <div class="sum__pay--view">Tổng cộng:
+                        <span class="text-price">
+                           {{ serviceCart().totalMoney|number_format(0) }} VNĐ
+                        </span>
+                    </div>
+                    <button onclick="window.location.href = '/cart/checkout?emptylayout=true'"
+                            class="fright">Thanh toán
+                    </button>
+                        <a href="/cart">
+                            <div class="fright">
+                                Xem giỏ hàng
+                            </div>
+                        </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .box__view--cart {
+        width: 80.5%;
+        display: flex;
+    }
+    .modal-content {
+        background-color: #fff;
+        width: 100%;
+        margin: auto;
+        font-size: .9em;
+    }
+    .title_quantity {
+        position: relative;
+        font-size: 1.5em;
+        top: -.4em;
+        padding: .6em 0;
+    }
+    .pd_name {
+        width: 51%;
+        text-align: center;
+        border-right: 1px solid #fff;
+        padding: .4em 0;
+    }
+    button.close__view-cart {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: 0;
+        width: 1em;
+        height: 1em;
+        background-color: red;
+        color: #fff;
+        z-index: 99;
+        font-size: 2em;
+    }
+    .close__view-cart span {
+        position: absolute;
+        top: -11px;
+        right: 7px;
+    }
+    .popup_content {
+        height: auto;
+        overflow-y: auto;
+        max-height: 26em;
+    }
+    .popup_header {
+        display: flex;
+        border: 1px solid #f5f5f5;
+        background: #f5f5f5;
+    }
+    .sum__pay--view {
+        font-size: 1.2em;
+        font-weight: 600;
+        padding-top: .5em;
+        text-align: right;
+    }
+    .pd_total {
+        text-align: center;
+        width: 16.33%;
+        padding: .4em 0;
+    }
+    .pd_price,
+    .pd_quantity {
+        text-align: center;
+        width: 16.33%;
+        padding: .4em 0;
+        border-right: 2px solid #fff;
+    }
+    .fright {
+        border: 1px solid #f5f5f5;
+        padding: .8em 2.7em;
+        margin-top: 1.5em;
+        background-color: #e29481;
+        color: #fff;
+        font-weight: 700;
+        float: right;
+    }
+    .popup_amount {
+        line-height: 7;
+        width: 20%;
+        text-align: right;
+    }
+    .popup_item_price {
+        display: flex;
+        width: 63%;
+        padding-top: 3em;
+    }
+    .popup_item_img {
+        width: 20%;
+    }
+    .popup_item_img a {
+        display: block;
+        width: 100%;
+    }
+    .popup_item_img img {
+        width: 100%;
+        padding: 1em 2em 1em 0;
+    }
+    .popup_item {
+        display: flex;
+        border-bottom: 1px solid #ccc;
+    }
+    .popup_item_info {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 1em;
+        width: 37%;
+    }
+    .remove_item {
+        width: auto;
+        position: absolute;
+        bottom: 1em;
+        cursor: pointer;
+    }
+    .line_price,
+    .text-center,
+    .line_total_price {
+        width: 33.33%;
+        text-align: center;
+    }
+    .popup_footer {
+        background-color: #f5f5f5;
+        box-shadow: 1px 1px 3px #f5f5f5;
+        padding: .5em;
+        margin-top: .5em;
+        display: flex;
+        justify-content: space-between;
+    }
+    .popup_content::-webkit-scrollbar {
+        width: 4px;
+        background-color: #F5F5F5;
+    }
+    .popup_content::-webkit-scrollbar-thumb {
+        background-color: #000000;
+    }
+    .hover-text:hover {
+        color: #e29481;
+    }
+    .fright:first-child {
+        margin-right: 1em;
+    }
+    @media (max-width: 768px) {
+        .modal-content {
+            width: 120%;
+            margin-left: -3.5em;
+        }
+        .popup_content {
+            max-height: 21em;
+            font-size: .85em;
+        }
+        .popup_amount {
+            width: 26%;
+        }
+    }
+    @media (max-width: 720px) {
+        .modal-content {
+            width: 100%;
+            margin: 4em auto;
+        }
+        .updateCart {
+            width: 2.5em;
+        }
+        .fright {
+            float: right;
+            padding: .8em 2.2em;
+            margin-top: 1em;
+        }
+        .fright:first-child {
+            float: left;
+            margin-right: 0;
+        }
+        .popup_item_img img {
+            padding: 1em 3em 1em 0;
+        }
+        .text-delete {
+            display: none;
+        }
+        .popup_header {
+            display: none;
+        }
+        .popup_item_img {
+            width: 37%;
+        }
+        .box__view--cart {
+            display: flex;
+            flex-direction: column;
+        }
+        .popup_item_info {
+            width: 95%;
+            padding-bottom: .6em;
+            padding-left: 0;
+        }
+        .popup_item_price {
+            flex-direction: column;
+            padding: 0;
+            width: 100%;
+        }
+        .line_total_price {
+            position: relative;
+            width: 100%;
+            text-align: right;
+            padding-right: 4.2em;
+        }
+        .line_total_price::before {
+            position: absolute;
+            content: 'Thành tiền:';
+            top: 0;
+            left: 0;
+            font-weight: 600;
+        }
+        .line_price,
+        .text-center {
+            width: 100%;
+            padding-left: 0;
+            text-align: left;
+        }
+        .product-quantity {
+            float: left;
+            padding: .5em 0;
+        }
+        .remove_item {
+            position: absolute;
+            top: .6em;
+            right: 0;
+            font-size: 1.3em;
+        }
+        .popup_footer {
+            flex-direction: column-reverse;
+        }
+        .popup_amount {
+            width: 100%;
+            line-height: 1;
+            text-align: center;
+        }
+        .popup_action {
+            padding: 0 0 1em 0;
+        }
+        .popup_item_img a {
+            width: 11em;
+            display: block;
+        }
+    }
+    @media (max-width: 320px) {
+        .modal-content {
+            margin: 2em auto;
+        }
+        .popup_item_img {
+            width: 35%;
+        }
+        .popup_item_img a {
+            width: 9.5em;
+        }
+        .box__view--cart {
+            font-size: 1em;
+        }
+        .line_total_price  {
+            padding-right: 2.2em;
+        }
+        .popup_content {
+            max-height: 19em;
+        }
+        .fright {
+            padding: .8em 1.7em;
+            font-size: .9em;
+            float: right;
+        }
+        .sum__pay--view {
+            font-size: 1em;
+        }
+        .fright:last-child {
+            margin-right: 0;
+            float: left;
+        }
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('.remove_item').click(function() {
+            var id = $(this).attr('psId');
+            removeCart(id, true);
+        });
+    });
+    function removeCart (proId, delItem) {
+        var check = confirm('Bạn có chắc muốn xóa sản phẩm này?');
+        var formatVND = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
+        });
+        if(check) {
+            $.post('/cart/remove', { 'psId': proId },
+            function(rp) {
+                if(delItem) {
+                    $('.cartItem_' + proId).remove();
+                    var totalPrice = 0;
+                        $totalItem = 0;
+                    $('.popup_item').each(function() {
+                        var t = $(this),
+                            price = parseInt(t.attr('price')),
+                            qty = parseInt(t.find('.updateCart').val());
+                        t.find('.line_total_price').html(formatVND.format(price * qty));
+                        totalPrice += price * qty;
+                        $totalItem += qty;
+                    });
+                    $('.text-price').text(formatVND.format(totalPrice));
+                    ajaxLoadView({
+                        view: 'topCart',
+                        onSuccess: function(rs) {
+                            alert("Xóa sản phẩm thành công");
+                        }
+                    });
+                } else {
+                    document.location.href = '/cart';
+                }
+            });
+        }
+    }
+</script>

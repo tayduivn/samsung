@@ -1,0 +1,86 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Hệ thống đại lý').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="hệ thống đại lý">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/distributed.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="containerMain" id="distriMain">
+        {% set category = [{'label': 'Hệ thông phân phối', 'uri':'/he-thong-dai-ly'}] %}
+        {{ breadcrumbs.build(category) }}
+        <div class="filterCity">
+            <form action="/he-thong-dai-ly" method="get" id="formCheckOut">
+                <div class="col-md-4 col-xs-12 col-sm-12">
+                    <span>Tìm theo tỉnh, thành phố</span>
+                    <select class="validate[required] input col-xs-12 col-sm-12" name="cityId" id="cityId">
+                        <option value="">{{ translate('Thành phố') }}</option>
+                       {{ toSelectBox(getCity()) | raw }}
+                    </select>
+                </div>
+                <div class="col-md-1 col-xs-12 col-sm-12"></div>
+                <div class="col-md-4 col-xs-12 col-sm-12">
+                    <span>Tìm theo quận, huyện</span>
+                    <select class="validate[required] input col-xs-12 col-sm-12" name="districtId" id="districtId">
+                        <option value="">{{ translate('Quận Huyện') }}</option>
+                    </select>
+
+                </div>
+                <div class="col-md-1 col-xs-12 col-sm-12"></div>
+                <div class="filterSearch col-md-2 col-xs-12 col-sm-12">
+                    <button type="submit">Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3 lstNews">
+            {{ include('layout/generalbar') }}
+        </div>
+        <div class="col-md-9">
+            <div class="disBlock">
+                <h3>Hệ thống phân phối<span></span></h3>
+                <div class="listDis">
+                    <ul>
+                        {% if(paginator.currentModels is not empty) %}
+                            {% for p in paginator.currentModels %}
+                                {% set image = p.imageSrc %}
+                                {% set options = {
+                                    alt: p.name,
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                <li class="col-md-4 col-xs-6 col-sm-6">
+                                <div class="disImg">
+                                    <a href="{{ p.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="disDetails">
+                                    <p>{{ p.name }}</p>
+                                    <span style="height: 38px">{{ p.address }}</span>
+                                    <span>Hotline {{ p.phone }}</span>
+                                    <span>Email: {{ p.email }}</span>
+                                </div>
+                                <div class="disButton">
+                                    <a href="{{ p.viewLink }}"><i class="fa fa-map-marker" aria-hidden="true"></i>Bản đồ đường đi</a>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="pagination">
+                    <div class="links">
+                        {{ render_paginator(paginator) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

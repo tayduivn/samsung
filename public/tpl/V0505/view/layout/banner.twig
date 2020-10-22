@@ -1,0 +1,204 @@
+{#banner.css#}
+
+<div class="container mb-3">
+    <div class="row">
+        <div class="col-auto clearfix d-block mobile" style="height: 2px; overflow: hidden">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-xl-3 home-menu pr-0" id="main-home-menu">
+            <nav id="main-nav" class="x-menu">
+                <ul class="mnLst">
+                    {% set category = getCategories() %}
+                    {% set count = 0 %}
+                    {% if(category) %}
+                        {% for c in category %}
+                            {% if(count<12) %}
+                                <li class="dropdown">
+                                    <a href="{{ c.viewLink }}" class="mnIt" style="text-transform: uppercase"><i class="fal fa-laptop fa-fw"></i>{{ c.name|replace({'&amp;':"&"}) }}</a>
+                                    <div class="dropdown-content">
+                                        {% for c1 in c.childs %}
+                                            <a href="{{ c1.viewLink }}"><i class="fal fa-tools fa-fw"></i>{{ c1.name|replace({'&amp;':"&"}) }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </li>
+                            {% endif %}
+                            {% set count = count + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+        <div class="col-12 col-xl-9">
+            <div class="block-pc home-gallery">
+                <div id="desktop-slider" data-items="6" data-loop="true" data-nav="false" data-dots="true" class="owl-carousel owl-theme owl-center owl-loaded">
+                    <div class="owl-stage-outer" id="slider1">
+                        <div id="slide-container1">
+                            <div class="owl-item cloned slide1">
+                                <a href="">
+                                    <img src="/tpl/V0505/img/2019/img-5.jpg" alt="KM HP pavilion t7-2020"
+                                         class="img-responsive">
+                                </a>
+                            </div>
+
+                            <div class="owl-item cloned slide1">
+                                <a href="">
+                                    <img src="/tpl/V0505/img/2019/img-2.jpg" alt="km hp1" class="img-responsive">
+                                </a>
+                            </div>
+
+                            <div class="owl-item slide1">
+                                <a href="">
+                                    <img src="/tpl/V0505/img/2019/img-1.jpg" alt="Test" class="img-responsive">
+                                </a>
+                            </div>
+
+                            <div class="owl-item slide1">
+                                <a href="#">
+                                    <img src="/tpl/V0505/img/2019/img-3.jpg" alt="HP Omen 15" class="img-responsive">
+                                </a>
+                            </div>
+
+                            <div class="owl-item active center slide1">
+                                <a href="">
+                                    <img src="/tpl/V0505/img/2019/img-6.jpg" alt="KM dell the nap thang 7-2020"
+                                         class="img-responsive">
+                                </a>
+                            </div>
+
+                            <div class="owl-item slide1">
+                                <a href="">
+                                    <img src="/tpl/V0505/img/2019/img-4.jpg" alt="HP Envy 13" class="img-responsive">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="home-gallery-top">
+                    <a href="">
+                        <img src="/tpl/V0505/img/2019/img-11.jpg" alt="Banner bên phải - Số 1">
+                    </a>
+                    <a href="">
+                        <img src="/tpl/V0505/img/2019/img-12.jpg" alt="Banner phải - số 2">
+                    </a>
+                </div>
+
+                <div class="home-gallery-bottom">
+                    <a href="">
+                        <img src="/tpl/V0505/img/2019/img-15.jpg" alt="Banner dưới - Số 3">
+                    </a>
+
+                    <a href="">
+                        <img src="/tpl/V0505/img/2019/img-14.jpg" alt="Banner dưới - Số 2">
+                    </a>
+
+                    <a href="">
+                        <img src="/tpl/V0505/img/2019/img-13.jpg" alt="Banner dưới - Số 1">
+                    </a>
+                </div>
+            </div>
+
+
+            <div class="mobile" id="banner-mb">
+                <div class="mobile-banner owl-carousel owl-theme owl-center owl-loaded">
+
+
+                    <div class="owl-stage-outer owl-height">
+                        <div class="owl-stage">
+                            <div class="owl-item active center">
+                                <a href="#">
+                                    <img src="{{ '/tpl/'~ templateDir ~'/img/2019/img-20.jpg' }}" alt="Banner chính - Mobile">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {#icon mobile#}
+                <div class="tool-bar d-flex mt-3 mb-2 ml-2 mr-2">
+                    <div id="icon-mb1">
+                        <a href="#" class="d-flex flex-column align-items-center text-center text-bold">
+                            <span class="btn btn-primary mb-2" id="icon-symbol">
+                                <i class="fas fa-tags"></i>
+                            </span>
+                            <span id="icon-name">Khuyến mại</span>
+                        </a>
+                    </div>
+
+                    <div id="icon-mb1">
+                        <a href="#" data-target="#mobile-nav" onclick="openNav()"
+                           class="d-flex flex-column align-items-center text-center text-bold collapsed"
+                           aria-expanded="false">
+                            <span class="btn btn-primary mb-2" id="icon-symbol">
+                                <i class="fas fa-list-ul"></i>
+                            </span>
+                            <span id="icon-name">Danh mục SP </span>
+                        </a>
+                    </div>
+
+                    <div id="icon-mb1">
+                        <a href="/promotion"
+                           class="d-flex flex-column align-items-center text-center text-bold">
+                            <span class="btn btn-primary mb-2" id="icon-symbol2">
+                                <i class="fas fa-bolt"></i>
+                            </span>
+                            <span id="icon-name">Flash Sale</span>
+                        </a>
+                    </div>
+
+                    <div id="icon-mb1">
+                        <a href="/tin-tuc-cong-nghe-nc3692.html"
+                           class="d-flex flex-column align-items-center text-center text-bold">
+                            <span class="btn btn-primary mb-2" id="icon-symbol">
+                                <i class="fas fa-rss"></i>
+                            </span>
+                            <span id="icon-name">Tin Công nghệ</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dmsp">
+                    <p class="block-dmsp">
+                        <span><a class="btn custom-btn" href="/vi-tinh-pc103537.html">Laptop </a></span>
+                    </p>
+
+                    <p class="block-dmsp">
+                        <span><a class="btn custom-btn" href="/may-tinh-bo-pc103539.html">PC</a></span>
+                    </p>
+
+                    <p class="block-dmsp">
+                        <span><a class="btn custom-btn" href="/linh-kien-sua-chua-pc154339.html">Linh kiện</a></span>
+                    </p>
+
+                    <p class="block-dmsp">
+                        <span><a class="btn custom-btn" href="/phu-kien-pc105719.html">Phụ kiện</a></span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container slide-home ben-animate fadeInUp ben-animated">
+    <div class="row">
+        <div class="pc">
+            <a href="#">
+                <img src="/tpl/V0505/img/2019/img-16.jpg" alt="Banner ngang - Số 1">
+            </a>
+            <a href="#">
+                <img src="/tpl/V0505/img/2019/img-17.jpg" alt="Banner ngang - Số 2">
+            </a>
+            <a href="#">
+                <img src="/tpl/V0505/img/2019/img-18.jpg" alt="Banner">
+            </a>
+            <a href="#">
+                <img src="/tpl/V0505/img/2019/img-19.jpg" alt="Banner ngang - Số 4">
+            </a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ '/tpl/'~ templateDir ~'/js/script.js' }}"></script>

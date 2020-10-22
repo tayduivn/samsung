@@ -1,0 +1,146 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {% set title = getParam('q') %}
+    {{ headTitle('Kết quả tìm kiếm: ' ~ title).setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    {% set title = getParam('q') %}
+    {% set itemCountPerPage =  paginator.setItemCountPerPage(24) %}
+    {% set nItems = 0 %}
+    {% if(paginator) %}
+        {% set pageRanger =  paginator.setPageRange(4) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.getTotalItemCount() %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = [] %}
+
+    {% set category = [{'label': ' Tìm kiếm', 'uri':'/search'}] %}
+    {{ breadcrumbs.build(category) }}
+
+    <section class="signup search-main margin-top-30">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <h1 class="title-head margin-bottom-20">Có {{ nItems }} kết quả tìm kiếm phù hợp</h1>
+                </div>
+
+                <div class="products-view-grid products cls_search">
+                    <div class="row-gutter-14">
+                        {% if(paginator.currentModels) %}
+                            {% for p in paginator.currentModels %}
+                                {% set image = p.thumbnailUri %}
+                                {% set options = {
+                                    alt: p.name,
+                                    class: 'imageChange',
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                {% set percent = p.calcDiscountPercent %}
+                                {% set priceDiscount = p.priceAfterDiscount %}
+                                {% set arrayIds = [p.id] %}
+                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 product-col">
+                                    <div class="item saler_item saler_item_col">
+
+                                        <div class="product-box">
+                                            <div class="product-thumbnail">
+                                                {% if(percent > 0) %}
+                                                    <span class="sale_count"><span class="bf_">-{{ percent }}%</span></span>
+                                                {%  endif %}
+                                                <a href="{{ p.viewLink }}"
+                                                   class="image_link display_flex"
+                                                   data-images="{{ image }}"
+                                                   title="{{ p.name }}">
+                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                </a>
+                                                <div class="product-action-grid clearfix">
+                                                    <div class="product-action-grid-wrap">
+                                                        <div class="__1">
+                                                            <form action="/cart/add" method="post"
+                                                                  class="variants form-nut-grid"
+                                                                  data-id="product-actions-1017369889"
+                                                                  enctype="multipart/form-data">
+                                                                <div>
+                                                                    <button type="button"
+                                                                            class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                    >
+                                                                        <i class="fa fa-search"></i>
+                                                                        <span class="tooltips qv"><span>Xem nhanh</span></span>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="__2">
+                                                            <div class="action__">
+                                                                <div class="variants form-nut-grid" data-id="product-actions-1017369837">
+                                                                    <div class="button_wh_40">
+                                                                        {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                                        {% if(p.parentId == parentId) %}
+                                                                            <button type="button"
+                                                                                    class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                            >
+                                                                                <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                            </button>
+                                                                        {% else %}
+                                                                            <button class=" cart_button_style btn-cart left-to add_to_cart btnQuickCart" ck="1" selid="{{ p.id }}"
+                                                                                    title="Cho vào giỏ hàng">
+                                                                                <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                            </button>
+                                                                        {% endif %}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-info">
+                                                <span class="product-vendor">{{ p.brandName }}</span>
+
+                                                <h3 class="product-name"><a class="text2line"
+                                                                            href="{{ p.viewLink }}"
+                                                                            title="{{ p.name }}">{{ p.name }}</a></h3>
+                                                <div class="price-box clearfix">
+                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                        <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                        <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                    {% elseif (p.oldprice() > 0) %}
+                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                        <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                    {% elseif (p.price == 0) %}
+                                                        <span class="price product-price">Liên hệ</span>
+                                                    {% else %}
+                                                        <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                    {% endif %}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>Không có kết quả nào phù hợp </p>
+                        {% endif %}
+
+                    </div>
+                </div>
+
+                <div class="pagination" style="width: 100%">
+                    <div class="links">
+                        {{ render_paginator(paginator) }}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,276 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ category.name }}">
+    <meta property="og:url" content="{{ category.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/category.css' }}">
+{% endblock %}
+{% block body %}
+    <main>
+        {#hover-sidebar#}
+        <div class="hover-sidebar d-lg-block d-sm-none">
+            <div class="fixed-filter-icon">
+                <div class="fixed-filter-icon-total">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </div>
+            <div class="sidebar-fix">
+                <div class="menu-filter-all">
+                    <div class="menu-filter">
+                        <h3>Danh mục sản phẩm<i class="fa icon-sidebar-menu fa-angle-down"></i></h3>
+                        <div class="nd-hieuung">
+                            <ul class="nav-menu-sidebar-filter">
+                                {% set category = getCategories() %}
+                                {% if(category is not empty) %}
+                                    {% for category_array in category %}
+                                        {% if(category_array.childs is not empty) %}
+                                            <li><a href="{{ category_array.viewLink }}">{{ category_array.name }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+
+                        </div>
+                    </div>
+                    {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+                    {% if (allAttr) %}
+                        {% set i=0 %}
+                        {% for attr in allAttr %}
+                            {% set i=i+1 %}
+                            {% if(attr.values != null) %}
+                                {% set column = attr.column %}
+                                <div class="menu-filter column{{ i }}"><!-- menu-filter -->
+                                    <h3>{{ attr.name }}<i class="fa icon-sidebar-menu fa-angle-down"></i></h3>
+                                    <div class="nd-hieuung">
+                                        <ul class="nav-menu-sidebar-filter">
+                                            {% for cl in attr.values %}
+                                                {% if(cl.id in attrColumnValues[column]) %}
+                                                    <li><a href="#"
+                                                           title="{{ cl.name|raw }}"
+                                                           data-link="{{ removeFilter(column, cl.id) }}" class="active"><i class="fa fa-check-square-o"></i> {{ cl.name|raw }}</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li><a href="#"
+                                                           title="{{ cl.name|raw }}"
+                                                           data-link="{{ addFilter(column, cl.id, 2) }}"><i class="fa fa-square-o"></i>  {{ cl.name|raw }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                </div><!-- end menu-filter -->
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <div class="menu-filter"><!-- menu-filter -->
+                        <h3>Giá sản phẩm <i class="fa icon-sidebar-menu fa-angle-down"></i></h3>
+                        <div class="nd-hieuung">
+                            <ul class="nav-menu-sidebar-filter">
+                                <li><a href="#" title="{{ category.viewLink }}">{{ translate('Tất cả') }}</a></li>
+                                {% if(price < 100000 and price > 0) %}
+                                    <li class="active">
+                                        <a rel="noindex" href="#"
+                                           title="{{ removeFilter('price', '0:100000') }}"
+                                           data-link="{{ removeFilter('price', '0:100000') }}"
+                                           class=""><i class="fa fa-check-square-o"></i> DƯỚI 100K</a></li>
+                                {% else %}
+                                    <li><a rel="noindex"
+                                           title="{{ addFilter('price', '0:100000', 2) }}"
+                                           data-link="{{ addFilter('price', '0:100000', 2) }}"
+                                           class=""><i class="fa fa-square-o"></i> DƯỚI 100K</a></li>
+                                {% endif %}
+                                {% if(price < 200000 and price > 100000) %}
+                                    <li class="active">
+                                        <a rel="noindex" href="#"
+                                           title="{{ removeFilter('price', '100000:200000') }}"
+                                           data-link="{{ removeFilter('price', '100000:200000') }}"
+                                           class=""><i class="fa fa-check-square-o"></i> TỪ 100K - 200K</a></li>
+                                {% else %}
+                                    <li><a rel="noindex"
+                                           title="{{ addFilter('price', '100000:200000', 2) }}"
+                                           data-link="{{ addFilter('price', '100000:200000', 2) }}"
+                                           class=""><i class="fa fa-square-o"></i> TỪ 100K - 200K</a></li>
+                                {% endif %}
+
+                                {% if(price < 300000 and price > 200000) %}
+                                    <li class="active">
+                                        <a rel="noindex" href="#"
+                                           title="{{ removeFilter('price', '200000:300000') }}"
+                                           data-link="{{ removeFilter('price', '200000:300000') }}"
+                                           class=""><i class="fa fa-check-square-o"></i> TỪ 200K - 300K</a></li>
+                                {% else %}
+                                    <li><a rel="noindex"
+                                           title="{{ addFilter('price', '200000:300000', 2) }}"
+                                           data-link="{{ addFilter('price', '200000:300000', 2) }}"
+                                           class=""><i class="fa fa-square-o"></i> TỪ 200K - 300K</a></li>
+                                {% endif %}
+
+                                {% if(price < 400000 and price > 300000) %}
+                                    <li class="active">
+                                        <a rel="noindex" href="#"
+                                           title="{{ removeFilter('price', '300000:400000') }}"
+                                           data-link="{{ removeFilter('price', '300000:400000') }}"
+                                           class=""><i class="fa fa-check-square-o"></i> TỪ 300K - 400K</a></li>
+                                {% else %}
+                                    <li><a rel="noindex"
+                                           title="{{ addFilter('price', '300000:400000', 2) }}"
+                                           data-link="{{ addFilter('price', '300000:400000', 2) }}"
+                                           class=""><i class="fa fa-square-o"></i> TỪ 300K - 400K</a></li>
+                                {% endif %}
+
+                                {% if(price > 400000) %}
+                                    <li class="active">
+                                        <a rel="noindex" href="#"
+                                           title="{{ removeFilter('price', '400000') }}"
+                                           data-link="{{ removeFilter('price', '400000') }}"
+                                           class=""><i class="fa fa-check-square-o"></i> TRÊN 400K</a></li>
+                                {% else %}
+                                    <li><a rel="noindex"
+                                           title="{{ addFilter('price', '400000', 2) }}"
+                                           data-link="{{ addFilter('price', '400000', 2) }}"
+                                           class=""><i class="fa fa-square-o"></i> TRÊN 400K</a></li>
+                                {% endif %}
+
+                                {% if 'priceAsc' in shows %}
+                                    <li class="active"><a rel="noindex"
+                                                          title="{{ removeFilter('show', 'priceAsc') }}"
+                                                          data-link="{{ removeFilter('show', 'priceAsc') }}"
+                                                          class=""><i class="fa fa-check-square-o"></i> Giá tăng dần</a></li>
+                                {% else %}
+                                    <li><a rel="noindex"
+                                           title="{{ addFilter('show', 'priceAsc', 2) }}"><i class="fa fa-square-o"></i> Giá tăng dần</a></li>
+                                {% endif %}
+
+                                {% if 'priceDesc' in shows %}
+                                    <li class="active"><a rel="noindex"
+                                                          title="{{ removeFilter('show', 'priceDesc') }}"
+                                                          data-link="{{ removeFilter('show', 'priceDesc') }}"
+                                                          class=""><i class="fa fa-check-square-o"></i> Giá giảm dần</a></li>
+                                {% else %}
+                                    <li><a rel="noindex"
+                                           title="{{ addFilter('show', 'priceDesc', 2) }}" data-link="{{ addFilter('show', 'priceDesc', 2) }}"><i class="fa fa-square-o"></i> Giá giảm dần</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div><!-- end menu-filter -->
+                </div><!-- end menu-filter-all -->
+            </div>
+        </div>
+        {# end hover-sidebar#}
+        <!-- product-new -->
+        <div class="prodcuct-new container border-bottom">
+            <h1 class="text-center title-category-category">TẤT CẢ SẢN PHẨM</h1>
+{#            <div class="button-category mt-5 mb-5 container">#}
+{#                {% if (category.childs) %}#}
+{#                    {% for c2 in category.childs %}#}
+{#                        {% set ascending = ascending + 1 %}#}
+{#                        <a href="{{ c2.viewLink }}" class="btn count_{{ ascending }} btn-dark">{{ c2.name }}</a>#}
+{#                    {% endfor %}#}
+{#                {% else %}#}
+{#                    {% set category = getCategories(parentId) %}#}
+{#                    {% if(category is not empty) %}#}
+{#                        {% for cate in category %}#}
+{#                            {% set ascending = ascending + 1 %}#}
+{#                            <a href="{{ cate.viewLink }}" class="btn count_{{ ascending }} btn-dark">{{ cate.name }}</a>#}
+{#                        {% endfor %}#}
+{#                    {% endif %}#}
+{#                {% endif %}#}
+
+{#            </div>#}
+
+            <section class="show-more container ">
+                {% if (category.childs) %}
+                    {% for categoryDes in category.childs %}
+                        <p class="show-more-content">
+                            {{ categoryDes.description }}
+                        </p>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="layer-showmore"></div>
+            </section>
+            <div class="product-items-all row">
+                {% if(paginator.currentModels is not empty) %}
+                    {% for p in paginator.currentModels %}
+                        {% set image = p.thumbnailUri %}
+                        {% set options = {
+                            alt: p.name,
+                            class: 'img-hover-defaul',
+                            lazy: true,
+                            openDiv: false,
+                        } %}
+                        {% set percent = p.calcDiscountPercent %}
+                        {% set priceDiscount = p.priceAfterDiscount %}
+                        {% set arrayIds = [p.id] %}
+
+                        <div class="product-item seller text-center col-6 col-md-6 col-lg-3" data-id="{{ p.id }}"
+                             data-storeId="{{ p.storeId }}"> <!-- product-item -->
+
+                            <div class="img-hover
+                     {% if(p.showHot > 0) %}
+                            seller
+                     {% else %}
+                        {% endif %}
+                    img-hover-best-seller">
+                                <a href="{{ p.viewLink }}">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    {% if(p.showHot > 0) %}
+                                        <img src="https://theme.hstatic.net/1000197303/1000565533/14/best_seller.png?v=573"
+                                             alt="" class="symbol-bestseller">
+                                    {% else %}
+                                    {% endif %}
+                                    {% if(percent > 0) %}
+                                        <span class="product-sale">{{ percent }}%</span>
+                                    {% endif %}
+                                </a>
+                            </div>
+
+                            <div class="product-content-inforandprice">
+                                <h3 class="title-product-item">{{ p.name }}</h3>
+                                {% if (p.priceAfterDiscount > 0) %}
+                                    <div class="price-total-del">
+                                        <span class="price-product-item">{{ p.priceAfterDiscount|number_format(0) }}₫</span>
+                                        <span class="price-product-item-discount">{{p.price|number_format(0)}}₫</span>
+                                    </div>
+                                {% elseif (p.oldprice() > 0) %}
+                                    <div class="price-total-del">
+                                        <span class="price-product-item">{{ p.price|number_format(0) }}₫</span>
+                                        <span class="price-product-item-discount">{{ p.oldprice|number_format(0) }}₫</span>
+                                    </div>
+                                {% else %}
+                                    <p class="price-product-item">{{ p.price|number_format(0) }}₫</p>
+                                {% endif %}
+                            </div>
+
+                        </div> <!-- end product-item -->
+                    {% endfor %}
+                {% endif %}
+
+            </div>
+        </div>
+        <!-- end product-new -->
+
+        <!-- pargination -->
+        <div class="pagination d-flex justify-content-center mt-5 text-center">
+            <div class="links">
+                {{ render_paginator(paginator) }}
+            </div>
+        </div>
+        <!-- end pargination -->
+
+    </main>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.min.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/category.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/jquery.show-more.js' }}"></script>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+{% set menus = getMenus({'type':'header'}) %}
+{% set nav = nav ~ ' <nav class="header-nav">' %}
+    {% if(menus is not empty) %}
+        {% set nav = nav ~ '<ul class="item_big">' %}
+        {% for m in menus %}
+            {% set arrTypeCate =  m.typeCates %}
+            {% if m.type in arrTypeCate %}
+                {#                {{ constant('Website\\Model\\Menu::TYPE_ALL_PRODUCT_CATEGORY') }}#}
+                {% set category = getCategoryTypeMenu(m.type) %}
+                {% if(category is not empty) %}
+                    {% for c in category %}
+                        {% set nav = nav ~ '<li '~ (c.childs ? 'class="nav-item dropdown loop_item_nav"' : 'class="nav-item loop_item_nav"') ~ '>' %}
+                        {% set nav = nav ~ '<div class="icon">' %}
+                        {% set nav = nav ~ '<img src="' ~ c.iconUri  ~ '">' %}
+                        {% set nav = nav ~ '</div>' %}
+                        {% set nav = nav ~ '<a class="a-img" href="'~ c.viewLink ~ '"><span>' ~ c.name | raw ~ ''~ (c.childs ? '<i class="fa fa-angle-down"></i>' : '') ~ '</span></a>' %}
+                        {% if(c.childs is not empty) %}
+                            {% set nav = nav ~ '<ul class="item_small dropdown-content">' %}
+                            {% for c1 in c.childs %}
+                                {% set nav = nav ~ '<li><a href="'~c1.viewLink~'" title="' ~ c1.name| raw ~ '">' ~ c1.name| raw ~ '</a></li>' %}
+                            {% endfor %}
+                            {% set nav = nav ~ '</ul>' %}
+                        {% endif %}
+                        {% set nav = nav ~ '</li>' %}
+                    {% endfor %}
+                    {% set brand = loadBrand() %}
+                    {% if(brand is not empty) %}
+                        {% set nav = nav ~ '<li class="nav-item dropdown loop_item_nav">' %}
+                        {% set nav = nav ~ '<div class="icon">'%}
+                        {% set nav = nav ~ '<img src="'~b.iconUri ~'">'%}
+                        {% set nav = nav ~ '</div>'%}
+                        {% set nav = nav ~ '<a class="a-img" href="/">
+                                   <span>Thương hiệu <i class="fa fa-angle-down"></i></span>
+                                   <span class="label_ "></span>
+                                   </a>' %}
+                        {% set nav = nav ~ '<ul class="item_small dropdown-content">' %}
+                        {% for b in brand %}
+                            {% set nav = nav ~ '<li><a href="'~b.viewLink~'" title="' ~ b.name| raw ~ '">' ~ b.name| raw ~ '</a></li>' %}
+                        {% endfor %}
+                        {% set nav = nav ~ '</ul>' %}
+                        {% set nav = nav ~ '</li>' %}
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                {% set nav = nav ~ '<li '~ (m.childs ? 'class="nav-item dropdown loop_item_nav"' : 'class="nav-item loop_item_nav"') ~ '>' %}
+                {% set nav = nav ~ '<div class="icon">' %}
+                {% set nav = nav ~ '<img src="' ~ m.iconUri  ~ '">' %}
+                {% set nav = nav ~ '</div>' %}
+                {% set nav = nav ~ '<a class="a-img" href="'~ m.viewLink ~ '"><span>' ~ m.name | raw ~ ''~ (m.childs ? '<i class="fa fa-angle-down"></i>' : '') ~ '</span></a>' %}
+                {% if(m.childs is not empty) %}
+                    {% set nav = nav ~ '<ul class="item_small dropdown-content">' %}
+                    {% for m1 in m.childs %}
+                        {% set nav = nav ~ '<li><a href="'~m1.viewLink~'" title="' ~ m1.name| raw ~ '">' ~ m1.name| raw ~ '</a></li>' %}
+                    {% endfor %}
+                    {% set nav = nav ~ '</ul>' %}
+                {% endif %}
+                {% set nav = nav ~ '</li>' %}
+            {% endif %}
+        {% endfor %}
+        {% set nav = nav ~ '</ul>' %}
+    {% endif %}
+{% set nav = nav ~ '</nav>' %}
+
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

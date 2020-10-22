@@ -1,0 +1,424 @@
+{% extends "layout/layout" %}
+    {% block meta %}
+        {{ headTitle('Thanh toán').setSeparator(' - ').setAutoEscape(false)|raw }}
+        <meta property="og:title" content="{{ 'Suplo Baby' }}">
+    {% endblock %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ templatePath ~'/css/checkout.css' }}">
+        <link rel="stylesheet" href="{{ '/css/validationEngine.jquery.css' }}">
+    {% endblock %}
+    {% block script %}
+        <script type="text/javascript" src="{{ '/cdn/_cache/location.vn.js' }}"></script>
+        <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+        <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+        <script type="text/javascript" src="{{ '/tpl/' ~ templateDir ~ '/js/user.js' }}"></script>
+        <script type="text/javascript" src="{{ '/tpl/' ~ templateDir ~ '/js/order.js' }}"></script>
+    {% endblock %}
+{% block checkout %}
+{% set products = serviceCart().products %}
+{% set totalCartMoney = serviceCart().totalMoney %}
+<input id="reloadValue" type="hidden" name="reloadValue" value="" />
+<input id="is_vietnam" type="hidden" value="true" />
+<input id="is_vietnam_location" type="hidden" value="true" />
+<div class="banner">
+    <div class="wrap">
+        <a href="/" class="logo">
+            <h1 class="logo-text">Suplo Baby - Hệ thống cửa hàng thời trang và đồ dùng cho các bé</h1>
+        </a>
+    </div>
+</div>
+<button class="order-summary-toggle order-summary-toggle-hide">
+    <div class="wrap">
+        <div class="order-summary-toggle-inner">
+            <div class="order-summary-toggle-icon-wrapper">
+                <svg width="20" height="19" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-icon"><path d="M17.178 13.088H5.453c-.454 0-.91-.364-.91-.818L3.727 1.818H0V0h4.544c.455 0 .91.364.91.818l.09 1.272h13.45c.274 0 .547.09.73.364.18.182.27.454.18.727l-1.817 9.18c-.09.455-.455.728-.91.728zM6.27 11.27h10.09l1.454-7.362H5.634l.637 7.362zm.092 7.715c1.004 0 1.818-.813 1.818-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817zm9.18 0c1.004 0 1.817-.813 1.817-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817z"></path></svg>
+            </div>
+            <div class="order-summary-toggle-text order-summary-toggle-text-show">
+                <span>Hiển thị thông tin đơn hàng</span>
+                <svg width="11" height="6" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-dropdown" fill="#000"><path d="M.504 1.813l4.358 3.845.496.438.496-.438 4.642-4.096L9.504.438 4.862 4.534h.992L1.496.69.504 1.812z"></path></svg>
+            </div>
+            <div class="order-summary-toggle-text order-summary-toggle-text-hide">
+                <span>Ẩn thông tin đơn hàng</span>
+                <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-dropdown" fill="#000"><path d="M6.138.876L5.642.438l-.496.438L.504 4.972l.992 1.124L6.138 2l-.496.436 3.862 3.408.992-1.122L6.138.876z"></path></svg>
+            </div>
+            <div class="order-summary-toggle-total-recap" data-checkout-payment-due-target="100000000">
+                <span class="total-recap-final-price">{{ totalCartMoney|number_format(0) }}₫</span>
+            </div>
+        </div>
+    </div>
+</button>
+<div class="content content-second">
+    <div class="wrap">
+        <div class="sidebar sidebar-second">
+            <div class="sidebar-content">
+                <div class="order-summary">
+                    <div class="order-summary-sections">
+                        <div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
+                            <form id="form_discount_add" accept-charset="UTF-8" method="post">
+                                <input name="utf8" type="hidden" value="✓">
+                                <div class="fieldset">
+                                    <div class="field">
+                                        <div class="field-input-btn-wrapper">
+                                            <div class="field-input-wrapper">
+                                                <label class="field-label" for="discount.code">Mã giảm giá</label>
+                                                <input placeholder="Mã giảm giá" class="field-input discount-code" data-discount-field="true" autocomplete="off" autocapitalize="off" spellcheck="false" size="30" type="text" id="discount.code1" name="discount.code" value="" />
+                                            </div>
+                                            <button type="submit" class="field-input-btn btn btn-default btn-disabled">
+                                                <span class="btn-content">Sử dụng</span>
+                                                <i class="btn-spinner icon icon-button-spinner"></i>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="content" style="position:relative;">
+    <div class="wrap">
+        <form action="" method="post" id="formCheckOut" class="grid1180">
+            <div class="sidebar">
+                <div class="sidebar-content">
+                    <div class="order-summary order-summary-is-collapsed">
+                        <h2 class="visually-hidden">Thông tin đơn hàng</h2>
+                        <div class="order-summary-sections">
+                            <div class="order-summary-section order-summary-section-product-list" data-order-summary-section="line-items">
+                                <table class="product-table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"><span class="visually-hidden">Hình ảnh</span></th>
+                                        <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                        <th scope="col"><span class="visually-hidden">Số lượng</span></th>
+                                        <th scope="col"><span class="visually-hidden">Giá</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% if (products) %}
+                                        {% for p in products %}
+                                            {% set discount = p.priceAfterDiscount(p.quantity) %}
+                                            <tr class="product" data-product-id="{{ p.id }}" data-variant-id="{{ p.id }}">
+                                                <td class="product-image">
+                                                    <div class="product-thumbnail">
+                                                        <div class="product-thumbnail-wrapper">
+                                                            <img class="product-thumbnail-image" alt="{{ p.name }}" src="{{ p.thumbnailUri }}" />
+                                                        </div>
+                                                        <span class="product-thumbnail-quantity" aria-hidden="true">{{ p.quantity }}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="product-description">
+                                                    <span class="product-description-name order-summary-emphasis">{{ p.name }}</span>
+                                                </td>
+                                                <td class="product-quantity visually-hidden">{{ p.quantity }}</td>
+                                                <td class="product-price">
+                                                    <span class="order-summary-emphasis">{{ (p.quantity * (discount ? discount : p.price))|number_format(0) }}₫</span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="order-summary-section order-summary-section-discount" data-order-summary-section="discount">
+                                <input name="utf8" type="hidden" value="✓">
+                                <div class="fieldset">
+                                    <div class="field">
+                                        <div class="field-input-btn-wrapper">
+                                            <div class="field-input-wrapper">
+                                                <label class="field-label" for="discount.code">Mã giảm giá</label>
+                                                <input placeholder="Mã giảm giá" class="field-input discount-code" data-discount-field="true" autocomplete="off" autocapitalize="off" spellcheck="false" size="30" type="text" id="discount.code2" name="discount.code" value="" />
+                                            </div>
+                                            <button type="submit" class="field-input-btn btn btn-default btn-disabled">
+                                                <span class="btn-content">Sử dụng</span>
+                                                <i class="btn-spinner icon icon-button-spinner"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="order-summary-section order-summary-section-total-lines payment-lines" data-order-summary-section="payment-lines">
+                                <table class="total-line-table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                        <th scope="col"><span class="visually-hidden">Giá</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="total-line total-line-subtotal">
+                                        <td class="total-line-name">Tạm tính</td>
+                                        <td class="total-line-price">
+                                            <span class="order-summary-emphasis" data-checkout-subtotal-price-target="100000000">
+                                                {{ totalCartMoney|number_format(0) }}₫
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="total-line total-line-shipping">
+                                        <td class="total-line-name">Phí ship</td>
+                                        <td class="total-line-price">
+                                            <span class="order-summary-emphasis" data-checkout-total-shipping-target="4000000" id="shipFee">
+                                                    0₫
+                                            </span>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                    <tfoot class="total-line-table-footer">
+                                    <tr class="total-line">
+                                        <td class="total-line-name payment-due-label">
+                                            <span class="payment-due-label-total">Tổng tiền</span>
+                                        </td>
+                                        <td class="total-line-name payment-due">
+                                            <span class="payment-due-currency">VND</span>
+                                            <span class="payment-due-price" id="showTotalMoney" data-checkout-payment-due-target="100000000" value="{{ totalCartMoney }}">
+                                                {{ totalCartMoney|number_format(0) }}₫
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="main-header">
+                    <a href="/" class="logo">
+                        <h1 class="logo-text">Suplo Baby - Hệ thống cửa hàng thời trang và đồ dùng cho các bé</h1>
+                    </a>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/cart">Giỏ hàng</a>
+                        </li>
+                        <li class="breadcrumb-item breadcrumb-item-current">
+                            Thông tin vận chuyển
+                        </li>
+                    </ul>
+                </div>
+                <div class="main-content">
+                    <div class="step">
+                        <div class="step-sections " step="1">
+                            <div class="section">
+                                <div class="section-header">
+                                    <h2 class="section-title">Thông tin thanh toán</h2>
+                                </div>
+                                <div class="section-content section-customer-information no-mb">
+                                    <input name="utf8" type="hidden" value="✓">
+                                    <div class="inventory_location_data">
+                                        <input name="customer_shipping_district" type="hidden" value="" />
+                                        <input name="customer_shipping_ward" type="hidden" value="" />
+                                    </div>
+                                    {% if (hasIdentity()) %}
+                                    <input type="hidden" name="checkout_user[email]" value="{{ getUser().email ? getUser().email : '' }}" />
+                                        <div class="logged-in-customer-information">
+                                            <div class="logged-in-customer-information-avatar-wrapper">
+                                                <div class="logged-in-customer-information-avatar gravatar" style="background-image: url(//www.gravatar.com/avatar/a4610694b49afb169c9eb953320d07db.jpg?s=100&d=blank);filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='//www.gravatar.com/avatar/a4610694b49afb169c9eb953320d07db.jpg?s=100&d=blank')"></div>
+                                            </div>
+                                            <p class="logged-in-customer-information-paragraph">
+                                                {{ getUser().fullName ? getUser().fullName : '' }} ({{ getUser().email ? (getUser().email) : '' }})
+                                                <br />
+                                                <a href="/user/signout">Đăng xuất</a>
+                                            </p>
+                                        </div>
+                                    {% else %}
+                                        <p class="section-content-text">
+                                            Bạn đã có tài khoản?
+                                            <a href="/user/signin">Đăng nhập</a>
+                                        </p>
+                                    {% endif %}
+
+                                    <div class="fieldset">
+                                        {#<div class="field field-show-floating-label">
+                                            <div class="field-input-wrapper field-input-wrapper-select">
+                                                <label class="field-label" for="stored_addresses">Địa chỉ đã lưu trữ</label>
+                                                <select class="field-input" id="stored_addresses">
+                                                    <option value="0" data-properties='{}'>Thêm địa chỉ mới...</option>
+                                                    <option value="1053265432" data-properties='{"id":1053265432,"last_name":"duy","first_name":"khanh","phone":null,"address1":null,"province":null,"country_id":"241","province_id":null,"district":null,"district_id":null,"wardid":null,"default":true}' selected>
+                                                        duy khanh,
+                                                        70000
+                                                        Vietnam
+                                                    </option>
+                                                    <option value="1053599103" data-properties='{"id":1053599103,"last_name":"duy","first_name":"khanh","phone":"0214532657","address1":"Hà Đông","province":"Hồ Chí Minh","country_id":"241","province_id":"50","district":"Quận 1","district_id":"466","wardid":null,"default":false}' >
+                                                        duy khanh,
+                                                        0214532657,
+                                                        Hà Đông,
+                                                        Quận 1,
+                                                        Hồ Chí Minh
+                                                        Vietnam
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>#}
+                                        <div class="field">
+                                            <div class="field-input-wrapper">
+                                                <label class="field-label" for="billing_address_full_name">Họ và tên</label>
+                                                <input placeholder="Họ và tên" autocapitalize="off" spellcheck="false" class="field-input validate[required]" size="30" type="text" id="billing_address_full_name" name="customerName" value="{{ getUser().fullName ? getUser().fullName : '' }}" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field field-required">
+                                            <div class="field-input-wrapper">
+                                                <label class="field-label" for="billing_address_phone">Điện thoại</label>
+                                                <input placeholder="Điện thoại" autocapitalize="off" spellcheck="false" class="field-input validate[required,custom[phone]]" size="30" maxlength="11" type="tel" id="billing_address_phone" name="customerMobile" value="{{ getUser().mobile ? getUser().mobile : '' }}" />
+                                            </div>
+                                        </div>
+
+                                        <div class="field field-required">
+                                            <div class="field-input-wrapper">
+                                                <label class="field-label" for="billing_address_address1">Địa chỉ</label>
+                                                <input placeholder="Địa chỉ" autocapitalize="off" spellcheck="false" class="field-input validate[required]" size="30" type="text" id="billing_address_address1" name="customerAddress" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="section-content">
+                                    <div class="fieldset">
+                                        <input name="selected_customer_shipping_province" type="hidden" value="">
+                                        <input name="selected_customer_shipping_district" type="hidden" value="">
+                                        <input name="selected_customer_shipping_ward" type="hidden" value="">
+                                        <input name="utf8" type="hidden" value="✓">
+                                        <div class="order-checkout__loading--box">
+                                            <div class="order-checkout__loading--circle"></div>
+                                        </div>
+                                        {% set user = getUser() %}
+                                        <div class="field field-show-floating-label  field-half ">
+                                            <div class="field-input-wrapper field-input-wrapper-select">
+                                                <label class="field-label" for="customer_shipping_province"> Tỉnh  </label>
+                                                <select name='customerCityId' id='customcityId'
+                                                        class="validate[required] field-input">
+                                                    <option data-code="null" value="null" selected>
+                                                        Chọn tỉnh / thành
+                                                    </option>
+                                                    {% for city in cities %}
+                                                        <option
+                                                                value="{{ city.Id }}">
+                                                            {{ city.nativeName }}
+                                                        </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="field field-show-floating-label field-half">
+                                            <div class="field-input-wrapper field-input-wrapper-select">
+                                                <label class="field-label" for="customer_shipping_district">Quận/Huyện</label>
+                                                <select name='customerDistrictId' id='customdistrictId'
+                                                        class="validate[required] field-input">
+                                                    <option value="" selected="">Chọn quận / huyện
+                                                    </option>
+                                                    {% if(user) %}
+                                                        {% set dts = getDistrict(user.cityLocationId) %}
+                                                        {{ toSelectBox(dts, user.districtLocationId) }}
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="field field-show-floating-label">
+                                            <div class="field-input-wrapper field-input-wrapper-select">
+                                                <label class="field-label" for="customer_shipping_district">Phường/Xã</label>
+                                                <select name='customerWardId' id='wardId'
+                                                        class="validate[required] field-input">
+                                                    <option value="" selected="">Chọn phường / xã
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {#<div class="section-content section-customer-information fieldset" id="div_country_not_vietnam">
+                                        <div class="field field-two-thirds">
+                                            <div class="field-input-wrapper">
+                                                <label class="field-label" for="billing_address_city">Thành phố</label>
+                                                <input placeholder="Thành phố" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_city" name="billing_address[city]" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="field field-third">
+                                            <div class="field-input-wrapper">
+                                                <label class="field-label" for="billing_address_zip">Mã bưu chính</label>
+                                                <input placeholder="Mã bưu chính" autocapitalize="off" spellcheck="false" class="field-input" size="30" type="text" id="billing_address_zip" name="billing_address[zip]" value="" />
+                                            </div>
+                                        </div>
+                                    </div>#}
+                                </div>
+                                <div id="change_pick_location_or_shipping">
+                                    <label>
+                                        <input type="radio" id="rdPaymentMethodCod"
+                                               name="paymentMethod"
+                                               class="validate[required]"
+                                               value="{{ constant('Order\\Service\\Payment\\Payment::PAYMENT_METHOD_COD') }}"
+                                               checked="checked"/>
+                                        {{ translate('Thanh toán tại nhà') }}
+                                        <i><p>Quý Khách vui lòng thanh toán hóa đơn
+                                                khi nhận được hàng. Cảm ơn Quý
+                                                Khách!</p></i>
+                                    </label>
+                                    <div id="tableShipFee"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-footer">
+                                <input name="utf8" type="hidden" value="✓">
+                                <button type="submit" class="step-footer-continue-btn btn buttonload">
+                                    <span class="btn-content">Thanh Toán</span>
+                                    <i class="fa fa-spinner fa-spin" style="display: none"></i>
+                                </button>
+                            <a class="step-footer-previous-link" href="/cart">
+                                <svg class="previous-link-icon icon-chevron icon" xmlns="http://www.w3.org/2000/svg" width="6.7" height="11.3" viewBox="0 0 6.7 11.3"><path d="M6.7 1.1l-1-1.1-4.6 4.6-1.1 1.1 1.1 1 4.6 4.6 1-1-4.6-4.6z"></path></svg>
+                                Giỏ hàng
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-footer">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="loading-wrapper">
+    <div id="loading" style="display: none;">
+        <div></div>
+    </div>
+</div>
+<style>
+    .loading-wrapper {
+        position: absolute;
+        display: none;
+        width: 100%;
+        height: 100%;
+        z-index: 999;
+        background: rgba(0, 0, 0, .3);
+    }
+    input[type="radio" i] {
+        background-color: initial;
+        cursor: default;
+        /*appearance: radio;*/
+        box-sizing: border-box;
+        margin: 3px 3px 0px 5px;
+        padding: initial;
+        border: initial;
+    }
+
+    .main-content {
+        -webkit-flex: 1 0 auto;
+        -ms-flex: 1 0 auto;
+        flex: 1 0 auto;
+    }
+
+    .main .main-footer {
+        padding: 1em 0;
+        border-top: 1px solid #e6e6e6;
+    }
+
+    .table-bordered,.table-bordered th,.table-bordered tr,.table-bordered td {
+        border: 1px solid #ddd;
+    }
+</style>
+{% endblock %}
+

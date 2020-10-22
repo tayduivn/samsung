@@ -1,0 +1,23 @@
+{
+  "author": "vietvk",
+  "sourceLink": "https://ant-cosmetic.mysapo.net/",
+  "domain": {
+    "storeId": 15113,
+    "name": "V0511.vietvkstore2.bot3s.net",
+    "alias": "V0511.vietvkstore2.bot3s.net"
+  },
+  "banners": {
+    "BANNER_HOME": {
+      "name": "Banner chính trang chủ",
+      "description": "Kích cỡ banner 1920 x auto",
+      "size": "auto"
+    }
+  },
+  "contents": {
+    "HOME": {
+      "name": "Trang chủ",
+      "keys": {
+      }
+    }
+  }
+}

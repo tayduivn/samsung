@@ -1,0 +1,78 @@
+{% extends 'layout/layout' %}
+{% block meta %}
+  {{ headTitle('Đăng nhập').setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta name="description" content="Đăng nhập">
+  <meta name="keywords" content="Đăng nhập">
+  <meta property="og:url" content="/user/signin">
+  <meta property="og:title" content="Đăng nhập">
+{% endblock %}
+
+{% block body %}
+<main>
+    <div class="wrap-login">
+        <div class="header-login">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="/user/signin">Tài khoản</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Đăng ký</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="content--login">
+            <div class="text-login-left">
+                <span class="left-item">TẠO TÀI KHOẢN</span>
+            </div>
+            <div class="text-login-right">
+                <div class="content__new--account">
+                    {% if(success) %}
+                    <p >Chúc mừng bạn đã đăng ký thành công tài khoản website vui lòng vào
+                        <a href="/user/signin" class="text-primary">Đây</a> để đăng nhập
+                    </p>
+                    <div class="border-login">
+                        
+
+                        {% else %}
+                    {{ partial('partial/form',{'form':form}) }}
+                    
+                    </div>
+                    {% endif %}
+                    <a href="/"><span class="back-home">Quay lại trang chủ</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<style>
+.content__new--account {
+    width: 78%;
+    margin: 5em auto 2em;
+}
+@media (max-width: 768px) {
+    .back-home {
+        margin: -1.5em 0 20px 9em;
+    }
+}
+@media (max-width: 720px) {
+    .content__new--account {
+        width: 100%;
+        margin: 2em auto 2em;
+    }
+}
+@media (max-width: 320px) {
+    .content__new--account {
+        margin: -1em auto 2em;
+    }
+    .text-login-left {
+        line-height: 4;
+    }
+    .left-item:after {
+        top: 3em;
+        left: 3em;
+    }
+    .back-home {
+         margin: -1em 0 20px 9em;
+    }
+}
+</style>
+{% endblock %}

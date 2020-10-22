@@ -1,0 +1,110 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {% set title = getParam('query') %}
+    {{ headTitle('Kết quả tìm kiếm: ' ~ title).setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~ templatePath  ~'/css/childs/search.css ' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set title = getParam('query') %}
+    {% set nItems = 0 %}
+    {% if(paginator) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.pages.totalItemCount %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = []%}
+    {% block breadcrumb %}
+        {% set category = [{'label': ' Tìm kiếm', 'uri':'/search'}] %}
+        {{ breadcrumbs.build(category) }}
+    {% endblock %}
+    <section class="signup search-main margin-bottom-40">
+        <div class="container">
+            <div class="row">
+                {% if (paginator.currentModels) %}
+                <div class="col-xs-12 margin-bottom-15">
+                    <h1 class="title-head title_search" style="color:red;">Kết quả tìm kiếm cho " {{ title }}": có {{ nItems }} kết quả phù hợp</h1>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-bottom-20">
+                    <div class="products-view-gridsss products cls_search list_hover_pro">
+                        <div class="row content_col rows_custome">
+                            {% for p in paginator.currentModels %}
+                                {% set image = p.thumbnailUri %}
+                                {% set options = {
+                                    alt: p.name,
+                                    class: 'imageChange',
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                {% set percent = p.calcDiscountPercent %}
+                                {% set priceDiscount = p.priceAfterDiscount %}
+                                {% set arrayIds = [p.id] %}
+                                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 margin-bottom-15 col_custome">
+                                    <div class="item_product_main_relative item_product_main" data-storeId="{{ p.storeId }}"
+                                         data-pid="{{ p.id }}">
+                                        <div class="item">
+                                          <div class="product-box product-item-main product-item-compare">
+
+                                                <div class="product-thumbnail ">
+                                                    <a class="image_thumb p_img  thumb_search " href="{{ p.viewLink }}" title="{{ p.name }}">
+                                                        <img id="{{ p.id }}" class="img img-first" src="{{ image }}" alt="{{ p.name }}">
+                                                    </a>
+                                                    {% if (percent and percent > 0) %}
+                                                        <div>
+                                                            <img class="flash" src="tpl/V0510/img/sale_label.png">
+                                                        </div>
+                                                        <div class="flash">- {{ percent }}%</div>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="product-info product-bottom mh">
+                                                    <h3 class="product-name"><a href="{{ p.viewLink }}" title="Siro Dưa Lưới Golden Farm">{{ p.name }}</a></h3>
+                                                    <div class="block-width-min-height">
+                                                        <div class="blockprice">
+                                                            <div class="product-item-price price-box ">
+
+
+					<span class="special-price">
+                        {% if (p.priceAfterDiscount > 0) %}
+                            <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}₫</span>
+                            <span class="original-price"><s>{{ p.price|number_format(0) }}₫</s></span>
+                                                {% elseif (p.oldprice() > 0) %}
+                            <span class="price product-price">{{ p.price|number_format(0) }}₫</span>
+                            <span class="original-price"><s>{{ p.oldPrice|number_format(0) }}₫</s></span>
+                                                {% else %}
+                            <span class="price product-price">{{ p.price|number_format(0) }}₫</span>
+                        {% endif %}
+					</span>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <h1 class="search-h1 text-center">Không tìm thấy kết quả tìm kiếm phù hợp cho: {{ title }}</h1>
+                    <hr class="hr--clear">
+                    <div class="search-title">
+                        <h3>Không có kết quả phù hợp</h3>
+                    </div>
+{% endif %}
+                <div class="pagination">
+                    {{ render_paginator(paginator) }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,351 @@
+{#<?php#}
+
+{#$extraSettings = $this->store()->getDomain()->getExtraSettings();#}
+{#$extraSettingsArray = json_decode($extraSettings, true);#}
+{#if (isset($extraSettingsArray['google']['googleSiteVerification'])) {#}
+{#$this->headMeta()->appendName('google-site-verification', $extraSettingsArray['google']['googleSiteVerification']);#}
+{#}#}
+{#if (isset($extraSettingsArray['gta']['generatedTimeAndAuthor'])) {#}
+{#if ($extraSettingsArray['gta']['generatedTimeAndAuthor'] == 1) {#}
+{#$display = "block";#}
+{#} else {#}
+{#$display = "none";#}
+{#}#}
+{#} else {#}
+{#// hiển thị cho những doanh nghiệp cũ chưa được update.#}
+{#$display = "block";#}
+{#}#}
+
+{#$userService = $this->user();#}
+{#$user = null;#}
+{#if($userService->hasIdentity()){#}
+{#$user = $userService->getUser();#}
+{#}#}
+
+{#list($usec, $sec) = explode(" ", microtime());#}
+{#$endTime = ((float)$usec + (float)$sec);#}
+{#$unit = ['b', 'kb', 'mb', 'gb', 'tb', 'pb'];#}
+{#$memoryUsed = memory_get_usage();#}
+{#$memoryUsed = @round($memoryUsed / pow(1024, ($i = floor(log($memoryUsed, 1024)))), 2) . ' ' . $unit[$i];#}
+
+{#$generatedTime = $endTime - $GLOBALS['beginTime'];#}
+{#$time = round($generatedTime, 2);#}
+{#$categories = $this->productCategory()->getCategories();#}
+{#?>#}
+<input type="hidden" class="checkCookies" value=''>
+<div class="wrapper-home-service animation-tran">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="service-box clearfix">
+                    <div class="icon">
+                        <a href="javascript:">
+                            <img src="/tpl/V0295/img/service-1.png">
+                        </a>
+                    </div>
+                    <div class="detail-sv">
+                        <a href="javascript:"><h3 class="title tp_text_color">Miễn phí giao hàng</h3></a>
+                        <p class="desc tp_text_color"><?=$this->Với hoá đơn từ 300.000đ</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="service-box clearfix">
+                    <div class="icon">
+                        <a href="javascript:">
+                            <img src="/tpl/V0295/img/service-2.png">
+                        </a>
+                    </div>
+                    <div class="detail-sv">
+                        <a href="javascript:"><h3 class="title tp_text_color">30 ngày đổi sản phẩm</h3></a>
+                        <p class="desc tp_text_color">Đổi sản phẩm trong vòng 30 ngày</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="service-box clearfix">
+                    <div class="icon">
+                        <a href="javascript:">
+                            <img src="/tpl/V0295/img/service-3.png">
+                        </a>
+                    </div>
+                    <div class="detail-sv">
+                        <h3 class="title tp_text_color">MUA HÀNG (8H30-21H30, T2-CN)</h3>
+                        <p class="desc tp_text_color">Mua hàng 1800 1077 - CSKH 1800 1078</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <div class="service-box clearfix">
+                    <div class="icon">
+                        <a href="javascript:">
+                            <img style="filter:invert(85%)" src="/tpl/V0295/img/service-4.png">
+                        </a>
+                    </div>
+                    <div class="detail-sv">
+                        <h3 class="title tp_text_color">THỬ NGAY TẠI SHOWROOMS</h3>
+                        <p class="desc tp_text_color">31 showrooms trên toàn hệ thống</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer tp_footer">
+    <div class="main-footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg">
+                    <div class="footer-col">
+                        <h4 class="footer-title tp_text_color">
+                            VỀ CHÚNG TÔI
+                        </h4>
+                        <div class="footer-content">
+                            <p>Zara.com là website bán lẻ thời trang trực tuyến với những mẫu thiết kế thanh lịch, hiện đại được cập nhật liên tục hàng tuần. Chúng tôi cam kết đồng hành & truyền cảm hứng sống tích cực, an yên cho phụ nữ Việt.</p>
+                        </div>
+                        <a href='javascript:'>
+                        <img style="width: 171px;" data-sizes="auto" class="bct" src="/img/dathongbaobocongthuong.png" alt='...'/>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg">
+                    <div class="footer-col footer-block">
+                        <h4 class="footer-title tp_text_color">
+                            HỖ TRỢ MUA HÀNG
+                        </h4>
+                        <div class="footer-content toggle-footer">
+                            <ul>
+                                <li class="item">
+                                    <a href="/" title="Size Guide">Size Guide</a>
+                                </li>
+                                <li class="item">
+                                    <a href="/" title="Chính sách khách hàng">Chính sách khách hàng</a>
+                                </li>
+                                <li class="item">
+                                    <a href="/" title="Chính sách bảo hành">Chính sách bảo hành</a>
+                                </li>
+                                <li class="item">
+                                    <a href="/" title="Chính sách đổi sản phẩm">Chính sách đổi sản phẩm</a>
+                                </li>
+                                <li class="item">
+                                    <a href="/" title="Giao hàng- thanh toán">Giao hàng- thanh toán</a>
+                                </li>
+                                <li class="item">
+                                    <a href="/" title="Bảo mật thông tin">Bảo mật thông tin</a>
+                                </li>
+                                <li class="item">
+                                    <a href="/" title="Tuyển dụng">Tuyển dụng</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg">
+                    <div class="footer-col">
+                        <h4 class="footer-title tp_text_color">
+                            THÔNG TIN LIÊN HỆ
+                        </h4>
+                        <div class="footer-content footer-contact footer-contact53436">
+                            <ul>
+                                <li class="contact-2 icon">CSKH
+                                    <span style="color:#a73340">1900.xxx.xxx</span>
+                                </li>
+                                <li class="contact-5 icon">Mua hàng
+                                    <span style="color:#a73340">1900.xxx.xxx</span>
+                                </li>
+                                <li class="contact-4 icon">Email
+                                    <span style="color:#a73340">xxx@gmail.com</span>
+                                </li>
+                                <li class="home-list-store visible-lg visible-md"><a class="tp_button" href="/he-thong-cua-hang">Hệ thống cửa hàng</a></li>
+                            </ul>
+                            <div class="wrapper-home-newsletter animation-tran">
+                                <div class="content-newsletter">
+                                    <p class="tp_text_color">Đăng kí nhận thông tin ưu đãi và xu hướng mới nhất</p>
+                                    <div class="form-newsletter">
+                                        <form accept-charset="UTF-8" class="contact-form">
+                                            <div class="form-group">
+                                                <input id="contactFormEmail" class="inputNew form-control newsletter-input" required="" type="email" placeholder="Vui lòng nhập email của bạn" name="contact[email]" size="18" autocomplete="off">
+                                                <button type="submit" name="submitNewsletter" id="contactFormSubmit">
+                                                    <span>Gửi</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-3 col-lg">
+                    <div class="footer-col">
+                        <h4 class="footer-title tp_text_color">
+                            Fanpage
+                        </h4>
+                        <div class="footer-content footer-contact">
+                            <!-- Facebook widget -->
+                            <div class="footer-static-content">
+                                <div class="fb-page"
+                                     data-href="https://www.facebook.com/nhanh.vn"
+                                     data-height="300" data-small-header="false"
+                                     data-adapt-container-width="true" data-hide-cover="false"
+                                     data-show-facepile="true" data-show-posts="false"></div>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="bottom-footer text-center">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 hidden-xs hidden-sm">
+                    <div class="logo-bct">
+{#                        <?=$this->template()->loadValue('FOOTER_CONTENT_BOT_1')?>#}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-12">
+                    <p data-runtime='Memory: $memoryUsed - Time: $time s' id='runtime' style='clear:both; padding:15px 0; text-align:center'>
+                        Thiết kế website bởi
+                        <img src='/images/favicon.ico' alt='Thiết kế web bởi NHANH.VN' title ='Thiết kế web bởi NHANH.VN'/>
+                        <a style='margin-top:5px;display:inline-block;color:#333;' class='logo' href='https://nhanh.vn' target='_blank'>Nhanh.vn</a>
+                    </p>
+                </div>
+                <div class="col-lg-3 col-md-3 hidden-xs hidden-sm">
+                    <div class="logo-bct">
+{#                        <?=$this->template()->loadValue('FOOTER_CONTENT_BOT_2')?>#}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer>
+
+<div id="site-nav--mobile" class="site-nav style--sidebar show-cart">
+    <div id="site-navigation" class="site-nav-container">
+        <div class="site-nav-container-last">
+            <p class="title">Menu</p>
+            <div class="main-navbar">
+                <nav class="primary-menu">
+                    {% include 'layout/menumobile' %}
+                    <ul class="menu-about">
+                        <li><a href="/search"><span>Tìm kiếm</span></a></li>
+                        <li><a href="/"><span>Giới thiệu</span></a></li>
+                        <li><a href="/"><span>Chính sách đổi trả</span></a></li>
+                        <li><a href="/"><span>Chính sách bảo mật</span></a></li>
+                        <li><a href="/s"><span>Điều khoản dịch vụ</span></a></li>
+                        <li class="login"><a href="/user/signin"><span>Đăng nhập</span></a></li>
+                        <li class="list-store-menu"><a href="/">Hệ thống <b>31</b> showrooms</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="to-bottom-content">
+                <div class="site-social" aria-label="Follow us on social media">
+                    <a target="_blank" href="javascript:" class="social-wrapper facebook">
+                        <span class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </span>
+                    </a>
+                    <a target="_blank" href="javascript:" class="social-wrapper twitter">
+                    <span class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </span>
+                    </a>
+                    <a target="_blank" href="javascript:" class="social-wrapper pinterest">
+                        <span class="social-icon">
+                            <i class="fab fa-pinterest"></i>
+                        </span>
+                    </a>
+
+
+                    <a target="_blank" href="javascript:" class="social-wrapper google">
+                        <span class="social-icon">
+                            <i class="fab fa-google-plus-g"></i>
+                        </span>
+                    </a>
+                    <a target="_blank" href="javascript:" class="social-wrapper youtube">
+                        <span class="social-icon">
+                            <i class="fab fa-youtube"></i>
+                        </span>
+                    </a>
+                    <a target="_blank" href="javascript:" class="social-wrapper instagram">
+                        <span class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </span>
+                    </a>
+
+                </div>
+                <div class="site-copyright">
+                    <?php
+                    echo "<p data-runtime='Memory: $memoryUsed - Time: $time s' id='runtime' style='clear:both; padding:10px 0; text-align:center; display: $display;'>
+                    Thiết kế website bởi
+                    <img src='/images/favicon.ico' alt='Thiết kế web bởi NHANH.VN' title ='Thiết kế web bởi NHANH.VN'/>
+                    <a style='margin-top:5px;display:inline-block;color:#333;' class='logo' href='https://nhanh.vn' target='_blank'>Nhanh.vn</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="site-cart" class="site-nav-container" tabindex="-1">
+
+
+    </div>
+    <div id="site-search" class="site-nav-container" tabindex="-1">
+        <div class="site-nav-container-last">
+            <p class="title">Search</p>
+            <form  class="search-header" action="/search">
+                <input type="search" name="q" placeholder="Tìm kiếm sản phẩm ..." />
+                <button type="submit" class="btn btn-search" aria-label="Search">
+                    <svg version="1.1" class="svg search" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 27" style="enable-background:new 0 0 24 27;" xml:space="preserve"><path d="M10,2C4.5,2,0,6.5,0,12s4.5,10,10,10s10-4.5,10-10S15.5,2,10,2z M10,19c-3.9,0-7-3.1-7-7s3.1-7,7-7s7,3.1,7,7S13.9,19,10,19z"/><rect x="17" y="17" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -9.2844 19.5856)" width="4" height="8"/></svg>
+                </button>
+            </form>
+        </div>
+
+    </div>
+    <button id="site-close-handle" class="site-close-handle" aria-label="Close sidebar" title="Close sidebar">
+        <span class="hamburger-menu active" aria-hidden="true"><span class="bar animate"></span></span>
+    </button>
+</div>
+<div id="site-overlay" class="site-overlay"></div>
+
+<div class="ew-alo-phone ew-alo-red ew-alo-show hidden-lg hidden-md">
+    <a href="tel:1900xxxxxx" title="" data-original-title="Liên hệ với chúng tôi">
+        <div class="ew-alo-ph-circle"></div>
+        <div class="ew-alo-ph-circle-fill"></div>
+        <div class="ew-alo-ph-img-circle"></div>
+    </a>
+</div>
+
+<div id="dialogMessage"></div>
+
+
+<div class="back-to-top">
+    <a href="javascript:void(0);" id="js-pagetop" class="l-gh__scrollnav-pagetop">
+        <div class="l-gh__scrollnav-pagetop-arr"><div class="head"></div></div>
+    </a>
+</div>
+
+{% set bnIconFix = getBannerByPositionCode('BANNER_FIX_BOTTOM') %}
+{% if(bnIconFix) %}
+    {% for b in bnIconFix %}
+        <a href="{{ b.viewLink }}" target="_blank" class="iconFixBot">
+            <img class="lazyload" data-sizes="auto" src="/img/lazyLoading.gif" data-src="{{ b.imageSrc }}" alt="{{ b.name }}">
+        </a>
+    {% endfor %}
+{% endif %}
+
+
+
+

@@ -1,0 +1,105 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+    <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+    <meta property="og:title" content="{{ news.title | e('html') }}">
+    <meta property="og:url" content="{{ news.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+    {% set buildBread = buildBreadcrumbs(category)%}
+    {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}
+    {% set buildBread = buildBread | merge (buildBread1) %}
+    {{ breadcrumbs.build(buildBread) }}
+<main>
+    <section class="header-detail"> 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="/news">Blog - tin tức</a></li>
+            <li class="breadcrumb-item active">{{ news.title }} </li>
+        </ol>
+    </nav>
+        <div class="contenNew-info">
+            <div class="contemtNewLeft">
+                <div class="article-body">
+                    {{ news.content | raw }}
+
+                    <div class="share-post">
+                        <div class="share-post">
+                            <span class="share-title">Chia sẻ bài viết qua: </span>
+                            <div class="menu-social-icons">
+                                    <div class="fb-like" data-layout="button_count" data-action="like" data-size="small"   data-show-faces="true" data-share="true" fb-xfbml-state="rendered" >
+                                    <span style="vertical-align: bottom; width: 138px; height: 20px;">
+                                        <iframe width="1000px" height="1000px">
+                                        </iframe>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fb-comments" data-href="{{ getCurrentUrl() }}" data-numposts="5" data-width=""></div>
+                    </div> 
+                </div>  
+            </div>
+        
+            <div class="contemtNewRight">
+                <div class="contemtNewRight-item">
+                    <h4>Bài viết nổi bậc</h4>
+                    <div class="new__right--post">
+                        {% set highlight_new = getNewsCategories() %}
+                        {% if(highlight_new is not empty) %}
+                            {% set New_hight = getLastestNews({'limit': 3, 'categoryId': showHot.id}) %}
+                            {% for nitem in New_hight %}
+                                {% set c_n = nitem.imageUri %}
+                                {% set options = {
+                                    alt: nitem.title,
+                                    lazy: true,
+                                    openDiv: false,
+                                    class:'card-img-top'
+                                } %}
+                                <div class="content_new-right">
+                                    <div class="new__right--post-img">
+                                        <a href="{{ nitem.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(c_n,options) }}
+                                        </a>
+                                    </div>
+        
+                                    <div class="new__right--post-event">
+                                        <h4> {{ nitem.createdDateTime }}  </h4>
+                                        <span>{{ subString(nitem.intro, 70) }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="contemtNewRight-item">
+                    <h4>Theo dõi chúng tôi trên</h4>
+                    <div class="right--icon">
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </section>
+</main>
+{% endblock %}

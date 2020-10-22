@@ -1,0 +1,63 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Hệ thóng cửa hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    {% set agency = searchAgency() %}
+    {% if(agency) %}
+        <section class="main-map pt-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-12 system_store">
+                        <div class="title-store">
+                            <div class="title-store">
+                                <span>Danh sách địa chỉ các cửa hàng</span>
+                                <input type="hidden" id="storeId" value="{{ getStoreId() }}">
+                                <select class="input storeSelect" name="cityId" id="cityId">
+                                    <option value="">Tỉnh thành</option>
+                                    {% if(agency) %}
+                                        {{ toSelectBox(getCity()) | raw }}
+                                    {% endif %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="wrapper-dropdown list-store">
+                            <ul class="all-submenu-1">
+                                {% if(agency) %}
+                                    {% for agc in agency %}
+                                        <li data-depotId="{{ agc.id }}" class="sub-item1"
+                                            data-name="{{ agc.name }}" data-address="{{ agc.address }}"
+                                            rel="1" data-lat="{{ agc.latitude }}"
+                                            data-long="{{ agc.longitude }}" data-email="{{ agc.email }}" data-img="{{ agc.imageUri }}" data-phone="{{ agc.phone }}">
+                                            <a class="btn"><b>{{ agc.name }}: </b>{{ agc.address }}</a>
+                                        </li>
+                                    {% endfor %}
+                                {% else %}
+                                    <li class="sub-item1">
+                                        <a class="btn" style="display: block;text-align: center;margin: 0">Chưa có
+                                            đại lý nào !!!</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-8 col-12 map centerMap">
+                        <div class="mapDetails">
+                            <div class="row add_js_click">
+                            </div>
+                            <div id="map_embed" class="listMap">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <input type="hidden" value="9h00 - 22h00 (Kể cả chủ nhật và ngày lễ)" class="timeWork">
+    {% endif %}
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGIINqgOVLX_fR9oCE_YRJQnH1Px51Dts"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/maps.js' }}"></script>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Tra cứu thông tin đơn hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tra cứu thông tin đơn hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ getLogoUri }}">
+{% endblock %}
+{% block body %}
+    <section class="section bgr_f3 sect_20">
+        <div class="container">
+            <div class="row box_user">
+                <div class="col-md-3 col-sm-12 col-12">
+                    <div class="action_user">
+                        <ul>
+                            <li><a href="/profile">Trang cá nhân</a></li>
+                            <li><a href="/order">Quản trị đơn hàng</a></li>
+                            <li><a class="active" href="/order/search">Tra cứu đơn hàng</a></li>
+                            <li><a href="/profile/edit">Thay đổi thông tin</a></li>
+                            <li><a href="/user/signout">Thoát</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-12 col-12 box_bd_left">
+                    <div class="info_user">
+                        <div class="row order-search-form">
+                            <form class="form-inline" id="frmIndexOrder" action="">
+                                <div class="form-groups txtFill">
+                                    <input type="text" class="form-control input-research" name="q"
+                                           placeholder="Nhập mã số điện thoại hoặc email">
+                                </div>
+                                <div class="form-groups">
+                                    <button type="submit" class="btn btn-danger btn-research">Kiểm tra</button>
+                                </div>
+                            </form>
+                        </div>
+                        {% if(orders is not empty) %}
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Ngày đặt hàng</th>
+                                    <th>Mã đơn hàng</th>
+                                    <th>Tên khách hàng</th>
+                                    <th>Tổng tiền thanh toán</th>
+                                    <th>Trạng thái đơn hàng</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for order in orders %}
+                                    <tr>
+                                        <td>{{ order.createdDate | date("d/m/Y") }}</td>
+                                        <td>{{ order.id }}</td>
+                                        <td>{{ order.customerName }}</td>
+                                        <td>
+                                            {{ order.calculateTotalMoney | number_format(0) }} VNĐ
+                                        </td>
+                                        <td>{{ order.statusName(order.status) }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% else %}
+                            {% if(getParam('q')) %}
+                                <p class="alert_danger">Không tìm thấy đơn
+                                    hàng theo yêu cầu.
+                                </p>
+                            {% else %}
+                                <p class="alert_danger"> Bạn vui lòng nhập
+                                    thông tin để tìm đơn hàng
+                                </p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include 'user/profile/productsHis' %}
+    <div class="foote_user clearfix container pt-4">
+        <a href="/" class="pull-right">Tiếp tục mua sắm <i class="fa fa-caret-right"></i></a>
+    </div>
+{% endblock %}

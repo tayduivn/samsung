@@ -1,0 +1,36 @@
+<ul>
+    {#// Menu custom#}
+    {% set menus = getMenus({'type':'header'}) %}
+    {% if(menus) %}
+        {% for m in menus %}
+            {% if m.type in m.typeCates %}
+                {% set category = getCategoryTypeMenu(m.type) %}
+                {% if(category) %}
+                    {% for c in category %}
+                        <li>
+                            <a href="{{ c.viewLink }}">{{ c.name }}</a>
+                            {% if(c.childs) %}
+                                <ul>
+                                    {% for c2 in c.childs %}
+                                        <li><a href="{{ c2.viewLink }}">{{ c2.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                <li>
+                    <a href="{{ m.viewLink }}">{{ m.name }}</a>
+                    {% if(m.childs) %}
+                        <ul>
+                            {% for m2 in m.childs %}
+                                <li><a href="{{ m2.viewLink }}">{{ m2.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</ul>

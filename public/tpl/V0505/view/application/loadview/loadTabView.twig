@@ -1,0 +1,74 @@
+<div class="list-products owl-carousel">
+    {% set pr = getParam('type') %}
+{#    <pre>{{ dump(pr) }}</pre>#}
+    {% if(pr == "tabSpHot") %}
+        {% set productList = search({'limit': 8,'showHot':1}) %}
+    {% elseif(pr == "tabSpBanChay") %}
+        {% set productList = search({'limit':8,'showHome':1}) %}
+    {% elseif(pr == "tabSpMoi") %}
+        {% set productList = search({'limit':8,'showNew':1}) %}
+    {% endif %}
+
+    {% if(productList) %}
+        {% for n in productList %}
+            {% set image = n.thumbnailUri %}
+            {% set oldPrc = n.price + 1000000 %}
+            <div class="product-box" data-id="{{ n.id }}" data-storeId="{{ n.storeId }}"
+                 psId="{{ n.id }}" style="width: 100%">
+                <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">
+
+                    <div class="product-image-box">
+                        <img src="{{ image }}" class="product-image" alt="...">
+                    </div>
+                    <div class="card-body p-1">
+                        <p class="card-text product-name">
+                            <a href="{{ n.viewLink }}">{{ n.name }}</a>
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="product-price-block">
+                            <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                            <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                        </div>
+                        <div class="prd-stock d-flex justify-content-between align-items-center">
+
+                            <div class="cl-left">
+                                        <span class="product-stock text-green">
+                                            <i class="fas fa-check"></i> Còn hàng
+                                        </span>
+                            </div>
+                            <div class="cl-right">
+                                        <span class="product-shoping">
+                                            <a class="btnAddToCart" href="/cart">
+                                                <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                            </a>
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+<script>
+    $('.list-products').owlCarousel({
+        loop: true,
+        margin: 1,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: true
+            },
+            100: {
+                items: 2,
+                nav: false
+            },
+            1000: {
+                items: 5,
+                nav: false
+            }
+        }
+    })
+</script>

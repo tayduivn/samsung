@@ -1,0 +1,71 @@
+<div class="container">
+        <h5 class="title">
+          <a href="/product?show=hot"><p>Top các sản phẩm được yêu thích</p></a>
+        </h5>
+        <div class="top-favorite-body">
+          <div class="slick top-favorite-slick">
+            {% set productBestseller = search({'limit': 6, 'brands':true, 'showHot': 1 }) %}
+            {% if(productBestseller is not empty) %}
+              {% for pro in productBestseller %}
+                {% set image = pro.thumbnailUri %}
+                {% set options_lazy = {
+                  alt: pro.name,
+                  class: 'img is-full',
+                  lazy: true,
+                  openDiv: false
+                } %}
+                {% set percent = p.discountPercent %}
+                {% set priceDiscount = p.priceAfterDiscount %}
+                <div class="slick-item">
+                  <div class="card">
+                    <div class="card-thumb">
+                      {% if(pro.options.psGifts) %}
+                        <style>
+                          .card-thumb::before {
+                            background-image: url('/tp/V0509/img/gif/gift.jpg');
+                          }
+                        </style>
+                      {% endif %}
+                      <a href="{{ pro.viewLink }}">
+                        <img src="{{ image }}" class="img is-full" alt="">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options_lazy) }}
+                      </a>
+                    </div>
+                    <div class="card-body">
+                      {% if(pro.options.psGifts.name != null) %}
+                        <label class="card-free">{{ pro.options.psGifts.name }}</label>
+                      {% endif %}
+                      <a href="{{ pro.viewLink }}">
+                          <span class="card-title">{{ pro.brandName }}</span>
+                      </a>
+                      <span class="card-name">{{ pro.name }}</span>
+                      <span class="card-price">{{ pro.price | number_format(0) }}VNĐ
+                        {% if(pro.priceAfterDiscount > 0) %}
+                          <strike>{{ pro.priceAfterDiscount | number_format(0) }}</strike>
+                          {% elseif (pro.oldPrice > 0) %}
+                            <strike>{{ pro.oldPrice | number_format(0) }}</strike>
+                        {% endif %}
+                        {% if(pro.discountPercent > 0) %}
+                          <span class="percent">{{ pro.discountPercent }} %</span>
+                        {% endif %}
+                </span>
+                      <div class="box-button">
+                        {% set values = pro.options.attrValues %}
+                        {% if(values) %}
+                          {% for button_color in values %}
+                          {% set color = button_color.options.attrContent %}
+                            <button class="card-button">
+                              <span style="background-color: #{{color}}" data-src="{{ button_color.thumbnailUri }}"></span>
+                            </button>
+                          {% endfor %}
+                            <a href="{{ pro.viewLink }}" class="card-button card-button__add"></a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>

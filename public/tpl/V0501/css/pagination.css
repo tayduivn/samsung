@@ -1,0 +1,71 @@
+.paginator .labelPages, .paginator .titlePages{
+    display: none;
+}
+.paginator .paging-next {
+    color: #333;
+}
+
+
+.paginator {
+    text-align: right;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    justify-content: center;
+    display: flex;
+}
+
+.paginator>a,
+.paginator>span.currentPage {
+    margin-left:6px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    font-size: 12px;
+    color: #333;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    line-height: 28px;
+}
+
+.paginator>a {
+    background: #ecede7;
+}
+
+.paginator>span.currentPage{
+    color: #fff;
+}
+.paginator>a:HOVER {
+    border: 1px solid #2775d2;
+    background: #2775d2;
+    color: white;
+}
+
+.paginator .currentPage {
+    background-color: #2775d2;
+    color: white;
+}
+
+.paginator a:HOVER {
+    text-decoration: none;
+}
+
+.paging-first:before {
+    font-family: "Font Awesome 5 Pro";
+    content: "\f100";
+}
+
+.paging-next:before {
+    font-family: "Font Awesome 5 Pro";
+    content: "\f0da";
+}
+
+.paging-previous:before {
+    font-family: "Font Awesome 5 Pro";
+    content: "\f0d9";
+}
+
+.paging-last:before {
+    font-family: "Font Awesome 5 Pro";
+    content: "\f101";
+}

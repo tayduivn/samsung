@@ -1,0 +1,357 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Giỏ hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/css/validationEngine.jquery.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/order.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/index.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    {% set products = serviceCart().products %}
+    {% set prodIds = [] %}
+    <div class="col-md-12" id="cartWrp">
+        <div class="containerMain">
+            <div id="srlMn" class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                <div id="menuScrollWrp">
+
+                    <div id="menuMain" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        {% if(getCategories()) %}
+                            <ul class="menuTrigger">
+                                <li class="labelMenu">
+                                    <i class="fa fa-bars"></i>
+                                    <a href="/">Danh mục sản phẩm</a>
+                                </li>
+                                {% for c in getCategories() %}
+                                    <li class="ctMenuMain">
+                                        <i class="fa fa fa-arrow-circle-right"></i>
+                                        <a href="{{ c.viewLink }}">{{ c.name | raw }}</a>
+                                        {% if(c.childs) %}
+                                            <i class="fa fa-angle-right pull-right"></i>
+                                            <div class="blockChilds">
+                                                <ul>
+                                                    {% for c1 in c.childs %}
+                                                        <li>
+                                                            <a href="{{ c1.viewLink }}">{{ c1.name | raw }}</a>
+                                                            {% if(c1.childs) %}
+                                                                <ul>
+                                                                    {% for c2 in c1.childs %}
+                                                                        <li><a href="{{ c2.viewLink }}">{{ c2.name | raw }}</a></li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <ul class="mainHelper" style="display: block">
+                            <li><a href="">SCROLL_TITLE_1</a></li>
+                            <li><a href="">SCROLL_TITLE_2</a></li>
+                            <li><a href="">SCROLL_TITLE_3</a></li>
+                            <li><i class="image imgSuport"></i><span>HOTLINE</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-inline col-md-12 breadcrumView">
+                <li>
+                    <a href="/">Trang chủ</a>
+                </li>
+                <li>
+                    <a href="/cart">Giỏ hàng</a>
+                </li>
+            </ul>
+            <form action="" method="post" id="formCheckOut">
+                <div class="cartPage main">
+                    {% if(products) %}
+                        <h2 style="font-size:2em;padding:0.83em;text-align: center;text-transform:uppercase;margin: 0">Giỏ hàng</h2>
+                        <div class="orderProducts cartPageItem">
+                            <div class="wrapper" style="border-top:solid 1px #ededed;">
+                                <div id="tableShipFee"></div>
+                                <div class="wrapperDetail">
+                                    <div class="orderInfo cartPageItem">
+                                        <h3 style="font-size:18px;font-weight:normal;text-transform: uppercase;margin:10px 0;text-align: left;padding:10px 0;">Thông tin khách hàng</h3>
+                                        <div class="purchaseInfo">
+                                            <input placeholder="Họ và tên người nhận hàng" type="text" name="customerName" class="validate[required] input short"
+                                                   value="{{ user ? user.fullName:'' }}"  autocomplate="off"/>
+                                            <input placeholder="Số điện thoại để chúng tôi liên hệ giao hàng" type="text" id="customerMobile" name="customerMobile"
+                                                   onkeypress="makeAliasFor(this,'customerMobile')"  onchange="makeAliasFor(this,'customerMobile')"
+                                                   maxlength="11" class="validate[required,custom[phone]] input short"  autocomplate="off"
+                                                   value="{{ user ? (user.mobile | replace({'+84': '0'})):'' }}"/>
+                                            <input placeholder="Địa chỉ email để chúng tôi gửi thông tin đơn hàng" type="text" name="customerEmail"
+                                                   class="validate[required,custom[email]] input short"
+                                                   value="{{ user ? user.email:'' }}"/>
+                                            <select id="cityId" name="customerCityId" class="validate[required] input short">
+                                                <option value="">{{ translate('Thành phố') }}</option>
+                                                {% for city in cities %}
+                                                    <option {{ (user and user.cityLocationId == city.id ? 'selected' : '') }} value="{{ city.Id }}">{{ city.nativeName }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <select id="districtId" name="customerDistrictId" class="validate[required] input short">
+                                                <option value="">{{ translate('Quận Huyện') }}</option>
+                                                {% if(user) %}
+                                                    {% set dts = getDistrict(user.cityLocationId) %}
+                                                    {{ toSelectBox(dts, user.districtLocationId) }}
+                                                {% endif %}
+                                            </select>
+                                            <input placeholder="Địa chỉ nhận hàng từ 8h00-17h30 ( trừ CN)" type="text" name="customerAddress" autocomplate="off"
+                                                   class="validate[required] input short" value="{{ user ? user.address : '' }}">
+                                        </div>
+                                    </div>
+                                    <div class="paymentMethod cartPageItem">
+                                        <h3 style="font-weight:normal;font-size: 18px;font-weight:normal;text-transform: uppercase;margin:10px 0;text-align: left;padding:10px 0;">Phương thức thanh toán</h3>
+                                        <div class="checkoutStep">
+                                            <div id="paymentMethod">
+                                                <div class="couponId">
+                                                    <div class="titleCou"><span>Nhập mã giảm giá </span><i>(Nếu có)</i></div>
+                                                    <div class="flex">
+                                                        <input id="coupon" type="text" name="couponCode"/>
+                                                        <button type="button" id="getCoupon" class="btn">{{ translate('Kiểm tra') }}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <textarea name="description" class="input" autocomplate="off" placeholder=" Thông tin xuất hoá đơn VAT ( nếu có ), thời gian giao hàng,..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <table width="90%" cellspacing='0'>
+                                <div class="title">
+                                    <p>{{ translate('Xóa') }}</p>
+                                    <p>{{ translate('Sản phẩm') }}</p>
+
+                                    <p>{{ translate('Số lượng') }}</p>
+
+                                    <p class="hidden-sm hidden-xs">{{ translate('Tồn') }}</p>
+
+                                    <p style="padding-right: 25px">{{ translate('Giá') }}</p>
+
+                                    <p>{{ translate('Thành tiền') }}</p>
+                                </div>
+                                <!--end title-->
+                                {% set orderValuePrices = 0 %}
+                                {% if(products) %}
+                                    {% set k = 0 %}
+                                    {% set productShipFee = [] %}
+                                    {% set countPs = 0 %}
+                                    {% if(products) %}
+                                        {% set countPs = (products | length)? (products | length) : 0 %}
+                                    {% endif %}
+                                    {% set arrBarCode = {} %}
+                                    {% for p in products %}
+                                        {% set arrBarCode = {(p.id): p.barcode} %}
+                                        {% set productIds = {(k):p.id} %}
+                                        {% set priceCurrent = p.price * p.quantity %}
+                                        {% set orderValuePrices = priceCurrent + (p.price * p.quantity) %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            lazy: true,
+                                            openDiv: false,
+                                        }%}
+                                    <div class="cartItem">
+                                        <div class="cartItemElement">
+                                            <a class="fa fa-minus-circle removeCart" href="javascript: void(0)" rel="{{ p.id }}"></a>
+                                        </div>
+                                        <div class="cartItemElement">
+                                            <div class="cartItemProd">
+                                                <div class="cartItemProdInfo imageInfo">
+                                                    <a href="{{ p.viewLink }}" style="margin-right: 5px;display: block;float: left;">
+                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                    </a>
+                                                    <h3>{{ p.name }}</h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cartItemElement">
+                                            <div class="product-quatity">
+                                                <span class="minus"><i class="fa fa-minus"></i></span>
+                                                <input type="text" class="updateCart" min="1" max="{{ p.inventory.calcAvailable }}" value="{{ p.quantity }}"
+                                                       maxlength="10" data-psId="{{ p.id }}" >
+                                                <span class="plus"><i class="fa fa-plus"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="cartItemElement hidden-sm hidden-xs">
+                                            <p>{{ p.inventory.calcAvailable }}</p>
+                                        </div>
+                                        <div class="cartItemElement cartPri" style="text-align: right">
+                                            {% if(p.moneyDiscount) %}
+                                                <s>{{ p.price | number_format(0) }} đ</s>
+                                                {% set mnDiscount = ( p.moneyDiscount//p.quantity) %}
+                                                {% if (countPs == 1) %}
+                                                    {% set mnDiscount = serviceCart().moneyDiscount//p.quantity %}
+                                                {% endif %}
+                                                {% set ttMoney = p.price - mnDiscount %}
+                                                <p>KM: -{{ mnDiscount | number_format(0) }} đ</p>
+                                                <p style="font-weight: bold; color: red">{{ ttMoney | number_format(0) }} đ</p>
+                                            {% else %}
+                                                {{ p.price | number_format(0) }} đ
+                                            {% endif %}
+                                        </div>
+                                        <div class="cartItemElement cartPriTol">
+                                            <p class="totalprice" style="color: #f44242; text-align:center;">
+                                                {% if (p.moneyDiscount) %}
+                                                    {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                                    {% if (countPs == 1) %}
+                                                        {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}
+                                                    {% endif %}
+                                                    {{ ttsMoney | number_format(0) }} đ
+                                                {% else %}
+                                                    {{ (p.price * p.quantity) | number_format(0) }} đ
+                                                {% endif %}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {% set k = k + 1 %}
+                                    {% endfor %}
+                                    {{ setCookies('productOrderBarCode',arrBarCode | json_encode,3600) }}
+                                {% else %}
+                                    <div><h2>{{ translate('Không có sản phẩm nào trong giỏ hàng') }}</h2></div>
+                                {% endif %}
+                            </table>
+
+                            <div class="lastStepCart">
+                                <ul>
+                                    <li class="">
+                                        <div class="totalCart">
+                                            <p>Tổng trị giá đơn hàng:
+                                                <span>{{ orderValuePrices | number_format(0) }} đ</span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="totalCart">
+                                            <p>Số tiền giảm giá:
+                                                <span id="txtCode" value="0" value-start="{{ serviceCart().moneyDiscount}}">- {{ serviceCart().moneyDiscount | number_format(0) }} đ</span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="totalCart">
+                                            <p class="shipfee">
+                                                Phí giao hàng
+                                                <span id="shipFee" value="0">0 đ</span>
+                                                <span id="showCarrier"></span>
+                                            </p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="totalCart">
+                                            <p class="totalPay">Tổng trị giá thanh toán:
+                                                <span id="showTotalMoney" value="{{ totalCartMoney }}">{{ totalCartMoney | number_format(0) }} đ</span>
+                                            </p>
+                                            <input type="hidden" id="getMn"
+                                                   value="{{ serviceCart().totalMoney }}"/>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- end lastStepCart -->
+
+                            <input type="hidden" id="baokimPmMethodId" name="baokimBankPaymentMethodId"/>
+                            <input type="hidden" name="shipFee" value="0"/>
+                            <input type="hidden" id="totalCartMoney" value="{{ totalCartMoney }}"/>
+
+                            <div class="orderBtn">
+                                <div class="col-md-4 hidden-xs">
+                                    <div class="continue-mb">
+                                        <a href="/">
+                                            <i class="fa fa-angle-left"></i>
+                                            Tiếp tục mua hàng
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <a class="hidden image iconStore" href="javascript:void(0)"></a>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <button type="submit" class="iconCheckout">Đặt hàng</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="continue-mb visible-xs col-xs-12 text-center">
+                            <a href="/">
+                                <i class="fa fa-angle-left"></i>
+                                Tiếp tục mua hàng
+                            </a>
+                        </div>
+                    {% else %}
+                        <h3>{{ translate('Giỏ hàng của bạn hiện chưa có sản phẩm nào') }}</h3>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+    <h1 style="display:none;">Thanh toán</h1>
+    <!-- Facebook Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+            n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+            n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+            t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+            document,'script','//connect.facebook.net/en_US/fbevents.js');
+        // Insert Your Facebook Pixel ID below.
+        fbq('init', '301355526702377');
+        fbq('track', 'PageView');
+
+        // If you have a separate add to cart page that is loaded.
+        fbq('track', 'AddToCart', {
+            content_ids: {{ prodIds }},
+            content_type: 'product',
+            value: {{ totalCartMoney }},
+            currency: 'VND'
+        });
+    </script>
+    <!-- End Facebook Pixel Code -->
+    <div class="loading" style="display:none;">
+        <p style="color:#333;text-transform:uppercase;font-size:14px;text-align:center;font-weight:bold;">Đơn hàng đang được thực hiện</p>
+        <img alt="thanh toán" src="/tpl/V0001/img/ajax-loader.gif">
+    </div>
+
+    <div style="display: none;">
+        <div id="dMsg"></div>
+    </div>
+
+    <div id="confirm" class="modal hide fade">
+        <div class="modal-body">
+            Bạn có muốn xóa sản phẩm ?
+        </div>
+        <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-primary" id="delete">Xóa</button>
+            <button type="button" data-dismiss="modal" class="btn">Hủy</button>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .cartPri{
+            padding-right: 25px;
+            text-align: right;
+        }
+        .imageInfo img{
+            max-width: 80px;
+        }
+        .cartPri p{
+            padding-right: 0 !important;
+        }
+    </style>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine-vi.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.validationEngine.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>
+{% endblock %}

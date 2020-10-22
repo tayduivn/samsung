@@ -1,0 +1,27 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(album.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Album">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+<main>
+    <section>
+        <div class="center-album">
+            <img src="{{ album.imageUri }}">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    {% if(album.content) %}
+                        <div class="desptrip">
+                            {{ album.content|raw }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

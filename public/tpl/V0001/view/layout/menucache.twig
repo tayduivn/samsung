@@ -1,0 +1,42 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+    {% set nav = nav ~ '<div id="menuNav" class="hidden-xs hidden-sm">' %}
+       {% if(getCategories() is not empty) %}
+           {% set nav = nav ~ '<ul class="list-inline pull-left ctMenuNav" itemscope="" itemtype="https://www.schema.org/SiteNavigationElement">' %}
+           {% set nav = nav ~ '<li class="drop" itemprop="name"><a href="/" itemprop="url">' ~ translate('Trang chủ') ~ '</a></li>' %}
+           {% for c in getCategories() %}
+               {% set nav = nav ~ '<li class="drop" itemprop="name">' %}
+               {% set nav = nav ~ '<a href="'~ c.viewLink ~ '" itemprop="url">' ~ c.name | raw ~ '</a>' %}
+               {% if(c.childs is not empty) %}
+                   {% set nav = nav ~ '<i class="fa fa-angle-down" aria-hidden="true"></i>' %}
+                   {% set nav = nav ~ '<div class="blockChilds">' %}
+                   {% set nav = nav ~ '<ul>' %}
+                   {% for c1 in c.childs %}
+                       {% set nav = nav ~ '<li><a href="'~c1.viewLink~'">' ~ c1.name| raw ~ '</a></li>' %}
+                   {% endfor %}
+                   {% set nav = nav ~ '</ul>' %}
+                   {% set nav = nav ~ '</div>' %}
+               {% endif %}
+               {% set nav = nav ~ '</li>' %}
+           {% endfor %}
+           {% set brand = loadBrand() %}
+           {% if(brand is not empty) %}
+               {% set nav = nav ~ '<li class="drop" ><a>Thương hiệu</a><i class="fa fa-angle-down" aria-hidden="true"></i>' %}
+               {% set nav = nav ~ '<div class="blockChilds">' %}
+               {% set nav = nav ~ '<ul>' %}
+               {% for b in brand %}
+                   {% set nav = nav ~ '<li><a href="'~b.viewLink~'">'~b.name~'</a>' %}
+               {% endfor %}
+               {% set nav = nav ~ '</ul>' %}
+               {% set nav = nav ~ '</div>' %}
+               {% set nav = nav ~ '</li>' %}
+           {% endif %}
+           {% set nav = nav ~ '</ul">' %}
+       {% endif %}
+    {% set nav = nav ~ '</div>' %}
+
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

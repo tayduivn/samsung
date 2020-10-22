@@ -1,0 +1,46 @@
+<aside class="aside-item filter-vendor">
+    <div class="title_module_arrow">
+        <h2>
+            <span>Tìm thương hiệu</span>
+        </h2>
+    </div>
+    {% set brand = loadBrand({'categoryId':category.id}) %}
+    {% if(brand) %}
+        <div class="aside-content filter-group">
+            <div class="field-search form-group">
+                <input type="text" placeholder="Tìm theo thương hiệu" class="form-control filter-vendor-list" onkeyup="filterItemInList(jQuery('.filter-vendor-list'))">
+                <span class="input-group-btn">
+									<button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+								</span>
+            </div>
+            <ul>
+
+                {% set prBrand = getParam('brand') %}
+                {% for b in brand %}
+
+                    <li class="filter-item filter-item--check-box filter-item--green " id="brand">
+                                    <span>
+                                    {% if b.id in prBrand %}
+
+                                        <label >
+												<input type="checkbox"  value="{{ removeFilter('brand', b.id) }}"  {{ getParam('brand') == b.id ? 'checked' : '' }} >
+												<i class="fa"></i>
+												{{ b.name }}
+											</label>
+
+                                    {% else %}
+                                        <label >
+												<input type="checkbox"  value="{{ category.viewLink }}?brand={{ b.id }}" {{ getParam('brand') == b.id ? 'checked' : '' }} >
+												<i class="fa"></i>
+												{{ b.name }}
+											</label>
+
+                                    {% endif %}
+                                    </span>
+                    </li>
+
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</aside>

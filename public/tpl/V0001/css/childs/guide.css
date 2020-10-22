@@ -1,0 +1,48 @@
+#banner a img{
+	max-width: 100%;
+}
+#listGuide{
+	margin: 40px 0 20px 0;
+}
+#listGuide ul{
+	margin: 0;
+	padding: 0;
+	-webkit-column-count:2;
+	-moz-column-count:2;
+}
+#listGuide ul li{
+	padding: 10px 0 0 0;
+	margin: 10px 0 0 0;
+	list-style: none;
+	width: 100%;
+	display: inline-block;
+}
+#listGuide ul li:nth-child(3n) .blockRight{
+	border-bottom: none;
+}
+#listGuide ul li .blockLeft{
+	float: left;
+	width: 25%;
+}
+#listGuide ul li .blockLeft span{
+	display:block;
+	width: 90px;
+	height: 90px;
+}
+#listGuide ul li .blockLeft span img{
+	max-width: 100%;
+}
+#listGuide ul li .blockRight{
+	float: left;
+	padding: 5px 0 30px 0;
+	vertical-align: middle;
+	width: 70%;
+	border-bottom: 1px solid #DEDEDE;
+}
+#listGuide ul li .blockRight a{
+	display: block;
+	padding: 0 0 5px 0;
+	cursor: pointer;
+	color: #222;
+	font-weight: bold;
+}

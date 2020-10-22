@@ -1,0 +1,29 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+{#    {% set nav = nav ~ '<div id="menuNav" class="hidden-xs hidden-sm">' %}#}
+       {% if(getCategories() is not empty) %}
+           {% set nav = nav ~ '<ul class="p-0 m-0 main-navigation__list d-flex flex-wrap">' %}
+           {% for c in getCategories() %}
+               {% set nav = nav ~ ' <li class="lv_1 position-relative">' %}
+               {% set nav = nav ~ '<a href="'~ c.viewLink ~ '" class="font-weight-bold text-uppercase d-block">' ~ c.name | raw ~ '</a>' %}
+               {% if(c.childs is not empty) %}
+                   {% set nav = nav ~ ' <span class="open-child d-block d-lg-none"><i class="far fa-plus"></i></span>' %}
+{#                   {% set nav = nav ~ '<div class="blockChilds">' %}#}
+                   {% set nav = nav ~ '<ul class="p-0 m-0">' %}
+                   {% for c1 in c.childs %}
+                       {% set nav = nav ~ '<li class="lv_2"><a href="'~c1.viewLink~'" class="d-block">' ~ c1.name| raw ~ '</a></li>' %}
+                   {% endfor %}
+                   {% set nav = nav ~ '</ul>' %}
+{#                   {% set nav = nav ~ '</div>' %}#}
+               {% endif %}
+               {% set nav = nav ~ '</li>' %}
+           {% endfor %}
+           {% set nav = nav ~ '</ul">' %}
+       {% endif %}
+{#    {% set nav = nav ~ '</div>' %}#}
+
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

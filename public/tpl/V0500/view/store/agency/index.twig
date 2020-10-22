@@ -1,0 +1,65 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Hệ thống đại lý').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="hệ thống đại lý">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block body %}
+    {% block breadcrumb %}
+        {% set category = [{'label': 'Hệ thống của hàng', 'uri':'/agency'}] %}
+        {{ breadcrumbs.build(category) }}
+    {% endblock %}
+    <main class="wrapper main-content  custom_page ">
+        <section id="page-wrapper">
+            <div class="inner">
+                <div>
+                    <div id="shopmap-page">
+                        <h1>Hệ thống cửa hàng</h1>
+                        <div class="page-contact-shoplist">
+                            <div class="pcontact-shoplist-wrapper">
+                                <div class="grid-uniform md-mg-left-15">
+                                    {% if (paginator.currentModels) %}
+                                        {% for p in paginator.currentModels %}
+                                            {% set image = p.imageSrc %}
+                                            {% set options = {
+                                                alt: p.name,
+                                                lazy: true,
+                                                openDiv: false,
+                                            }%}
+                                            <div class="grid__item md-pd-left15 large--one-third medium--one-third small--one-half">
+                                                <div class="pcontact-shop-item">
+                                                    <div class="pcontact-shop-img">
+{#                                                        <img src="{{ image }}" alt="{{ p.name }}">#}
+                                                        <div style="background-image: url({{ image }}); min-height: 187.22px;
+                                                                overflow: hidden;
+                                                                background-position: center center;
+                                                                background-size: cover;
+                                                                background-attachment: scroll;" ></div>
+                                                    </div>
+                                                    <div class="pcontact-shop-address">
+                                                        <a href="https://www.google.com/maps/place/{{ p.address }}" target="_blank"><i class="fa fa-map-marker"></i> {{ p.name }}</a>
+                                                    </div>
+                                                    <div class="pcontact-shop-tel">
+                                                        <a href="tel:(+84) 934 323 882"><i class="fa fa-phone"></i> (+84) 934 323 882</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="grid__item">
+                                            Không có cơ sở nào !
+                                        </div>
+
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

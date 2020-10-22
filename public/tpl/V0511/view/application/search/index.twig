@@ -1,0 +1,174 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {% set title = getParam('q') %}
+    {{ headTitle('Kết quả tìm kiếm: ' ~ title).setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~ templatePath  ~'/css/product/index-product.css ' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set title = getParam('q') %}
+    {% set nItems = 0 %}
+    {% if(paginator) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.pages.totalItemCount %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = [] %}
+    <div class="container-fluid top-product">
+        {% set category = [{'label':'Kết quả tìm kiếm', 'uri':'javascrip:void(0)'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <div class="container">
+        <div class="row header">
+            <div class="col-12 text-center">
+                <h2 style="font-size: 25px">Có {{ nItems }} kết quả tìm kiếm phù hợp</h2>
+            </div>
+        </div>
+        <div style="margin-bottom: 50px" class="row zoom">
+            {% if(paginator.currentModels is not empty) %}
+                {% for p in paginator.currentModels %}
+                    {% set image = p.thumbnailUri %}
+                    {% set options = {
+                        alt: p.name,
+                        class: 'imageChange',
+                        lazy: true,
+                        openDiv: false,
+                    } %}
+                    {% set percent = p.calcDiscountPercent %}
+                    {% set priceDiscount = p.priceAfterDiscount %}
+                    {% set arrayIds = [p.id] %}
+                    <div class="font-14 col-lg-15 col-xl-3 col-md-4 col-6 product" data-storeId="{{ p.storeId }}"
+                         psId="{{ p.name }}">
+
+                        <a href="{{ p.viewLink }}" class="link-1 img-product" title="{{ p.viewLink }}">
+
+                            <ul style="list-style-type: none;margin-left: -40px" class="color-swatches"
+                                data-hover="true" data-click="true" psId="{{ p.id }}"
+                                data-handle="{{ p.viewlink }}">
+                                <li class="color-item" data-img="{{ image }}"
+                                    value="{{ p.id }}" title="{{ p.name }}">
+                                    <img class="img-fluid" src="{{ image }}"
+                                         alt="{{ p.name }}"></li>
+
+                            </ul>
+                            <h3 style="margin-top: 22px" class="title-product font-14">{{ p.name }}</h3>
+                        </a>
+                        <div class="button-translate">
+                            {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                            {% if(p.options | length) %}
+                                <a href="{{ p.viewLink }}">
+                                    <button class="fa fa-link btn btn-dark button-link btnQuickCart btnAddToCart"
+                                            data-psId="{{ p.id }}">
+                                        <span>Chi tiết</span>
+                                    </button>
+                                </a>
+                            {% else %}
+                                <button class="fa fa-shopping-basket btn btn-dark button-link btnQuickCart btnAddToCart"
+                                        ck="1" selid="{{ p.id }}" data-toggle="modal"
+                                        data-target="#exampleModal">
+                                    <span>mua ngay</span>
+                                </button>
+                            {% endif %}
+                            <button class="fa fa-heart btn btn-dark button-heart">
+                                <span>yêu thích</span>
+                            </button>
+                        </div>
+                        {% if (priceDiscount > 0) %}
+                            <b class="color-greeen1">{{ priceDiscount|number_format(0) }}<u>đ</u></b>
+                            <strike>{{ p.price|number_format(0) }} đ</strike>
+                        {% elseif (p.oldprice() > 0) %}
+                            <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                            <strike>{{ p.oldprice|number_format(0) }} đ</strike>
+                        {% else %}
+                            <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div style="margin-top: 20px" class="col-12">
+                <div class="pagination">
+                    {{ render_paginator(paginator) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("button.btnAddToCart").on("click", function () {
+                if ($(this).attr("ck") == 1) {
+                    var t = $(this);
+                    var products = [], ps = {};
+                    ps['id'] = $(this).attr('selid');
+                    if ($(this).hasClass('btnQuickCart')) {
+                        ps['quantity'] = 1;
+                        check = false;
+                    } else {
+                        ps['quantity'] = $("#psQtt").val();
+                    }
+                    var qty = parseInt(ps['quantity']);
+                    var id = ($(this).attr('id'));
+                    products.push(ps);
+                    addToCart(products, 1, function (rs) {
+                        if (rs.status == 1) {
+                            if (id == 'buynow') {
+                                window.location.href = '/cart/checkout';
+                            } else if (t.hasClass('btnQuickCart')) {
+                                var n = $('.badge.badge-primary.search_button');
+                                n.attr('value', parseInt(n.attr('value')) + 1);
+                                n.text(n.attr('value'));
+                                $('.top-cart-content').css('display', 'block');
+                                ajaxLoadView({
+                                    view: 'topCart',
+                                    onSuccess: function (rs) {
+                                        $('.top-cart-content').html(rs);
+                                    }
+                                });
+                            } else {
+                                if (in_array(storeId, [58473, 224])) {
+                                    var mes = $('#dialogMessage');
+                                    mes.html('<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 10px 40px 0;"></span>Thêm giỏ hàng thành công</p>');
+                                    mes.dialog({
+                                        title: "Thông báo!", modal: true, show: "explode", hide: "explode",
+                                        buttons: {
+                                            Ok: function () {
+                                                $(this).dialog("close");
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    window.location.href = '/cart'
+                                }
+                            }
+                        } else {
+                            alert("vui lòng chọn màu sắc kích cỡ");
+                        }
+                    });
+                }
+            });
+            $('.remove-item-cart').click(function (e) {
+                var id = $(this).attr('psId');
+                var qtt = $(this).attr('qtt');
+                removeCart(id, true, qtt);
+                e.preventDefault();
+                $('.top-cart-content').fadeOut();
+            });
+            function removeCart(prodId, delItem, qtt) {
+                var check = confirm('bạn có muốn xóa sản phẩm này' + '?');
+                if (check) {
+                    var n = $('.badge.badge-primary.search_button').attr('value');
+                    n = n - qtt;
+                    $('.badge.badge-primary.search_button').attr('value', n);
+                    $('.badge.badge-primary.search_button').text(n);
+                    $.post('/cart/remove', {'psId': prodId});
+                }
+            }
+        });
+    </script>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

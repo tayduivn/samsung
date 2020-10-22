@@ -1,0 +1,56 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+  {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+  {% set metaDescription = product.name()~ ' - '~product.price|number_format(0)~' đ' %}
+  <meta name="description" content="{{ metaDescription }}">
+  <meta name="keywords" content="{{ product.metaKeywords?:product.name }}">
+  <meta property="og:url" content="{{ getCurrentUrl() }}">
+  <meta property="og:title" content="{{ product.name }}">
+  <meta property="og:description" content="{{ metaDescription }}">
+  <meta property="og:image" content="{{ 'https:'~product.imageUri }}">
+  <meta property="og:type" content="website">
+{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" href="{{ templatePath ~'/css/plugin.css' }}" type="text/css">
+{% endblock %}
+
+{% block body %}
+  <main>
+    {% set ivt = product.inventory().calcAvailable() %}
+    {% set priceDiscount = product.priceAfterDiscount %}
+    {% set showPrice = product.price %}
+    {% set oldPrices = null %}
+    {% if(priceDiscount > 0) %}
+      {% set showPrice = priceDiscount %}
+      {% set oldPrices = product.price %}
+    {% elseif(product.oldPrice) %}
+      {% set oldPrices = product.oldPrice %}
+    {% endif %}
+    {% set user = getUser() %}
+    {% set flag = 0 %}
+
+    
+    {# To to #}
+  </main>
+{% endblock %}
+ 
+{% block script %}
+  
+  <script type="text/javascript" src="{{ templatePath ~'/js/magnific-popup.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/slick.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/slider.js' }}"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.carousel-slick').magnificPopup({
+          delegate: '.carousel-link',
+          disableOn: 0,
+          gallery: { enabled: true },
+          type: 'image',
+      });
+    });
+  </script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/detail.js' }}"></script>
+  {# <script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script> #}
+  
+{% endblock  %}

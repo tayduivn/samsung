@@ -1,0 +1,85 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+    <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+    <meta property="og:title" content="{{ news.title | e('html') }}">
+    <meta property="og:url" content="{{ news.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/news.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+{#    Danh mục Thông tin tuyển dụng#}
+    {% set idRecrui = 4009 %}
+    {% set newsCategory = getNewsCategories() %}
+    <link rel="canonical" href="{{ news.viewLink }}" />
+    <div class="containerMain">
+        {% set buildBread = buildBreadcrumbs(category)%}
+        {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}
+        {% set buildBread = buildBread | merge (buildBread1) %}
+        {{ breadcrumbs.build(buildBread) }}
+        <div class="row">
+            <div class="col-lg-9 col-sm-9 col-xs-12" id="artContent">
+                <div class="singleNews">
+                    <h1 class="titlesingleNews">{{ news.title | e('html') }}</h1>
+                    <i class="date">{{ news.createdDateTime }}, Lượt xem: {{ news.hits }}</i>
+                    <div class="bt-like-share" style="">
+                        <div class="fb-like" data-href="{{ getCurrentUrl() }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+                    </div>
+                    <p class="brBottom"></p>
+                    <div class="news-content">{{ news.content |raw }}</div>
+                    <div class="blockSocial">
+                        <div class="socialLeft">
+                            <ul>
+                                <li>
+                                    <div class="fb-like"
+                                         data-href="https://www.facebook.com/Capbalovali/"
+                                         data-layout="box_count" data-action="like" data-show-faces="true"
+                                         data-share="false"></div>
+                                </li>
+                                <li>
+                                    <div class="googlePlus g-plusone" data-size="tall"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="socialRight">
+                            <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u={{ getCurrentUrl() }}">
+                                <img alt="" src="/tpl/V0001/img/shareFace.png">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="fb-comments" data-href="{{ getCurrentUrl() }}" data-numposts="5" data-width=""></div>
+                    <div class="commentFb" style="margin: 15px 0 10px 0;">
+                        <div class="fb-comments" data-href="{{ getCurrentUrl() }}" data-numposts="5" data-colorscheme="light"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-3 col-xs-12 newsList siderBar2">
+                {% set bannerNews = getBannerByPositionCode('HOME_NEWS') %}
+                {% if(bannersNews) %}
+                    <ul class="slides adsNews owl-carousel owl-theme">
+                        {% for bn in bannerNews %}
+                            {% set image = bn.imageSrc %}
+                            {% set options = {
+                                alt: bn.name | e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            <li>
+                                <a href="{{ bn.link }}" rel="nofollow">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                {% include 'layout/generalbarNews' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

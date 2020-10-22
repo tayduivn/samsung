@@ -1,0 +1,521 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Danh sách sản phẩm').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+
+{% block body %}
+    {% set itemCountPerPage =  pagin.setItemCountPerPage(24) %}
+    {% set nItems = 0 %}
+
+    {#{% if(paginator.currentModels) %}
+        {% set pageRanger =  paginator.setPageRange(4) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.getTotalItemCount() %}
+    {% else %}#}
+        {% set nItems = paginator.currentModels|length %}
+{#    {% endif %}#}
+    {% set arrayIds = []%}
+    {% set category = [{'label': 'Sản phẩm', 'uri':'/product'}] %}
+    {{ breadcrumbs.build(category) }}
+    <div class="container margin-bottom-15">
+        <div class="wrp_border_collection">
+            <div class="row">
+                <section class="main_container collection collection_container col-lg-9 col-md-9 col-sm-12 ">
+                    <div class="page_title margin-top-5">
+                        <h1 class="title_page_h1"><span> Tất cả sản phẩm</span> <i>(<span class="slsp_col">{{ nItems }}</span> sản
+                                phẩm)</i></h1>
+                    </div>
+                    <div class="category-products products">
+                        <div class="sortPagiBar">
+                            <div class="srt">
+                                <div class="wr_sort col-sm-12">
+                                    <div class="text-sm-right">
+                                        <div class="sortPagiBar sortpage text-sm-right">
+                                            <div id="sort-by">
+                                                <label class="left hidden-xs">Sắp xếp: </label>
+                                                <div class="border_sort">
+                                                    <select name="SortBy" id="SortBy" onChange="window.location=this.options[this.selectedIndex].value">
+                                                        <option value="/product">Tùy chọn</option>
+                                                        <option value="{{ addFilter('show', 'discount', 2) }}" {{ shows[0] == 'discount' ? 'selected' : '' }}>Sản phẩm khuyến mãi</option>
+                                                        <option value="{{ addFilter('show', 'new', 2) }}" {{ shows[0] == 'new' ? 'selected' : '' }}>Sản phẩm mới</option>
+                                                        <option value="{{ addFilter('show', 'nameAsc', 2) }}" {{ shows[0] == 'nameAsc' ? 'selected' : '' }}>Từ A-Z</option>
+                                                        <option value="{{ addFilter('show', 'nameDesc', 2) }}" {{ shows[0] == 'nameDesc' ? 'selected' : '' }}>Từ Z-A</option>
+                                                        <option value="{{ addFilter('show', 'priceAsc', 2) }}" {{ shows[0] == 'priceAsc' ? 'selected' : '' }}>Giá tăng dần</option>
+                                                        <option value="{{ addFilter('show', 'priceDesc', 2) }}" {{ shows[0] == 'priceDesc' ? 'selected' : '' }}>Giá giảm dần</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section class="products-view products-view-grid collection_reponsive">
+                            <div class="row">
+                                {% if(paginator.currentModels) %}
+                                    {% for p in paginator.currentModels %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            class: 'imageChange',
+                                            lazy: true,
+                                            openDiv: false,
+                                        }%}
+                                        {% set percent = p.calcDiscountPercent %}
+                                        {% set priceDiscount = p.priceAfterDiscount %}
+                                        {% set arrayIds = [p.id] %}
+                                        <div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 product-col">
+                                            <div class="item saler_item">
+
+                                                <div class="product-box">
+                                                    <div class="product-thumbnail">
+                                                        <a href="{{ p.viewLink }}"
+                                                           class="image_link display_flex"
+                                                           data-images="{{ image }}"
+                                                           title="{{ p.name }}">
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </a>
+                                                        {% if(percent > 0) %}
+                                                            <span class="sale_count"><span class="bf_">-{{ percent }}%</span></span>
+                                                        {%  endif %}
+                                                        <div class="product-action-grid clearfix">
+                                                            <div class="product-action-grid-wrap">
+                                                                <div class="__1">
+                                                                    <form action="/cart/add" method="post"
+                                                                          class="variants form-nut-grid"
+                                                                          data-id="product-actions-1017369837"
+                                                                          enctype="multipart/form-data">
+                                                                        <div>
+                                                                            <button type="button"
+                                                                                    class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                            >
+                                                                                <i class="fa fa-search"></i>
+                                                                                <span class="tooltips qv"><span>Xem nhanh</span></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                <div class="__2">
+                                                                    <div class="action__">
+                                                                        <div
+                                                                                class="variants form-nut-grid"
+                                                                                data-id="product-actions-1017369837"
+                                                                        >
+                                                                            <div class="button_wh_40">
+                                                                                {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                                                {% if(p.parentId == parentId) %}
+                                                                                    <button type="button"
+                                                                                            class="button_wh_40 btn_view right-to quick-view" data-psId="{{ p.id }}"
+                                                                                    >
+                                                                                        <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                        <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                    </button>
+                                                                                {% else %}
+                                                                                    <button class=" cart_button_style btn-cart left-to add_to_cart btnQuickCart" ck="1" selid="{{ p.id }}"
+                                                                                            title="Cho vào giỏ hàng">
+                                                                                        <span><span class="fas fa-shopping-cart"></span></span>
+                                                                                        <span class="tooltips qv"><span>Giỏ hàng</span></span>
+                                                                                    </button>
+                                                                                {% endif %}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product-info">
+                                                        <span class="product-vendor">{{ p.brandName }}</span>
+                                                        <h3 class="product-name"><a class="text2line"
+                                                                                    href="{{ p.viewLink }}"
+                                                                                    title="{{ p.name }}">{{ p.name }}</a>
+                                                        </h3>
+                                                        <div class="price-box clearfix">
+                                                            {% if (p.priceAfterDiscount > 0) %}
+                                                                <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                                <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                            {% elseif (p.oldprice() > 0) %}
+                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                                <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                            {% elseif (p.price == 0) %}
+                                                                <span class="price product-price">Liên hệ</span>
+                                                            {% else %}
+                                                                <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Không có kết quả nào phù hợp </p>
+                                {% endif %}
+                            </div>
+                            <div class="pagination" style="width: 100%">
+                                <div class="links">
+                                    {{ render_paginator(paginator) }}
+                                </div>
+                            </div>
+
+                        </section>
+                        <script>
+                            var cuPage = 1
+                        </script>
+
+                    </div>
+                </section>
+
+                <aside class="dqdt-sidebar sidebar right left-content col-xs-12 col-lg-3 col-md-3 col-sm-12  ">
+
+                    <aside class="aside-item collection-category">
+
+                        <div class="title_module title_background">
+                            <h2>
+                                <span>Danh mục</span>
+                                <span class="ti ti-align-right"></span>
+                            </h2>
+                        </div>
+                        <div class="sidebar-blog-content">
+                            {% set category = getCategories() %}
+                            <ul class="sidebar-blog-menu">
+                                {% if (category) %}
+                                    {% for c in category %}
+                                        <li data-rel="{{ c.code }}" class="has-sub">
+                                            {% if (c.name == 'Sản phẩm') %}
+                                                <a href="/product" title="{{c.name | raw}}">{{c.name | raw}}</a>
+                                            {% else %}
+                                                <a href="{{ c.viewLink }}" title="{{c.name| raw}}">{{c.name| raw}}</a>
+                                            {% endif %}
+                                            {% if (c.childs) %}
+                                                <i class="fa fa-caret-right "></i>
+                                                <i class="fa fa-caret-down " style="display: none;"></i>
+                                            {% endif %}
+                                            <ul class="child-menu" style="display:none">
+                                                {% for child in c.childs %}
+                                                    <li><a href="{{ child.viewLink }}" title="{{ child.name }}">{{ child.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </aside>
+
+
+                    <script src="//theme.hstatic.net/1000329005/1000419954/14/search_filter.js?v=85"
+                            type="text/javascript"></script>
+                    <div class="aside-filter">
+                        <div class="filter-container thismobile">
+                            <div class="filter-container__selected-filter" style="display: none;">
+                                <div class="filter-container__selected-filter-header clearfix">
+                                    <span class="filter-container__selected-filter-header-title"><i
+                                                class="fa fa-arrow-left hidden-sm-up"></i> Bạn chọn</span>
+                                    <a href="javascript:void(0)" onclick="clearAllFiltered()"
+                                       class="filter-container__clear-all">Bỏ hết <i class="fa fa-angle-right"></i></a>
+                                </div>
+                                <div class="filter-container__selected-filter-list">
+                                    <ul></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="aside-title-filter">
+                            <h2><span>Tìm theo</span></h2>
+                        </div>
+
+                        {% set price = {} %}
+                        {% if(price) %}
+                            {% set price = price %}
+                        {% endif %}
+                        {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+                        {% if(allAttr) %}
+                            <aside class="aside-item filter-price">
+                                <div class="aside-title aside-title-fillter">
+                                    <div class="title_module"><h2><span>Khoảng giá</span></h2></div>
+                                </div>
+                                <div class="aside-content filter-group-price">
+                                    <ul>
+                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                            <span>
+                                                {% if(price < 100000 and price > 0) %}
+                                                    <label data-filter="100-000d" data-for="Giá dưới 100.000đ" for="filter-duoi-100-000d">
+                                                        <input type="checkbox" id="filter-duoi-100-000d" data-group="Khoảng giá"
+                                                               data-field="price_min" data-text="Dưới 100.000đ" value="{{ removeFilter('price', '0:100000') }}"
+                                                               data-operator="OR">
+                                                        <i class="fa"></i>
+                                                        Giá dưới 100.000đ
+                                                    </label>
+                                                {% else %}
+                                                    <label data-filter="100-000d" data-for="Giá dưới 100.000đ" for="filter-duoi-100-000d">
+                                                        <input type="checkbox" id="filter-duoi-100-000d" data-group="Khoảng giá"
+                                                               data-field="price_min" data-text="Dưới 100.000đ" value="{{ addFilter('price', '0:100000', 2) }}" {{ getParam('price') == '0:100000' ? 'checked' : '' }}
+                                                               data-operator="OR">
+                                                        <i class="fa"></i>
+                                                        Giá dưới 100.000đ
+                                                    </label>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                            <span>
+                                                {% if(price < 200000 and price > 100000) %}
+                                                    <label data-filter="200-000d" data-for="100.000đ - 200.000đ" for="filter-100-000d-200-000d">
+                                                    <input type="checkbox" id="filter-100-000d-200-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="100.000đ - 200.000đ"
+                                                           value="{{ removeFilter('price', '100000:200000') }}"
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    100.000đ - 200.000đ
+                                                    </label>
+                                                {% else %}
+                                                    <label data-filter="200-000d" data-for="100.000đ - 200.000đ" for="filter-100-000d-200-000d">
+                                                        <input type="checkbox" id="filter-100-000d-200-000d" data-group="Khoảng giá"
+                                                               data-field="price_min" data-text="100.000đ - 200.000đ"
+                                                               value="{{ addFilter('price', '100000:200000', 2) }}" {{ getParam('price') == '100000:200000' ? 'checked' : '' }}
+                                                               data-operator="OR">
+                                                        <i class="fa"></i>
+                                                        100.000đ - 200.000đ
+                                                    </label>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                            <span>
+                                                {% if(price < 300000 and price > 200000) %}
+                                                    <label data-filter="300-000d" data-for="200.000đ - 300.000đ" for="filter-200-000d-300-000d">
+                                                    <input type="checkbox" id="filter-200-000d-300-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="200.000đ - 300.000đ"
+                                                           value="{{ removeFilter('price', '200000:300000') }}"
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    200.000đ - 300.000đ
+                                                </label>
+                                                {% else %}
+                                                    <label data-filter="300-000d" data-for="200.000đ - 300.000đ" for="filter-200-000d-300-000d">
+                                                    <input type="checkbox" id="filter-200-000d-300-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="200.000đ - 300.000đ"
+                                                           value="{{ addFilter('price', '200000:300000', 2) }}" {{ getParam('price') == '200000:300000' ? 'checked' : '' }}
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    200.000đ - 300.000đ
+                                                </label>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                            <span>
+                                                {% if(price < 500000 and price > 300000) %}
+                                                    <label data-filter="500-000d" data-for="300.000đ - 500.000đ" for="filter-300-000d-500-000d">
+                                                    <input type="checkbox" id="filter-300-000d-500-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="300.000đ - 500.000đ"
+                                                           value="{{ removeFilter('price', '300000:500000') }}"
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    300.000đ - 500.000đ
+                                                </label>
+                                                {% else %}
+                                                    <label data-filter="500-000d" data-for="300.000đ - 500.000đ" for="filter-300-000d-500-000d">
+                                                    <input type="checkbox" id="filter-300-000d-500-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="300.000đ - 500.000đ"
+                                                           value="{{ addFilter('price', '300000:500000', 2) }}" {{ getParam('price') == '300000:500000' ? 'checked' : '' }}
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    300.000đ - 500.000đ
+                                                </label>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+
+
+                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                            <span>
+                                                {% if(price < 1000000 and price > 500000) %}
+                                                    <label data-filter="1-000-000d" data-for="500.000đ - 1.000.000đ"
+                                                           for="filter-500-000d-1-000-000d">
+                                                    <input type="checkbox" id="filter-500-000d-1-000-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="500.000đ - 1.000.000đ"
+                                                           value="{{ removeFilter('price', '500000:1000000') }}"
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    500.000đ - 1.000.000đ
+                                                </label>
+                                                {% else %}
+                                                    <label data-filter="1-000-000d" data-for="500.000đ - 1.000.000đ"
+                                                           for="filter-500-000d-1-000-000d">
+                                                    <input type="checkbox" id="filter-500-000d-1-000-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="500.000đ - 1.000.000đ"
+                                                           value="{{ addFilter('price', '500000:1000000', 2) }}" {{ getParam('price') == '500000:1000000' ? 'checked' : '' }}
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    500.000đ - 1.000.000đ
+                                                </label>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                        <li class="filter-item filter-item--check-box filter-item--green">
+                                            <span>
+                                                {% if(price > 1000000) %}
+                                                    <label data-filter="1-000-000d" data-for="Giá trên 1.000.000đ" for="filter-tren1-000-000d">
+                                                        <input type="checkbox" id="filter-tren1-000-000d" data-group="Khoảng giá"
+                                                               data-field="price_min" data-text="Trên 1.000.000đ"
+                                                               value="{{ removeFilter('price', '1000000:max') }}" data-operator="OR">
+                                                        <i class="fa"></i>
+                                                        Giá trên 1.000.000đ
+                                                    </label>
+                                                {% else %}
+                                                    <label data-filter="1-000-000d" data-for="Giá trên 1.000.000đ" for="filter-tren1-000-000d">
+                                                    <input type="checkbox" id="filter-tren1-000-000d" data-group="Khoảng giá"
+                                                           data-field="price_min" data-text="Trên 1.000.000đ"
+                                                           value="{{ addFilter('price', '1000000:max', 2) }}" {{ getParam('price') == '1000000:max' ? 'checked' : '' }} data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    Giá trên 1.000.000đ
+                                                </label>
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </aside>
+
+                            <aside class="aside-item filter-vendor">
+
+                                <div class="aside-title aside-title-fillter">
+                                    <div class="title_module"><h2><span>Thương hiệu</span></h2></div>
+                                </div>
+
+                                {% set brand = loadBrand({'categoryId':category.id}) %}
+                                {% if (brand) %}
+                                    <div class="aside-content filter-group">
+                                        <ul>
+                                            {% set prBrand = getParam('brand') %}
+                                            {% for b in brand %}
+                                            {% if b.id in prBrand %}
+                                                <li class="filter-item filter-item--check-box filter-item--green ">
+                                                <span>
+                                                <label class="label_relative" for="filter-{{ b.name }}">
+                                                <input type="checkbox" id="filter-{{ b.name }}" data-group="Hãng"
+                                                       data-field="vendor"
+                                                       data-text="{{ b.name }}" value="{{ removeFilter('brand', b.id) }}" {{ getParam('brand') == b.id ? 'checked' : '' }}
+                                                       data-operator="OR">
+                                                <i class="fa"></i>
+                                                <span class="filter_tt">{{ b.name }}</span>
+                                                </label>
+                                                </span>
+                                                </li>
+                                            {% else %}
+{#                                                <li class="filter-item filter-item--check-box filter-item--green ">#}
+                                                <li class="filter-item filter-item--check-box filter-item--green ">
+                                                <span>
+                                                <label class="label_relative" for="filter-{{ b.name }}">
+                                                    <input type="checkbox" id="filter-{{ b.name }}" data-group="Hãng"
+                                                           data-field="vendor"
+                                                           data-text="{{ b.name }}" value="/product?brand={{ b.id }}" {{ getParam('brand') == b.id ? 'checked' : '' }}
+                                                           data-operator="OR">
+                                                    <i class="fa"></i>
+                                                    <span class="filter_tt">{{ b.name }}</span>
+                                                </label>
+                                                </span>
+                                                </li>
+                                            {% endif %}
+                                            {% endfor %}
+
+
+                                        </ul>
+                                    </div>
+                                {% endif %}
+
+                            </aside>
+
+                            {% for c in allAttr %}
+                                {% if (c.values != null) %}
+                                    {% set column = c.column %}
+                                    {% if (c.id != 17343) %}
+                                        <aside class="aside-item filter-tag-style-1">
+                                            <div class="aside-title aside-title-fillter">
+                                                <div class="title_module"><h2><span>{{c.name}}</span></h2></div>
+                                            </div>
+                                            <div class="aside-content filter-group">
+
+                                                {% if (c.id == 12960) %}
+                                                    <ul class="color-filter">
+                                                        {% for value in c.values  %}
+                                                            {% if (value.id in attrColumnValues[column]) %}
+                                                                <li class="filter-item" data-filter="{{ value.viewLink }}">
+                                                                    <label class="{{ getParam(column) == value.id ? 'act' : '' }}" value="{{ removeFilter(column, value.id()) }}" title="{{ value.name }}" style="background-color: {{'#'~ value.content }}; width: 25px; height: 25px; position: relative">
+                                                                        <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                    </label>
+                                                                </li>
+                                                            {% else %}
+                                                                <li class="filter-item" data-filter="/nam-pc72060.html?i4=794787,794793">
+                                                                    <label class="{{ getParam(column) == value.id ? 'act' : '' }}" value="{{ addFilter(column, value.id(), 2) }}" title="{{ value.name }}" style="background-color: {{'#'~ value.content }}; width: 25px; height: 25px; position: relative">
+                                                                        <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                    </label>
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% else %}
+                                                    <ul>
+                                                        {% for value in c.values  %}
+                                                            {% if (value.id in attrColumnValues[column]) %}
+                                                                <li class="filter-item filter-item--check-box filter-item--green">
+                                                                <span>
+                                                                    <label for="filter-{{ value.name }}">
+                                                                        <input type="checkbox" id="filter-{{ value.name }}" data-group="tag1" data-field="tags" data-text="{{ value.name }}"
+                                                                               value="{{ removeFilter(column, value.id()) }}" {{ getParam(column) == value.id() ? 'checked' : '' }} data-operator="OR">
+                                                                        <i class="fa"></i>
+                                                                        {{value.name}}
+                                                                    </label>
+                                                                </span>
+                                                                </li>
+                                                            {% else %}
+                                                                <li class="filter-item filter-item--check-box filter-item--green">
+                                                                <span>
+                                                                    <label for="filter-{{ value.name }}">
+                                                                        <input type="checkbox" id="filter-{{ value.name }}" data-group="tag1" data-field="tags" data-text="{{ value.name }}"
+                                                                               value="{{ addFilter(column, value.id(), 2) }}" {{ getParam(column) == value.id() ? 'checked' : '' }} data-operator="OR">
+                                                                        <i class="fa"></i>
+                                                                        {{value.name}}
+                                                                    </label>
+                                                                </span>
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+
+                                            </div>
+                                        </aside>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+
+
+                        {% endif %}
+                    </div>
+                    <div class="">
+                        <div class="">
+                            <a href="alt" title="#" class="banner">
+                                <img src="//theme.hstatic.net/1000329005/1000419954/14/banner_sidebar_collection.png?v=85"
+                                     alt="#">
+                            </a>
+                        </div>
+                    </div>
+                </aside>
+                <div id="open-filters" class="open-filters hidden-lg hidden-md">
+				<span class="fter">
+					<i class="fa fa-filter"></i>
+					<span>Lọc</span>
+				</span>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

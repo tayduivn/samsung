@@ -1,0 +1,24 @@
+{
+    "author": "doannv",
+    "sourceLink": "https://restaurant-store.myharavan.com/",
+    "domain": {
+        "storeId": 15113,
+        "name": "V0517.doannvstore2.bot3s.net",
+        "alias": "V0517.doannvstore2.bot3s.net"
+    },
+    "banners": {
+        "BANNER_HOME": {
+            "name": "Banner chính trang chủ",
+            "description": "Kích cỡ banner",
+            "size": "Kích cỡ banner"
+        }
+    },
+    "contents": {
+        "HOME": {
+            "name": "Trang chủ",
+            "keys": {
+
+            }
+        }
+    }
+}

@@ -1,0 +1,118 @@
+{% extends 'layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% block meta %}
+  {% set title = getParam('q') %}
+  {{ headTitle('Kết quả tìm kiếm: ' ~ title).setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+
+  {% block styleSheet %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/main.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/style.css' }}" type="text/css">
+  {% endblock %}
+
+{% block body %}
+
+  {% set title = getParam('q') %}
+  {% set nItems = 0 %}
+  {% if(paginator) %}
+    {% set isPaginator = true %}
+    {% set nItems = paginator.pages.totalItemCount %}
+  {% else %}
+    {% set nItems = paginator|length %}
+  {% endif %}
+
+  <main>
+    <!-- products main -->
+    <section class="products-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-12 pd-20">
+            <h1 class="text-dark pd-bottom">Có {{ nItems }} cho từ khóa : {{ title }}</h1>
+            <div class="row">
+              {% if(paginator.currentModels is not empty) %}
+                {% for pag in paginator.currentModels %}
+                  {% set image = pag.thumbnailUri %}
+                  {% set options = {
+                    alt: pag.name,
+                    class: 'imageChange img img-fluid',
+                    lazy: true,
+                    openDiv: false,
+                  } %}
+                  {% set percent = pag.discountPercent %}
+                  {% set priceDiscount = pag.priceAfterDiscount %}
+                  {% set arrayIds = [pag.id] %}
+                  <div class="col-6 col-sm-6 col-md-4">
+                    <div class="card" data-storeId="{{ pag.storeId }}" psId="{{ pag.name }}" >
+                      <div class="card-thumb">
+                        {% if(pag.options.psGifts) %}
+                        <style>
+                          .card-thumb::before {
+                            background-image: url('/tpl/V0509/img/gif/gift.jpg');
+                          }
+                        </style>
+                        {% endif %}
+                        <a href="{{ pag.viewLink }}" class="d-flex justify-content-center is-full align-items-center">
+                          {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </a>
+                      </div>
+                      <div class="card-body">
+                        {% set values = options.attrValues %}
+                          {% if(pag.options.psGifts.name != null) %}
+                            <label class="card-free">{{ pag.options.psGifts.name | raw }}</label>
+                          {% endif %}
+                            <span class="card-title">{{ pag.brandName | raw }}</span>
+                            <span class="card-name">{{ pag.name | raw }}</span>
+                            <span class="card-price">{{ pag.price | number_format(0) }}₫
+                              {% if(priceDiscount > 0) %}
+                                <strike>{{ priceDiscount | number_format(0) }}₫</strike>
+                                {% elseif (pag.oldPrice > 0) %}
+                                <strike>{{ pag.oldPrice | number_format(0) }}₫</strike>
+                              {% endif %}
+                            {% if(percent > 0) %}
+                              <span class="percent">{{ percent }}%</span>
+                            {% endif %}
+                          </span>
+                        <div class="box-button">
+                          {% set values = pag.options.attrValues %}
+                          {% if(values) %}
+                            {% set count = 0 %}
+                            {% for button_color in values  %}
+                            {% set count = count + 1 %}
+                              {% if count <= 4 %}
+                                {% set color = button_color.options.attrContent %}
+                                <button class="card-button">
+                                  <span style="background-color: #{{color}}" data-src="{{ button_color.thumbnailUri }}"></span>
+                                </button>
+                              {% endif %}
+                            {% endfor %}
+                            {% if count > 4 %}
+                              <a href="{{ pag.viewLink }}" class="button-add card-button__add"></a>
+                            {% endif %}
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          <div class="pagination">
+            <div class="links">
+              {{ render_paginator(paginator) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- products main -->
+  </main>
+
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{{ templatePath ~'/js/slick.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/slider.js' }}"></script>
+{% endblock  %}
+

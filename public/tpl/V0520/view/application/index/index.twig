@@ -1,0 +1,3030 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="nhanh.vn">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ getLogoUri() }}">
+
+    <!-- End Facebook Pixel Code -->
+    <meta name="google-site-verification" content="jP4tbrnRh9wT3SLZA9rerecPZx4f5xmFOIf6aGt7Tlo"/>
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        Đắc Hoàng Kim
+
+
+        dhkj.vn
+    </title>
+
+    <script>
+        var iwish_template = 'index';
+        var iwish_cid = parseInt('0', 10);
+    </script>
+    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/iwishheader.js?1593138638645"
+            type="text/javascript"></script>
+
+    <!-- ================= Page description ================== -->
+
+    <meta name="description"
+          content="DHK jewelry - thương hi&#7879;u h&#7871; tác trang s&#7913;c cao c&#7845;p hàng đ&#7847;u Vi&#7879;t Nam - chuyên s&#7843;n xu&#7845;t trang s&#7913;c vàng, kim cương &amp; trang s&#7913;c cư&#7899;i,... V&#7899;i đ&#7897;i ngũ ch&#7871; tác lành ngh&#7873; trên 10 năm &amp; ngh&#7879; nhân trên 30 năm, đ&#7871;n v&#7899;i DHK b&#7841;n s&#7869; d&#7877; dàng s&#7903; h&#7919;u món trang s&#7913;c cao c&#7845;p v&#7899;i 4 cam k&#7871;t t&#7889;t nh&#7845;t: tư v&#7845;n, ch&#7845;t lư&#7907;ng, giá &amp; b&#7843;o hành">
+
+    <!-- ================= Meta ================== -->
+
+    <meta name="keywords"
+          content="dachoangkim, trangsuckimcuong, trang succaocap, trangsuc, trangsuccuoi, nhancuoi, kimcuong, trangsucdaquy, trangsucthietke"/>
+
+
+    <link rel="canonical" href="https://dhkj.vn/"/>
+    <meta name='revisit-after' content='1 days'/>
+    <meta name="robots" content="noodp,index,follow"/>
+    <!-- ================= Favicon ================== -->
+
+    <link rel="icon" href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/favicon.png?1593138638645"
+          type="image/x-icon"/>
+
+    <!-- ================= Google Fonts ================== -->
+    <!-- Facebook Open Graph meta tags -->
+
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Đắc Hoàng Kim">
+    <meta property="og:image"
+          content="http://bizweb.dktcdn.net/100/335/786/themes/726329/assets/logo.png?1593138638645">
+    <meta property="og:image:secure_url"
+          content="https://bizweb.dktcdn.net/100/335/786/themes/726329/assets/logo.png?1593138638645">
+
+    <meta property="og:description"
+          content="DHK jewelry - thương hiệu hế tác trang sức cao cấp hàng đầu Việt Nam - chuyên sản xuất trang sức vàng, kim cương & trang sức cưới,... Với đội ngũ chế tác lành nghề trên 10 năm & nghệ nhân trên 30 năm, đến với DHK bạn sẽ dễ dàng sở hữu món trang sức cao cấp với 4 cam kết tốt nhất: tư vấn, chất lượng, giá & bảo hành">
+    <meta property="og:url" content="https://dhkj.vn/">
+    <meta property="og:site_name" content="dhkj.vn">
+    <!-- Plugin CSS -->
+    <script>
+        var template = 'index';
+    </script>
+    <!-- Build Main CSS -->
+
+
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+    <link rel="preload" href="https://fonts.googleapis.com/css?family=Noto+Serif:400,700|Montserrat:300,400,500,600,700"
+          as="fetch" crossorigin="anonymous">
+    <script type="text/javascript">
+        !function (e, n, t) {
+            "use strict";
+            var o = "https://fonts.googleapis.com/css?family=Noto+Serif:400,700|Montserrat:300,400,500,600,700",
+                r = "__3perf_googleFonts_6b4d9";
+
+            function c(e) {
+                (n.head || n.body).appendChild(e)
+            }
+
+            function a() {
+                var e = n.createElement("link");
+                e.href = o, e.rel = "stylesheet", c(e)
+            }
+
+            function f(e) {
+                if (!n.getElementById(r)) {
+                    var t = n.createElement("style");
+                    t.id = r, c(t)
+                }
+                n.getElementById(r).innerHTML = e
+            }
+
+            e.FontFace && e.FontFace.prototype.hasOwnProperty("display") ? (t[r] && f(t[r]), fetch(o).then(function (e) {
+                return e.text()
+            }).then(function (e) {
+                return e.replace(/@font-face {/g, "@font-face{font-display:swap;")
+            }).then(function (e) {
+                return t[r] = e
+            }).then(f).catch(a)) : a()
+        }(window, document, localStorage);
+    </script>
+
+
+    <link rel="preconnect" href="https://bizweb.dktcdn.net">
+
+
+{#    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/base.scss.css?1593138638645" rel="stylesheet"#}
+{#          type="text/css"/>#}
+
+{#    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/style.scss.css?1593138638645" rel="stylesheet"#}
+{#          type="text/css"/>#}
+
+    <script>
+        var template = 'index';
+    </script>
+    <!-- Bizweb conter for header -->
+
+    <script>
+        var Bizweb = Bizweb || {};
+        Bizweb.store = 'dachoangkim.mysapo.net';
+        Bizweb.id = 335786;
+        Bizweb.theme = {'id': 726329, 'name': 'Base', 'role': 'main'};
+        Bizweb.template = 'index';
+    </script>
+    <script>
+        (function () {
+            function asyncLoad() {
+                var urls = ["https://googleshopping.sapoapps.vn/conversion-tracker/global-tag/2439.js?store=dachoangkim.mysapo.net", "https://googleshopping.sapoapps.vn/conversion-tracker/event-tag/2439.js?store=dachoangkim.mysapo.net", "//productreviews.sapoapps.vn/assets/js/productreviews.min.js?store=dachoangkim.mysapo.net", "https://bizwebform.sapoapps.vn/genscript/script.js?store=dachoangkim.mysapo.net", "https://availablenotice.sapoapps.vn/scripts/ab_availablenotice_scripttag.min.js?store=dachoangkim.mysapo.net", "https://contactform.sapoapps.vn/ContactForm/ContactFormAsset/ContactFormScript?store=dachoangkim.mysapo.net", "//promotionpopup.sapoapps.vn/genscript/script.js?store=dachoangkim.mysapo.net", "https://memberdeals.sapoapps.vn/scripts/appbulk_member_deals.min.js?store=dachoangkim.mysapo.net", "https://productbundles.sapoapps.vn/ProductBundleAsset/UpdateCartJavascript?store=dachoangkim.mysapo.net", "https://buyxgety.sapoapps.vn/scripts/ab_buyxgety_scripttag.js?store=dachoangkim.mysapo.net", "https://file.hstatic.net/1000300983/file/ega.sales-countdown.exec.sapo.v1.0.0_1dc20671d09944d0989ee621598db4f4.js?store=dachoangkim.mysapo.net", "//instantsearch.sapoapps.vn/scripts/instantsearch-st.js?store=dachoangkim.mysapo.net", "https://productsrecommend.sapoapps.vn/assets/js/script.js?store=dachoangkim.mysapo.net"];
+                for (var i = 0; i < urls.length; i++) {
+                    var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.async = true;
+                    s.src = urls[i];
+                    var x = document.getElementsByTagName('script')[0];
+                    x.parentNode.insertBefore(s, x);
+                }
+            };
+            window.attachEvent ? window.attachEvent('onload', asyncLoad) : window.addEventListener('load', asyncLoad, false);
+        })();
+    </script>
+
+
+    <script type='text/javascript'>
+        (function () {
+            var log = document.createElement('script');
+            log.type = 'text/javascript';
+            log.async = true;
+            log.src = '//stats.bizweb.vn/delivery/335786.js?lang=vi';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(log, s);
+        })();
+    </script>
+
+    <script>
+        window.BizwebAnalytics = window.BizwebAnalytics || {};
+        window.BizwebAnalytics.meta = window.BizwebAnalytics.meta || {};
+        window.BizwebAnalytics.meta.currency = 'VND';
+
+        var meta = {};
+
+        for (var attr in meta) {
+            window.BizwebAnalytics.meta[attr] = meta[attr];
+        }
+    </script>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152715495-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-152715495-1');
+    </script>
+
+
+    <script>var ProductReviewsAppUtil = ProductReviewsAppUtil || {};</script>
+{#    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/iwish.css?1593138638645" rel="stylesheet"#}
+{#          type="text/css"/>#}
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" style="display:none">
+        <path id="icon-arrow" fill="currentColor"
+              d="M21.563 5.063c-.438-.438-1.188-.438-1.625 0s-.438 1.188 0 1.625l8.188 8.188h-27c-.625 0-1.125.5-1.125 1.125s.5 1.125 1.125 1.125h27l-8.188 8.188c-.438.438-.438 1.188 0 1.625s1.188.438 1.625 0l10.125-10.125a1.17 1.17 0 0 0 0-1.625z"/>
+    </svg>
+    {#<link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/appbulk-available-notice.css?1593138638645"
+          rel="stylesheet" type="text/css"/>
+    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/appbulk-product-statistics.css?1593138638645"
+          rel="stylesheet" type="text/css"/>
+    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/appbulk-buyxgety.css?1593138638645"
+          rel="stylesheet" type="text/css"/>
+    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/tkn-style.css?1593138638645" rel="stylesheet"
+          type="text/css"/>#}
+    <link href='https://instantsearch.sapoapps.vn/content/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
+    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/tkn-util.js?1593138638645"
+            type="text/javascript"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-152929313-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'UA-152929313-1');
+    </script>
+    <meta name="google-site-verification" content="yO9aHmOlGepCIPQR87rQ0xYsqpgz23H7T7uNfuT5Kgo"/>
+{% endblock %}
+
+{% block body %}
+<script>
+    function ensureCssFileInclusion(a) {
+        for (var c = document.styleSheets, b = 0, d = c.length; b < d; b++) if (c[b].href == a) return;
+        a = document.createElement("link");
+        a.rel = "stylesheet";
+        a.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+        document.getElementsByTagName("head")[0].appendChild(a)
+    };
+    ensureCssFileInclusion("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+</script>
+
+
+
+    <!-- Header JS -->
+
+
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" type="text/javascript"></script>#}
+
+
+    <h1 class="hidden">dhkj.vn - DHK jewelry - thương hiệu hế tác trang sức cao cấp hàng đầu Việt Nam - chuyên sản xuất
+        trang sức vàng, kim cương & trang sức cưới,... Với đội ngũ chế tác lành nghề trên 10 năm & nghệ nhân trên 30
+        năm, đến với DHK bạn sẽ dễ dàng sở hữu món trang sức cao cấp với 4 cam kết tốt nhất: tư vấn, chất lượng, giá &
+        bảo hành</h1>
+
+
+    <section class="awe-section-1">
+        <div class="home-slider owl-carousel" data-play='true' data-loop='false' data-lg-items='1' data-md-items='1'
+             data-sm-items='1' data-xs-items="1" data-margin='0' data-dot="false" data-nav="true">
+
+
+            <div class="item">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScufZ9bupE99pLQd5l86W5kPAaS2W4T-I6AjlWF7ZWgpQcfuw/viewform"
+                   class="clearfix" title="trangsucthietke, trangsuckimcuong, trangsuccaocap">
+                    <picture>
+                        <source media="(max-width: 480px)"
+                                srcset="//bizweb.dktcdn.net/thumb/large/100/335/786/themes/726329/assets/slider_3.jpg?1593138638645">
+                        <img src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/slider_3.jpg?1593138638645"
+                             class="img-responsive w100" alt="trangsucthietke, trangsuckimcuong, trangsuccaocap">
+                    </picture>
+
+                </a>
+            </div>
+
+
+        </div><!-- /.products -->
+    </section>
+
+
+    <section class="awe-section-2">
+        <section class="section_top_collections">
+            <div class="container">
+                <div class=row>
+                    <div class="top-collections-warp">
+                        <div class="top-col-slider owl-carousel" data-play='true' data-loop='false' data-lg-items='7'
+                             data-md-items='5' data-sm-items='3' data-xs-items="3" data-margin='0' data-dot="false"
+                             data-nav="false">
+
+
+                            <div class="col-lg-12 no-padding top-item">
+                                <a href="/trang-suc-kim-cuong" title="Trang sức Kim cương">
+                                    <div class="aspect ratio1by1">
+                                        <img alt="Trang sức Kim cương" class="img-responsive"
+                                             src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/collections/ico2.png?v=1548038570990">
+                                    </div>
+                                </a>
+                                <p class="text-center cl-414141 hv-cl-fdb913">Trang sức Kim cương</p>
+                            </div>
+
+
+                            <div class="col-lg-12 no-padding top-item">
+                                <a href="/trang-suc-ngoc-trai" title="Trang sức Ngọc trai">
+                                    <div class="aspect ratio1by1">
+                                        <img alt="Trang sức Ngọc trai" class="img-responsive"
+                                             src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/collections/pearl.png?v=1576737505297">
+                                    </div>
+                                </a>
+                                <p class="text-center cl-414141 hv-cl-fdb913">Trang sức Ngọc trai</p>
+                            </div>
+
+
+                            <div class="col-lg-12 no-padding top-item">
+                                <a href="/nhan-cuoi" title="Nhẫn cưới">
+                                    <div class="aspect ratio1by1">
+                                        <img alt="Nhẫn cưới" class="img-responsive"
+                                             src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/collections/ico1.png?v=1548038887587">
+                                    </div>
+                                </a>
+                                <p class="text-center cl-414141 hv-cl-fdb913">Nhẫn cưới</p>
+                            </div>
+
+
+                            <div class="col-lg-12 no-padding top-item">
+                                <a href="/nhan" title="Nhẫn">
+                                    <div class="aspect ratio1by1">
+                                        <img alt="Nhẫn" class="img-responsive"
+                                             src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/collections/ico3.png?v=1566892396430">
+                                    </div>
+                                </a>
+                                <p class="text-center cl-414141 hv-cl-fdb913">Nhẫn</p>
+                            </div>
+
+
+                            <div class="col-lg-12 no-padding top-item">
+                                <a href="/hoa-tai" title="Hoa tai">
+                                    <div class="aspect ratio1by1">
+                                        <img alt="Hoa tai" class="img-responsive"
+                                             src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/collections/ico4.png?v=1566892437377">
+                                    </div>
+                                </a>
+                                <p class="text-center cl-414141 hv-cl-fdb913">Hoa tai</p>
+                            </div>
+
+
+                            <div class="col-lg-12 no-padding top-item">
+                                <a href="/mat-day-chuyen" title="Mặt & Dây chuyền">
+                                    <div class="aspect ratio1by1">
+                                        <img alt="Mặt & Dây chuyền" class="img-responsive"
+                                             src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/collections/ico5.png?v=1566892462640">
+                                    </div>
+                                </a>
+                                <p class="text-center cl-414141 hv-cl-fdb913">Mặt & Dây chuyền</p>
+                            </div>
+
+
+                            <div class="col-lg-12 no-padding top-item">
+                                <a href="/vong-lac-tay" title="Vòng & Lắc tay">
+                                    <div class="aspect ratio1by1">
+                                        <img alt="Vòng & Lắc tay" class="img-responsive"
+                                             src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/collections/ico7.png?v=1566892501780">
+                                    </div>
+                                </a>
+                                <p class="text-center cl-414141 hv-cl-fdb913">Vòng & Lắc tay</p>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-3">
+        <section class="three_banner">
+            <div class="container">
+                <div class=row>
+
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 custom-padding">
+                        <a href="https://dhkj.vn/trang-suc-nu" title="trangsucnu">
+                            <picture>
+                                <source data-lazyload3="//bizweb.dktcdn.net/thumb/medium/100/335/786/themes/726329/assets/banner_1.jpg?1593138638645"
+                                        srcset="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                        media="(max-width: 575px)"/>
+                                <img src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/banner_1.jpg?1593138638645"
+                                     class="img-responsive w100" alt="trangsucnu"/>
+                            </picture>
+                        </a>
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 custom-padding">
+                        <a href="https://dhkj.vn/trang-suc-nam" title="trangsucnam">
+                            <picture>
+                                <source data-lazyload3="//bizweb.dktcdn.net/thumb/medium/100/335/786/themes/726329/assets/banner_2.jpg?1593138638645"
+                                        srcset="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                        media="(max-width: 575px)"/>
+                                <img src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/banner_2.jpg?1593138638645"
+                                     class="img-responsive w100" alt="trangsucnam"/>
+                            </picture>
+                        </a>
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 custom-padding">
+                        <a href="https://dhkj.vn/nhan-cuoi" title="nhancuoi, trangsuccuoi">
+                            <picture>
+                                <source data-lazyload3="//bizweb.dktcdn.net/thumb/large/100/335/786/themes/726329/assets/banner_3.jpg?1593138638645"
+                                        srcset="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                        media="(max-width: 575px)"/>
+                                <img src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/banner_3.jpg?1593138638645"
+                                     class="img-responsive w100" alt="nhancuoi, trangsuccuoi"/>
+                            </picture>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-4">
+        <section class="section_collection">
+            <div class="container">
+                <div class=row>
+                    <h2 class="block-title tac pos-r">
+                        <a href="/trang-suc-da-mau" class="ttu ff-Noto no-underline fs-40 xs-fs-35" title="">Ưu đãi hấp
+                            dẫn tháng 12</a>
+                    </h2>
+                    <div class="collection-slider owl-carousel" data-play='true' data-loop='false' data-lg-items='4'
+                         data-md-items='3' data-sm-items='2' data-xs-items="2" data-margin='30' data-dot="false"
+                         data-nav="true">
+
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16500017"
+                                   data-variant="29536022">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16500017"
+                                   data-variant="29536022">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-nu-da-mau-vang-14k-dhk-050-1"
+                                       title="Nhẫn nữ Đá màu vàng 14K DHK 050">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtnuntt030919-3-c2148f80-7e4a-49a8-9f07-3237ccac7bfd.jpg?v=1576115979000"
+                                                 alt="nhannu, nhan, trangsucdaquy">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-nu-da-mau-vang-14k-dhk-050-1"
+                                           title="Nhẫn nữ Đá màu vàng 14K DHK 050" class="cl-000 fs-14 hv-cl-fdb913">Nhẫn
+                                            nữ Đá màu vàng 14K DHK 050</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">5.922.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16460976"
+                                   data-variant="29358880">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16460976"
+                                   data-variant="29358880">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/mat-day-chuyen-da-quy-vang-14k-dhk-007-1"
+                                       title="Mặt dây chuyền Đá quý Vàng 14k DHK 007">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtmdba070919-1-0014400b-60ef-4220-92c2-8beca65879d1.jpg?v=1575615953000"
+                                                 alt="Mặt dây chuyền Đá quý Vàng 14k DHK 007">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/mat-day-chuyen-da-quy-vang-14k-dhk-007-1"
+                                           title="Mặt dây chuyền Đá quý Vàng 14k DHK 007"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Mặt dây chuyền Đá quý Vàng 14k DHK 007</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">6.936.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16460961"
+                                   data-variant="29358844">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16460961"
+                                   data-variant="29358844">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-nu-da-mau-vang-14k-dhk-054-1"
+                                       title="Nhẫn nữ Đá màu vàng 14K DHK 054">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtnuntt040919-2-3-be837051-bab8-4ee2-9eaa-dfced06954a5.jpg?v=1575615869000"
+                                                 alt="nhannu, nhan, trangsucdaquy">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-nu-da-mau-vang-14k-dhk-054-1"
+                                           title="Nhẫn nữ Đá màu vàng 14K DHK 054" class="cl-000 fs-14 hv-cl-fdb913">Nhẫn
+                                            nữ Đá màu vàng 14K DHK 054</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">5.395.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16422179"
+                                   data-variant="29262575">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16422179"
+                                   data-variant="29262575">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-nu-da-mau-vang-18k-dhk-053-1"
+                                       title="Nhẫn nữ Đá màu vàng 18K DHK 053">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtnuntt040919-1-164429e7-b496-4704-bce5-40d322de9608.jpg?v=1575267979000"
+                                                 alt="nhannu, nhan, trangsucdaquy">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-nu-da-mau-vang-18k-dhk-053-1"
+                                           title="Nhẫn nữ Đá màu vàng 18K DHK 053" class="cl-000 fs-14 hv-cl-fdb913">Nhẫn
+                                            nữ Đá màu vàng 18K DHK 053</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.406.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16422173"
+                                   data-variant="29262559">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16422173"
+                                   data-variant="29262559">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/1nhan-nu-da-mau-vang-14k-dhk-055"
+                                       title="Nhẫn nữ Đá màu vàng 14K DHK 055">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtnuntt070919-3-5a333c1c-dc1e-4456-94ed-08b22c7e3552.jpg?v=1575267840000"
+                                                 alt="nhannu, nhan, trangsucdaquy">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/1nhan-nu-da-mau-vang-14k-dhk-055"
+                                           title="Nhẫn nữ Đá màu vàng 14K DHK 055" class="cl-000 fs-14 hv-cl-fdb913">Nhẫn
+                                            nữ Đá màu vàng 14K DHK 055</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.080.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16422167"
+                                   data-variant="29262552">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16422167"
+                                   data-variant="29262552">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/copy-of-nhan-nu-da-mau-vang-14k-dhk-059"
+                                       title="Nhẫn nữ Đá màu vàng 14K DHK 059">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtnuntt100919-1-9d2fde41-17ec-4616-a922-ce79cb0720b8.jpg?v=1575267756000"
+                                                 alt="nhannu, nhan, trangsucdaquy">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/copy-of-nhan-nu-da-mau-vang-14k-dhk-059"
+                                           title="Nhẫn nữ Đá màu vàng 14K DHK 059" class="cl-000 fs-14 hv-cl-fdb913">Nhẫn
+                                            nữ Đá màu vàng 14K DHK 059</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.924.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-12 tac padding-top-seemore">
+                        <a href="/trang-suc-da-mau" title="Xem tất cả Ưu đãi hấp dẫn tháng 12"
+                           class="btn btn-lg custom-button custom-button3 ttu tac fw-med cl-fff fs-14 hv-cl-fdb913">
+                            <span>Xem thêm</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-5">
+        <section class="three_banner">
+            <a href="https://forms.gle/e7BFdma34AC4SeC49"
+               title="alt trang sức thiết kế, trang sức kim cương, trang sức cưới">
+                <picture>
+                    <source data-lazyload3="//bizweb.dktcdn.net/thumb/large/100/335/786/themes/726329/assets/banner_4.jpg?1593138638645"
+                            srcset="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=" media="(max-width: 575px)"/>
+                    <img src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/banner_4.jpg?1593138638645"
+                         class="img-responsive w100" alt="alt trang sức thiết kế, trang sức kim cương, trang sức cưới"/>
+                </picture>
+            </a>
+        </section>
+    </section>
+
+
+    <section class="awe-section-6">
+
+
+        <section class="feature_product">
+            <div class="container">
+                <div class=row>
+
+
+                    <div class="details-product details-product-index">
+                        <form enctype="multipart/form-data" id="add-to-cart-form" action="/cart/add" method="post"
+                              class="row form-width form-inline">
+                            <div class="product-detail-left product-images col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="rows">
+                                    <div class="relative product-image-block ">
+                                        <div class="large-image pos-r">
+                                            <div class="sale-flash pos-a tac ttu"><span class="fw-med cl-fff fs-14 ttu">hot</span>
+                                            </div>
+                                            <a href="//bizweb.dktcdn.net/thumb/1024x1024/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049.jpg?v=1575704612757"
+                                               class="large_image_url" data-rel="prettyPhoto[product-gallery]">
+
+                                                <img id="zoom_01" class="img-responsive center-block"
+                                                     src="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049.jpg?v=1575704612757"
+                                                     alt="nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+
+                                            </a>
+                                            <div class="hidden">
+
+                                                <div class="item">
+                                                    <a href="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-2.jpg?v=1575704613463"
+                                                       data-image="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-2.jpg?v=1575704613463"
+                                                       data-zoom-image="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-2.jpg?v=1575704613463"
+                                                       data-rel="prettyPhoto[product-gallery]">
+                                                    </a>
+                                                </div>
+
+                                                <div class="item">
+                                                    <a href="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-3.jpg?v=1575704613883"
+                                                       data-image="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-3.jpg?v=1575704613883"
+                                                       data-zoom-image="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-3.jpg?v=1575704613883"
+                                                       data-rel="prettyPhoto[product-gallery]">
+                                                    </a>
+                                                </div>
+
+                                                <div class="item">
+                                                    <a href="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-4.jpg?v=1575704614627"
+                                                       data-image="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-4.jpg?v=1575704614627"
+                                                       data-zoom-image="https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-4.jpg?v=1575704614627"
+                                                       data-rel="prettyPhoto[product-gallery]">
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-6 col-lg-6 details-pro">
+                                <div class="cus-pad-left js-ajax-append">
+                                    <h2 class="title-product ttu cl-252525 fw-light" itemprop="name">Nhẫn Cưới Nữ Vàng
+                                        18k Kim Cương DHK 049</h2>
+                                    <div class="group-status">
+					<span class="sku">
+						<span class="a_name ttu cl-666669 fs-13">Mã sp:</span> <span
+                                class="status_name cl-111111  fs-13">20DHK049001800000</span>
+					</span>
+                                    </div>
+
+                                    <div class="price-box" itemprop="offers" itemscope
+                                         itemtype="http://schema.org/Offer">
+					
+					<span class="special-price">
+						<span class="price product-price fs-24 fw-med">8.434.928₫</span> 
+					</span> <!-- Giá Khuyến mại -->
+                                        <span class="old-price"><del class="price product-price-old"
+                                                                     itemprop="priceSpecification">
+						
+						</del> 
+						<meta itemprop="price" content="8434928">
+						<meta itemprop="priceCurrency" content="VND">
+					</span> <!-- Giá gốc -->
+
+
+                                        <link itemprop="availability" href="http://schema.org/InStock"/>
+
+
+                                        <meta itemprop="url"
+                                              content="https://dhkj.vn/nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+                                    </div>
+
+
+                                    <div class="product-summary product_description">
+                                        <div class="rte description">
+
+                                            <p><strong>Chất liệu: </strong>vàng&nbsp;18k</p>
+
+                                            <p><strong>Loại&nbsp;đá:</strong>&nbsp;Kim cương</p>
+
+                                            <p>Có thể đặt hàng thay đổi: loại vàng, màu vàng,&nbsp;loại đá &amp;&nbsp;size</p>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-product clearfix">
+                                        <div class="box-variant clearfix form-group pos-r f-left">
+
+                                            <fieldset class="form-group">
+                                                <select id="product-selectors" class="form-control form-control-lg"
+                                                        name="variantId" style="display:none">
+
+                                                    <option selected="selected" value="29394967">Vàng 18k / Theo Tay /
+                                                        Vàng hồng - 8.434.928₫
+                                                    </option>
+
+                                                    <option value="29394968">Vàng 14k / Theo Tay / Vàng hồng - 0₫
+                                                    </option>
+
+                                                </select>
+                                            </fieldset>
+
+                                        </div>
+
+
+                                        <div class=" hidden  swatch clearfix" data-option-index="0">
+                                            <div class="header hidden">Chất liệu</div>
+
+
+                                            <div data-value="Vàng 18k" class="swatch-element Vàng 18k available">
+
+
+                                                <input id="swatch-0-Vàng 18k" type="radio" name="option-0"
+                                                       value="Vàng 18k" checked/>
+
+                                                <label for="swatch-0-Vàng 18k">
+                                                    Vàng 18k
+                                                </label>
+
+                                            </div>
+
+
+                                            <div data-value="Vàng 14k" class="swatch-element Vàng 14k available">
+
+
+                                                <input id="swatch-0-Vàng 14k" type="radio" name="option-0"
+                                                       value="Vàng 14k"/>
+
+                                                <label for="swatch-0-Vàng 14k">
+                                                    Vàng 14k
+                                                </label>
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <div class=" hidden  swatch clearfix" data-option-index="1">
+                                            <div class="header hidden">Size</div>
+
+
+                                            <div data-value="Theo Tay" class="swatch-element Theo Tay available">
+
+
+                                                <input id="swatch-1-Theo Tay" type="radio" name="option-1"
+                                                       value="Theo Tay" checked/>
+
+                                                <label for="swatch-1-Theo Tay">
+                                                    Theo Tay
+                                                </label>
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <div class="swatch-color swatch clearfix" data-option-index="2">
+                                            <div class="header hidden">Màu sắc</div>
+
+
+                                            <div data-value="Vàng h&#7891;ng"
+                                                 class="swatch-element color Vàng hồng available">
+
+
+                                                <div class="tooltip">Vàng hồng</div>
+
+
+                                                <input id="swatch-2-Vàng hồng" type="radio" name="option-2"
+                                                       value="Vàng h&#7891;ng" checked/>
+
+
+                                                <label for="swatch-2-Vàng hồng" style="background-color: #fedbaa;">
+                                                </label>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <div class="form-group form_button_details  pos-r ">
+                                            <label for="qtym">Số lượng</label>
+                                            <div class="custom input_number_product pos-r custom-btn-number form-control no-bg no-border no-box-shadow">
+                                                <button class="btn_num num_2 button button_qty no-border no-bg pos-a"
+                                                        onClick="var result = document.getElementById('qtym'); var qtypro = result.value; if( !isNaN( qtypro )) result.value++;return false;"
+                                                        type="button">+
+                                                </button>
+                                                <button class="btn_num num_1 button button_qty no-border no-bg pos-a"
+                                                        onClick="var result = document.getElementById('qtym'); var qtypro = result.value; if( !isNaN( qtypro ) &amp;&amp; qtypro &gt; 1 ) result.value--;return false;"
+                                                        type="button">-
+                                                </button>
+                                                <input type="text" maxlength="2" id="qtym" name="quantity" value="1"
+                                                       class="form-control prd_quantity pos-a bg-f2f2f2 tac no-box-shadow"
+                                                       onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;"
+                                                       onchange="if(this.value == 0)this.value=1;">
+
+                                            </div>
+                                            <div class="custom-option color pos-a">
+                                                <a href="/huong-dan-chon-size"
+                                                   class="fs-12 custom-span-x hidden-xs no-underline" target="_blank">
+                                                    Hướng dẫn kích thước
+                                                </a>
+
+                                            </div>
+
+                                            <button type="submit"
+                                                    class="btn btn-lg  btn-cart button_cart_buy_enable add_to_cart btn_buy custom-button ttu tac fw-med cl-fff fs-14">
+                                                <span>Đặt hàng</span>
+                                            </button>
+
+
+                                            <button type="button"
+                                                    class="btn btn-lg custom-button ttu tac fw-med cl-fff fs-14 custon-button2"
+                                                    onclick="window.open('/dat-lich-tu-van', '_blank' );"
+                                                    title="Hỗ trợ tư vấn">
+                                                <span>Hỗ trợ tư vấn</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="gallery_01" class="pos-r owl-carousel" data-play='true' data-loop='false'
+                                     data-lg-items='4' data-md-items='3' data-sm-items='2' data-xs-items="2"
+                                     data-margin='5' data-dot="false" data-nav="true">
+
+                                    <div class="item dib">
+                                        <a class="border-radius-10 js-ajax-feat-prod" href="javascript:void(0);"
+                                           data-image="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcnclvd0490919-rskcnclvd0500919-1-57cdd49b-6dea-4fe5-b1fd-ad9ea9f708cb.jpg?v=1577413467000"
+                                           data-zoom-image="//bizweb.dktcdn.net/thumb/1024x1024/100/335/786/products/rskcnclvd0490919-rskcnclvd0500919-1-57cdd49b-6dea-4fe5-b1fd-ad9ea9f708cb.jpg?v=1577413467000"
+                                           data-alias="nhan-cuoi-nu-vang-14k-dhk-062-1">
+                                            <div class="aspect ratio1by1">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                     data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rskcnclvd0490919-rskcnclvd0500919-1-57cdd49b-6dea-4fe5-b1fd-ad9ea9f708cb.jpg?v=1577413467000"
+                                                     class="img-responsive"
+                                                     alt="nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="item dib">
+                                        <a class="border-radius-10 js-ajax-feat-prod" href="javascript:void(0);"
+                                           data-image="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049-d4c537d1-57ed-44a7-ae89-39a406a1e2fd-b007c6e3-f8b4-4dbe-b7da-85e027136bc9.jpg?v=1577413392000"
+                                           data-zoom-image="//bizweb.dktcdn.net/thumb/1024x1024/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049-d4c537d1-57ed-44a7-ae89-39a406a1e2fd-b007c6e3-f8b4-4dbe-b7da-85e027136bc9.jpg?v=1577413392000"
+                                           data-alias="nhan-cuoi-nu-vang-14k-dhk-053-1">
+                                            <div class="aspect ratio1by1">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                     data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049-d4c537d1-57ed-44a7-ae89-39a406a1e2fd-b007c6e3-f8b4-4dbe-b7da-85e027136bc9.jpg?v=1577413392000"
+                                                     class="img-responsive"
+                                                     alt="nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="item dib">
+                                        <a class="border-radius-10 js-ajax-feat-prod" href="javascript:void(0);"
+                                           data-image="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcncddt0530919-rskcncddt0540919-2-27f2d015-739c-4367-b54e-3cb7d904e7ce.jpg?v=1577413293000"
+                                           data-zoom-image="//bizweb.dktcdn.net/thumb/1024x1024/100/335/786/products/rskcncddt0530919-rskcncddt0540919-2-27f2d015-739c-4367-b54e-3cb7d904e7ce.jpg?v=1577413293000"
+                                           data-alias="nhan-cuoi-nu-vang-14k-dhk-057-1">
+                                            <div class="aspect ratio1by1">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                     data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rskcncddt0530919-rskcncddt0540919-2-27f2d015-739c-4367-b54e-3cb7d904e7ce.jpg?v=1577413293000"
+                                                     class="img-responsive"
+                                                     alt="nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="item dib">
+                                        <a class="border-radius-10 js-ajax-feat-prod" href="javascript:void(0);"
+                                           data-image="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcnclvd0730919-rskcnclvd0740919-4-9bdd6e8f-e4df-4d07-80b0-2856fb60a6af.gif?v=1577412961000"
+                                           data-zoom-image="//bizweb.dktcdn.net/thumb/1024x1024/100/335/786/products/rskcnclvd0730919-rskcnclvd0740919-4-9bdd6e8f-e4df-4d07-80b0-2856fb60a6af.gif?v=1577412961000"
+                                           data-alias="nhan-cuoi-nu-vang-14k-dhk-064-1">
+                                            <div class="aspect ratio1by1">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                     data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rskcnclvd0730919-rskcnclvd0740919-4-9bdd6e8f-e4df-4d07-80b0-2856fb60a6af.gif?v=1577412961000"
+                                                     class="img-responsive"
+                                                     alt="nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="item dib">
+                                        <a class="border-radius-10 js-ajax-feat-prod" href="javascript:void(0);"
+                                           data-image="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcncntt0710919-rskcncntt0720919-5.jpg?v=1577248531000"
+                                           data-zoom-image="//bizweb.dktcdn.net/thumb/1024x1024/100/335/786/products/rskcncntt0710919-rskcncntt0720919-5.jpg?v=1577248531000"
+                                           data-alias="nhan-cuoi-nam-vang-14k-dhk-069">
+                                            <div class="aspect ratio1by1">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                     data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rskcncntt0710919-rskcncntt0720919-5.jpg?v=1577248531000"
+                                                     class="img-responsive"
+                                                     alt="nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="item dib">
+                                        <a class="border-radius-10 js-ajax-feat-prod" href="javascript:void(0);"
+                                           data-image="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcncntt0690919-rskcncntt0700919-1.jpg?v=1577248362000"
+                                           data-zoom-image="//bizweb.dktcdn.net/thumb/1024x1024/100/335/786/products/rskcncntt0690919-rskcncntt0700919-1.jpg?v=1577248362000"
+                                           data-alias="nhan-cuoi-nu-vang-14k-dhk-068">
+                                            <div class="aspect ratio1by1">
+                                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                     data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rskcncntt0690919-rskcncntt0700919-1.jpg?v=1577248362000"
+                                                     class="img-responsive"
+                                                     alt="nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049">
+                                            </div>
+                                        </a>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="aweCallback">
+                        <script>
+                            var productJson = {
+                                "id": 16468899,
+                                "name": "Nh\u1EABn C\u01B0\u1EDBi N\u1EEF V\u00E0ng 18k Kim C\u01B0\u01A1ng DHK 049",
+                                "alias": "nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049",
+                                "vendor": "DHK",
+                                "type": "Nh\u1EABn c\u01B0\u1EDBi",
+                                "price": 0.0000,
+                                "price_max": 8434928.0000,
+                                "price_min": 0.0000,
+                                "price_varies": true,
+                                "compare_at_price_max": 0,
+                                "compare_at_price_min": 0,
+                                "compare_at_price_varies": false,
+                                "template_layout": null,
+                                "tags": ["Nhancuoi", "Trangsuccuoi", "trangsucvang", "V\u00E0ng 18k", "vanghong", "v\u00E0ng h\u1ED3ng"],
+                                "meta_description": "Nh\u1EABn C\u01B0\u1EDBi N\u1EEF V\u00E0ng 18k Kim C\u01B0\u01A1ng DHK 049 B\u1ED8 S\u01AFU T\u1EACP NH\u1EAAN C\u01AF\u1EDAI S\u1EF0 KH\u1EDEI \u0110\u1EA6U HO\u00C0N H\u1EA2O Nh\u1EABn c\u01B0\u1EDBi t\u01B0\u1EE3ng tr\u01B0ng cho h\u1EA1nh ph\u00FAc vi\u00EAn m\u00E3n, k\u1EF7 v\u1EADt minh ch\u1EE9ng cho t\u00ECnh y\u00EAu v\u0129nh c\u1EEDu, ghi d\u1EA5u s\u1EF1 kh\u1EDFi \u0111\u1EA7u ho\u00E0n h\u1EA3o cho cu\u1ED9c s\u1ED1ng l\u1EE9a \u0111\u00F4i. DHK JEWELRY \u2013 TH\u01AF\u01A0NG HI\u1EC6U CH\u1EBE T\u00C1C TRANG S\u1EE8C H\u00C0NG \u0110\u1EA6U VI\u1EC6T NAM",
+                                "meta_title": null,
+                                "summary": "\u003Cp\u003E\u003Cstrong\u003ECh\u1EA5t li\u1EC7u: \u003C/strong\u003Ev\u00E0ng\u0026nbsp;18k\u003C/p\u003E\n\n\u003Cp\u003E\u003Cstrong\u003ELo\u1EA1i\u0026nbsp;\u0111\u00E1:\u003C/strong\u003E\u0026nbsp;Kim c\u01B0\u01A1ng\u003C/p\u003E\n\n\u003Cp\u003EC\u00F3 th\u1EC3 \u0111\u1EB7t h\u00E0ng thay \u0111\u1ED5i: lo\u1EA1i v\u00E0ng, m\u00E0u v\u00E0ng,\u0026nbsp;lo\u1EA1i \u0111\u00E1 \u0026amp;\u0026nbsp;size\u003C/p\u003E",
+                                "featured_image": {"src": "https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049.jpg?v=1575704612757"},
+                                "images": [{"src": "https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049.jpg?v=1575704612757"}, {"src": "https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-2.jpg?v=1575704613463"}, {"src": "https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-3.jpg?v=1575704613883"}, {"src": "https://bizweb.dktcdn.net/100/335/786/products/rskcncddt0430919-rskcncddt0440919-4.jpg?v=1575704614627"}],
+                                "options": ["Ch\u1EA5t li\u1EC7u", "Size", "M\u00E0u s\u1EAFc"],
+                                "variants": [{
+                                    "id": 29394967,
+                                    "barcode": null,
+                                    "sku": "20DHK049001800000",
+                                    "price": 8434928.0000,
+                                    "compare_at_price": null,
+                                    "options": ["V\u00E0ng 18k", "Theo Tay", "V\u00E0ng h\u1ED3ng"],
+                                    "option1": "V\u00E0ng 18k",
+                                    "option2": "Theo Tay",
+                                    "option3": "V\u00E0ng h\u1ED3ng",
+                                    "title": "V\u00E0ng 18k / Theo Tay / V\u00E0ng h\u1ED3ng",
+                                    "taxable": false,
+                                    "inventory_management": "",
+                                    "inventory_policy": "deny",
+                                    "inventory_quantity": 1,
+                                    "weight": 0.0,
+                                    "weight_unit": "kg",
+                                    "image": null,
+                                    "requires_shipping": true,
+                                    "url": "/nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049?variantid=29394967",
+                                    "available": true
+                                }, {
+                                    "id": 29394968,
+                                    "barcode": null,
+                                    "sku": null,
+                                    "price": 0.0000,
+                                    "compare_at_price": null,
+                                    "options": ["V\u00E0ng 14k", "Theo Tay", "V\u00E0ng h\u1ED3ng"],
+                                    "option1": "V\u00E0ng 14k",
+                                    "option2": "Theo Tay",
+                                    "option3": "V\u00E0ng h\u1ED3ng",
+                                    "title": "V\u00E0ng 14k / Theo Tay / V\u00E0ng h\u1ED3ng",
+                                    "taxable": false,
+                                    "inventory_management": "",
+                                    "inventory_policy": "deny",
+                                    "inventory_quantity": 0,
+                                    "weight": 0.0,
+                                    "weight_unit": "kg",
+                                    "image": null,
+                                    "requires_shipping": true,
+                                    "url": "/nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049?variantid=29394968",
+                                    "available": true
+                                }],
+                                "available": true,
+                                "selected_variant": null,
+                                "content": "\u003Cp\u003ENh\u1EABn C\u01B0\u1EDBi N\u1EEF\u0026nbsp;V\u00E0ng 18k Kim C\u01B0\u01A1ng\u0026nbsp;DHK 049\u003C/p\u003E\n\u003Cp\u003E\u003Cb\u003EB\u1ED8 S\u01AFU T\u1EACP NH\u1EAAN C\u01AF\u1EDAI S\u1EF0 KH\u1EDEI \u0110\u1EA6U HO\u00C0N H\u1EA2O\u003C/b\u003E\u003C/p\u003E\n\u003Cp\u003E\u003Ca href=\u0022https://dhkj.vn/nhan-cuoi\u0022 target=\u0022_blank\u0022\u003ENh\u1EABn c\u01B0\u1EDBi\u003C/a\u003E t\u01B0\u1EE3ng tr\u01B0ng cho h\u1EA1nh ph\u00FAc vi\u00EAn m\u00E3n, k\u1EF7 v\u1EADt minh ch\u1EE9ng cho t\u00ECnh y\u00EAu v\u0129nh c\u1EEDu, ghi d\u1EA5u s\u1EF1 kh\u1EDFi \u0111\u1EA7u ho\u00E0n h\u1EA3o cho cu\u1ED9c s\u1ED1ng l\u1EE9a \u0111\u00F4i.\u003C/p\u003E\n\u003Cp\u003E\u0026nbsp;\u003C/p\u003E\n\u003Cp\u003E\u003Cb\u003EDHK JEWELRY \u2013 TH\u01AF\u01A0NG HI\u1EC6U CH\u1EBE T\u00C1C TRANG S\u1EE8C H\u00C0NG \u0110\u1EA6U VI\u1EC6T NAM\u003C/b\u003E\u003C/p\u003E\n\u003Cp\u003EM\u1ED7i s\u1EA3n ph\u1EA9m c\u1EE7a DHK \u0111\u01B0\u1EE3c t\u1EA1o n\u00EAn b\u1EDFi nh\u1EEFng \u0111am m\u00EA, s\u1EF1 t\u1EADn t\u1EE5y, t\u1EC9 m\u1EC9 nh\u1EA5t v\u00E0 \u0111\u01B0\u1EE3c\u0026nbsp;tr\u1EF1c ti\u1EBFp g\u1EEDi trao\u0026nbsp;t\u1EEB tay ng\u01B0\u1EDDi th\u1EE3 ch\u1EBF t\u00E1c\u0026nbsp;\u0111\u1EBFn kh\u00E1ch h\u00E0ng, kh\u00F4ng qua m\u1ED9t \u0111\u01A1n v\u1ECB trung gian n\u00E0o.\u003C/p\u003E\n\u003Cp\u003EKhi mua s\u1EAFm t\u1EA1i DHK kh\u00E1ch h\u00E0ng c\u00F3 th\u1EC3 th\u1ECFa th\u00EDch l\u1EF1a ch\u1ECDn nh\u1EEFng m\u1EABu trang s\u1EE9c y\u00EAu th\u00EDch s\u1EB5n c\u00F3\u0026nbsp;ho\u1EB7c n\u1EBFu mu\u1ED1n th\u1EC3 hi\u1EC7n d\u1EA5u \u1EA5n c\u00E1 nh\u00E2n tr\u00EAn t\u1EEBng m\u00F3n trang s\u1EE9c, kh\u00E1ch h\u00E0ng c\u00F3 th\u1EC3 \u0111\u1EB7t h\u00E0ng thi\u1EBFt k\u1EBF.\u0026nbsp;DHK\u0026nbsp;s\u1EB5n s\u00E0ng s\u1EA3n xu\u1EA5t theo y\u00EAu c\u1EA7u ri\u00EAng c\u1EE7a kh\u00E1ch h\u00E0ng\u0026nbsp;d\u00F9\u0026nbsp;ch\u1EC9 1 s\u1EA3n ph\u1EA9m \u0111\u01A1n l\u1EBB.\u0026nbsp;Th\u1EDDi gian ch\u1EBF t\u00E1c \u0111\u01B0\u1EE3c DHK\u0026nbsp;cam k\u1EBFt nhanh nh\u1EA5t th\u1ECB tr\u01B0\u1EDDng\u0026nbsp;ch\u1EC9 trong 5-7 ng\u00E0y.\u003C/p\u003E\n\u003Cp\u003E\u003Cu\u003E\u003Cem\u003E\u003Ca href=\u0022https://dhkj.vn/kien-thuc-ve-kim-cuong\u0022 target=\u0022_blank\u0022\u003EKi\u1EBFn th\u1EE9c v\u1EC1 kim c\u01B0\u01A1ng\u003C/a\u003E\u003C/em\u003E\u003C/u\u003E\u003C/p\u003E\n\u003Cp\u003E\u003Cu\u003E\u003Cem\u003E\u003Ca href=\u0022https://dhkj.vn/bao-quan-trang-suc\u0022 target=\u0022_blank\u0022\u003EKi\u1EBFn th\u1EE9c v\u1EC1 b\u1EA3o qu\u1EA3n trang s\u1EE9c\u003C/a\u003E\u003C/em\u003E\u003C/u\u003E\u003C/p\u003E\n\u003Ch6\u003ETh\u00F4ng s\u1ED1 s\u1EA3n ph\u1EA9m\u003C/h6\u003E\n\u003Ctable border=\u00221\u0022 cellpadding=\u00221\u0022 cellspacing=\u00221\u0022\u003E\n\u003Ctbody\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003ETh\u01B0\u01A1ng hi\u1EC7u\u003C/td\u003E\n\t\u003Ctd\u003EDHK\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003ECh\u1EE7ng lo\u1EA1i\u003C/td\u003E\n\t\u003Ctd\u003ENh\u1EABn c\u01B0\u1EDBi\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003EGi\u1EDBi t\u00EDnh\u003C/td\u003E\n\t\u003Ctd\u003EN\u1EEF\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003ELo\u1EA1i \u0111\u00E1 ch\u1EE7\u003C/td\u003E\n\t\u003Ctd\u003EKim c\u01B0\u01A1ng\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003EM\u00E0u \u0111\u00E1 ch\u1EE7\u003C/td\u003E\n\t\u003Ctd\u003ETr\u1EAFng\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003EH\u00ECnh d\u1EA1ng \u0111\u00E1 ch\u1EE7\u003C/td\u003E\n\t\u003Ctd\u003E\u0026nbsp;\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003EK\u00EDch th\u01B0\u1EDBc \u0111\u00E1 ch\u1EE7\u003C/td\u003E\n\t\u003Ctd\u003E\u0026nbsp;\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003ELo\u1EA1i \u0111\u00E1 ph\u1EE5 (n\u1EBFu c\u00F3)\u003C/td\u003E\n\t\u003Ctd\u003E\u0026nbsp;\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003EM\u00E0u \u0111\u00E1 ph\u1EE5 (n\u1EBFu c\u00F3)\u003C/td\u003E\n\t\u003Ctd\u003ETr\u1EAFng\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003ETu\u1ED5i v\u00E0ng\u003C/td\u003E\n\t\u003Ctd\u003EV\u00E0ng 18K\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003EM\u00E0u v\u00E0ng\u003C/td\u003E\n\t\u003Ctd\u003EV\u00E0ng h\u1ED3ng\u003C/td\u003E\n\u003C/tr\u003E\n\u003Ctr\u003E\n\t\u003Ctd\u003ETr\u1ECDng l\u01B0\u1EE3ng v\u00E0ng tham kh\u1EA3o\u003C/td\u003E\n\t\u003Ctd\u003E2.6g\u003C/td\u003E\n\u003C/tr\u003E\n\u003C/tbody\u003E\u003C/table\u003E\n\u003Cp\u003E\u0026nbsp;\u003C/p\u003E",
+                                "summary_or_content": "\u003Cp\u003E\u003Cstrong\u003ECh\u1EA5t li\u1EC7u: \u003C/strong\u003Ev\u00E0ng\u0026nbsp;18k\u003C/p\u003E\n\n\u003Cp\u003E\u003Cstrong\u003ELo\u1EA1i\u0026nbsp;\u0111\u00E1:\u003C/strong\u003E\u0026nbsp;Kim c\u01B0\u01A1ng\u003C/p\u003E\n\n\u003Cp\u003EC\u00F3 th\u1EC3 \u0111\u1EB7t h\u00E0ng thay \u0111\u1ED5i: lo\u1EA1i v\u00E0ng, m\u00E0u v\u00E0ng,\u0026nbsp;lo\u1EA1i \u0111\u00E1 \u0026amp;\u0026nbsp;size\u003C/p\u003E",
+                                "created_on": "2019-12-07T14:43:31",
+                                "published_on": "2019-12-07T14:43:00",
+                                "url": "/nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049"
+                            };
+
+                            var variantsize = true;
+
+                            var alias = 'nhan-cuoi-nu-vang-18k-kim-cuong-dhk-049';
+
+                            var productOptionsSize = 0;
+
+
+                            var cdefault = 0;
+
+                        </script>
+                    </div>
+
+                    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/detail.js?1593138638645"
+                            type="text/javascript"></script>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-7">
+        <section class="feature_products">
+            <div class="container">
+                <div class="row">
+                    <h2 class="block-title tac pos-r">
+                        <a href="/trang-suc-kim-cuong" class="ttu ff-Noto no-underline fs-40 xs-fs-35" title="">Trang
+                            sức kim cương</a>
+                    </h2>
+                    <div class="collection-slider owl-carousel" data-play='true' data-loop='false' data-lg-items='4'
+                         data-md-items='3' data-sm-items='2' data-xs-items="2" data-margin='30' data-dot="false"
+                         data-nav="false">
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669963"
+                                   data-variant="29990718">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669963"
+                                   data-variant="29990718">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/vong-tay-kim-cuong-cz-vang-14k-oprah-dhk-002"
+                                       title="Vòng tay kim cương CZ vàng 14K Oprah DHK 002">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/251286ntq301019-2.jpg?v=1578280731000"
+                                                 alt="lactay, vongtay, trangsuckimcuong">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/vong-tay-kim-cuong-cz-vang-14k-oprah-dhk-002"
+                                           title="Vòng tay kim cương CZ vàng 14K Oprah DHK 002"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Vòng tay kim cương CZ vàng 14K Oprah DHK
+                                            002</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">9.846.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669912"
+                                   data-variant="29990626">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669912"
+                                   data-variant="29990626">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/mat-day-kim-cuong-cz-vang-14k-oprah-dhk-029"
+                                       title="Mặt dây kim cương CZ vàng 14K Oprah DHK 029">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/231276ntq221019-3.jpg?v=1578280439000"
+                                                 alt="matday, kimcuong, vanghong, vang14k">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/mat-day-kim-cuong-cz-vang-14k-oprah-dhk-029"
+                                           title="Mặt dây kim cương CZ vàng 14K Oprah DHK 029"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Mặt dây kim cương CZ vàng 14K Oprah DHK
+                                            029</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">5.573.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669887"
+                                   data-variant="29990565">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669887"
+                                   data-variant="29990565">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-kim-cuong-cz-vang-14k-oprah-dhk-054"
+                                       title="Nhẫn kim cương CZ vàng 14K Oprah DHK 054">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/211296ntq211019-3.jpg?v=1578280042000"
+                                                 alt="nhan, kim cuong, vang hong, vang 14K">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-kim-cuong-cz-vang-14k-oprah-dhk-054"
+                                           title="Nhẫn kim cương CZ vàng 14K Oprah DHK 054"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Nhẫn kim cương CZ vàng 14K Oprah DHK
+                                            054</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">3.244.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669783"
+                                   data-variant="29990390">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669783"
+                                   data-variant="29990390">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/mat-day-kim-cuong-cz-vang-14k-diana-dhk-028"
+                                       title="Mặt dây kim cương CZ vàng 14K Diana DHK 028">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtmdlvd131919-3.jpg?v=1578279283000"
+                                                 alt="matday, kimcuong, vangtrang, vang14k">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/mat-day-kim-cuong-cz-vang-14k-diana-dhk-028"
+                                           title="Mặt dây kim cương CZ vàng 14K Diana DHK 028"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Mặt dây kim cương CZ vàng 14K Diana DHK
+                                            028</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.272.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-12 tac padding-top-seemore">
+                        <a href="/trang-suc-kim-cuong" title="Xem tất cả Trang sức kim cương"
+                           class="btn btn-lg custom-button custom-button3 ttu tac fw-med cl-fff fs-14 hv-cl-fdb913">
+                            <span>Xem thêm</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-8">
+        <section class="feature_products">
+            <div class="container">
+                <div class="row">
+                    <h2 class="block-title tac pos-r">
+                        <a href="/trang-suc-ngoc-trai" class="ttu ff-Noto no-underline fs-40 xs-fs-35" title="">Trang
+                            sức ngọc trai</a>
+                    </h2>
+                    <div class="collection-slider owl-carousel" data-play='true' data-loop='false' data-lg-items='4'
+                         data-md-items='3' data-sm-items='2' data-xs-items="2" data-margin='30' data-dot="false"
+                         data-nav="false">
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16670251"
+                                   data-variant="29991770">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16670251"
+                                   data-variant="29991770">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/hoa-tai-vang-14k-ngoc-trai-dhk-006"
+                                       title="Hoa tai Vàng 14k Ngọc trai DHK 006">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/5b4615048041781f2150.jpg?v=1578283086000"
+                                                 alt="hoatai, ngoctrai, trangsucnu">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/hoa-tai-vang-14k-ngoc-trai-dhk-006"
+                                           title="Hoa tai Vàng 14k Ngọc trai DHK 006" class="cl-000 fs-14 hv-cl-fdb913">Hoa
+                                            tai Vàng 14k Ngọc trai DHK 006</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">8.698.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16670201"
+                                   data-variant="29991628">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16670201"
+                                   data-variant="29991628">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/mat-day-vang-14k-ngoc-trai-dhk-007"
+                                       title="Mặt Dây Vàng 14k Ngọc trai DHK 007">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/9bd7f2a565e09dbec4f1.jpg?v=1578282556000"
+                                                 alt="matdaychuyen, ngoctrai, trangsucnu">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/mat-day-vang-14k-ngoc-trai-dhk-007"
+                                           title="Mặt Dây Vàng 14k Ngọc trai DHK 007" class="cl-000 fs-14 hv-cl-fdb913">Mặt
+                                            Dây Vàng 14k Ngọc trai DHK 007</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.595.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16670159"
+                                   data-variant="29991521">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16670159"
+                                   data-variant="29991521">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/lac-tay-nu-vang-14k-ngoc-trai-dhk-005"
+                                       title="Lắc tay nữ Vàng 14K Ngọc trai DHK 005">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/17c7accb388ec0d0999f.jpg?v=1578282308000"
+                                                 alt="ngoctrai, lactay">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/lac-tay-nu-vang-14k-ngoc-trai-dhk-005"
+                                           title="Lắc tay nữ Vàng 14K Ngọc trai DHK 005"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Lắc tay nữ Vàng 14K Ngọc trai DHK 005</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.513.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669723"
+                                   data-variant="29990120">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16669723"
+                                   data-variant="29990120">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-nu-vang-14k-ngoc-trai-dhk-012"
+                                       title="Nhẫn nữ Vàng 14K Ngọc trai DHK 012">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rsdtnuntt123919-2.jpg?v=1578278618000"
+                                                 alt="nhan, nhannu, ngoctrai, vang14k, vanghong">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-nu-vang-14k-ngoc-trai-dhk-012"
+                                           title="Nhẫn nữ Vàng 14K Ngọc trai DHK 012" class="cl-000 fs-14 hv-cl-fdb913">Nhẫn
+                                            nữ Vàng 14K Ngọc trai DHK 012</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.940.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-12 tac padding-top-seemore">
+                        <a href="/trang-suc-ngoc-trai" title="Xem tất cả Trang sức ngọc trai"
+                           class="btn btn-lg custom-button custom-button3 ttu tac fw-med cl-fff fs-14 hv-cl-fdb913">
+                            <span>Xem thêm</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-9">
+        <section class="feature_products">
+            <div class="container">
+                <div class="row">
+                    <h2 class="block-title tac pos-r">
+                        <a href="/nhan-cuoi" class="ttu ff-Noto no-underline fs-40 xs-fs-35" title="">Trang sức cưới</a>
+                    </h2>
+                    <div class="collection-slider owl-carousel" data-play='true' data-loop='false' data-lg-items='4'
+                         data-md-items='3' data-sm-items='2' data-xs-items="2" data-margin='30' data-dot="false"
+                         data-nav="false">
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605285"
+                                   data-variant="29831938">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605285"
+                                   data-variant="29831938">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-cuoi-nu-vang-14k-dhk-062-1"
+                                       title="Nhẫn Cưới Nữ Vàng 14k DHK 062">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcnclvd0490919-rskcnclvd0500919-1-57cdd49b-6dea-4fe5-b1fd-ad9ea9f708cb.jpg?v=1577413467000"
+                                                 alt="nhan, nhancuoi, trangsuccuoi">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-cuoi-nu-vang-14k-dhk-062-1" title="Nhẫn Cưới Nữ Vàng 14k DHK 062"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Nhẫn Cưới Nữ Vàng 14k DHK 062</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">6.868.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605262"
+                                   data-variant="29831852">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605262"
+                                   data-variant="29831852">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-cuoi-nu-vang-14k-dhk-053-1"
+                                       title="Nhẫn Cưới Nữ Vàng 14k DHK 053">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcncddt0430919-rskcncddt0440919-1-dhk049-d4c537d1-57ed-44a7-ae89-39a406a1e2fd-b007c6e3-f8b4-4dbe-b7da-85e027136bc9.jpg?v=1577413392000"
+                                                 alt="nhancuoi, trangsuccuoi, nhan">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-cuoi-nu-vang-14k-dhk-053-1" title="Nhẫn Cưới Nữ Vàng 14k DHK 053"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Nhẫn Cưới Nữ Vàng 14k DHK 053</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">2.787.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605253"
+                                   data-variant="29831842">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605253"
+                                   data-variant="29831842">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-cuoi-nu-vang-14k-dhk-057-1"
+                                       title="Nhẫn Cưới Nữ Vàng 14k DHK 057">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcncddt0530919-rskcncddt0540919-2-27f2d015-739c-4367-b54e-3cb7d904e7ce.jpg?v=1577413293000"
+                                                 alt="nhancuoi, trangsuccuoi, nhan">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-cuoi-nu-vang-14k-dhk-057-1" title="Nhẫn Cưới Nữ Vàng 14k DHK 057"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Nhẫn Cưới Nữ Vàng 14k DHK 057</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">4.263.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="item_product_main margin-bottom-14 custom-product-item">
+
+
+                            <div class="product-box product-item-main pos-r">
+
+
+                                <a data-title="Yêu thích"
+                                   class="iWishAdd iwishAddWrapper pos-a no-bg no-border cl-929292 hv-cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605229"
+                                   data-variant="29831803">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+                                <a data-title="Bỏ yêu thích"
+                                   class="iWishAdded iwishAddWrapper iWishHidden pos-a no-bg no-border cl-fdb913"
+                                   href="javascript:;" data-customer-id="0" data-product="16605229"
+                                   data-variant="29831803">
+                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
+                                </a>
+
+                                <div class="product-thumbnail">
+                                    <a class="image_thumb" href="/nhan-cuoi-nu-vang-14k-dhk-064-1"
+                                       title="Nhẫn Cưới Nữ Vàng 14k DHK 064">
+                                        <div class="aspect ratio1by1">
+                                            <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                                 data-lazyload="//bizweb.dktcdn.net/thumb/grande/100/335/786/products/rskcnclvd0730919-rskcnclvd0740919-4-9bdd6e8f-e4df-4d07-80b0-2856fb60a6af.gif?v=1577412961000"
+                                                 alt="nhan, nhancuoi, trangsuccuoi">
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="product-info product-bottom pos-r">
+
+                                    <h3 class="product-name tac">
+                                        <a href="/nhan-cuoi-nu-vang-14k-dhk-064-1" title="Nhẫn Cưới Nữ Vàng 14k DHK 064"
+                                           class="cl-000 fs-14 hv-cl-fdb913">Nhẫn Cưới Nữ Vàng 14k DHK 064</a>
+                                    </h3>
+
+                                    <div class="product-item-price price-box tac">
+			
+			
+			<span class="special-price">
+				<span class="price product-price fw-semibold cl-000 fs-16">5.254.000₫</span>
+			</span>
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-12 tac padding-top-seemore">
+                        <a href="/nhan-cuoi" title="Xem tất cả Trang sức cưới"
+                           class="btn btn-lg custom-button custom-button3 ttu tac fw-med cl-fff fs-14 hv-cl-fdb913">
+                            <span>Xem thêm</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-10">
+        <section class="feature_video">
+            <div class="container">
+                <div class=row>
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/qsAJZeT7BkY" frameborder="0"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+    <section class="awe-section-11">
+        <section class="blog">
+            <h2 class="block-title tac pos-r">
+                <a href="/tin-tuc" class="ttu ff-Noto no-underline fs-40 xs-fs-35" title="">Blogs</a>
+            </h2>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class=row>
+                    <div class="blog-inner custom-first-blog custom-blog pos-r">
+                        <div class="blog-img">
+                            <a href="/tai-sao-ban-nen-lua-chon-trang-suc-lam-qua-tang-valentine-cho-ban-gai"
+                               title="Tại sao bạn nên lựa chọn Trang sức làm quà tặng Valentine cho bạn gái">
+
+                                <div class="aspect cover ratio78per cover">
+                                    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                         data-lazyload="//bizweb.dktcdn.net/100/335/786/articles/rawpixel-1301236-unsplash-1549487012.jpg?v=1580956703753"
+                                         class="img-responsive"
+                                         alt="Tại sao bạn nên lựa chọn Trang sức làm quà tặng Valentine cho bạn gái">
+                                </div>
+
+                            </a>
+                        </div>
+                        <div class="custom-blog-content pos-a bg-fff">
+                            <h3 class="fs-22 cl-252525 no-mar ff-Noto f-i"><a
+                                        title="Tại sao bạn nên lựa chọn Trang sức làm quà tặng Valentine cho bạn gái"
+                                        href="/tai-sao-ban-nen-lua-chon-trang-suc-lam-qua-tang-valentine-cho-ban-gai">Tại
+                                    sao bạn nên lựa chọn Trang sức làm quà tặng Valentine cho bạn gái</a></h3>
+
+                            <a href="/tai-sao-ban-nen-lua-chon-trang-suc-lam-qua-tang-valentine-cho-ban-gai"
+                               title="Tại sao bạn nên lựa chọn Trang sức làm quà tặng Valentine cho bạn gái"
+                               class="ff-Noto fs-13 cl-898989 readmore db">Xem thêm </a>
+                        </div>
+                        <div class="pos-a bg-fff datetime tac">
+	<span class="date f-i ff-Playfair cl-252525 db fs-20">
+		06
+	</span>
+                            <span class="month ff-Playfair fw-bold cl-252525 db fs-14">
+		
+		
+		N/A
+		
+	</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class=row>
+
+                    <div class="blog-inner custom-blog clearfix">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="blog-img row pos-r">
+                                <a href="/huong-dan-ban-cach-bao-quan-ve-sinh-trang-suc-vang-bac-da-quy"
+                                   title="Hướng dẫn bạn cách Bảo quản & Vệ sinh trang sức Vàng bạc, Đá quý">
+
+                                    <div class="aspect ratio78per cover">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/100/335/786/articles/unnamed.jpg?v=1580521060197"
+                                             class="img-responsive"
+                                             alt="Hướng dẫn bạn cách Bảo quản & Vệ sinh trang sức Vàng bạc, Đá quý">
+                                    </div>
+
+                                </a>
+                                <div class="pos-a bg-fff datetime tac">
+	<span class="date f-i ff-Playfair cl-252525 db fs-20">
+		01
+	</span>
+                                    <span class="month ff-Playfair fw-bold cl-252525 db fs-14">
+		
+		
+		N/A
+		
+	</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="custom-blog-content row bg-fff">
+                                <h3 class="fs-22 cl-252525 no-mar ff-Noto f-i"><a
+                                            title="Hướng dẫn bạn cách Bảo quản & Vệ sinh trang sức Vàng bạc, Đá quý"
+                                            href="/huong-dan-ban-cach-bao-quan-ve-sinh-trang-suc-vang-bac-da-quy">Hướng
+                                        dẫn bạn cách Bảo quản & Vệ sinh trang sức Vàng bạc, Đá quý</a></h3>
+
+                                <a href="/huong-dan-ban-cach-bao-quan-ve-sinh-trang-suc-vang-bac-da-quy"
+                                   title="Hướng dẫn bạn cách Bảo quản & Vệ sinh trang sức Vàng bạc, Đá quý"
+                                   class="ff-Noto fs-13 cl-898989 readmore db">Xem thêm </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blog-inner custom-blog clearfix even ">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="blog-img row pos-r">
+                                <a href="/mua-gi-ngay-than-tai-de-ca-nam-phu-quy-tai-loc"
+                                   title="Mua gì ngày Thần Tài để cả năm phú quý, tài lộc?">
+
+                                    <div class="aspect ratio78per cover">
+                                        <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                             data-lazyload="//bizweb.dktcdn.net/100/335/786/articles/ngay-via-than-tai.jpg?v=1580437307287"
+                                             class="img-responsive"
+                                             alt="Mua gì ngày Thần Tài để cả năm phú quý, tài lộc?">
+                                    </div>
+
+                                </a>
+                                <div class="pos-a bg-fff datetime tac">
+	<span class="date f-i ff-Playfair cl-252525 db fs-20">
+		31
+	</span>
+                                    <span class="month ff-Playfair fw-bold cl-252525 db fs-14">
+		
+		
+		N/A
+		
+	</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <div class="custom-blog-content row bg-fff">
+                                <h3 class="fs-22 cl-252525 no-mar ff-Noto f-i"><a
+                                            title="Mua gì ngày Thần Tài để cả năm phú quý, tài lộc?"
+                                            href="/mua-gi-ngay-than-tai-de-ca-nam-phu-quy-tai-loc">Mua gì ngày Thần Tài
+                                        để cả năm phú quý, tài lộc?</a></h3>
+
+                                <a href="/mua-gi-ngay-than-tai-de-ca-nam-phu-quy-tai-loc"
+                                   title="Mua gì ngày Thần Tài để cả năm phú quý, tài lộc?"
+                                   class="ff-Noto fs-13 cl-898989 readmore db">Xem thêm </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="blog-inner custom-last-blog custom-blog clearfix col-lg-6 col-md-6 col-sm-12 col-xs-12 col-lg-offset-3 col-md-offset-3 even no-padding">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="blog-img row pos-r">
+                        <a href="/3-cach-bao-quan-trang-suc-de-don-nam-moi-tet-den"
+                           title="3 cách bảo quản trang sức để đón năm mới Tết đến">
+
+                            <div class="aspect ratio78per cover">
+                                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA="
+                                     data-lazyload="//bizweb.dktcdn.net/100/335/786/articles/bao-quan-trang-suc-vang-1.jpg?v=1579333353603"
+                                     class="img-responsive" alt="3 cách bảo quản trang sức để đón năm mới Tết đến">
+                            </div>
+
+                        </a>
+                        <div class="pos-a bg-fff datetime tac">
+	<span class="date f-i ff-Playfair cl-252525 db fs-20">
+		18
+	</span>
+                            <span class="month ff-Playfair fw-bold cl-252525 db fs-14">
+		
+		
+		N/A
+		
+	</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="custom-blog-content row bg-fff">
+                        <h3 class="fs-22 cl-252525 no-mar ff-Noto f-i"><a
+                                    title="3 cách bảo quản trang sức để đón năm mới Tết đến"
+                                    href="/3-cach-bao-quan-trang-suc-de-don-nam-moi-tet-den">3 cách bảo quản trang sức
+                                để đón năm mới Tết đến</a></h3>
+
+                        <a href="/3-cach-bao-quan-trang-suc-de-don-nam-moi-tet-den"
+                           title="3 cách bảo quản trang sức để đón năm mới Tết đến"
+                           class="ff-Noto fs-13 cl-898989 readmore db">Xem thêm </a>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </section>
+
+
+    <div class="ab-most-view-product-module ab-hide"></div>
+
+
+    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/bpr-products-module.css?1593138638645"
+          rel="stylesheet" type="text/css"/>
+    <div class="bizweb-product-reviews-module"></div>
+
+
+    <div class="clearfix"></div>
+
+
+    <!-- Add to cart -->
+
+
+    <div id="quick-view-product" class="quickview-product" style="display:none;">
+        <div class="quickview-overlay fancybox-overlay fancybox-overlay-fixed"></div>
+        <div class="quick-view-product"></div>
+        <div id="quickview-modal" style="display:none;">
+            <div class="block-quickview primary_block row">
+
+                <div class="product-left-column col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                    <div class="clearfix image-block">
+					<span class="view_full_size">
+						<a class="img-product" title="title" href="#">
+							<img id="product-featured-image-quickview"
+                                 class="img-responsive product-featured-image-quickview"
+                                 src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/logo.png?1593138638645"
+                                 alt="quickview"/>
+						</a>
+					</span>
+                        <div class="loading-imgquickview" style="display:none;"></div>
+                    </div>
+                    <div class="more-view-wrapper clearfix">
+                        <div class="thumbs_quickview" id="thumbs_list_quickview">
+                            <ul class="product-photo-thumbs quickview-more-views-owlslider"
+                                id="thumblist_quickview"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-center-column product-info product-item col-xs-5 col-sm-7 col-md-7 col-lg-7">
+                    <div class="head-qv">
+                        <h3 class="qwp-name">abc</h3>
+
+                    </div>
+                    <div class="quickview-info">
+                        <span class="vendor_ frist">Thương hiệu: <span class="vendor">Chưa có</span></span>
+                        <span class="vendor_ status">Tình trạng: <span class="status_name"></span></span>
+
+                        <span class="prices">
+						<span class="price"></span>
+						<del class="old-price"></del>
+					</span>
+                    </div>
+
+
+                    <form action="/cart/add" method="post" enctype="multipart/form-data"
+                          class="quick_option variants form-ajaxtocart">
+					<span class="price-product-detail hidden" style="opacity: 0;">
+						<span class=""></span>
+					</span>
+                        <select name='variantId' class="hidden" style="display:none"></select>
+                        <div class="clearfix"></div>
+                        <div class="quantity_wanted_p">
+                            <div class="input_qty_qv input_number_product">
+                                <a class="btn_num num_1 button button_qty" title="title"
+                                   onClick="var result = document.getElementById('quantity-detail'); var qtyqv = result.value; if( !isNaN( qtyqv ) &amp;&amp; qtyqv &gt; 1 ) result.value--;return false;">-</a>
+                                <input type="text" id="quantity-detail" name="quantity" value="1"
+                                       onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;"
+                                       onchange="if(this.value == 0)this.value=1;" class="form-control prd_quantity">
+                                <a class="btn_num num_2 button button_qty" title="title"
+                                   onClick="var result = document.getElementById('quantity-detail'); var qtyqv = result.value; if( !isNaN( qtyqv )) result.value++;return false;">+</a>
+                            </div>
+                            <button type="submit" name="add"
+                                    class="btn btn-primary fix_add_to_cart button_cart_buy_enable add_to_cart_detail ajax_addtocart">
+                                <i class="ion-android-cart"></i>&nbsp;&nbsp;<span>Thêm vào giỏ hàng</span>
+                            </button>
+                        </div>
+                        <div class="total-price" style="display:none">
+                            <label>Tổng cộng: </label>
+                            <span></span>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+            <a title="Close" class="quickview-close close-window quickviewsclose" href="javascript:;"><i
+                        class="fa   fa-times"></i></a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        Bizweb.doNotTriggerClickOnThumb = false;
+
+        function changeImageQuickView(img, selector) {
+            var src = $(img).attr("src");
+            src = src.replace("_compact", "");
+            $(selector).attr("src", src);
+        }
+
+        function validate(evt) {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode(key);
+            var regex = /[0-9]|\./;
+            if (!regex.test(key)) {
+                theEvent.returnValue = false;
+                if (theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
+
+        var selectCallbackQuickView = function (variant, selector) {
+            $('#quick-view-product form').show();
+            var productItem = jQuery('.quick-view-product .product-item'),
+                addToCart = productItem.find('.add_to_cart_detail'),
+                productPrice = productItem.find('.price'),
+                comparePrice = productItem.find('.old-price'),
+                status = productItem.find('.soluong'),
+                vat = productItem.find('.vat_ .vat_qv'),
+                status_available = productItem.find('.status_name'),
+                totalPrice = productItem.find('.total-price span');
+
+
+            if (variant && variant.available) {
+
+                var form = jQuery('#' + selector.domIdPrefix).closest('form');
+                for (var i = 0, length = variant.options.length; i < length; i++) {
+                    var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] + '"]');
+                    if (radioButton.size()) {
+                        radioButton.get(0).checked = true;
+                    }
+                }
+
+                addToCart.removeClass('disabled').removeAttr('disabled');
+                $(addToCart).find("span").text("Thêm vào giỏ hàng");
+                status_available.text('Còn hàng');
+                if (variant.price < 1) {
+                    $("#quick-view-product .price").html('Liên hệ');
+                    $("#quick-view-product del, #quick-view-product .quantity_wanted_p").hide();
+                    $("#quick-view-product .prices .old-price").hide();
+
+                } else {
+                    productPrice.html(Bizweb.formatMoney(variant.price, "{{ amount_no_decimals_with_comma_separator }}₫"));
+                    if (variant.compare_at_price > variant.price) {
+                        comparePrice.html(Bizweb.formatMoney(variant.compare_at_price, "{{ amount_no_decimals_with_comma_separator }}₫")).show();
+                        productPrice.addClass('on-sale');
+                    } else {
+                        comparePrice.hide();
+                        productPrice.removeClass('on-sale');
+                    }
+
+                    $(".quantity_wanted_p").show();
+
+
+                }
+
+
+                updatePricingQuickView();
+
+                /*begin variant image*/
+                if (variant && variant.featured_image) {
+
+                    var originalImage = $("#product-featured-image-quickview");
+                    var newImage = variant.featured_image;
+                    var element = originalImage[0];
+                    Bizweb.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+                        $('#thumblist_quickview img').each(function () {
+                            var parentThumbImg = $(this).parent();
+                            var productImage = $(this).parent().data("image");
+                            if (newImageSizedSrc.includes(productImage)) {
+                                $(this).parent().trigger('click');
+                                return false;
+                            }
+                        });
+
+                    });
+                    $('#product-featured-image-quickview').attr('src', variant.featured_image.src);
+                }
+            } else {
+
+                addToCart.addClass('disabled').attr('disabled', 'disabled');
+                $(addToCart).find("span").text("Hết hàng");
+                status_available.text('Hết hàng');
+                $(".quantity_wanted_p").show();
+                if (variant) {
+                    if (variant.price < 1) {
+
+                        $("#quick-view-product .price").html('Hết hàng');
+                        $("#quick-view-product del").hide();
+                        $("#quick-view-product .quantity_wanted_p").hide();
+                        $("#quick-view-product .prices .old-price").hide();
+
+                        comparePrice.hide();
+                        productPrice.removeClass('on-sale');
+                        addToCart.addClass('disabled').attr('disabled', 'disabled');
+                        $(addToCart).find("span").text("Hết hàng");
+                    } else {
+                        if (variant.compare_at_price > variant.price) {
+                            comparePrice.html(Bizweb.formatMoney(variant.compare_at_price, "{{ amount_no_decimals_with_comma_separator }}₫")).show();
+                            productPrice.addClass('on-sale');
+                        } else {
+                            comparePrice.hide();
+                            productPrice.removeClass('on-sale');
+                            $("#quick-view-product .prices .old-price").html('');
+                        }
+                        $("#quick-view-product .price").html(Bizweb.formatMoney(variant.price, "{{ amount_no_decimals_with_comma_separator }}₫"));
+                        $("#quick-view-product del ").hide();
+                        $("#quick-view-product .prices .old-price").show();
+
+                        addToCart.addClass('disabled').attr('disabled', 'disabled');
+                        $(addToCart).find("span").text("Hết hàng");
+                    }
+                } else {
+                    $("#quick-view-product .price").html('Hết hàng');
+                    $("#quick-view-product del").hide();
+                    $("#quick-view-product .quantity_wanted_p").hide();
+                    $("#quick-view-product .prices .old-price").hide();
+                    comparePrice.hide();
+                    productPrice.removeClass('on-sale');
+                    addToCart.addClass('disabled').attr('disabled', 'disabled');
+                    $(addToCart).find("span").text("Hết hàng");
+                }
+            }
+            /*begin variant image*/
+            if (variant && variant.featured_image) {
+
+                var originalImage = $("#product-featured-image-quickview");
+                var newImage = variant.featured_image;
+                var element = originalImage[0];
+                Bizweb.Image.switchImage(newImage, element, function (newImageSizedSrc, newImage, element) {
+                    $('#thumblist_quickview img').each(function () {
+                        var parentThumbImg = $(this).parent();
+                        var productImage = $(this).parent().data("image");
+                        if (newImageSizedSrc.includes(productImage)) {
+                            $(this).parent().trigger('click');
+                            return false;
+                        }
+                    });
+
+                });
+                $('#product-featured-image-quickview').attr('src', variant.featured_image.src);
+            }
+
+        };
+    </script>
+    <div class="ajax-load">
+	<span class="loading-icon">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;"
+             xml:space="preserve">
+			<rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
+				<animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s"
+                         repeatCount="indefinite"/>
+				<animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s"
+                         repeatCount="indefinite"/>
+				<animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+                         repeatCount="indefinite"/>
+			</rect>
+			<rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
+				<animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s"
+                         repeatCount="indefinite"/>
+				<animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s"
+                         repeatCount="indefinite"/>
+				<animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+                         repeatCount="indefinite"/>
+			</rect>
+			<rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
+				<animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s"
+                         repeatCount="indefinite"/>
+				<animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s"
+                         repeatCount="indefinite"/>
+				<animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                         repeatCount="indefinite"/>
+			</rect>
+		</svg>
+	</span>
+    </div>
+
+    <div class="loading awe-popup">
+        <div class="overlay"></div>
+        <div class="loader" title="2">
+            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                 y="0px"
+                 width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;"
+                 xml:space="preserve">
+			<rect x="0" y="10" width="4" height="10" fill="#333" opacity="0.2">
+                <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0s" dur="0.6s"
+                         repeatCount="indefinite"/>
+                <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0s" dur="0.6s"
+                         repeatCount="indefinite"/>
+                <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0s" dur="0.6s"
+                         repeatCount="indefinite"/>
+            </rect>
+                <rect x="8" y="10" width="4" height="10" fill="#333" opacity="0.2">
+                    <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.15s" dur="0.6s"
+                             repeatCount="indefinite"/>
+                    <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.15s" dur="0.6s"
+                             repeatCount="indefinite"/>
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.15s" dur="0.6s"
+                             repeatCount="indefinite"/>
+                </rect>
+                <rect x="16" y="10" width="4" height="10" fill="#333" opacity="0.2">
+                    <animate attributeName="opacity" attributeType="XML" values="0.2; 1; .2" begin="0.3s" dur="0.6s"
+                             repeatCount="indefinite"/>
+                    <animate attributeName="height" attributeType="XML" values="10; 20; 10" begin="0.3s" dur="0.6s"
+                             repeatCount="indefinite"/>
+                    <animate attributeName="y" attributeType="XML" values="10; 5; 10" begin="0.3s" dur="0.6s"
+                             repeatCount="indefinite"/>
+                </rect>
+		</svg>
+        </div>
+
+    </div>
+
+
+    <div class="error-popup awe-popup">
+        <div class="overlay no-background"></div>
+        <div class="popup-inner content">
+            <div class="error-message"></div>
+        </div>
+    </div>
+    <div id="popup-cart" class="modal fade" role="dialog">
+        <div id="popup-cart-desktop" class="clearfix">
+            <div class="title-popup-cart">
+                <img src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/ico_check_.png?1593138638645"
+                     alt="dhkj.vn"/> <span class="your_product">Bạn đã thêm [<span class="cart-popup-name"></span>] vào giỏ hàng thành công ! </span>
+            </div>
+            <div class="wrap_popup">
+                <div class="title-quantity-popup">
+                    <span class="cart_status" onclick="window.location.href='/cart';">Giỏ hàng của bạn có <span
+                                class="cart-popup-count"></span> sản phẩm </span>
+                </div>
+                <div class="content-popup-cart">
+                    <div class="thead-popup">
+                        <div style="width: 53%;" class="text-left">Sản phẩm</div>
+                        <div style="width: 15%;" class="text-center">Đơn giá</div>
+                        <div style="width: 15%;" class="text-center">Số lượng</div>
+                        <div style="width: 17%;" class="text-center">Thành tiền</div>
+                    </div>
+                    <div class="tbody-popup scrollbar-dynamic">
+                    </div>
+                    <div class="tfoot-popup">
+                        <div class="tfoot-popup-1 a-right clearfix">
+                            <span class="total-p popup-total">Tổng tiền thanh toán: <span
+                                        class="total-price"></span></span>
+                        </div>
+                        <div class="tfoot-popup-2 clearfix">
+                            <a class="button buy_ btn-proceed-checkout" title="tiếp tục mua hàng" href="javascript:;"
+                               onclick="$('#popup-cart').modal('hide');"><span><span>Tiếp tục mua hàng</span></span></a>
+                            <a class="button checkout_ btn-proceed-checkout" title="Thực hiện thanh toán"
+                               href="/checkout"><span>Thực hiện thanh toán</span></a>
+
+                        </div>
+                    </div>
+                </div>
+                <a title="Close" class="quickview-close close-window" href="javascript:;"
+                   onclick="$('#popup-cart').modal('hide');"><i class="fa  fa-close"></i></a>
+            </div>
+        </div>
+
+    </div>
+    <div id="myModal" class="modal fade" role="dialog">
+    </div>
+
+
+    <!-- Bizweb javascript customer -->
+
+    <!-- Bizweb javascript -->
+    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/option-selectors.js?1593138638645"
+            type="text/javascript"></script>
+    <script src="//bizweb.dktcdn.net/assets/themes_support/api.jquery.js" type="text/javascript"></script>
+
+    <!-- Plugin JS -->
+    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/plugin.js?1593138638645"
+            type="text/javascript"></script>
+    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/cs.script.js?1593138638645"
+            type="text/javascript"></script>
+    <script>
+        Bizweb.updateCartFromForm = function (cart, cart_summary_id, cart_count_id) {
+            if ((typeof cart_summary_id) === 'string') {
+                var cart_summary = jQuery(cart_summary_id);
+                if (cart_summary.length) {
+                    // Start from scratch.
+                    cart_summary.empty();
+                    // Pull it all out.
+                    jQuery.each(cart, function (key, value) {
+                        if (key === 'items') {
+
+                            var table = jQuery(cart_summary_id);
+                            if (value.length) {
+                                jQuery('<ul class="list-item-cart"></ul>').appendTo(table);
+                                jQuery.each(value, function (i, item) {
+
+                                    var src = item.image;
+                                    if (src == null) {
+                                        src = "https://bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif";
+                                    }
+                                    var buttonQty = "";
+                                    if (item.quantity == '1') {
+                                        // buttonQty = 'disabled';
+                                    } else {
+                                        buttonQty = '';
+                                    }
+                                    jQuery('<li class="item productid-' + item.variant_id + '"><div class="wrap_item"><a class="product-image" href="' + item.url + '" title="' + item.name + '">'
+                                        + '<img alt="' + item.name + '" src="' + src + '"width="' + '80' + '"\></a>'
+                                        + '<div class="detail-item"><div class="product-details"> <a href="javascript:;" data-id="' + item.variant_id + '" title="Xóa" class="remove-item-cart fa fa-close">&nbsp;</a>'
+                                        + '<h3 class="product-name"> <a href="' + item.url + '" title="' + item.name + '">' + item.name + '</a></h3></div>'
+                                        + '<div class="product-details-bottom"><span class="price">' + Bizweb.formatMoney(item.price, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span><span class="hidden quaty item_quanty_count"> x ' + item.quantity + '</span>'
+                                        + '<div class="quantity-select qty_drop_cart"><input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '"><button onClick="var result = document.getElementById(\'qty' + item.variant_id + '\'); var qty' + item.variant_id + ' = result.value; if( !isNaN( qty' + item.variant_id + ' ) &amp;&amp; qty' + item.variant_id + ' &gt; 1 ) result.value--;return false;" class="btn_reduced reduced items-count btn-minus" ' + buttonQty + ' type="button">–</button><input type="text" maxlength="12" readonly class="input-text number-sidebar qty' + item.variant_id + '" id="qty' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '"><button onClick="var result = document.getElementById(\'qty' + item.variant_id + '\'); var qty' + item.variant_id + ' = result.value; if( !isNaN( qty' + item.variant_id + ' )) result.value++;return false;" class="btn_increase increase items-count btn-plus" type="button">+</button></div>'
+                                        + '</div></div></li>').appendTo(table.children('.list-item-cart'));
+                                });
+                                jQuery('<div class="wrap_total"><div class="top-subtotal hidden">Phí vận chuyển: <span class="pricex">Tính khi thanh toán</span></div><div class="top-subtotal">Tổng tiền tạm tính: <span class="price">' + Bizweb.formatMoney(cart.total_price, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span></div></div>').appendTo(table);
+                                jQuery('<div class="wrap_button"><div class="actions"><a href="/cart" class="btn btn-gray btn-cart-page pink hidden"><span>Đến giỏ hàng</span></a> <a href="/checkout" class="btn btn-gray btn-checkout pink" title="Thanh toán"><span>Tiến hành thanh toán</span></a> </div></div>').appendTo(table);
+                            } else {
+                                jQuery('<div class="no-item"><p>Không có sản phẩm nào.</p></div>').appendTo(table);
+
+                            }
+                        }
+                    });
+                }
+            }
+            updateCartDesc(cart);
+            var numInput = document.querySelector('#cart-sidebar .qty_drop_cart input.input-text');
+            if (numInput != null) {
+                // Listen for input event on numInput.
+                numInput.addEventListener('input', function () {
+                    // Let's match only digits.
+                    var num = this.value.match(/^\d+$/);
+                    if (num == 0) {
+                        // If we have no match, value will be empty.
+                        this.value = 1;
+                    }
+                    if (num === null) {
+                        // If we have no match, value will be empty.
+                        this.value = "1";
+                    }
+                }, false)
+            }
+        }
+
+        Bizweb.updateCartPageForm = function (cart, cart_summary_id, cart_count_id) {
+            if ((typeof cart_summary_id) === 'string') {
+                var cart_summary = jQuery(cart_summary_id);
+                if (cart_summary.length) {
+                    // Start from scratch.
+                    cart_summary.empty();
+                    // Pull it all out.
+                    jQuery.each(cart, function (key, value) {
+                        if (key === 'items') {
+                            var table = jQuery(cart_summary_id);
+                            if (value.length) {
+
+                                var pageCart = '<div class="cart page_cart hidden-xs">'
+                                    + '<form action="/cart" method="post" novalidate class="margin-bottom-0"><div class="bg-scroll"><div class="cart-thead">'
+                                    + '<div style="width: 18%" class="a-center">Ảnh sản phẩm</div><div style="width: 32%" class="a-center">Tên sản phẩm</div><div style="width: 17%" class="a-center"><span class="nobr">Đơn giá</span></div><div style="width: 14%" class="a-center">Số lượng</div><div style="width: 14%" class="a-center">Thành tiền</div><div style="width: 5%" class="a-center">Xoá</div></div>'
+                                    + '<div class="cart-tbody"></div></div></form></div>';
+                                var pageCartCheckout = '<div class="row margin-top-20  margin-bottom-40"><div class="col-lg-7 col-md-7"><div class="form-cart-button"><div class=""><a href="/" class="form-cart-continue">Tiếp tục mua hàng</a></div></div></div>'
+                                    + '<div class="col-lg-5 col-md-5 bg_cart shopping-cart-table-total"><div class="table-total"><table class="table ">'
+                                    + '<tr class="hidden"><td>Tiền vận chuyển</td><td class="txt-right a-right">Tính khi thanh toán</td></tr>'
+                                    + '<tr><td class="total-text">Tổng tiền thanh toán</td><td class="1 txt-right totals_price price_end a-right">' + Bizweb.formatMoney(cart.total_price, "{{ amount_no_decimals_with_comma_separator }}₫") + '</td></tr></table></div>'
+                                    + '<a onclick="window.location.href=\'/checkout\'" class="btn-checkout-cart" title="Thanh toán">Tiến hành thanh toán</a></div></div>';
+                                jQuery(pageCart).appendTo(table);
+                                jQuery.each(value, function (i, item) {
+                                    var buttonQty = "";
+                                    if (item.quantity == '1') {
+                                        buttonQty = 'disabled';
+                                    } else {
+                                        buttonQty = '';
+                                    }
+                                    var link_img1 = Bizweb.resizeImage(item.image, 'compact');
+                                    if (link_img1 == "null" || link_img1 == '' || link_img1 == null) {
+                                        link_img1 = 'https://bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif';
+                                    }
+
+                                    var hidden_title_popup = "visible";
+                                    if (item.variant_title == 'Default Title') {
+                                        hidden_title_popup = 'hidden';
+                                    }
+                                    var pageCartItem = '<div class="item-cart productid-' + item.variant_id + '"><div style="width: 18%" class="image"><a class="product-image" title="' + item.name + '" href="' + item.url + '"><img width="75" height="auto" alt="' + item.name + '" src="' + link_img1 + '"></a></div>'
+                                        + '<div style="width: 32%" class="a-center"><h3 class="product-name"> <a class="text2line" href="' + item.url + '" title="' + item.title + '">' + item.title + '</a> </h3><span class="variant-title ' + hidden_title_popup + '">' + item.variant_title + '</span>'
+                                        + '</div><div style="width: 17%" class="a-center"><span class="item-price"> <span class="price">' + Bizweb.formatMoney(item.price, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span></span></div>'
+                                        + '<div style="width: 14%" class="a-center"><div class="input_qty_pr"><input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '">'
+                                        + '<input type="text" maxlength="12" readonly min="0" class="check_number_here input-text number-sidebar input_pop input_pop qtyItem' + item.variant_id + '" id="qtyItem' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '">'
+                                        + '<button onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '\'); var qtyItem' + item.variant_id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + ' )) result.value++;return false;" class="increase_pop items-count btn-plus" type="button">+</button><button onClick="var result = document.getElementById(\'qtyItem' + item.variant_id + '\'); var qtyItem' + item.variant_id + ' = result.value; if( !isNaN( qtyItem' + item.variant_id + ' ) &amp;&amp; qtyItem' + item.variant_id + ' &gt; 1 ) result.value--;return false;" ' + buttonQty + ' class="reduced_pop items-count btn-minus" type="button">-</button></div></div>'
+                                        + '<div style="width: 14%" class="a-center"><span class="cart-price"> <span class="price">' + Bizweb.formatMoney(item.price * item.quantity, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span> </span></div>'
+                                        + '<div style="width: 5%" class="a-center">'
+                                        + '<a class="remove-itemx remove-item-cart" title="Xóa" href="javascript:;" data-id="' + item.variant_id + '"><span><i class="fa fa-trash-o"></i></span></a>'
+                                        + '</div>'
+                                        + '</div>';
+                                    jQuery(pageCartItem).appendTo(table.find('.cart-tbody'));
+
+                                });
+                                jQuery(pageCartCheckout).appendTo(table.children('.cart'));
+                            } else {
+                                jQuery('<p class="hidden-xs-down ">Không có sản phẩm nào. Quay lại <a href="/collections/all" style="color:;">cửa hàng</a> để tiếp tục mua sắm.</p>').appendTo(table);
+                                jQuery('.cart_desktop_page').css('min-height', 'auto');
+                            }
+                        }
+                    });
+                }
+            }
+            updateCartDesc(cart);
+            jQuery('#wait').hide();
+
+        }
+
+        Bizweb.updateCartPopupForm = function (cart, cart_summary_id, cart_count_id) {
+
+            if ((typeof cart_summary_id) === 'string') {
+                var cart_summary = jQuery(cart_summary_id);
+                if (cart_summary.length) {
+                    // Start from scratch.
+                    cart_summary.empty();
+                    // Pull it all out.
+                    jQuery.each(cart, function (key, value) {
+                        if (key === 'items') {
+                            var table = jQuery(cart_summary_id);
+                            if (value.length) {
+                                jQuery.each(value, function (i, item) {
+                                    var src = item.image;
+                                    if (src == null) {
+                                        src = "https://bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif";
+                                    }
+                                    var buttonQty = "";
+                                    if (item.quantity == '1') {
+                                        buttonQty = 'disabled';
+                                    } else {
+                                        buttonQty = '';
+                                    }
+                                    var hidden_title_popup = "visible";
+                                    if (item.variant_title == 'Default Title') {
+                                        hidden_title_popup = 'hidden';
+                                    }
+                                    var pageCartItem = '<div class="item-popup productid-' + item.variant_id + '">'
+                                        + '<div style="width: 15%;" class="border height image_ text-left"><div class="item-image">'
+                                        + '<a class="product-image" href="' + item.url + '" title="' + item.name + '"><img alt="' + item.name + '" src="' + src + '"width="' + '90' + '"\></a>'
+                                        + '</div></div>'
+                                        + '<div style="width:38.8%;" class="height text-left"><div class="item-info"><p class="item-name"><a href="' + item.url + '" title="' + item.name + '">' + item.name + '</a></p>'
+                                        + '<span class="variant-title-popup ' + hidden_title_popup + '">' + item.variant_title + '</span>'
+                                        + '<a href="javascript:;" class="remove-item-cart" title="Xóa sản phẩm" data-id="' + item.variant_id + '"><i class="fa fa-close"></i>&nbsp;&nbsp;Xoá sản phẩm</a>'
+                                        + '<p class="addpass" style="color:#fff;margin:0px;">' + item.variant_id + '</p>'
+                                        + '</div></div>'
+                                        + '<div style="width: 15.2%;" class="border height text-center"><div class="item-price"><span class="price">' + Bizweb.formatMoney(item.price, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span>'
+                                        + '</div></div><div style="width: 15.4%;" class="border height text-center"><div class="qty_thuongdq check_"><input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '">'
+                                        + '<button onClick="var result = document.getElementById(\'qtyItemP' + item.variant_id + '\'); var qtyItemP' + item.variant_id + ' = result.value; if( !isNaN( qtyItemP' + item.variant_id + ' ) &amp;&amp; qtyItemP' + item.variant_id + ' &gt; 1 ) result.value--;return false;" ' + buttonQty + ' class="num1 reduced items-count btn-minus" type="button">-</button>'
+                                        + '<input type="text" maxlength="12" min="0" readonly class="input-text number-sidebar qtyItemP' + item.variant_id + '" id="qtyItemP' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '">'
+                                        + '<button onClick="var result = document.getElementById(\'qtyItemP' + item.variant_id + '\'); var qtyItemP' + item.variant_id + ' = result.value; if( !isNaN( qtyItemP' + item.variant_id + ' )) result.value++;return false;" class="num2 increase items-count btn-plus" type="button">+</button></div></div>'
+                                        + '<div style="width: 15%;" class="border height text-center"><span class="cart-price"> <span class="price">' + Bizweb.formatMoney(item.price * item.quantity, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span> </span></div>'
+                                        + '</div>';
+                                    jQuery(pageCartItem).appendTo(table);
+
+                                    $('.link_product').text();
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+            jQuery('.total-price').html(Bizweb.formatMoney(cart.total_price, "{{ amount_no_decimals_with_comma_separator }}₫"));
+
+            updateCartDesc(cart);
+
+        }
+
+        Bizweb.updateCartPageFormMobile = function (cart, cart_summary_id, cart_count_id) {
+            if ((typeof cart_summary_id) === 'string') {
+                var cart_summary = jQuery(cart_summary_id);
+                if (cart_summary.length) {
+                    // Start from scratch.
+                    cart_summary.empty();
+                    // Pull it all out.
+                    jQuery.each(cart, function (key, value) {
+                        if (key === 'items') {
+
+                            var table = jQuery(cart_summary_id);
+                            if (value.length) {
+                                jQuery('<div class="cart_page_mobile content-product-list"></div>').appendTo(table);
+                                jQuery.each(value, function (i, item) {
+                                    if (item.image != null) {
+                                        var src = Bizweb.resizeImage(item.image, 'small');
+                                    } else {
+                                        var src = "https://bizweb.dktcdn.net/thumb/large/assets/themes_support/noimage.gif";
+                                    }
+                                    jQuery('<div class="item-product item-mobile-cart item productid-' + item.variant_id + ' "><div class="item-product-cart-mobile"><a href="' + item.url + '">	<a class="product-images1" href="' + item.url + '"  title="' + item.name + '"><img width="80" height="150" alt="' + item.name + '" src="' + src + '" alt="' + item.name + '"></a></a></div>'
+                                        + '<div class="title-product-cart-mobile"><h3><a class="" href="' + item.url + '" title="' + item.name + '">' + item.name + '</a></h3><p>Giá: <span>' + Bizweb.formatMoney(item.price, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span></p></div>'
+                                        + '<div class="select-item-qty-mobile"><div class="txt_center in_put check_">'
+                                        + '<input class="variantID" type="hidden" name="variantId" value="' + item.variant_id + '"><button onClick="var result = document.getElementById(\'qtyMobile' + item.variant_id + '\'); var qtyMobile' + item.variant_id + ' = result.value; if( !isNaN( qtyMobile' + item.variant_id + ' ) &amp;&amp; qtyMobile' + item.variant_id + ' &gt; 0 ) result.value--;return false;" class="reduced items-count btn-minus" type="button">–</button><input type="number" maxlength="12" min="1" readonly class="check_number_here input-text mobile_input number-sidebar qtyMobile' + item.variant_id + '" id="qtyMobile' + item.variant_id + '" name="Lines" id="updates_' + item.variant_id + '" size="4" value="' + item.quantity + '"><button onClick="var result = document.getElementById(\'qtyMobile' + item.variant_id + '\'); var qtyMobile' + item.variant_id + ' = result.value; if( !isNaN( qtyMobile' + item.variant_id + ' )) result.value++;return false;" class="increase items-count btn-plus" type="button">+</button></div>'
+                                        + '<a class="button remove-item remove-item-cart" href="javascript:;" data-id="' + item.variant_id + '">Xoá</a></div>').appendTo(table.children('.content-product-list'));
+
+                                });
+
+                                jQuery('<div class="header-cart-price" style=""><div class="title-cart a-center"><span class="total_mobile a-center">Tổng tiền: <span class=" totals_price_mobile">' + Bizweb.formatMoney(cart.total_price, "{{ amount_no_decimals_with_comma_separator }}₫") + '</span><span></div>'
+                                    + '<div class="checkout"><button class="btn-proceed-checkout-mobile" title="Tiến hành thanh toán" type="button" onclick="window.location.href=\'/checkout\'">'
+                                    + '<span>Tiến hành thanh toán</span></button>'
+                                    + '<button class="btn btn-white contin" title="Tiếp tục mua hàng" type="button" onclick="window.location.href=\'/collections/all\'"><span>Tiếp tục mua hàng</span></button>'
+                                    + '</div></div>').appendTo(table);
+                            } else {
+                                jQuery('<p class="hidden-xs-down col-xs-12">Không có sản phẩm nào. Quay lại <a href="/collections/all" style="color:;">cửa hàng</a> để tiếp tục mua sắm.</p>').appendTo(table);
+                                jQuery('.cart_desktop_page').css('min-height', 'auto');
+                            }
+
+                        }
+                    });
+                }
+            }
+
+            updateCartDesc(cart);
+
+
+        }
+
+
+        function updateCartDesc(data) {
+            var $cartPrice = Bizweb.formatMoney(data.total_price, "{{ amount_no_decimals_with_comma_separator }}₫"),
+                $cartMobile = $('#header .cart-mobile .quantity-product'),
+                $cartDesktop = $('.count_item_pr'),
+                $cartDesktopList = $('.cart-counter-list'),
+                $cartPopup = $('.cart-popup-count');
+
+            switch (data.item_count) {
+                case 0:
+                    $cartMobile.text('0');
+                    $cartDesktop.text('0');
+                    $cartDesktopList.text('0');
+                    $cartPopup.text('0');
+
+                    break;
+                case 1:
+                    $cartMobile.text('1');
+                    $cartDesktop.text('1');
+                    $cartDesktopList.text('1');
+                    $cartPopup.text('1');
+
+                    break;
+                default:
+                    $cartMobile.text(data.item_count);
+                    $cartDesktop.text(data.item_count);
+                    $cartDesktopList.text(data.item_count);
+                    $cartPopup.text(data.item_count);
+
+                    break;
+            }
+            $('.top-cart-content .top-subtotal .price, aside.sidebar .block-cart .subtotal .price, .popup-total .total-price').html($cartPrice);
+            $('.popup-total .total-price').html($cartPrice);
+            $('.shopping-cart-table-total .totals_price').html($cartPrice);
+            $('.header-cart-price .totals_price_mobile').html($cartPrice);
+            $('.cartCount').html(data.item_count);
+        }
+
+        Bizweb.onCartUpdate = function (cart) {
+            Bizweb.updateCartFromForm(cart, '.mini-products-list');
+            Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
+
+        };
+        Bizweb.onCartUpdateClick = function (cart, variantId) {
+            jQuery.each(cart, function (key, value) {
+                if (key === 'items') {
+                    jQuery.each(value, function (i, item) {
+                        if (item.variant_id == variantId) {
+                            $('.productid-' + variantId).find('.cart-price span.price').html(Bizweb.formatMoney(item.price * item.quantity, "{{ amount_no_decimals_with_comma_separator }}₫"));
+                            $('.productid-' + variantId).find('.items-count').prop("disabled", false);
+                            $('.productid-' + variantId).find('.number-sidebar').prop("disabled", false);
+                            $('.productid-' + variantId + ' .number-sidebar').val(item.quantity);
+                            if (item.quantity == '1') {
+                                $('.productid-' + variantId).find('.items-count.btn-minus').prop("disabled", true);
+                            }
+                        }
+                    });
+                }
+            });
+            updateCartDesc(cart);
+        }
+        Bizweb.onCartRemoveClick = function (cart, variantId) {
+            jQuery.each(cart, function (key, value) {
+                if (key === 'items') {
+                    jQuery.each(value, function (i, item) {
+                        if (item.variant_id == variantId) {
+                            $('.productid-' + variantId).remove();
+                        }
+                    });
+                }
+            });
+            updateCartDesc(cart);
+        }
+        $(window).ready(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/cart.js',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                success: function (cart) {
+                    Bizweb.updateCartFromForm(cart, '.mini-products-list');
+                    Bizweb.updateCartPopupForm(cart, '#popup-cart-desktop .tbody-popup');
+
+                }
+            });
+        });
+
+    </script>
+
+
+    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/main.js?1593138638645"
+            type="text/javascript"></script>
+
+    <!-- Quick view -->
+
+    <script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/quickview.js?1593138638645"
+            type="text/javascript"></script>
+
+
+    <!-- Product detail JS,CSS -->
+    <link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/lightbox.css?1593138638645" rel="stylesheet"
+          type="text/css"/>
+
+    <script defer
+            src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/jquery.elevatezoom308.min.js?1593138638645"></script>
+
+
+    <script defer
+            src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/jquery.prettyphoto.min005e.js?1593138638645"></script>
+    <script defer
+            src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/jquery.prettyphoto.init.min367a.js?1593138638645"></script>
+
+
+    <div class='jas-sale-pop flex pf middle-xs'></div>
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+            SalesPop();
+        });
+
+        function fisherYates(myArray) {
+            var i = myArray.length, j, temp;
+            if (i === 0) return false;
+            while (--i) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = myArray[i];
+                myArray[i] = myArray[j];
+                myArray[j] = temp;
+            }
+        }
+
+        var collection = new Array();
+
+
+        collection[1] = "<a href='/hoa-tai-vang-14k-ngoc-trai-dhk-006' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/5b4615048041781f2150.jpg?v=1578283086000' alt='Hoa tai Vàng 14k Ngọc trai DHK 006' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/hoa-tai-vang-14k-ngoc-trai-dhk-006' title='Hoa tai Vàng 14k Ngọc trai DHK 006'>Hoa tai Vàng 14k Ngọc trai DHK 006</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[2] = "<a href='/mat-day-vang-14k-ngoc-trai-dhk-007' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/9bd7f2a565e09dbec4f1.jpg?v=1578282556000' alt='Mặt Dây Vàng 14k Ngọc trai DHK 007' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-vang-14k-ngoc-trai-dhk-007' title='Mặt Dây Vàng 14k Ngọc trai DHK 007'>Mặt Dây Vàng 14k Ngọc trai DHK 007</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[3] = "<a href='/lac-tay-nu-vang-14k-ngoc-trai-dhk-005' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/17c7accb388ec0d0999f.jpg?v=1578282308000' alt='Lắc tay nữ Vàng 14K Ngọc trai DHK 005' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/lac-tay-nu-vang-14k-ngoc-trai-dhk-005' title='Lắc tay nữ Vàng 14K Ngọc trai DHK 005'>Lắc tay nữ Vàng 14K Ngọc trai DHK 005</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[4] = "<a href='/vong-tay-kim-cuong-cz-vang-14k-oprah-dhk-002' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/251286ntq301019-2.jpg?v=1578280731000' alt='Vòng tay kim cương CZ vàng 14K Oprah DHK 002' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/vong-tay-kim-cuong-cz-vang-14k-oprah-dhk-002' title='Vòng tay kim cương CZ vàng 14K Oprah DHK 002'>Vòng tay kim cương CZ vàng 14K Oprah DHK 002</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[5] = "<a href='/mat-day-kim-cuong-cz-vang-14k-oprah-dhk-029' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/231276ntq221019-3.jpg?v=1578280439000' alt='Mặt dây kim cương CZ vàng 14K Oprah DHK 029' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-kim-cuong-cz-vang-14k-oprah-dhk-029' title='Mặt dây kim cương CZ vàng 14K Oprah DHK 029'>Mặt dây kim cương CZ vàng 14K Oprah DHK 029</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[6] = "<a href='/nhan-kim-cuong-cz-vang-14k-oprah-dhk-054' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/211296ntq211019-3.jpg?v=1578280042000' alt='Nhẫn kim cương CZ vàng 14K Oprah DHK 054' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/nhan-kim-cuong-cz-vang-14k-oprah-dhk-054' title='Nhẫn kim cương CZ vàng 14K Oprah DHK 054'>Nhẫn kim cương CZ vàng 14K Oprah DHK 054</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[7] = "<a href='/mat-day-kim-cuong-cz-vang-14k-diana-dhk-028' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtmdlvd131919-3.jpg?v=1578279283000' alt='Mặt dây kim cương CZ vàng 14K Diana DHK 028' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-kim-cuong-cz-vang-14k-diana-dhk-028' title='Mặt dây kim cương CZ vàng 14K Diana DHK 028'>Mặt dây kim cương CZ vàng 14K Diana DHK 028</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[8] = "<a href='/nhan-nu-vang-14k-diana-dhk-001' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtnulvd130919-1.jpg?v=1578278942000' alt='Nhẫn nữ Vàng 14K Diana DHK 001' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/nhan-nu-vang-14k-diana-dhk-001' title='Nhẫn nữ Vàng 14K Diana DHK 001'>Nhẫn nữ Vàng 14K Diana DHK 001</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[9] = "<a href='/nhan-nu-vang-14k-ngoc-trai-dhk-012' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtnuntt123919-2.jpg?v=1578278618000' alt='Nhẫn nữ Vàng 14K Ngọc trai DHK 012' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/nhan-nu-vang-14k-ngoc-trai-dhk-012' title='Nhẫn nữ Vàng 14K Ngọc trai DHK 012'>Nhẫn nữ Vàng 14K Ngọc trai DHK 012</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[10] = "<a href='/mat-day-vang-14k-ngoc-trai-coco-dhk-006' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtmdntt121919-3.jpg?v=1578277257000' alt='Mặt Dây Vàng 14k Ngọc trai Coco DHK 006' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-vang-14k-ngoc-trai-coco-dhk-006' title='Mặt Dây Vàng 14k Ngọc trai Coco DHK 006'>Mặt Dây Vàng 14k Ngọc trai Coco DHK 006</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[11] = "<a href='/hoa-tai-vang-14k-ngoc-trai-coco-dhk-022' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtbtntt122919-1.jpg?v=1578276544000' alt='Hoa tai Vàng 14k Ngọc trai Coco DHK 005' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/hoa-tai-vang-14k-ngoc-trai-coco-dhk-022' title='Hoa tai Vàng 14k Ngọc trai Coco DHK 005'>Hoa tai Vàng 14k Ngọc trai Coco DHK 005</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[12] = "<a href='/mat-day-kim-cuong-cz-vang-14k-jolie-dhk-027' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtmdntt138919-3.jpg?v=1578275621000' alt='Mặt dây kim cương CZ vàng 14K Jolie DHK 027' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-kim-cuong-cz-vang-14k-jolie-dhk-027' title='Mặt dây kim cương CZ vàng 14K Jolie DHK 027'>Mặt dây kim cương CZ vàng 14K Jolie DHK 027</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[13] = "<a href='/nhan-kim-cuong-cz-vang-14k-jolie-dhk-053' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtnuntt141919-1.jpg?v=1578275278000' alt='Nhẫn kim cương CZ vàng 14K Jolie DHK 053' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/nhan-kim-cuong-cz-vang-14k-jolie-dhk-053' title='Nhẫn kim cương CZ vàng 14K Jolie DHK 053'>Nhẫn kim cương CZ vàng 14K Jolie DHK 053</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[14] = "<a href='/lac-tay-kim-cuong-cz-vang-14k-jolie-dhk-006' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtltntt140919-3.jpg?v=1578275158000' alt='Lắc tay kim cương CZ vàng 14K Jolie DHK 006' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/lac-tay-kim-cuong-cz-vang-14k-jolie-dhk-006' title='Lắc tay kim cương CZ vàng 14K Jolie DHK 006'>Lắc tay kim cương CZ vàng 14K Jolie DHK 006</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[15] = "<a href='/hoa-tai-kim-cuong-cz-vang-14k-jolie-dhk-021' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtbtntt139919-3.jpg?v=1578118892000' alt='Hoa tai kim cương CZ vàng 14K Jolie DHK 021' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/hoa-tai-kim-cuong-cz-vang-14k-jolie-dhk-021' title='Hoa tai kim cương CZ vàng 14K Jolie DHK 021'>Hoa tai kim cương CZ vàng 14K Jolie DHK 021</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[16] = "<a href='/nhan-kim-cuong-cz-vang-14k-michelle-dhk-052' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtnulvd125919-2.jpg?v=1578112654000' alt='Nhẫn kim cương CZ vàng 14K Michelle DHK 052' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/nhan-kim-cuong-cz-vang-14k-michelle-dhk-052' title='Nhẫn kim cương CZ vàng 14K Michelle DHK 052'>Nhẫn kim cương CZ vàng 14K Michelle DHK 052</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[17] = "<a href='/mat-day-kim-cuong-cz-vang-14k-michelle-dhk-026' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtmdlvd124919-3.jpg?v=1578112486000' alt='Mặt dây kim cương CZ vàng 14K Michelle DHK 026' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-kim-cuong-cz-vang-14k-michelle-dhk-026' title='Mặt dây kim cương CZ vàng 14K Michelle DHK 026'>Mặt dây kim cương CZ vàng 14K Michelle DHK 026</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[18] = "<a href='/mat-day-kim-cuong-cz-vang-14k-teresa-dhk-025' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtmdntq136919-3.jpg?v=1578111296000' alt='Mặt dây kim cương CZ vàng 14K Teresa DHK 025' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-kim-cuong-cz-vang-14k-teresa-dhk-025' title='Mặt dây kim cương CZ vàng 14K Teresa DHK 025'>Mặt dây kim cương CZ vàng 14K Teresa DHK 025</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[19] = "<a href='/nhan-kim-cuong-cz-vang-14k-teresa-dhk-052' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/rsdtbtntq137919-3.jpg?v=1578110994000' alt='Bông tai kim cương CZ vàng 14K Teresa DHK 020' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/nhan-kim-cuong-cz-vang-14k-teresa-dhk-052' title='Bông tai kim cương CZ vàng 14K Teresa DHK 020'>Bông tai kim cương CZ vàng 14K Teresa DHK 020</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        collection[20] = "<a href='/mat-day-kim-cuong-cz-vang-14k-demeter-dhk-024' class='jas-sale-pop-img mr__20'><img src='//bizweb.dktcdn.net/thumb/medium/100/335/786/products/231108ntt291019-3.jpg?v=1578110114000' alt='Mặt dây kim cương vàng 14K Demeter DHK 024' width='65' height='84' /></a><div class='jas-sale-pop-content'><h4 class='fs__12 fwm mg__0'>Sản phẩm</h4><h3 class='mg__0 mt__5 mb__5 fs__18'><a href='/mat-day-kim-cuong-cz-vang-14k-demeter-dhk-024' title='Mặt dây kim cương vàng 14K Demeter DHK 024'>Mặt dây kim cương vàng 14K Demeter DHK 024</a></h3><span class='fs__12 jas-sale-pop-timeago'></span></div><span class='pe-7s-close pa fs__20'></span>";
+
+
+        fisherYates(collection);
+
+        function SalesPop() {
+            if ($('.jas-sale-pop').length < 0)
+                return;
+            setInterval(function () {
+                $('.jas-sale-pop').fadeIn(function () {
+                    $(this).removeClass('slideUp');
+                }).delay(10000).fadeIn(function () {
+                    var randomTime = ['1 phút', '5 phút', '10 phút', '12 phút', '14 phút', '16 phút', '18 phút', '20 phút', '25 phút', '4 phút', '3 phút', '7 phút', '8 phút', '42 phút', '45 phút', '50 phút', '1 giờ', '2 giờ', '3 giờ'],
+                        randomTimeAgo = Math.floor(Math.random() * randomTime.length),
+                        randomProduct = Math.floor(Math.random() * collection.length),
+                        randomShowP = collection[randomProduct],
+                        TimeAgo = randomTime[randomTimeAgo];
+                    $(".jas-sale-pop").html(randomShowP);
+                    $('.jas-sale-pop-timeago').text('Vừa được mua cách đây ' + TimeAgo);
+                    $(this).addClass('slideUp');
+                    $('.pe-7s-close').on('click', function () {
+                        $('.jas-sale-pop').remove();
+                    });
+                }).delay(15000);
+            }, 5000);
+        }
+    </script>
+
+
+<script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/iwish.js?1593138638645"
+        type="text/javascript"></script>
+
+
+<script>
+    (function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://cdn.doke.app/ozui/js/ozui.js';
+        document.body.appendChild(s);
+        window.OZUI_CONFIG = {
+            'token': '4fa1637f-0270-4196-99d7-3885a46cd83a',
+            'css_url': 'https://cdn.doke.app/ozui/css/ozui.css',
+            'user_config': 'https://api.ozui.vn/campaigns/token',
+            'base_api': 'https://api.ozui.vn'
+        };
+    }());
+</script>
+<script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/appbulk-available-notice-variant-change.js?1593138638645"
+        type="text/javascript"></script>
+<script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/appbulk-product-statistics.js?1593138638645"
+        type="text/javascript"></script>
+﻿
+<script type="text/javascript">
+    window.appbulkmemdeals = window.appbulkmemdeals || {};
+    window.appbulkmemdeals.customer_id = 0;
+</script>
+<div class="appbulk-member-deals"
+     data-customer-id="0"></div>
+<link href="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/appbulk-bundle-style.css?1593138638645"
+      rel="stylesheet" type="text/css"/>
+<script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/appbulk-buyxgety-variant-change.js?1593138638645"
+        type="text/javascript"></script>
+<!--32daa5ed0e67f0486fdc71981fd226c6-->
+<script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/ega-gateway.min.js?1593138638645"
+        type="text/javascript"></script><!--32daa5ed0e67f0486fdc71981fd226c6-->
+<!--0ee3570066bf5279835bc30fccd96495-->
+<script src="//bizweb.dktcdn.net/100/335/786/themes/726329/assets/ega.sales-countdown.settings.js?1593138638645"
+        type="text/javascript"></script><!--0ee3570066bf5279835bc30fccd96495-->
+<!--dd38559b75612061d427ac1f7fa2bd57-->
+<script>
+    // Count down in product
+
+
+    let egaScIsShowInThisPage = false;
+
+
+    const egaScAdditionalJson = {
+        productIsShowInThisPage: egaScIsShowInThisPage
+    }
+
+    const EGASalesCountDownConfigs = Object.assign(EGASalesCountDownSettings, egaScAdditionalJson);
+
+    var EGASalesCountDownRegister = {
+        js: [
+            "//bizweb.dktcdn.net/100/335/786/themes/726329/assets/ega.sales-countdown.js?1593138638645"
+        ]
+    }
+</script><!--dd38559b75612061d427ac1f7fa2bd57-->
+
+<script type="text/javascript">
+    window.appbulkloyalty = window.appbulkloyalty || {};
+    window.appbulkloyalty.shop = 'dachoangkim.bizwebvietnam.net';
+</script>
+
+<div class="appbulk-loyalty-widget"
+     data-shop="dachoangkim.bizwebvietnam.net"></div>
+
+{% endblock %}
+{% block script %}
+<script>
+    $(function () {
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://cdn.doke.app/ozui/js/ozui.js';
+        document.body.appendChild(s);
+        window.OZUI_CONFIG = {
+            'token': '4fa1637f-0270-4196-99d7-3885a46cd83a',
+            'css_url': 'https://cdn.doke.app/ozui/css/ozui.css',
+            'user_config': 'https://api.ozui.vn/campaigns/token',
+            'base_api': 'https://api.ozui.vn'
+        };
+    }());
+</script>
+{% endblock %}

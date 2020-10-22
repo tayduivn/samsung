@@ -1,0 +1,403 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Tất cả sản phẩm').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~ templatePath  ~'/css/product/index-product.css ' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set itemCountPerPage =  pagin.setItemCountPerPage(24) %}
+    {% set nItems = 0 %}
+    {% if(paginator is not empty) %}
+        {% set pageRanger =  paginator.setPageRange(4) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.getTotalItemCount() %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = [] %}
+    <span class="clearfix menuActive" data-rel="1"></span>
+    <span class="menuSubActive" data-rel="1"></span>
+    <div class="container-fluid top-product">
+        {% set category = [{'label': 'Sản phẩm', 'uri':'/product'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-12">
+                {# bộ lọc#}
+                <div class="container-fluid" id="filter">
+                    <div class="row button-5"><h3>Bộ Lọc</h3></div>
+                    <div id="filter-hiden" class="button-5 row hiden-1">
+                        <h4>Bộ Lọc</h4>
+                        <span class="fa fa-angle-down"></span>
+                    </div>
+                    <div class="row filter-trademark">
+                        <div class="col-12">
+                            <h4>Thương hiệu</h4>
+                        </div>
+                        <div class="input-group col-12">
+                            <input id="thuonghieu" type="text" class="form-control" placeholder="Tìm Thương hiệu">
+                            <div class="input-group-append">
+                                <button class="btn btn-success" type="submit">
+                                    <i class="fa fa-search">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <ul class="filter-trademark-checkbox">
+                                {% set brand = loadBrand({'categoryId':category.id}) %}
+                                {% if(brand is not empty) %}
+                                    {% for b in brand %}
+                                        <li name="{{ b.name }}">
+                                            <label data-filter="{{ b.name }}" data-for="{{ b.name }}" class="{{ b.name }}">
+                                                <input type="checkbox" id="{{ b.id }}" data-group="Hãng"
+                                                       data-field="vendor" data-text="{{ b.name }}" value="brand={{b.id}}"
+                                                       data-operator="OR">
+                                                <i class="fa">
+                                                    {{ b.name }}
+                                                </i>
+                                            </label>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row filter-price">
+                        <div class="col-12">
+                            <h4>Giá sản phẩm</h4>
+                        </div>
+                        <div class="col-12">
+                            <ul class="filter-price-checkbox">
+                                <li>
+                                    <label data-filter="100-000d" data-for="Giá dưới 100.000đ">
+                                        <input type="checkbox" id="0:100000" data-group="Khoảng giá"
+                                               data-field="price_min" data-text="Dưới 100.000đ"
+                                               value="{{ addFilter('price', '0:100000', 2) }}" {{ getParam('price') == '0:100000' ? 'checked' : '' }}
+                                               data-operator="OR">
+                                        <i class="fa">
+                                            Giá dưới 100.000đ
+                                        </i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label data-filter="200-000d" data-for="100.000đ - 200.000đ">
+                                        <input type="checkbox" id="100000:200000" data-group="Khoảng giá"
+                                               data-field="price_min" data-text="100.000đ - 200.000đ"
+                                               value="{{ addFilter('price', '100000:200000', 2) }}" {{ getParam('price') == '100000:200000' ? 'checked' : '' }}
+                                               data-operator="OR">
+                                        <i class="fa">
+                                            100.000đ - 200.000đ
+                                        </i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label data-filter="300-000d" data-for="200.000đ - 300.000đ">
+                                        <input type="checkbox" id="200000:300000" data-group="Khoảng giá"
+                                               data-field="price_min" data-text="200.000đ - 300.000đ"
+                                               value="{{ addFilter('price', '200000:300000', 2) }}" {{ getParam('price') == '200000:300000' ? 'checked' : '' }}
+                                               data-operator="OR">
+                                        <i class="fa">
+                                            200.000đ - 300.000đ
+                                        </i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label data-filter="500-000d" data-for="300.000đ - 500.000đ">
+                                        <input type="checkbox" id="300000:500000" data-group="Khoảng giá"
+                                               data-field="price_min" data-text="300.000đ - 500.000đ"
+                                               value="{{ addFilter('price', '300000:500000', 2) }}" {{ getParam('price') == '300000:500000' ? 'checked' : '' }}
+                                               data-operator="OR">
+                                        <i class="fa">
+                                            300.000đ - 500.000đ
+                                        </i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label data-filter="1-000-000d" data-for="500.000đ - 1.000.000đ">
+                                        <input type="checkbox" id="500000:1000000" data-group="Khoảng giá"
+                                               data-field="price_min" data-text="500.000đ - 1.000.000đ"
+                                               value="{{ addFilter('price', '500000:1000000', 2) }}" {{ getParam('price') == '500000:1000000' ? 'checked' : '' }}
+                                               data-operator="OR">
+                                        <i class="fa">
+                                            500.000đ - 1.000.000đ
+                                        </i>
+                                    </label>
+                                </li>
+                                <li>
+                                    <label data-filter="1-000-000d" data-for="Giá trên 1.000.000đ">
+                                        <input type="checkbox"
+                                               id="1000000:max"
+                                               data-group="Khoảng giá"
+                                               data-field="price_min"
+                                               data-text="Trên 1.000.000đ"
+                                               value="{{ addFilter('price', '1000000:max', 2) }}" {{ getParam('price') == '1000000:max' ? 'checked' : '' }}
+                                               data-operator="OR">
+                                        <i class="fa">
+                                            Giá trên 1.000.000đ
+                                        </i>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+                    {% if(allAttr) %}
+                        {% set number = 0 %}
+                        {% for c in allAttr | reverse|slice(0,2) %}
+                            {% if (c.values != null) %}
+                                {% set column = c.column %}
+                                {% set number = number+1 %}
+                                <div class="row filter-type">
+                                    <div class="col-12">
+                                        <h4>{{ c.name }}</h4>
+                                    </div>
+                                    <div class="input-group col-12">
+                                        <input id="input{{ number }}" type="text" class="form-control"
+                                               placeholder="Tìm kiếm {{ c.name }}">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-success" type="submit">
+                                                <i class="fa fa-search">
+                                                </i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <ul id="list{{ number }}" class="filter-type-checkbox">
+                                            {% for value in c.values %}
+                                                <li name=" {{ value.name }}">
+                                                    <label>
+                                                        <input type="checkbox" id="{{ value.id() }}"
+                                                               data-group="tag1" data-field="tags"
+                                                               data-text="Tím"
+                                                               value="{{ column }}={{ value.id() }}" {{ getParam(column) == value.id ? 'checked' : '' }}
+                                                               data-operator="OR">
+                                                        <i class="fa"></i>
+                                                        {{ value.name }}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                {# danh mục sản phẩm #}
+                <div id="list-product" class="container-fluid">
+                    <div class="row"><h3>Danh Mục</h3></div>
+                    <div class="row">
+                        <ul class="">
+                            <li class="">
+                                <a href="http://v0511.vietvkstore2.bot3s.net/" class="link-1">
+                                    Trang chủ
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="/product" class="link-1">
+                                    Sản phẩm
+                                </a>
+                            </li>
+                            {% if(getCategories() is not empty) %}
+                                {% for c in getCategories() %}
+                                    <li class="">
+                                        <a href="{{ c.viewLink }}" class="link-1">
+                                            {{ c.name|raw }}
+                                        </a>
+                                        {% if(c.childs is not empty) %}
+                                            <span class="button-pro-ind fa fa-angle-down"></span>
+                                            <div class="menu-pro-ind">
+                                                <ul class="">
+                                                    {% for c1 in c.childs %}
+                                                        <li>
+                                                            <a href="{{ c1.viewLink }}" class="link-1">
+                                                                {{ c1.name|raw }}
+                                                            </a>
+                                                            {% if(c1.childs is not empty) %}
+                                                                <span class="button-pro-ind-2 fa fa-angle-down"></span>
+                                                                <div class="menu-pro-ind-2">
+                                                                    <ul class="">
+                                                                        {% for c2 in c1.childs %}
+                                                                            <li>
+                                                                                <a href="{{ c2.viewLink }}"
+                                                                                   class="link-1">
+                                                                                    {{ c2.name|raw }}
+                                                                                </a>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                            </li>
+                            <li class="">
+                                <a href="#" class="link-1">
+                                    Giới thiệu
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="http://v0511.vietvkstore2.bot3s.net/" class="link-1">
+                                    Liên hệ
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-bottom: 30px" class="col-lg-9 col-md-12 all-product">
+                <div class="row">
+                    <h1>Tất cả sản phẩm</h1>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="view-mode">
+                            <a id="grid" href="javascript:;" class="btn button-view-mode view-mode-grid activee "
+                               data-view="grid">
+                                <i class="fa fa-th" aria-hidden="true"></i>
+                            </a>
+                            <a id="list" href="javascript:;" class="btn button-view-mode view-mode-list "
+                               data-view="list">
+                                <i class="fa fa-th-list" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="sort-product col-6">
+                        <div class="row">
+                            <strong style="padding: 10px 10px;" class="col-4">Sắp xếp:</strong>
+                            <div class="col-6 nav-sort-product">
+                                <div class="dropdown-1 sort-name">
+                                    <span id="m1" class="sort-menu">Mặc định</span>
+                                    <i style="padding-left: 10px" class="fa fa-angle-down"></i>
+                                    <div style="margin-left: -10px;background: white;margin-bottom: -5px"
+                                         class="dropdown-content">
+                                        <div>{{ url }}</div>
+                                        <ul class="nav flex-column">
+                                            <li class="nav-item ">
+                                                <a class="link-1 sort-childs "
+                                                   title="A → Z"
+                                                   href="{{ addFilter('show', 'nameAsc', 2) }}">A → Z
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="link-1 sort-childs"
+                                                   title="Z → A"
+                                                   href="{{ addFilter('show', 'nameDesc', 2) }}">Z → A</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="link-1 sort-childs"
+                                                   title="Giá giảm dần"
+                                                   href="{{ addFilter('show', 'priceAsc', 2) }}">Giá tăng dần</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="link-1 sort-childs"
+                                                   title="Giá tăng dần"
+                                                   href="{{ addFilter('show', 'priceDesc', 2) }}">Giá giảm dần</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="link-1 sort-childs"
+                                                   title="Hàng mới nhất"
+                                                   href="{{ addFilter('show', 'new', 2) }}">Hàng mới nhất</a>
+                                            </li>
+                                            <li class="nav-item sort-childs">
+                                                <a class="link-1 sort-childs"
+                                                   title="Hàng cũ nhất"
+                                                   href="{{ addFilter('show', 'old', 2) }}">Hàng cũ nhất</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 10px" class="row zoom">
+                    {% if(paginator.currentModels is not empty) %}
+                        {% for p in paginator.currentModels %}
+                            {% set image = p.thumbnailUri %}
+                            {% set options = {
+                                alt: p.name,
+                                class: 'imageChange',
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+
+                            {% set percent = p.calcDiscountPercent %}
+                            {% set priceDiscount = p.priceAfterDiscount %}
+                            {% set arrayIds = [p.id] %}
+                            <div class="font-14 col-lg-3 col-md-4 col-6 product" data-storeId="{{ p.storeId }}"
+                                 psId="{{ p.name }}">
+                                <a href="{{ p.viewLink }}" class="link-1 img-product" title="{{ p.viewLink }}">
+                                    <ul style="list-style-type: none;margin-left: -40px" class="color-swatches"
+                                        data-hover="true" data-click="true" psId="{{ p.id }}"
+                                        data-handle="{{ p.viewlink }}">
+                                        <li class="color-item" data-img="{{ image }}"
+                                            value="{{ p.id }}" title="{{ p.name }}">
+                                            <img class="img-fluid" src="{{ image }}"
+                                                 alt="{{ p.name }}">
+                                        </li>
+                                        <li>
+                                            <h3 style="margin-top: 22px"
+                                                class="title-product font-14">{{ p.name }}</h3>
+                                        </li>
+                                    </ul>
+                                </a>
+                                <div class="button-translate">
+                                    {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                    {% if(p.parentId == parentId) %}
+                                        <a href="{{ p.viewLink }}">
+                                            <button class="fa fa-link btn btn-dark button-link btnQuickCart btnAddToCart"
+                                                    data-psId="{{ p.id }}">
+                                                <span>Chi tiết</span>
+                                            </button>
+                                        </a>
+                                    {% else %}
+                                        <button class="fa fa-shopping-basket btn btn-dark button-link btnQuickCart btnAddToCart"
+                                                ck="1" selid="{{ p.id }}" data-toggle="modal"
+                                                data-target="#exampleModal">
+                                            <span>mua ngay</span>
+                                        </button>
+                                    {% endif %}
+                                    <button class="fa fa-heart btn btn-dark button-heart"><span>yêu thích</span>
+                                    </button>
+                                </div>
+                                {% if (priceDiscount > 0) %}
+                                    <b class="color-greeen1">{{ priceDiscount|number_format(0) }}<u>đ</u></b>
+                                    <strike>{{ p.price|number_format(0) }} đ</strike>
+                                {% elseif (p.oldprice() > 0) %}
+                                    <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                                    <strike>{{ p.oldprice|number_format(0) }} đ</strike>
+                                {% else %}
+                                    <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="alert-empty">Không có kết quả nào phù hợp </p>
+                    {% endif %}
+                </div>
+                <div class="pagination">
+                    {{ render_paginator(paginator) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    </script>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ (''~ templatePath  ~'/js/product.js') }}"></script>
+{% endblock %}

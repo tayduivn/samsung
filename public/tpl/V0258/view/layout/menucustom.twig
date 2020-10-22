@@ -1,0 +1,68 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set cacheResults = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ cacheResults | raw }}
+{% endif %}
+{% set menus = getMenus({'type':'header'}) %}
+    {% if(menus) %}
+        {% for m in menus %}
+            {% if m.type in m.typeCates %}
+                {% set category = getCategoryTypeMenu(m.type) %}
+                {% if(category) %}
+                    {% for c in category %}
+                        {% set cl='' %}
+                        {% set fa ='' %}
+                        {% if(c.childs) %}
+                            {% set cl='class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home tp_menu_item"' %}
+                            {% set fa='fa fa-plus' %}
+                        {% endif %}
+                        {% set cacheResults = cacheResults ~ '<li '~cl~'><a href="'~c.viewLink~'">'~c.name~'</a>' %}
+                        {% if(c.childs) %}
+                            {% set cacheResults = cacheResults ~ '<ul class="sub-menu">' %}
+                            {% for cc in c.childs %}
+                                {% set cacheResults = cacheResults ~ '<li class="menu-item menu-item-type-taxonomy menu-item-object-sanpham_cat">' %}
+                                {% set cacheResults = cacheResults ~ '<a href="'~cc.viewLink~'">'~cc.name~'</a>' %}
+                                {% if(cc.childs) %}
+                                    {% set cacheResults = cacheResults ~ '<ul class="LITTLE">' %}
+                                    {% for ccc in cc.childs %}
+                                        {% set cacheResults = cacheResults ~ '<li><a href="'~ccc.viewLink~'">'~ccc.name~'</a></li>' %}
+                                    {% endfor %}
+                                    {% set cacheResults = cacheResults ~ '</ul>' %}
+                                {% endif %}
+                                {% set cacheResults = cacheResults ~ '</li>' %}
+                            {% endfor %}
+                            {% set cacheResults = cacheResults ~ '</ul>' %}
+                        {% endif %}
+                        {% set cacheResults = cacheResults ~ '</li>' %}
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+                {% set cl='' %}
+                {% set fa ='' %}
+                {% if(m.childs) %}
+                    {% set cl='class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home tp_menu_item"' %}
+                    {% set fa='fa fa-plus' %}
+                {% endif %}
+                {% set cacheResults = cacheResults ~ '<li '~cl~'><a href="'~m.link~'">'~m.name~'</a>' %}
+                {% if(m.childs) %}
+                    {% set cacheResults = cacheResults ~ '<ul class="sub-menu">' %}
+                    {% for mm in m.childs %}
+                        {% set cacheResults = cacheResults ~ '<li class="menu-item menu-item-type-taxonomy menu-item-object-sanpham_cat">' %}
+                        {% set cacheResults = cacheResults ~ '<a href="'~mm.link~'">'~mm.name~'</a>' %}
+                        {% if(mm.childs) %}
+                            {% set cacheResults = cacheResults ~ '<ul class="LITTLE">' %}
+                            {% for mmm in mm.childs %}
+                                {% set cacheResults = cacheResults ~ '<li><a href="'~mmm.link~'">'~mmm.name~'</a></li>' %}
+                            {% endfor %}
+                            {% set cacheResults = cacheResults ~ '</ul>' %}
+                        {% endif %}
+                        {% set cacheResults = cacheResults ~ '</li>' %}
+                    {% endfor %}
+                    {% set cacheResults = cacheResults ~ '</ul>' %}
+                {% endif %}
+                {% set cacheResults = cacheResults ~ '</li>' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{{ saveCache(keyMenu, cacheResults | raw, 1800) }}
+{{ cacheResults | raw }}

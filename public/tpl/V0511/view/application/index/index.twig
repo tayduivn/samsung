@@ -1,0 +1,471 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="nhanh.vn">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ getLogoUri() }}">
+{% endblock %}
+{% block body %}
+    {% include 'layout/banner' %}
+    {% include 'layout/customercache' %}
+    <div class="container header">
+    <div class="row">
+        <div class="col text-center">
+            <h3 style="white-space: nowrap;font-size: 1.55rem" id="hot-sale">
+                <a class="link-1" style="text-transform: uppercase"
+                   href="/product/category">{{ translate('KHUYẾN MÃI NỔI BẬT') }}</a>
+            </h3>
+        </div>
+    </div>
+    <div style="padding-top: 20px" class="row">
+        <div id="khuyenmai" class="container-fluid section">
+            <div class="item-2 owl-carousel owl-theme owl-loaded">
+                <div class="owl-stage-outer">
+                    <div class="owl-stage">
+                        {% set newProduct = search({'limit':4}) %}
+                        {% if(newProduct is not empty) %}
+                            {% for n in newProduct %}
+                                {% set image = n.thumbnailUri %}
+                                {% set options = {
+                                    alt: n.name,
+                                    class: 'imageChange swatch-'~n.id,
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                {% set content = n.content %}
+                                {% set percent = n.discountPercent %}
+                                {% set priceDiscount = n.priceAfterDiscount %}
+                                <div class="owl-item active">
+                                    <div class="row" data-storeId="{{ n.storeId }}" psId="{{ n.id }}">
+                                        <div class="col-lg-5 col-md-10 col-10 dropdown-img product">
+                                            <a class="img-product" href="{{ n.viewLink }}">
+                                                {#                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}#}
+                                                <i class="color-swatches" data-hover="true" data-click="true"
+                                                   psId="{{ n.id }}" data-handle="{{ n.viewlink }}">
+                                                    <i class="color-item" data-img="{{ image }}"
+                                                       value="{{ n.id }}" title="{{ n.name }}">
+                                                        <img class="img-fluid" src="{{ image }}"
+                                                             alt="{{ n.name }}">
+
+                                                    </i>
+                                                </i>
+                                            </a>
+                                            <div class="button-translate">
+                                                {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                {% if(n.parentId == parentId) %}
+                                                    <a href="{{ p.viewLink }}">
+                                                        <button class="fa fa-link btn btn-dark button-link btnQuickCart btnAddToCart"
+                                                                data-psId="{{ p.id }}">
+                                                            <span>Chi tiết</span>
+                                                        </button>
+                                                    </a>
+                                                {% else %}
+                                                    <button class="fa fa-shopping-basket btn btn-dark button-link btnQuickCart btnAddToCart"
+                                                            ck="1" selid="{{ p.id }}" data-toggle="modal"
+                                                            data-target="#exampleModal">
+                                                        <span>mua ngay</span>
+                                                    </button>
+                                                {% endif %}
+                                                <button class="fa fa-heart btn btn-dark button-heart">
+                                                    <span>yêu thích</span>
+                                                </button>
+                                            </div>
+                                            {% if(percent > 0) %}
+                                                <div class="tag-discount">-{{ percent }}%</div>
+                                            {% endif %}
+                                            {#                                                <a id="outStock" class="inventory" href="{{ n.viewLink }}">Sản phẩm hiện tại hết hàng</a>#}
+                                        </div>
+                                        <div class="col-lg-5 col-md-10 col-10 font-14">
+                                            <div class="font-weight-bold">
+                                                <a class="link-1" href="{{ (n).viewLink }}">{{ n.name }}</a>
+                                            </div>
+                                            <div style="color:#fbf069" class="">
+                                                <i data-alt="1" class="fa fa-star-o "></i>
+                                                <i data-alt="1" class="fa fa-star-o "></i>
+                                                <i data-alt="1" class="fa fa-star-o "></i>
+                                                <i data-alt="1" class="fa fa-star-o "></i>
+                                                <i data-alt="1" class="fa fa-star-o "></i>
+                                            </div>
+                                            {% if (priceDiscount > 0) %}
+                                                <b class="color-greeen1">{{ priceDiscount|number_format(0) }}
+                                                    <u>đ</u></b>
+                                                <strike>{{ n.price|number_format(0) }} đ</strike>
+                                            {% elseif (n.oldprice() > 0) %}
+                                                <b class="color-greeen1">{{ n.price|number_format(0) }}<u>đ</u></b>
+                                                <strike>{{ n.oldprice|number_format(0) }} đ</strike>
+                                            {% else %}
+                                                <b class="color-greeen1">{{ n.price|number_format(0) }}<u>đ</u></b>
+                                            {% endif %}
+                                            <div>
+                                                {% if (content != null) %}
+                                                    <p class="font-14"><strong class="color-greeen1 header">Mô
+                                                            tả:</strong>{{ subString(content ,130) }}</p>
+                                                {% else %}
+                                                    <p class="font-14"><strong class="color-greeen1 header">Mô
+                                                            tả: </strong> chưa cập nhật</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row header">
+        <div class="item-4 owl-carousel owl-theme owl-loaded">
+            <div class="owl-stage-outer">
+                <div class="owl-stage">
+                    <div class="owl-item active">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/vanchuyen.svg">
+                            </div>
+                            <div class="col-9 magrin-left-gh">
+                                <div class="font-weight-bold">
+                                    <b class="color-greeen1 font-14">Giao hàng trong 24h</b>
+                                </div>
+                                <div>
+                                    <small>Với đơn hàng trên 500.000 đ</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="owl-item">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/chatluong.svg">
+                            </div>
+                            <div class="col-9 magrin-left-gh">
+                                <div class="font-weight-bold">
+                                    <b class="color-greeen1 font-14">Bảo dảm chất lượng</b>
+                                </div>
+                                <div>
+                                    <small>sản phẩm đảm bảo chất lượng</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="owl-item ">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/hotro.svg">
+                            </div>
+                            <div class="col-9 magrin-left-gh">
+                                <div class="font-weight-bold">
+                                    <b class="color-greeen1 font-14">Hỗ trợ 24/7</b>
+                                </div>
+                                <div>
+                                    <small>Hotline:0123 456 789</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="owl-item ">
+                        <div class="row magrin-left-gh">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/chinhhang.svg">
+                            </div>
+                            <div class="col-9 magrin-left-gh">
+                                <div class="font-weight-bold">
+                                    <b class="color-greeen1 font-14">Sản Phẩm 100% chính hãng</b>
+                                </div>
+                                <div>
+                                    <small>sản phẩm nhập khẩu chính hãng</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        {% set category = getCategories() %}
+        {% if(category is not empty) %}
+        {% for c in category %}
+        {% set proNew = search({'limit':12,'categoryId':c.id}) %}
+        {% if(proNew is not empty) %}
+            <div class="row nav-product">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-left float-left"><a class="link-1" href="{{ c.viewLink }}">{{ c.name | raw }}</a>
+                    </h5>
+                </div>
+                <div id="product-menu" class="col-md-12 col-12 shop-menu-icon">
+                    <i class="button-3 float-right fa fa-navicon"></i>
+                    <div class="menu-3">
+                        {% set childs = c.childs %}
+                        {% if(childs is not empty) %}
+                            <ul>
+                                {% for child in childs %}
+                                    <li>
+                                        <a class="link-1 font-14" href="{{ child.viewLink }}">{{ child.name |raw }}</a>
+                                    </li>
+                                {% endfor %}
+                                <li>
+                                    <a class="link-1 font-14" href="{{ c.viewLink }}">
+                                        <trong>Xem tất cả</trong>
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-12 count">
+                    {% set childs = c.childs %}
+                    {% if(childs is not empty) %}
+                        <ul style="list-style-type: none;float: right;width: 100%" class="container">
+                            <li class="float-right">
+                                <a class="link-1 font-14 nav-link" href="{{ c.viewLink }}"><b>Xem tất cả</b></a>
+                            </li>
+                            {% for child in childs|reverse %}
+                                <li class="float-right">
+                                    <a class="link-1 font-14 nav-link"
+                                       href="{{ child.viewLink }}">{{ child.name|raw }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        <div class="row box">
+            <div class="col-lg-9 col-md-12">
+                <div class="row title-product zoom">
+                    {% for p in proNew %}
+                        {% set image = p.thumbnailUri %}
+                        {% set options = {
+                            alt: p.name,
+                            class: 'imageChange',
+                            lazy: true,
+                            openDiv: false,
+                        } %}
+                        {% set ivt = product.inventory().calcAvailable() %}
+                        {% set percent = p.discountPercent %}
+                        {% set priceDiscount = p.priceAfterDiscount %}
+                        <div data-pid="{{ p.id }}" data-storeId="{{ p.storeId }}"
+                             class="col-md-3 col-6 box-r-b product">
+                            <figure class="product">
+                                <a class="link-1 font-14 font-weight-bold img-product" title="{{ p.name }}"
+                                   href="{{ p.viewLink }}">
+                                    <img class="img-fluid" src="{{ image }}" alt="{{ p.name }}">
+                                    <figcaption style="margin-top: 20px" class="title-product">
+                                        {{ p.name }}
+                                    </figcaption>
+                                </a>
+                                <div class="button-translate">
+                                    {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                    {% if(p.parentId == parentId) %}
+                                        <a href="{{ p.viewLink }}">
+                                            <button class="fa fa-link btn btn-dark button-link btnQuickCart btnAddToCart"
+                                                    data-psId="{{ p.id }}">
+                                                <span>Chi tiết</span>
+                                            </button>
+                                        </a>
+                                    {% else %}
+                                        <button class="fa fa-shopping-basket btn btn-dark button-link btnQuickCart btnAddToCart"
+                                                ck="1" selid="{{ p.id }}" data-toggle="modal"
+                                                data-target="#exampleModal">
+                                            <span>mua ngay</span>
+                                        </button>
+                                    {% endif %}
+                                    <button class="fa fa-heart btn btn-dark button-heart"><span>yêu thích</span>
+                                    </button>
+                                </div>
+                                {% if (priceDiscount > 0) %}
+                                    <div class="font-weight-bold color-greeen1 font-14">
+                                        {{ priceDiscount|number_format(0) }}<u>đ</u>
+                                    </div>
+                                    <div class="font-14">
+                                        <strike>{{ p.price|number_format(0) }}đ</strike>
+                                        <span style="background: #67bd45"
+                                              class="badge badge-primary">-{{ percent }}%</span>
+                                    </div>
+                                {% elseif (p.oldprice() > 0) %}
+                                    <div class="font-weight-bold color-greeen1 font-14">
+                                        {{ p.price|number_format(0) }}<u>đ</u>
+                                    </div>
+                                    <div class="font-14">
+                                        <strike>{{ p.oldprice|number_format(0) }}</strike>
+                                        <span style="background: #67bd45"
+                                              class="badge badge-primary">-{{ percent }}%</span>
+                                    </div>
+                                {% else %}
+                                    <div class="font-weight-bold color-greeen1 font-14">
+                                        {{ p.price|number_format(0) }}<u>đ</u>
+                                    </div>
+                                {% endif %}
+                            </figure>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-12">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <h3 class="font-14">BÁN CHẠY</h3>
+                            </div>
+                        </div>
+                    </div>
+                    {% set productBestseller = search({'limit':9,'showHot':1}) %}
+                    {% if(productBestseller is not empty) %}
+                    {% for p in productBestseller %}
+                    {% set image = p.thumbnailUri %}
+                    {% set options = {
+                        alt: p.name,
+                        class: 'imageChange swatch-'~p.id,
+                        lazy: true,
+                        openDiv: false,
+                    } %}
+                    {% set percent = p.discountPercent %}
+                    {% set priceDiscount = p.priceAfterDiscount %}
+                    {% if loop.last == false %}
+                    <div class="col-lg-12 col-md-6 box-b">
+                        {% else %}
+                        <div class="col-lg-12 col-md-6">
+                            {% endif %}
+                            <div class="row" data-storeId="{{ p.storeId }}" psId="{{ p.id }}">
+                                <div class="col-4">
+                                    <a href="{{ p.viewLink }}">
+                                        <img class="img-fluid" title="{{ p.name }}" src="{{ image }}"
+                                             alt="{{ p.name }}">
+                                    </a>
+                                </div>
+                                <div class="col-8">
+                                    <a class="link-1" href="{{ p.viewLink }}">
+                                        <h3 class="font-14 title-product">{{ p.name }}</h3>
+                                    </a>
+                                    <div style="color:#fbf069" class="">
+                                        <i data-alt="1" class="fa fa-star-o "></i>
+                                        <i data-alt="1" class="fa fa-star-o "></i>
+                                        <i data-alt="1" class="fa fa-star-o "></i>
+                                        <i data-alt="1" class="fa fa-star-o "></i>
+                                        <i data-alt="1" class="fa fa-star-o "></i>
+                                    </div>
+                                    {% if (priceDiscount > 0) %}
+                                        <b class="color-greeen1">{{ priceDiscount|number_format(0) }}<u>đ</u></b>
+                                        <strike>{{ p.price|number_format(0) }} đ</strike>
+                                    {% elseif (p.oldprice() > 0) %}
+                                        <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                                        <strike>{{ p.oldprice|number_format(0) }} đ</strike>
+                                    {% else %}
+                                        <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <hr>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    {% include 'layout/blockfooter' %}
+    <script>
+        $(document).ready(function () {
+            $("button.btnAddToCart").on("click", function () {
+                if ($(this).attr("ck") == 1) {
+                    var t = $(this);
+                    var products = [], ps = {};
+                    ps['id'] = $(this).attr('selid');
+                    if ($(this).hasClass('btnQuickCart')) {
+                        ps['quantity'] = 1;
+                        check = false;
+                    } else {
+                        ps['quantity'] = $("#psQtt").val();
+                    }
+                    var qty = parseInt(ps['quantity']);
+                    var id = ($(this).attr('id'));
+                    products.push(ps);
+                    addToCart(products, 1, function (rs) {
+                        if (rs.status == 1) {
+                            if (id == 'buynow') {
+                                window.location.href = '/cart/checkout';
+                            } else if (t.hasClass('btnQuickCart')) {
+                                var n = $('.badge.badge-primary.search_button');
+                                n.attr('value', parseInt(n.attr('value')) + 1);
+                                n.text(n.attr('value'));
+                                $('.top-cart-content').css('display', 'block');
+                                ajaxLoadView({
+                                    view: 'topCart',
+                                    onSuccess: function (rs) {
+                                        $('.top-cart-content').html(rs);
+                                    }
+                                });
+                            } else {
+                                if (in_array(storeId, [58473, 224])) {
+                                    var mes = $('#dialogMessage');
+                                    mes.html('<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 10px 40px 0;"></span>Thêm giỏ hàng thành công</p>');
+                                    mes.dialog({
+                                        title: "Thông báo!", modal: true, show: "explode", hide: "explode",
+                                        buttons: {
+                                            Ok: function () {
+                                                $(this).dialog("close");
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    window.location.href = '/cart'
+                                }
+                            }
+                        } else {
+                            alert("vui lòng chọn màu sắc kích cỡ");
+                        }
+                    });
+                }
+            });
+            $('.remove-item-cart').click(function (e) {
+                var id = $(this).attr('psId');
+                var qtt = $(this).attr('qtt');
+                removeCart(id, true, qtt);
+                e.preventDefault();
+                $('.top-cart-content').fadeOut();
+            });
+
+            function removeCart(prodId, delItem, qtt) {
+                var check = confirm('bạn có muốn xóa sản phẩm này' + '?');
+                if (check) {
+                    var n = $('.badge.badge-primary.search_button').attr('value');
+                    n = n - qtt;
+                    $('.badge.badge-primary.search_button').attr('value', n);
+                    $('.badge.badge-primary.search_button').text(n);
+                    $.post('/cart/remove', {'psId': prodId});
+                }
+            }
+
+            var ps = [];
+            $('.product').each(function () {
+                var t = $(this);
+                ps.push({storeId: t.attr('data-storeid'), id: t.attr('data-pid')});
+            });
+            InventoryLoad(ps)
+        });
+
+        function InventoryLoad(ps) {
+            if (ps.length) {
+                checkInventory(ps, function (rs) {
+                    if (rs.inventories != "") {
+                        var outOfStock = 'Hết hàng';
+                        $.each(rs.inventories, function (key, vl) {
+                            // if (vl <= 0) {
+                            //     $(".fa-shopping-basket span").html("hết hàng");
+                            // }
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+{% endblock %}

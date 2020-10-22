@@ -1,0 +1,178 @@
+{% set ivt = product.inventory().calcAvailable() %}
+{% set variableAttributes = product.variableAttributes %}
+{% set returnImg = {'return':'image'} %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <div class="modal-body content_modal_cart">
+            <div class="clearfix row" id="detail-product">
+                <div class="group-img col-lg-6 col-md-6 col-sm-6 col-8 clearfix">
+                    <div class="hidden-xs hidden-sm main-img col-lg-12 col-md-12 col-sm-12 no-padding slide-imagesm pull-right clearfix">
+                        <div class="" id="slide-image">
+                            <div id="imgView_quick">
+                                <img id="z" width="100%" src="{{ product.imageUri }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-4 small-img col-lg-12 col-md-12 col-sm-12 thumbnails pull-left clearfix">
+                        <div class="row">
+                            <div id="img-child" class="owl-carousel owl-theme img_child_quick">
+                                {% set color = variableAttributes['color'] %}
+                                {% if color is not null or color is not empty %}
+                                    {% set valuesColor = color.childValues %}
+                                    {% set numbCl =  (valuesColor | length) %}
+                                    {% if(valuesColor is not null) %}
+                                        {% for attrValue in valuesColor %}
+                                            {% set arrColor = [] %}
+                                            {% set arrColor = arrColor|merge({ (color.column): attrValue.id }) %}
+                                            {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                                            <div data-src="{{ img }}" class="thumbnail">
+                                                <img class='lazyload' data-sizes="auto"
+                                                     data-src="{{ img }}">
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                {% else %}
+                                    <div data-src="{{ product.thumbnailUri }}" class="thumbnail">
+                                        <img class='cloudzoom-gallery lazyload' data-sizes="auto"
+                                             data-src="{{ product.thumbnailUri }}"
+                                             data-cloudzoom="useZoom: '.cloudzoom', image: '{{ product.thumbnailUri }}', zoomImage: '{{ product.thumbnailUri }}'">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="group-info product col-lg-6 col-md-6 col-sm-6 col-12 clearfix">
+                    <div class="block_info_product">
+                        <h1 class="name_product_view">
+                            {{ product.name }}
+                        </h1>
+                        {% if(product.code) %}
+                            <div class="code_pro"><span class="title_pro_info">Mã sản phẩm</span>
+                                : {{ product.code }}</div>
+                        {% endif %}
+                        {% set priceDiscount = product.priceAfterDiscount %}
+                        <div class="block_price_view">
+                            {% if(priceDiscount > 0) %}
+                                <p class="price_view">Giá : <span>{{ priceDiscount|number_format(0) }} VNĐ</span></p>
+                                <span class="price_old_view">
+                                            <del>{{ product.price|number_format(0) }} VNĐ</del>
+                                        </span>
+                            {% elseif(product.price <= 0) %}
+                                <p class="price_view">Giá :  <span>Liên hệ</span></p>
+                            {% else %}
+                                <p class="price_view"> Giá :  <span>{{ product.price|number_format(0) }} VNĐ</span></p>
+                            {% endif %}
+                            {% if(product.oldPrice) %}
+                                <span class="price_old_view">
+                                            <del>{{ product.oldPrice|number_format(0) }} VNĐ</del>
+                                        </span>
+                            {% endif %}
+                        </div>
+                        {% if(ivt>0) %}
+                            {% set status_v = 'Còn hàng' %}
+                        {% else %}
+                            {% set status_v = 'Hết hàng' %}
+                        {% endif %}
+                        <div class="status">
+                            <span class="title_pro_info">Tình trạng </span> : <span>{{ status_v }}</span>
+                        </div>
+                        <div class="action_button">
+                            {% set flag=0 %}
+                            {% if color is not null or color is not empty %}
+                                {% if(valuesColor is not null and numbCl > 0) %}
+                                    {% set flag = flag + 1 %}
+                                    <div class=" swatch-color swatch clearfix">
+                                        <p><span class="title_pro_info">Chọn màu</span></p>
+                                        <p class="color req" column="{{ color.column }}">
+                                            {% for attrValue in valuesColor %}
+                                                {% set arrColor = [] %}
+                                                {% set arrColor = arrColor|merge({ (color.column): attrValue.id }) %}
+                                                {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                                                {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                                {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                                {% set content = attrValue.content %}
+                                                {% set class_check='' %}
+                                                {% if(content is empty) %}
+                                                    {% set class_check = 'class_check' %}
+                                                {% endif %}
+                                                <a data-pIds="{{ pIdsAttrStr }}" rel="nofollow"
+                                                   href="javascript:"
+                                                   data-cloudzoom="useZoom: '.cloudzoom', image: '{{ img }}', zoomImage: '{{ img }}'"
+                                                   class="cloudzoom-gallery {{ (numbCl==1)?'active':'' }} {{ class_check }}"
+                                                   value="{{ attrValue.id }}" title="{{ attrValue.name }}"
+                                                   data-src="{{ img }}"
+                                                   style="background-color: #{{ attrValue.content }}">
+                                                    <img src="{{ img }}" alt="{{ attrValue.name }}"/>
+                                                </a>
+                                            {% endfor %}
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            {% set size = variableAttributes['size'] %}
+                            {% if size is not null or size is not empty %}
+                                {% set valuesSize = size.childValues %}
+                                {% set numbS =  (valuesSize | length) %}
+                                {% if(valuesSize is not null and numbS>0) %}
+                                    {% set flag = flag + 1 %}
+                                    <div class=" swatch-size swatch clearfix">
+                                        <p class="title_select_size"><span class="title_pro_info">Size</span>
+                                        </p>
+                                        <p class="size req" column="{{ size.column }}">
+                                            {% for attrValue in valuesSize %}
+                                                <a rel="nofollow" value="{{ attrValue.id }}"
+                                                   href="javascript:void(0)"
+                                                   class="{{ (numbS==1)?'active':'' }}">{{ attrValue.name }}</a>
+                                            {% endfor %}
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            <div class="quantity">
+                                <span class="title_pro_info">Số lượng</span>
+                                <div class="custom input_number_product custom_btn_number">
+                                    <button class="btn_num num_1 button button_qty" type="button"
+                                            onclick="minusQuantity()"><i class="fa fa-minus"></i></button>
+                                    <input type="text" id="quantity" name="quantity" value="1" min="1"
+                                           max="{{ ivt }}" class="input-text qty"
+                                           data-id="{{ product.id }}">
+                                    <button class="btn_num num_2 button button_qty" type="button"
+                                            onclick="plusQuantity()"><i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="product-btn-buy">
+                                {% if(ivt<=0) %}
+                                    <button id="addToCart" psid="{{ product.id }}"
+                                            selId="{{ product.id }}" class="btnCart btn unsel">
+                                        Hết hàng
+                                    </button>
+                                {% else %}
+                                    {% if(flag>0) %}
+                                        <button id="addToCart" class="btnCart btn unsel"
+                                                psid="{{ product.id }}"
+                                                selId="{{ product.id }}"
+                                                title="Vui lòng chọn màu sắc hoặc kích cỡ!" ck="0"><i
+                                                    class="fa fa-shopping-cart"></i>
+                                            Thêm vào giỏ
+                                        </button>
+                                    {% else %}
+                                        <button id="addToCart" class="btnCart btn"
+                                                psid="{{ product.id }}"
+                                                selId="{{ product.id }}" class="btn" ck="1"><i
+                                                    class="fa fa-shopping-cart"></i>Thêm vào giỏ
+                                        </button>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/quickview.js' }}"></script>
+{% endblock %}

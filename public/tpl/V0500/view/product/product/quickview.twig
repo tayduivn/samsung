@@ -1,0 +1,719 @@
+{% set ivt = product.inventory().calcAvailable() %}
+{% set priceDiscount = product.priceAfterDiscount %}
+{% set variableAttributes = product.variableAttributes %}
+{% set flag=0 %}
+{% set childImgs = product.images %}
+<a class="close">x</a>
+<style>
+    #AddToCart {
+        outline: 0px;
+        background: #53b7b7;
+        color: #fff;
+        margin-bottom: 5px;
+        padding: 5px;
+        border-radius: 2px;
+    }
+</style>
+<script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+<form class="grid" id="form-quick-view">
+    <div class="grid__item large--four-tenths">
+        <div class="image-zoom">
+            <img id="p-product-image-feature" class="p-product-image-feature" src="{{ product.thumbnailUri }}">
+            <div id="p-sliderproduct">
+                <ul class="owl-carousel inline-list owl-theme">
+                    {% for i in childImgs %}
+                        <li class="item">
+                            <a style="cursor:auto;" data-image="{{ i.thumbnailUri }}">
+                                <img data-image="{{ i.SrcUri }}" src="{{ i.SrcUri }}">
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('#p-sliderproduct .inline-list').owlCarousel({
+                autoplay:false,
+                loop: false,
+                nav:true,
+                dots:false,
+                items:3,
+                rewind:true
+            });
+
+            $('.inline-list li a').click(function () {
+                var src = $(this).children('img').attr('src');
+                $(this).parentsUntil('.grid__item large--four-tenths').children('#p-product-image-feature').attr('src', src);
+            });
+        })
+    </script>
+    <div class="grid__item large--six-tenths pull-right">
+        <h4 class="p-title   modal-title " id="">{{ product.name }}</h4>
+        <p class="product-more-info">
+            <span class="product-sku">
+                Mã sản phẩm: <span id="ProductSku">{{ product.id }}</span>
+            </span>
+        </p>
+        <div class="form-input product-price-wrapper">
+            <div class="product-price">
+                {% set priceDiscount = product.priceAfterDiscount %}
+                {% if (priceDiscount)>0 %}
+                    <span class="p-price current-price ProductPrice">{{ priceDiscount|number_format(0) }}₫</span>
+                    <del class="original-price ComparePrice">{{ product.price|number_format(0) }}₫</del>
+                    <em class="sale-percentage" style="display: block" id="PriceSaving">(Bạn đã tiết kiệm được {{ (product.oldprice-product.price)|number_format(0) }}₫)</em>
+                {% elseif (product.oldprice) %}
+                    <span class="p-price current-price ProductPrice">{{ product.price|number_format(0) }}₫</span>
+                    <del class="original-price ComparePrice">{{ product.oldprice|number_format(0) }}₫</del>
+                    <em class="sale-percentage" style="display: block" id="PriceSaving">(Bạn đã tiết kiệm được {{ (product.oldprice-product.price)|number_format(0) }}₫)</em>
+                {% else %}
+                    <span class="p-price current-price ProductPrice">{{ product.price|number_format(0) }}₫</span>
+                {% endif %}
+            </div>
+{#            <div class="product-price">#}
+{#                <span class="p-price ">{{ product.price }}₫</span>#}
+{#                {% if product.oldPrice %}#}
+{#                    <del>{{ product.oldPrice }}₫</del>#}
+{#            </div>#}
+{#            <em id="PriceSaving">(Bạn đã tích kiệm được {{ product.oldPrice - product.price }}₫)</em>#}
+{#            {% else %}#}
+{#        </div>#}
+{#            {% endif %}#}
+        </div>
+        <div class="p-option-wrapper">
+            <div class="selector-wrapper">
+                <label for="p-select-quickview-option-0">Màu sắc</label>
+                <span class="custom-dropdown custom-dropdown--white">
+                    {% set color = variableAttributes['color'] %}
+                    <select class="single-option-selector custom-dropdown__select custom-dropdown__select--white" data-option="option1" id="p-select-quickview-option-0">
+                        {% if color is not null or color is not empty %}
+                            {% set valuesColor = color.childValues %}
+                            {% set numbCl =  (valuesColor | length) %}
+                            {% for attrValue in valuesColor %}
+                                {% set arrColor = [] %}
+                                {% set arrColor = arrColor|merge({ (color.column): attrValue.Id }) %}
+                                {% set returnImg = {'return':'image'} %}
+                                {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                                {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                <option value="{{ attrValue.id }}">{{ attrValue.name }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </span>
+            </div>
+            <div class="selector-wrapper">
+                <label for="p-select-quickview-option-1">Kích thước</label>
+                <span class="custom-dropdown custom-dropdown--white">
+                    <select class="single-option-selector custom-dropdown__select custom-dropdown__select--white" data-option="option2" id="p-select-quickview-option-1">
+                        <option value="M">M</option>
+                        <option value="X">X</option>
+                        <option value="L">L</option>
+                    </select>
+                </span>
+            </div>
+            <div class="selector-wrapper">
+                <label for="p-select-quickview-option-2">Vật liệu</label>
+                <span class="custom-dropdown custom-dropdown--white">
+                    <select class="single-option-selector custom-dropdown__select custom-dropdown__select--white" data-option="option3" id="p-select-quickview-option-2">
+                        <option value="Cotton">Cotton</option>
+                    </select>
+                </span>
+            </div>
+            <select name="id" class="" id="p-select-quickview" disabled="" style="display: none;">
+                <option value="1016241218">Hồng / M / Cotton - 40600000</option>
+                <option value="1016241213">Trắng / X / Cotton - 41600000
+                </option><option value="1014174910">Trắng / L / Cotton - 43600000</option>
+                <option value="1014174911">Tím / M / Cotton - 42600000</option>
+            </select>
+        </div>
+
+        <div id="product-select-watch" class="select-swatch">
+            {% set color = variableAttributes['color'] %}
+            {% set flag=0 %}
+            {% if color is not null or color is not empty %}
+                {% set valuesColor = color.childValues %}
+                {% set numbC =  (valuesColor | length) %}
+                {% if(valuesColor is not null and numbC>0) %}
+                    {% set flag = flag + 1 %}
+                    <div id="variant-swatch-0" class="swatch color req swatch-product-single clearfix" data-option="option1" data-option-index="0" column="{{ color.column }}">
+                        <div class="header">Màu sắc</div>
+                        <div class="select-swap">
+                            {% for val in valuesColor %}
+                                {% set arrColor = [] %}
+                                {% set arrColor = arrColor|merge({ (color.column): val.Id }) %}
+                                {% set returnImg = {'return':'image'} %}
+                                {% set img = product.attrValueImage(arrColor) %}
+                                {% set imgZoom = product.attrValueImage(arrColor,false, returnImg) %}
+                                {#                                                            {% set img = img?:product.thumbnailUri %}#}
+                                {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                <div data-value="{{ val.name }}" class="{{ (numbC==1)?'active':'' }} n-sd swatch-element {{ val.name }}" value="{{ val.id }}">
+                                    <input class="variant-0 input-product" id="swatch-0-{{ val.name }}" type="radio" name="option1" value="{{ val.name }}" data-img-src="{{ img }}" data-pids="{{ pIdsAttrStr }}">
+                                    <label class="trang has-thumb" for="swatch-0-trang" style="background: url({{ img }}) top left no-repeat ">
+                                        <span>{{ val.name }}</span>
+                                        {#                                                                <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">#}
+                                        <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+                                        <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% set size = variableAttributes['size'] %}
+            {% if size is not null or size is not empty %}
+                {% set valuesSize = size.childValues %}
+                {% set numbS =  (valuesSize | length) %}
+                {% if(valuesSize is not null and numbS>0) %}
+                    {% set flag = flag + 1 %}
+                    <div id="variant-swatch-1" class="swatch size req swatch-product-single clearfix" column="{{ size.column }}" data-option="option2" data-option-index="1">
+                        <div class="header">Kích thước</div>
+                        <div class="select-swap">
+                            {% for attrValue in valuesSize %}
+                                <div data-value="{{ attrValue.name }}" value="{{ attrValue.id }}" class="{{ (numbS==1)?'active':'' }} n-sd swatch-element {{ attrValue.name }}" value="{{ attrValue.id }}">
+                                    <input class="variant-1 input-product" id="swatch-1-{{ attrValue.name }}" type="radio" name="option2" value="{{ attrValue.name }}" checked="">
+                                    <label for="swatch-1-{{ attrValue.name }}" class="">
+                                        {{ attrValue.name }}
+                                        <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+                                        <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <script>
+
+                        </script>
+                    </div>
+                {% endif %}
+            {%  endif %}
+            {% if((flag==0) and (product.childs)) %}
+                {% set flagchilds= product.childs|length %}
+                <p style="padding: 5px; text-align: left;">
+                    <span style="width: 131px; display: inline-block">Chọn sản phẩm</span>
+                    <select class="input childProducts">
+                        <option value="1">Chọn sản phẩm</option>
+                        {% set name_parent =product.name %}
+                        {% for cp in product.childs %}
+                            <option value="{{ cp.id }}, {{ cp.price }}"
+                                    href="{{ cp.imageUri }}"
+                                    data-src="{{ cp.imageUri }}">
+                                {{ cp.name|replace({ name_parent :''}) }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="form-input hidden">
+            {% if (ivt > 0) %}
+                <label>Số lượng</label>
+                <div class="js-qty">
+                    <button type="button" class="js-qty__adjust js-qty__adjust--minus icon-fallback-text" data-id="" data-qty="0">
+                        <span class="icon icon-minus" aria-hidden="true"></span>
+                        <span class="fallback-text" aria-hidden="true">−</span>
+                        <span class="visually-hidden">Giảm số lượng sản phẩm đi 1</span>
+                    </button>
+                    <input type="text" class="js-qty__num" value="1" min="1" data-id="" aria-label="quantity" pattern="[0-9]*" name="quantity" id="Quantity" max="{{ ivt }}">
+                    <button type="button" class="js-qty__adjust js-qty__adjust--plus icon-fallback-text" data-id="" data-qty="11">
+                        <span class="icon icon-plus" aria-hidden="true"></span>
+                        <span class="fallback-text" aria-hidden="true">+</span>
+                        <span class="visually-hidden">Tăng số lượng sản phẩm lên 1</span>
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-input" style="width: 100%">
+            {% if(ivt<=0) %}
+                <button type="submit" name="add" id="AddToCart" data-original-title="Sản phẩm tạm thời hết hàng!" class="btnAddToCart unsel"  selId="{{ product.id }}" psid="{{ product.id }}">
+                    <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span> Tạm hết hàng
+                </button>
+            {% elseif(flag or flagchilds) %}
+                <button type="submit" name="add" id="AddToCart" data-original-title="Vui lòng chọn màu sắc hoặc kích cỡ!" class="btnAddToCart unsel" psid="{{ product.id }}" ck="0" selId="{{ product.id }}">
+                    <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span> Thêm vào giỏ hàng
+                </button>
+            {% else %}
+                <button type="submit" name="add" id="AddToCart" class="btnAddToCart" psid="{{ product.id }}" ck="1" selId="{{ product.id }}">
+                    <span><i class="fa fa-cart-plus" aria-hidden="true"></i></span> Thêm vào giỏ hàng
+                </button>
+            {% endif %}
+            <div class="qv-readmore">
+                <span> hoặc </span><a class="read-more p-url" href="{{ product.viewLink }}" role="button">Xem chi tiết</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        //tăng giảm số lượng
+        $(function checkInv () {
+        })
+
+        $('.js-qty__adjust--minus').click(function () {
+            var qtt = $('#Quantity'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+            if (v > 1) {
+                qtt.val(v - 1);
+                qtt.attr('val', v - 1);
+            } else {
+                alert('Bạn phải đặt số lượng tối thiểu là 1 sản phẩm !');
+            }
+
+        });
+        $('.js-qty__adjust--plus').click(function () {
+            var qtt = $('#Quantity'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+            if (v < max) {
+                qtt.val(v + 1);
+                qtt.attr('val', v + 1);
+            } else {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+            }
+
+        });
+
+        $('#Quantity').keyup(function () {
+            var t = $(this), max = parseInt(t.attr('max')), v = parseInt(t.val());
+            if (v >= max) {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+                t.val(max);
+            }
+        });
+//end
+    });
+
+    /*--- color ---*/
+    $(document).ready(function () {
+        var storeId = $('#storeId').val(),
+            btnCart = $('#AddToCart'),
+            // btnBuyCart = $('.buyCart, .pdp-mod-sbutton'),
+            $colorReq = $('#product-select-watch .color.req'),
+            $colorA = $('#product-select-watch .color.req .swatch-element'),
+            $colorAt = $('#product-select-watch .color.req .swatch-element.active'),
+            $sizeReq = $('#product-select-watch .size.req'),
+            $sizeA = $('#product-select-watch .size.req .swatch-element'),
+            $sizeAt = $('#product-select-watch .size.req .swatch-element.active');
+        var msgOutofStock = "Sản phẩm tạm thời hết hàng";
+        /*--- size ---*/
+        $sizeA.click(function () {
+            var t = $(this), size = $sizeA, qtt = $('#Quantity'), atc = $('#AddToCart'), attrs = {};
+            if (!t.hasClass('active')) {
+                size.removeClass('active');
+                $sizeA.children('label').removeClass('sd');
+                attrs[$('.size').attr('column')] = t.attr('value');
+                if ($('.color').length && !$colorAt.length) {
+                    size.attr('data-original-title', msgColor);
+                    if (t.attr('qtt')) {
+                        t.addClass('active');
+                        t.children('label').addClass('sd');
+                        qtt.attr('max', t.attr('qtt'));
+                        atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                        if (t.attr('data-price') > 0) {
+                            $('.current-price').text($.number(t.attr('data-price')) + ' VNĐ');
+                            $('.PriceSaving').text('(Bạn đã tiết kiệm được ' + $.number(t.attr('data-discount')) + ' VNĐ)');
+                            $('.original-price s').text($.number(t.attr('data-old-price')) + '₫');
+                        }
+                    } else {
+                        t.addClass('soldout').attr('data-original-title', msgOutofStock);
+                        atc.removeAttr('selId').attr('data-original-title', msgSizeandColor).attr('ck', 0).addClass('unsel');
+                    }
+                } else {
+                    if ($('.color').length) {
+                        if (t.attr('qtt')) {
+                            t.addClass('active');
+                            t.children('label').addClass('sd');
+                            if(t.attr('data-price') > 0) {
+                                $('.current-price').text($.number(t.attr('data-price'))+ ' VNĐ');
+                                $('.PriceSaving').text('(Bạn đã tiết kiệm được ' + $.number(t.attr('data-discount')) + ' VNĐ)');
+                                $('.original-price s').text($.number(t.attr('data-old-price')) + '₫');
+                            }
+                            qtt.attr('max', t.attr('qtt'));
+                            atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                        } else {
+                            t.addClass('soldout').attr('data-original-title', msgOutofStock);
+                        }
+                    } else {
+                        $.post(
+                            '/product/child?childId=' + t.attr('selId'),
+                            {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code ==1  && rs.data.available > 0) {
+                                    t.addClass('active');
+                                    t.children('label').addClass('sd')
+                                    qtt.attr('max', t.attr('qtt'));
+                                    atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                                    if(t.attr('data-price') > 0) {
+                                        $('.current-price').text($.number(t.attr('data-price'))+ ' VNĐ');
+                                        $('.PriceSaving').text('(Bạn đã tiết kiệm được ' + $.number(t.attr('data-discount')) + ' VNĐ)');
+                                        $('.original-price s').text($.number(t.attr('data-old-price')) + '₫');
+                                    }
+                                } else {
+                                    t.addClass('soldout').attr('data-original-title', msgOutofStock);
+                                }
+                            },
+                            'json'
+                        );
+                    }
+                }
+            }
+        });
+
+        $colorA.click(function () {
+            var t = $(this), size = $('#product-select-watch .size.req .swatch-element'), qtt = $('#Quantity'), atc = $('#AddToCart'), attrs = {}, $colorA = $('#product-select-watch .color.req .swatch-element'),
+                $colorAt = $('#product-select-watch .color.req .swatch-element.active');
+            if (!t.hasClass('active')) {
+                $colorA.removeClass('active');
+                size.removeClass('soldout');
+                $colorA.children('label').removeClass('sd');
+                if (size.length > 1) {
+                    size.removeClass('active');
+                    t.addClass('active');
+                    t.children('label').addClass('sd');
+                    atc.attr('selId', t.attr('selId')).attr('data-original-title', msgSizeandColor).attr('ck', 0).addClass('unsel');
+                    size.removeAttr('data-original-title');
+                    size.children('label').removeClass('sd');
+                    attrs[$('.color.req').attr('column')] = t.attr('value');
+                    size.each(function () {
+                        var t = $(this);
+                        attrs[$('.size.req').attr('column')] = t.attr('value');
+                        $.post(
+                            '/product/child?psId=' + atc.attr('psid'),
+                            {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    t.attr('price', rs.data.price);
+                                    t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price).attr('data-discount', rs.data.moneyDiscount).attr('data-old-price', parseInt(rs.data.moneyDiscount) + parseInt(rs.data.price));
+                                } else {
+                                    // atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                                    t.addClass('soldout').attr('data-original-title', msgOutofStock).removeAttr('qtt');
+                                }
+                            },
+                            'json'
+                        );
+                    });
+
+                } else {
+                    var atc = $('#AddToCart');
+                    (t.attr('qtt'));
+                    t.addClass('active');
+                    t.children('label').addClass('sd');
+                    if(t.attr('data-price') > 0) {
+                        $('.current-price').text($.number(t.attr('data-price'))+ ' VNĐ');
+                        $('.PriceSaving').text('(Bạn đã tiết kiệm được ' + $.number(t.attr('data-discount')) + ' VNĐ)');
+                        $('.original-price s').text($.number(t.attr('data-old-price')) + '₫');
+                    }
+                    atc.attr('selId', t.attr('selId')).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                    qtt.attr('max', t.attr('qtt'));
+
+                }
+            }
+
+            var ps = [{
+                id: t.children('input').attr('data-pids').split(','),
+                bothImageSrc: true,
+                code: 1,
+                storeId: storeId
+            }];
+
+            if (ps.length) {
+                getallchildimg(ps, function (rs) {
+                    if (rs.images) {
+                        var $pviewUri = $(this).attr('data-src'),
+                            $owl = $('#p-sliderproduct .inline-list .owl-stage');
+                            // $lightbox = $('#ProductThumbs .inner');
+                        // $lightbox.empty();
+                        $owl.empty();
+                        $.each(rs.images, function (vl) {
+                            var srcUri = rs.images[vl].srcUri,
+                                thumbUri = rs.images[vl].thumbnailUri;
+                            $owl.append('<div class="owl-item" style="width: 97.333px;">' +
+                                '                            <li class="item"><a style="cursor:auto;" data-image="'+ srcUri +'"><img class="lazyload" data-image="'+ srcUri +'" src="'+ srcUri +'" /></a></li>' +
+                                '                            </div>');
+                            // $lightbox.append('<li class="thumbnail-item"><a class="product-single__thumbnail" data-pos="1"><img class="lazyload img-aside" src="'+ thumbUri +'" data-src="'+ thumbUri +'" /></a></li>');
+                        });
+                        $('.inline-list li a').click(function () {
+                            var src = $(this).children('img').attr('src');
+                            $(this).parentsUntil('.grid__item large--four-tenths').children('#p-product-image-feature').attr('src', src);
+                        });
+                        $colorA.click(function () {
+                            var imgSrc = $(this).children('input').attr('data-img-src');
+                            $("#p-product-image-feature").attr('src', imgSrc);
+                        });
+                        $('#p-sliderproduct .inline-list').owlCarousel('destroy');
+                        $('#p-sliderproduct .inline-list').owlCarousel({
+                            autoplay:false,
+                            loop: false,
+                            nav:true,
+                            dots:false,
+                            items:3,
+                            rewind:true
+                        });
+                    }else{
+                        // proThumList.append('<a data-hash="image'+k+'" href="'+ src +'" class="image-frame"><img class="cloudzoom" src="'+ src +'" alt="ThumbnailUri" /></a>');
+                    }
+                });
+            }
+        });
+    })
+
+    $(document).ready(function (){
+        $("#AddToCart").on("click", function(e){
+            e.preventDefault();
+            if ($(this).attr("ck") == 1) {
+                var products = [], ps = {};
+                ps['id'] = $(this).attr('selid');
+                ps['quantity'] = $("#Quantity").val();
+                var qty = parseInt(ps['quantity']);
+                var id = ($(this).attr('id'));
+                products.push(ps);
+                addToCart(products, 1, function(rs){
+                    if (rs.status == 1) {
+                        if (id == 'buynow'){
+                            window.location.href = '/cart/checkout?emptylayout=true';
+                        }else {
+                            $('#productQuickView').fadeOut();
+                            var totalqtt = parseInt(rs.data.totalQuantities + qty);
+                            $('.hd-cart-count').text(totalqtt);
+                            ajaxLoadView({
+                                view: 'topCart',
+                                onSuccess: function (rs) {
+                                    $('#modalAddComplete').fadeIn();
+                                    $('#modalAddComplete .modalAddComplete-content').html(rs);
+                                    $('#modalAddComplete .modal-cart-status h2').html('Giỏ hàng của bạn (Đang có ' + totalqtt + ' sản phẩm)')
+                                }
+                            });
+                            ajaxLoadView({
+                                view: 'cartTop',
+                                onSuccess: function (rs) {
+                                    $('#cart-top').html(rs);
+                                }
+                            });
+                            /*if(in_array($storeId,[58473,224])){
+                                var mes = $('#dialogMessage');
+                                mes.html('<p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 10px 40px 0;"></span>Thêm giỏ hàng thành công</p>');
+                                mes.dialog({
+                                    title: "Thông báo!", modal: true, show: "explode", hide: "explode",
+                                    buttons: {
+                                        Ok: function () {
+                                            $(this).dialog("close");
+                                        }
+                                    }
+                                });
+                            }else {*/
+                            // window.location.href = '/cart'
+                            // }
+                        }
+                    } else {
+                        alert(msgSizeandColor);
+                    }
+                });
+            } else {
+                alert($(this).attr('data-original-title'));
+            }
+        });
+
+        $('.childProducts').change(function () {
+            var val = $(this).val(), data = val.split(","), $psId = data[0], $price_op = data[1];
+            if ($psId != 1) {
+                $('#addToCart').attr('ck', 1).attr('selId', $psId).removeClass('unsel').removeAttr('title').removeAttr('data-original-title');
+            } else {
+                $('#addToCart').attr('title', 'Vui lòng chọn sản phẩm!').attr('data-original-title', 'Vui lòng chọn sản phẩm!').attr('ck', 0);
+            }
+            $('.current-price strong').html($.number($price_op)+ '<span class="vnd"> VNĐ</span>');
+        });
+    });
+
+    $(function checkInv() {
+        var storeId = $('#storeId').val(),
+            btnCart = $('#AddToCart'),
+            // btnBuyCart = $('.buyCart, .pdp-mod-sbutton'),
+            $colorReq = $('#product-select-watch .color.req'),
+            $colorA = $('#product-select-watch .color.req .swatch-element'),
+            $colorAt = $('#product-select-watch .color.req .swatch-element.active'),
+            $sizeReq = $('#product-select-watch .size.req'),
+            $sizeA = $('#product-select-watch .size.req .swatch-element'),
+            $sizeAt = $('#product-select-watch .size.req .swatch-element.active');
+        var msgOutofStock = "Sản phẩm tạm thời hết hàng";
+        var req = $('.req').length, attrs = {}, atc = $('#AddToCart'), qtt = $('#Quantity');
+        if (req == 1) {
+            if ($('.color').length) {
+                if ($colorAt.length) {
+                    $colorAt.children('label').addClass('sd');
+                    attrs[$('.color.req').attr('column')] = $colorAt.attr('value');
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                qtt.attr('max', rs.data.available);
+                                atc.attr('selId', rs.data.id).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                            } else {
+                                atc.attr('data-original-title', msgOutofStock);
+                                atc.html('Tạm hết hàng');
+                                $('#buy-now').hide();
+                                $('.large--one-third').hide();
+                            }
+                        },
+                        'json'
+                    );
+
+                } else {
+                    $colorA.each(function () {
+                        var t = $(this);
+                        attrs[$('.color.req').attr('column')] = t.attr('value');
+                        $.post(
+                            '/product/child?psId=' + atc.attr('psid'),
+                            {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                                } else {
+                                    t.addClass('soldout').attr('data-original-title', msgOutofStock);
+                                    atc.html('Tạm hết hàng');
+                                    $('#buy-now').hide();
+                                    $('.large--one-third').hide();
+                                }
+                            },
+                            'json'
+                        );
+                    });
+                }
+            } else {
+                if ($('.size').length) {
+                    if ($sizeAt.length) {
+                        $sizeAt.children('label').addClass('sd');
+                        attrs[$('.size.req').attr('column')] = $sizeAt.attr('value');
+                        $.post(
+                            '/product/child?psId=' + atc.attr('psid'),
+                            {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    qtt.attr('max', rs.data.available);
+                                    atc.attr('selId', rs.data.id).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                                } else {
+                                    atc.attr('data-original-title', msgOutofStock);
+                                    atc.html('Tạm hết hàng');
+                                    $('#buy-now').hide();
+                                    $('.large--one-third').hide();
+                                }
+                            },
+                            'json'
+                        );
+
+                    } else {
+                        $sizeA.each(function () {
+                            var t = $(this);
+                            attrs[$('.size.req').attr('column')] = t.attr('value');
+                            $.post(
+                                '/product/child?psId=' + atc.attr('psid'),
+                                {'attrs': attrs},
+                                function (rs) {
+                                    if (rs.code == 1 && rs.data.available > 0) {
+                                        t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                                    } else {
+                                        t.addClass('soldout').attr('data-original-title', msgOutofStock);
+                                        // atc.html('Tạm hết hàng');
+                                        $('#buy-now').hide();
+                                        $('.large--one-third').hide();
+                                    }
+                                },
+                                'json'
+                            );
+                        });
+                    }
+                }
+            }
+            return false;
+        }
+
+        if (req > 1) {
+            var colorAt = $('.color .active'), sizeAt = $('.size .active'),
+                $sizeA = $('#product-select-watch .size.req .swatch-element');
+            if (colorAt.length && sizeAt.length) {
+                attrs[$('.color.req').attr('column')] = colorAt.attr('value');
+                attrs[$('.size.req').attr('column')] = sizeAt.attr('value');
+                $(this).children('label').addClass('sd');
+                $.post(
+                    '/product/child?psId=' + atc.attr('psid'),
+                    {'attrs': attrs},
+                    function (rs) {
+                        if (rs.code == 1 && rs.data.available > 0) {
+                            $colorA.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                            if($sizeA.attr('data-price') > 0){
+                                $('.ProductPrice').text($.number($sizeA.attr('data-price')) + ' VNĐ');
+                            }
+                            qtt.attr('max', rs.data.available);
+                            atc.attr('selId', rs.data.id).removeAttr('data-original-title').attr('ck', 1).removeClass('unsel');
+                        } else {
+                            atc.attr('data-original-title', msgOutofStock);
+                            atc.html('Tạm hết hàng');
+                            $('#buy-now').hide();
+                            $('.large--one-third').hide();
+                        }
+                    },
+                    'json'
+                );
+                return false;
+            }
+            if (colorAt.length && !sizeAt.length) {
+                colorAt.children('label').addClass('sd');
+                attrs[$('.color.req').attr('column')] = colorAt.attr('value');
+                $sizeA.each(function () {
+                    var t = $(this);
+                    attrs[$('.size.req').attr('column')] = t.attr('value');
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                            } else {
+                                t.addClass('soldout').attr('data-original-title', msgOutofStock);
+                            }
+                        },
+                        'json'
+                    );
+                });
+                return false;
+            }
+            if (!colorAt.length && sizeAt.length) {
+                sizeAt.children('label').addClass('sd');
+                var colorAt = $('.color .active'), sizeAt = $('.size .active');
+                attrs[$('.size.req').attr('column')] = sizeAt.attr('value');
+                $colorA.each(function () {
+                    var t = $(this);
+                    attrs[$('.color.req').attr('column')] = t.attr('value');
+                    $.post(
+                        '/product/child?psId=' + atc.attr('psid'),
+                        {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                t.attr('qtt', rs.data.available).attr('selId', rs.data.id).attr('data-price', rs.data.price);
+                            } else {
+                                t.addClass('soldout').attr('data-original-title', msgOutofStock);
+                            }
+                        },
+                        'json'
+                    );
+                });
+                return false;
+            }
+        }
+    })
+
+    function numberFomart(nStr) {
+        nStr += '';
+        x = nStr.split('.');
+        x1 = x[0];
+        x2 = x.length > 1 ? '.' + x[1] : '';
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+        return x1 + x2;
+    }
+</script>

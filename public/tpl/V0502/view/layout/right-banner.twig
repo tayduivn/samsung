@@ -1,0 +1,54 @@
+<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="row">
+        <div class="banner_right col-lg-12 col-md-12 col-sm-6 hidden-sm">
+            <a href="#" title="alt">
+                <img src="//theme.hstatic.net/1000329721/1000424884/14/product-1.gif?v=22" data-lazyload="//theme.hstatic.net/1000329721/1000424884/14/img_banner_right.png?v=22" alt="alt" />
+            </a>
+        </div>
+        <div class="module_blog_right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="title_module_child">
+                <h2>
+                    <a href="/news" title="Tin mới cập nhật">Tin mới cập nhật</a>
+                </h2>
+                <a class="linkmore" href="/news" title="Xem tất cả">Xem tất cả</a>
+            </div>
+
+            {% set lastestNews = getLastestNews({'limit':3}) %}
+
+            {% if(lastestNews) %}
+                {% for n in lastestNews %}
+                    {% set image = n.imageUri %}
+                    {% set options = {
+                    alt: n.title|e('html'),
+                    lazy: true,
+                    openDiv: false,
+                }%}
+                    <div class="wrap_list_blog">
+
+                        <article class="blog-item blog-item-list ">
+                            <div class="blog-item-thumbnail img1" onclick="window.location.href='/blogs/news/oppo-find-x-lo-anh-sac-net-voi-man-hinh-cong-2-canh';">
+                                <a href="{{ n.viewLink }}">
+
+                                    <img data-original = "{{ image }}"
+                                         src="{{ image }}"
+
+                                         class="img-responsive" alt="OPPO Find X lộ ảnh sắc nét với màn hình cong 2 cạnh">
+
+                                </a>
+                            </div>
+                            <div class="ct_list_item">
+                                <h3 class="blog-item-name"><a href="{{ n.viewLink }}" title="OPPO Find X lộ ảnh sắc nét với màn hình cong 2 cạnh">{{ n.title|e('html') }}</a></h3>
+                                {% set time = n.createdDateTime | slice(0,10) %}
+
+                                <div class="time_post f margin-top-10"><i class="fa fa-clock-o"></i>
+                                    {{ time }}
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>

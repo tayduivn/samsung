@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="vi-VN" data-nhanh.vn-template="V0515">
+<head>
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+    {% set appId = getAppId() %}
+    {% if(appId) %}
+        <meta name="fb:app_id" content="{{ appId }}">
+    {% endif %}
+    {% set extraSettingsArray =  extraSettings() %}
+    {% if(extraSettingsArray['gta']['generatedTimeAndAuthor']) %}
+        {% if(extraSettingsArray['gta']['generatedTimeAndAuthor'] == 1) %}
+            {% set display = 'block' %}
+        {% endif %}
+    {% else %}
+        {% set display = 'none' %}
+    {% endif %}
+    <link href="{{ getFavicon() ?: '/images/favicon.ico' }}" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    {{ headMeta().appendName('viewport', 'width=device-width, initial-scale=1.0').appendHttpEquiv('X-UA-Compatible', 'IE=edge')|raw }}
+    {% set styleSheet = [
+        '/css/fontAwesome/font-awesome-4.7.0.min.css',
+        '/css/owlCarousel/owl.carousel.min.2.3.4.css',
+        '/css/bootstrap/bootstrap.4.3.1.min.css',
+        '/css/font.css',
+        'js/jquery/cloudzoom/cloudzoom.css',
+        '/js/mmenu/css/jquery.mmenu.css',
+        templatePath ~'/css/style.css',
+    ] %}
+    <link rel="stylesheet" href="{{ srcLink(styleSheet,1) }}" type="text/css">
+    {{ loadScripts({'positionHead':true}) | raw }}
+</head>
+<body>
+<div id="root">
+    <input type="hidden" id="storeId" value="{{ getStoreId() }}">
+
+
+    {% block body %}{% endblock %}
+    {% block stylesheets %}{% endblock %}
+    {% set script = [
+        '/js/jquery/jquery.min.js',
+        '/js/owlCarousel/owl.carousel.min.2.3.4.js',
+        '/js/jquery/jquery.number.min.js',
+        '/js/jquery/jquery-ui-1.10.3.custom.min.js',
+        '/js/lib.js',
+        'js/bootstrap/bootstrap.4.3.1.min.js',
+        '/js/bootstrap/bootstrap.popper.min.js',
+        '/js/mmenu/js/jquery.mmenu.min.js',
+        templatePath ~'/js/main.js'
+    ] %}
+    <script type="text/javascript" src="{{ srcLink(script,1) }}"></script>
+    {% block script %}{% endblock %}
+    {{ loadScripts() | raw }}
+    {{ headScript }}
+    {{ inlineScript }}
+</div>
+</body>
+</html>

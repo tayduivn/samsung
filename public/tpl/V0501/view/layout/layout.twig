@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi-VN" data-nhanh.vn-template="{{ templatePath }}">
+<head>
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
+    <meta charset="utf-8">
+    {% set appId = getAppId() %}
+    {% if(appId) %}
+        <meta name="fb:app_id" content="{{ appId }}">
+    {% endif %}
+    {% set extraSettingsArray =  extraSettings()%}
+    {% if(extraSettingsArray['gta']['generatedTimeAndAuthor']) %}
+        {% if(extraSettingsArray['gta']['generatedTimeAndAuthor'] == 1) %}
+            {% set display = 'block' %}
+        {% endif %}
+    {% else %}
+        {% set display = 'none' %}
+    {% endif %}
+    <link rel="shortcut icon" href="//theme.hstatic.net/1000329005/1000419954/14/favicon.png?v=93" type="image/png">
+    <link href="{{ getFavicon() ?: '/images/favicon.ico' }}" rel="shortcut icon" type="image/vnd.microsoft.icon">
+    {{ headMeta().appendName('viewport', 'width=device-width, initial-scale=1.0').appendHttpEquiv('X-UA-Compatible', 'IE=edge')|raw }}
+    {% block meta %}{% endblock %}
+    {% set styleSheet = [
+        '/css/fontAwesome/font-awesome-5.12.0.min.css',
+        '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.css',
+        '/css/jqueryUI/jqui.css',
+        '/js/mmenu/css/jquery.mmenu.css',
+        '/css/bootstrap/bootstrap-3.3.5.min.css',
+        '/css/owlCarousel/owl.carousel.min.css',
+        templatePath ~'/css/style.css',
+        templatePath ~'/css/base.css',
+        templatePath ~'/css/pagination.css',
+        templatePath ~'/css/index.css',
+        '/js/colorswatches/color-swatches.css',
+
+    ] %}
+    <link rel="stylesheet" href="{{ srcLink(styleSheet,2) }}" type="text/css">
+    {{ loadScripts({'positionHead':true}) | raw}}
+</head>
+<body>
+{% block stylesheets %}{% endblock %}
+{% set script = [
+    '/js/jquery/jquery.min.js',
+    '/js/lib.js',
+    '/js/jquery/jquery-ui-1.10.3.custom.min.js',
+    '/js/bootstrap/bootstrap-3.3.5.min.js',
+    '/js/jquery/jquery.carouFredSel-6.2.1-packed.js',
+    '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.pack.js',
+    '/js/mmenu/js/jquery.mmenu.min.js',
+    '/js/jquery/jquery.number.min.js',
+    '/js/jquery/jquery.lazyload.min.js',
+    '/js/owlCarousel/owl.carousel.min.js',
+    '/js/translate/vi-vn.js',
+
+    templatePath ~'/js/index.js',
+    templatePath ~'/js/product.js',
+
+
+] %}
+<script type="text/javascript" src="{{ srcLink(script,5)  }}"></script>
+{% block script %}{% endblock %}
+
+<input type="hidden" id="storeId" value="{{ getStoreId() }}">
+
+{#<div id="boxMenu" class="menus" style="display: none;">#}
+{#    {% include 'layout/menu' %}#}
+{#</div>#}
+{% if (layout().showOnlyContent == true) %}
+    {% block checkout %}{% endblock %}
+{% else %}
+        {% include 'layout/header' %}
+        {% block body %}
+            {% block breadcrumbs %}
+            {% endblock %}
+        {% endblock %}
+
+
+        {% include 'layout/footer' %}
+{% endif %}
+
+
+</body>
+</html>

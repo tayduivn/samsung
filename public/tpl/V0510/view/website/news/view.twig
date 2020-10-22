@@ -1,0 +1,187 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+    <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+    <meta property="og:title" content="{{ news.title | e('html') }}">
+    <meta property="og:url" content="{{ news.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+
+                        {% set buildBread = buildBreadcrumbs(category)%}
+                        {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}
+                        {% set buildBread = buildBread | merge (buildBread1) %}
+                        {{ breadcrumbs.build(buildBread) }}
+    <div class="container article-wraper" itemscope="" itemtype="https://schema.org/Article">
+        <div class="wrap_background_aside margin-bottom-40">
+            <div class="row">
+                <section class="right-content col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                    <div class="box-heading relative">
+                    </div>
+                    <article class="article-main">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                <div class="article-details blog-main">
+
+                                    {#<div class="a-center section margin-bottom-20">
+                                        <img src="//bizweb.dktcdn.net/100/004/714/articles/banh-trung-thu-chay2-1.png?v=1597885932533" alt="Bánh trung thu chay đơn giản dễ làm">
+                                    </div> #}
+
+                                    <h1 class="article-title"><span>{{ news.title | e('html') }}</span></h1>
+                                    <div class="date">
+                                        <i class="fa fa-clock"></i>
+                                        <div class="news_home_content_short_time">
+                                            {{ news.publishedDate }}
+                                        </div>
+                                        <div class="post-time">
+                                           <span>Lượt xem:</span><span> {{ news.hits}} </span>
+                                        </div>
+                                        <div class="post-time">
+                                            <i class="fa fa-comment" aria-d-none="true"></i>
+                                            {{ news.status}} <span>Nhận xét</span>
+                                        </div>
+
+                                    </div>
+
+                                    <section class="margin-bottom-15">
+                                        <div class="bt-like-share" style="">
+                                            <div class="fb-like" data-href="{{ getCurrentUrl() }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+                                        </div>
+                                    </section>
+
+                                    <div class="article_lq section d-none">
+                                        <div class="aside-title"><h2 class="title-head"><span>Bài cùng chuyên mục</span></h2></div>
+                                        {% set relatedTitles = searchNewsByCategory(news.categoryId) %}
+                                        {% if relatedTitles %}
+                                        <ul class="list_article">
+                                            {% for t in relatedTitles %}
+                                                <li>
+                                                    <a href="{{ t.viewLink }}">{{ t.title }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="article-content">
+                                        <div class="rte">
+                                           {{ news.content|raw }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-lg-12 col-md-12">
+                                <div class="wrapm">
+                                    <div class="row tag-share">
+
+
+                                        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
+                                            <i class="fa fa-tags"></i>Từ khóa:{{ news.tags }}
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            </div>
+                        </div>
+                    </article>
+                </section>
+
+                <aside class="blog_hai left left-content col-lg-3 col-md-12 col-sm-12 col-xs-12 d-none d-lg-block">
+                    <div class="section section_tag_aside height_keyword margin-bottom-20">
+                        <div class="section">
+                            <div class="title_module_blog_bf title_border_bottom">
+                                <h2>
+                                    <span>Từ khóa liên quan</span>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="section tag_blog">
+                            <div class="section tag_inner">
+                                {% set relatedNews = searchNewsByCategory(news.categoryId) %}
+                                {% if (relatedNews) %}
+                                {% for n in relatedNews %}
+                                {{ n.tags }}
+                                {% endfor %}
+                                {% endif %}
+                                <a href="/blogs/all/tagged/mon-an-mua-he" title="Món ăn mùa hè">Món ăn mùa hè</a>
+                                <a href="/blogs/all/tagged/sua-hat" title="sữa hạt">sữa hạt</a>
+                                <a href="/blogs/all/tagged/che" title="chè">chè</a>
+                                <a href="/blogs/all/tagged/kem" title="kem">kem</a>
+                                <a href="/blogs/all/tagged/tra-sua" title="trà sữa">trà sữa</a>
+                                <a href="/blogs/all/tagged/cong-thuc-lam-banh" title="Công thức làm bánh">Công thức làm bánh</a>
+                                <a href="/blogs/all/tagged/trung-thu" title="Trung thu">Trung thu</a>
+                                <a href="/blogs/all/tagged/cong-thuc-pha-che" title="Công thức pha chế">Công thức pha chế</a>
+                                <a href="/blogs/all/tagged/hat-dinh-duong" title="Hạt dinh dưỡng">Hạt dinh dưỡng</a>
+                                <a href="/blogs/all/tagged/san-pham-thuc-duong" title="sản phẩm thực dưỡng">sản phẩm thực dưỡng</a>
+                                <a href="/blogs/all/tagged/review-san-pham" title="Review sản phẩm">Review sản phẩm</a>
+                                <a href="/blogs/all/tagged/coffee" title="Coffee">Coffee</a>
+                                <a href="/blogs/all/tagged/chocolate" title="Chocolate">Chocolate</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section appstore d-none d-lg-block">
+                        <div class="title_module_app">
+                            <h2>
+                                <span>Tải ứng dụng beemart</span>
+                            </h2>
+                        </div>
+                        <div class="section">
+                            <a class="inline-block f-left" href="https://apps.apple.com/vn/app/beemart-%C4%91%E1%BB%93-l%C3%A0m-b%C3%A1nh/id1332592146?l=vi" title="Tải App Beemart"><img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/appstore.png?1598600630779" alt="Tải App Beemart"></a>
+                            <a class="inline-block f-left" href="https://play.google.com/store/apps/details?id=com.beemart" title="Tải App Beemart"><img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/playstore.png?1598600630779" alt="Tải App Beemart"></a>
+                        </div>
+                    </div>
+                    <div class="section sidebar_blogfix d-none d-lg-block">
+
+                        <a class=" margin-bottom-15" href="https://www.beemart.vn/tai-app-beemart-trai-nghiem-scan-go-va-tham-gia-van-may-0d" title="Trải nghiệm Scan&amp;Go - Tham gia vận may 0Đ">
+                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/banner_doc_image_1.jpg?1598600630779" alt="Trải nghiệm Scan&amp;Go - Tham gia vận may 0Đ">
+                        </a>
+
+
+                    </div>
+                </aside>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bvlienquan">
+                    {% set relatedNews = searchNewsByCategory(news.categoryId) %}
+                    {% if (relatedNews) %}
+                    <div class="title_md_blog">
+                        <h2>
+                            <a href="{{ relatedNews.viewLink }}" title="Bài cùng chuyên mục">Bài cùng chuyên mục</a>
+                        </h2>
+                    </div>
+                    <div class="section owlnav_style1">
+                        <div class="owl-carousel owl-loaded owl-drag" data-dot="false" data-nav="true" data-loop="false" data-play="false" data-lg-items="4" data-md-items="4" data-sm-items="2" data-xs-items="1" data-margin="30">
+                            <div class="owl-stage-outer">
+                                <div class="owl-stage">
+                                    {% for n in relatedNews %}
+                                    <div class="owl-item">
+                                        <div class="block_item_blog">
+                                            <a href="{{ n.viewLink }}" title="Cách làm bánh Trung Thu thực dưỡng chuẩn vị dễ làm tại nhà">
+                                                <div class="image_">
+                                                    <img src="{{ n.imageUri }}" alt="{{ n.title }}">
+                                                </div>
+                                                <h3>
+                                                    {{ n.title }}
+                                                </h3>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

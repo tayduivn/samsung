@@ -1,0 +1,24 @@
+
+{   "author":"Thanhnv",
+    "sourceLink": "https://evadeeva.com.vn/",
+    "domain":{
+        "storeId": 15113,
+        "name": "V0507.thanhnvstore2.bot3s.net",
+        "alias": "V0507.thanhnvstore2.bot3s.net"
+    },
+    "banners":{
+        "HOME_SLIDE":{
+            "name": "Banner slide home",
+            "description": "Kích cỡ banner 1920 x auto",
+            "size": "auto"
+        }
+    },
+    "contents":{
+        "HOME":{
+            "name": "Trang chủ",
+            "keys": {
+
+            }
+        }
+    }
+}

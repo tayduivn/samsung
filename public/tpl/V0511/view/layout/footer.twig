@@ -1,0 +1,190 @@
+<div class="top-cart-content"></div>
+<footer class="footer">
+    <div class="container">
+        <div class="header font-14 text-white">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-12 header">
+                    <h5 class="alert-heading">
+                        <i class="fa fa-pagelines color-greeen1"></i>
+                        <span>HỆ THỐNG CỬA HÀNG</span>
+                    </h5>
+                    <h6 class="alert-heading">
+                        <i class="fa fa-map-marker color-greeen1"></i>
+                        <span>Ant Cosmetic Tân Bình</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <span>
+                                Địa chỉ:
+                                175 Lý Thường Kiệt, Phường 6, Quận Tân Bình, TP Hồ Chí Minh
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <span>Hotline: 0123 456 788</span>
+                        </li>
+
+                    </ul>
+                    <h6 class="alert-heading">
+                        <i class="fa fa-map-marker color-greeen1"></i>
+                        <span>Ant Cosmetic Phú Nhuận</span>
+                    </h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <span>
+                                Địa chỉ: 10 Phan Đình Phùng, Phường 15, Quận Phú Nhuận, TP Hồ Chí Minh
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <span>Hotline: 0123 456 789</span>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 col-12 header">
+                    <h5 class="alert-heading">
+                        <i class="fa fa-pagelines color-greeen1"></i>
+                        <span>CHÍNH SÁCH</span>
+                    </h5>
+                    <ul class="nav flex-column">
+                        {% set category = getCategories() %}
+                        {% if(category is not empty) %}
+                            <li>
+                                <a style="padding: 0 16px" class="nav-link link-2" href="/">Trang chủ</a>
+                            </li>
+                            <li>
+                                <a style="padding: 0 16px" class="nav-link link-2" href="/product">Sản phẩm</a>
+                            </li>
+                            {% for c in category %}
+                                <li>
+                                    <a style="padding: 0 16px" class="nav-link link-2" href="{{ c.viewLink|raw }}">{{ c.name|raw }}</a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+
+                        <li>
+                            <a style="padding: 0 16px" class="nav-link link-2" href="/news">Tin tức</a>
+                        </li>
+                        <li>
+                            <a style="padding: 0 16px" class="nav-link link-2" href="/contact">Liên hệ</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+                <div class="col-lg-2 col-md-3 col-12 header">
+                    <h5 class="alert-heading">
+                        <i class="fa fa-pagelines color-greeen1"></i>
+                        <span>HỖ TRỢ</span>
+                    </h5>
+                    <ul class="nav flex-column">
+                        {% set category = getCategories() %}
+                        {% if(category is not empty) %}
+                            <li class="nav-item">
+                                <a style="padding: 0 16px" class="nav-link link-2" href="/">Trang chủ</a>
+                            </li>
+                            <li>
+                                <a style="padding: 0 16px" class="nav-link link-2" href="/product">Sản phẩm</a>
+                            </li>
+                            {% for c in category %}
+                                <li>
+                                    <a style="padding: 0 16px" class="nav-link link-2" href="{{ c.viewLink|raw }}">{{ c.name|raw }}</a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+
+                        <li>
+                            <a style="padding: 0 16px" class="nav-link link-2" href="/news">Tin tức</a>
+                        </li>
+                        <li>
+                            <a style="padding: 0 16px" class="nav-link link-2" href="/contact">Liên hệ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 header">
+                    <h5 class="alert-heading">
+                        <i class="fa fa-pagelines color-greeen1"></i>
+                        <span>HÌNH THỨC THANH TOÁN</span>
+                    </h5>
+                    <img src="/tpl/V0511/image/payment.png" alt="hình thức thanh toán"/>
+                    <h5 class="alert-heading header">
+                        <i class="fa fa-pagelines color-greeen1"></i>
+                        <span>MẠNG XÃ HỘI</span>
+                    </h5>
+                    <a class="link-1" href="#">
+                        <button class="btn btn-dark btn-sm">
+                            <span class="fa fa-facebook" aria-hidden="true"></span>
+                        </button>
+                    </a>
+                    <a class="link-1" href="#">
+                        <button class="btn btn-dark btn-sm">
+                            <span class="fa fa-twitter" aria-hidden="true"></span>
+                        </button>
+                    </a>
+                    <a class="link-1" href="#">
+                        <button class="btn btn-dark btn-sm">
+                            <span class="fa fa-instagram" aria-hidden="true"></span>
+                        </button>
+                    </a>
+                    <a class="link-1" href="#">
+                        <button class="btn btn-dark btn-sm">
+                            <span class="fa fa-youtube" aria-hidden="true"></span>
+                        </button>
+                    </a>
+                    <a class="link-1" href="#">
+                        <button class="btn btn-dark btn-sm">
+                            <span class="fa fa-google-plus" aria-hidden="true"></span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <a>
+            <button class="btn btn-success back-to-top">
+                <i class="fa fa-angle-up"></i>
+            </button>
+        </a>
+        <div>
+            <div class="uesr-menu menu-4 hiden-1">
+                <a href="tel:0982362509">
+                    <i class="fa fa-tablet" aria-hidden="true">
+                        <span class="font-14">Gọi ngay: 0982 362 509</span>
+                        <div id="myAnimation3" style="top:-5px;right: -5px"
+                             class="animated infinite zoomIn kenit-alo-circle"></div>
+                        <div id="myAnimation2" style="top:-10px;left: -10px"
+                             class="animated infinite pulse kenit-alo-circle-fill"></div>
+                    </i>
+                </a>
+                <a href="https://www.messenger.com/t/447987475408044">
+                    <i class="fa fa-facebook-official" aria-hidden="true">
+                        <span class="font-14">Chat qua Messenger</span>
+                    </i>
+                </a>
+                <a href=mailto:admin@antcosmetic.com.vn"">
+                    <i class=" fa fa-envelope-o" aria-hidden="true">
+                        <span class="font-14">admin@antcosmetic.com.vn</span>
+                    </i>
+                </a>
+                <a href="SMS:0982362509">
+                    <i class=" fa fa-commenting-o" aria-hidden="true">
+                        <span style="" class="font-14">SMS: 0982 362 509</span>
+                    </i>
+                </a>
+            </div>
+            <button class="btn btn-success uesr button-4">
+                <i style="z-index: 100" class="fa fa-user" aria-hidden="true">
+                    <div id="myAnimation1" class="animated infinite zoomIn kenit-alo-circle"></div>
+                    <div id="myAnimation" class="animated infinite pulse kenit-alo-circle-fill"></div>
+                </i>
+
+            </button>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row end">
+            <div class="col-sm-12 text-center">
+                <span class="font-14">© Bản quyền thuộc về <strong>NHANH.VN</strong> <span class="s480-f">|</span> Cung cấp bởi <a
+                            class="link-2" href="#" title="ABC" target="_blank" rel="nofollow"><strong>ABC</strong></a></span>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,63 @@
+
+<link rel="stylesheet" href="{{ templatePath ~'/css/childs/generalbar.css' }}" type="text/css">
+
+<div class="col-md-12">
+    <div class="col-md-12 listMenu" id="proSaleBar">
+        <h3 id="labelCtPro" class="generalBar pull-left">
+            <a href="/product">Sản phẩm mới</a>
+        </h3>
+        <ul class="owl-carousel owl-theme">
+            {% set newProducts = search({'limit':4}) %}
+            {% if (newProducts is not empty) %}
+                {% for p in newProducts %}
+                    {% set percent = p.calcDiscountPercent %}
+                    {% set priceDiscount = p.priceAfterDiscount %}
+            <li style="position: relative;">
+                <div class="blockImg">
+                    <a href="{{ p.viewLink }}">
+                       {% if(percent > 0) %}
+                           <span class="image iconSales2">{{ percent }} %</span>
+                       {% endif %}
+                        <img src="{{ p.thumbnailUri() }}" alt="{{ p.name }}" class="swatches-{{ p.id }}">
+                    </a>
+                </div>
+                {% if(values is not empty) %}
+                    <ul class="color-swatches" data-hover="true" data-click="true" psId="{{ p.id }}" data-handle="{{ p.viewlink }}">
+                        {% for v in values %}
+                            <li class="color-item" data-img="{{ v.thumbnailuri }}" value="{{ v.id }}" title="{{ v.name }}">
+                                <img data-sizes="auto" class="lazyload" src="{{ v.thumbnailUri }}" alt="{{ v.name }}"></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <ul class="color-swatches"></ul>
+                {% endif %}
+                <div class="blockDs">
+                    <span>{{ p.name }}</span>
+                    {% if (n.priceAfterDiscount > 0) %}
+                        <span class="price"><b style="color: #f24242;">{{ p.priceAfterDiscount|number_format(0) }}</b> VNĐ</span>
+                        <s class="oldPrice" style="font-size: 12px">{{ p.price|number_format(0) }} VNĐ</s>
+                    {% elseif (n.oldprice() > 0) %}
+                        <span class="price"><b style="color: #f24242;">{{ p.price|number_format(0) }}</b> VNĐ</span>
+                        <s class="oldPrice" style="font-size: 12px">{{ p.oldPrice|number_format(0) }} VNĐ</s>
+                    {% else %}
+                        <span class="price"><b style="color: #f24242;">{{ p.price|number_format(0) }}</b> VNĐ</span>
+                    {% endif %}
+                </div>
+            </li>
+                {% endfor %}
+           {% endif %}
+        </ul>
+    </div>
+</div>
+<style>
+    #labelCtPro a{
+        color: #000
+    }
+    #labelCtPro a:hover{
+        color: #ef4136;
+    }
+    .iconHot2{
+        top: 0;
+        right: 0;
+    }
+</style>

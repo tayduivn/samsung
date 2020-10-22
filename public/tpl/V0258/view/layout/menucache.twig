@@ -1,0 +1,26 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+{% if(getCategories()) %}
+    {% for c in getCategories() %}
+        {% set cl='' %}
+        {% set fa ='' %}
+        {% if(c.childs) %}
+            {% set cl='class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home tp_menu_item"' %}
+            {% set fa='fa fa-plus' %}
+        {% endif %}
+        {% set nav = nav ~ '<li '~cl~'><a href="'~c.viewLink~'">'~c.name|raw~'</a>' %}
+        {% if(c.childs) %}
+            {% set nav = nav ~ '<ul class="sub-menu">' %}
+            {% for c1 in c.childs %}
+                {% set nav = nav ~ '<li class="menu-item menu-item-type-taxonomy menu-item-object-sanpham_cat"><a href="'~c1.viewLink~'">' ~ c1.name| raw ~ '</a></li>' %}
+            {% endfor %}
+            {% set nav = nav ~ '</ul>' %}
+        {% endif %}
+        {% set nav = nav ~ '</li>' %}
+    {% endfor %}
+{% endif %}
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

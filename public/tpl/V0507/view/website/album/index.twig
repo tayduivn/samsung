@@ -1,0 +1,48 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Album').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Album">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+<main>
+    <div class="banner-effect">
+        <div class="content-image-pro">
+            <img src="/tpl/V0507/img/temp/banner_campaign.jpg" alt="img">
+        </div>
+    </div>
+    <div class="container">
+        <section class="contentAlbum">
+            <div class="container">
+                <div class="row">
+                    {% if(albums.currentModels) %}
+                        {% for a in albums.currentModels %}
+                            {% set image = a.thumbnailUri %}
+                            {% set options = {
+                                alt: a.name,
+                                class: 'img_thumb_album',
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+                            <div class="col-md-4 col-12">
+                                <div class="item_album">
+                                    <div class="imge_album">
+                                        <a href="{{ a.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                    </div>
+                                    <div class="albumTitle">
+                                        <h3><a href="{{ a.viewLink }}">{{ subString(a.name, 20) }}</a></h3>
+                                        <div class="showAlbum"><a href="{{ a.viewLink }}">VIEW CAMPAIGN</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

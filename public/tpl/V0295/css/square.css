@@ -1,0 +1,20 @@
+#collection-one-slide .pro-loop .product-img img, .slide-product .pro-loop .product-img img{
+    height: 307px;
+    width: 307px;
+}
+.wrapper-collection-1 .product-img img, .wrapper-collection-featured .product-img img{
+    height: 307px;
+    width: 307px;
+}
+.wrapper-collection-3 .product-img img{
+    height: 227px;
+    width: 227px;
+}
+.product-fix .product-img.image-resize>a img{
+    height: 266px;
+    width: 266px;
+}
+.pro-loop .product-img img{
+    height: 251px;
+    width: 251px;
+}

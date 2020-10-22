@@ -1,0 +1,536 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(product.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    {% set metaDescription = product.name()~ ' - '~product.price|number_format(0)~' đ' %}
+    <meta name="description" content="{{ metaDescription }}">
+    <meta name="keywords" content="{{ product.metaKeywords?:product.name }}">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="{{ product.name }}">
+    <meta property="og:description" content="{{ metaDescription }}">
+    <meta property="og:image" content="{{ 'https:'~product.imageUri }}">
+    <meta property="og:type" content="website">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~ templatePath  ~'/css/product/index-product.css ' }}" type="text/css">
+    <link rel="stylesheet" href="{{ '/js/jquery/cloudzoom/cloudzoom.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set ivt = product.inventory().calcAvailable() %}
+    {% if(getParam('preview')) %}
+        {% set ivt = 0 %}
+    {% endif %}
+    {% set priceDiscount = product.priceAfterDiscount %}
+    {% set showPrice = product.price %}
+    {% set oldPrices = null %}
+    {% if(priceDiscount > 0) %}
+        {% set showPrice = priceDiscount %}
+        {% set oldPrices = product.price %}
+    {% elseif(product.oldPrice) %}
+        {% set oldPrices = product.oldPrice %}
+    {% endif %}
+    {% set user = getUser() %}
+    {% set flag = 0 %}
+    {% set variableAttributes = product.variableAttributes %}
+    {% set valuesColor = null %}
+    {% set valuesImage = null %}
+    {% set color = variableAttributes['color'] %}
+    {% if color is not null or color is not empty %}
+        {% set valuesColor = color.childValues %}
+    {% endif %}
+    {#    Product Attr Images#}
+    {% set psAttrImages =  variableAttributes['psimage'] %}
+    {% if psAttrImages is not null or psAttrImages is not empty %}
+        {% set valuesImage = psAttrImages.childValues %}
+    {% endif %}
+    <div class="container-fluid top-product">
+        {% set buildBread = buildBreadcrumbs(category) %}
+        {% set buildBread = buildBread | merge ([{'label': 'MSP: '~product.code,'uri': 'javascript:void(0)', 'class' : 'msp'}]) %}
+        {{ breadcrumbs.build(buildBread) }}
+    </div>
+    <div id="storeId" value="{{ store.id }}" class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6 product-image-block">
+                        <div style="position: relative">
+                            <div id="zoomer" class="row">
+                                <a href="{{ product.imageUri }}" id="single_image" rel="fyb_group">
+                                    <img id="img-01" class="img-fluid" alt="{{ product.name }}" width="100%"
+                                         src="{{ product.imageUri }}"/>
+                                </a>
+                                <a title="Yêu thích" href="#"><i style="background: #f0f0f0"
+                                                                 class="tag-discount fa fa-heart-o link-1"></i></a>
+                            </div>
+                            <div id="listImgZoom" style="max-width: 300px;display: inline-block" class="row">
+                                <div class="item-5 owl-carousel owl-theme owl-loaded">
+                                    <div class="owl-stage-outer">
+                                        <div class="owl-stage">
+                                            {% set fancyboxImage = '' %}
+                                            {% set childImgs = product.images %}
+                                            {% if(childImgs is not empty) %}
+                                                {% for v in childImgs %}
+                                                    <div class="owl-item active">
+                                                        {% set fancyboxImage %}
+                                                            <a href="{{ v.srcUri }}" rel="fyb_group" class="hide"></a>
+                                                        {% endset %}
+
+                                                        <i class="imageList" data-src="{{ v.srcUri }}">
+                                                            <img class="img-fluid " alt="{{ product.name }}"
+                                                                 src="{{ v.thumbnailUri }}"
+                                                                 data-cloudzoom="useZoom: '.cloudzoom', image: '{{ v.srcUri }}', zoomImage: '{{ v.srcUri }}'">
+                                                        </i>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-sharing margin-top-20">
+                            <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                            <script type="text/javascript"
+                                    src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a099baca270babc"></script>
+                            <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                            <div class="addthis_inline_share_toolbox_uu9r" data-url="{{ product.imageUri }}"
+                                 data-title="{{ product.name }}"
+                                 data-description="Công dụng:lỗ chân lông. Ngoài ra sản phẩm còn có khả năng cải thiện tình"
+                                 style="clear: both;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-lg-6 col-md-6 details-pro">
+                        {% set childImgs = product.images %}
+                        {% if(childImgs is not empty) %}
+                            {% for v in childImgs %}
+                                <div class="owl-item active">
+                                    {% set fancyboxImage %}
+                                        <a href="{{ v.srcUri }}" rel="fyb_group" class="hide"></a>
+                                    {% endset %}
+
+                                    <i class="imageList" data-src="{{ v.srcUri }}">
+                                        <img class="img-fluid hiden" alt="{{ product.name }}" class="cloudzoom-gallery"
+                                             src="{{ v.thumbnailUri }}"
+                                             data-cloudzoom="useZoom: '.cloudzoom', image: '{{ v.srcUri }}', zoomImage: '{{ v.srcUri }}'">
+                                    </i>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <i class="image" data-src="{{ product.imageUri }}">
+                                <img class="img-fluid" alt="{{ product.name }}" class='cloudzoom-gallery'
+                                     src="{{ product.imageUri }}"
+                                     data-cloudzoom="useZoom: '.cloudzoom', image: '{{ product.imageUri }}', zoomImage: '{{ product.imageUri }}'">
+                            </i>
+                        {% endif %}
+
+                        <h1 style="font-size: 20px">{{ product.name }}</h1>
+                        <div style="color:#fbf069" class="">
+                            <i data-alt="1" class="fa fa-star-o "></i>
+                            <i data-alt="1" class="fa fa-star-o "></i>
+                            <i data-alt="1" class="fa fa-star-o "></i>
+                            <i data-alt="1" class="fa fa-star-o "></i>
+                            <i data-alt="1" class="fa fa-star-o "></i>
+                        </div>
+                        <div>
+                            <div>
+                                <span id="tinhtrang" value="{{ ivt }}"><strong>Tình trạng:</strong></span>
+
+                                {% if( ivt > 10) %}
+                                    <span class="font-14 color-greeen1">Còn hàng </span>
+                                {% elseif( ivt<10 and ivt>0) %}
+                                    <span class="font-14 color-greeen1">Chỉ còn {{ ivt }} sản phẩm</span>
+                                {% else %}
+                                    <span class="font-14 color-greeen1">Hết hàng</span>
+                                {% endif %}
+                            </div>
+                            {% set priceDiscount = product.priceAfterDiscount %}
+                            <div style="padding: 10px 0" class="price-box-1">
+                                {% if (priceDiscount > 0) %}
+                                    <span style="font-size: 22px; font-weight:500;"
+                                          class="current-price color-greeen1">{{ priceDiscount|number_format(0) }}<u>đ</u></span>
+                                    <strike>{{ product.price|number_format(0) }} đ</strike>
+                                {% elseif (product.oldprice() > 0) %}
+                                    <span style="font-size: 22px; font-weight:500;"
+                                          class="current-price color-greeen1">{{ product.price|number_format(0) }}<u>đ</u></span>
+                                    <strike>{{ product.oldprice|number_format(0) }} đ</strike>
+                                {% else %}
+                                    <span style="font-size: 22px; font-weight:500;"
+                                          class="current-price color-greeen1">{{ product.price|number_format(0) }}<u>đ</u></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="font-14">
+                            <strong for="tabbrand">{{ translate('Thông số sản phẩm') }}:</strong>
+                            <p class="price-box-1">
+                                {% if(product.description is not empty) %}
+                                    {{ product.description | raw }}
+                                {% else %}
+                                    <span class="color-greeen1">Đang cập nhật.</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="form-product">
+                            <form enctype="multipart/form-data" action="/cart/add">
+                                <div class="select-swatch">
+                                    <div class="swatch clearfix" data-option="option1" data-option-index="0">
+                                        {% set flag=0 %}
+                                        {% set returnImg = {'return':'image'} %}
+                                        {% if color is not null or color is not empty %}
+                                            {% set valuesColor = color.childValues %}
+                                            {% set numbCl =  (valuesColor | length) %}
+                                            {% if(valuesColor is not null and numbCl>0) %}
+                                                {% set flag = flag + 1 %}
+                                                <div style="margin-bottom: 0px" class="color font-14 req color" column="{{ color.column }}"><strong
+                                                            style="display: block">Màu
+                                                        sắc:</strong>
+                                                    {% for attrValue in valuesColor %}
+                                                        {% set arrColor = [] %}
+                                                        {% set arrColor = arrColor|merge({ (color.column): attrValue.id }) %}
+                                                        {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                                                        {% set returnImg = {'return':'image'} %}
+                                                        {% set imgZoom = product.attrValueImage(arrColor,false, returnImg) %}
+                                                        {% set img = img?:product.thumbnailUri %}
+                                                        {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                                        {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                                        <div style="margin-top:10px" class="swatch-element ">
+                                                            <a rel="nofollow" href="javascript:void(0)"
+                                                               data-psIds="{{ pIdsAttrStr }}"
+                                                               data-cloudzoom="useZoom: \'.cloudzoom\', image: \'{{ img }}\', zoomImage: \'{{ img }}\'"
+                                                               class=" {{ (numbCl==1)?'active':'' }}"
+                                                               title="{{ attrValue.name }}"
+                                                               value="{{ attrValue.id }}"
+                                                               data-src="{{ img }}">
+                                                                <img class="img-fluid "
+                                                                     src="{{ img }}"
+                                                                     alt="{{ attrValue.name }}">
+                                                            </a>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                        {% set size = variableAttributes['size'] %}
+                                        {% if size is not null or size is not empty %}
+                                            {% set flag = flag + 1 %}
+                                            {% set valuesSize = size.childValues %}
+                                            {% set numbS =  (valuesSize | length) %}
+                                            {% if(valuesSize is not null and numbS>0) %}
+                                                <div style="margin-bottom: 0px" class=" font-14 size req"
+                                                     column="{{ size.column }}">
+                                                    <div><strong>Kích cỡ:</strong></div>
+
+                                                    {% for attrValue in valuesSize %}
+                                                        <div class="swatch-element-2 size-product"
+                                                             rel="nofollow"
+                                                             value="{{ attrValue.id }}"
+                                                             class="{{ (numbS==1)?'back-ground-active':'' }}">
+                                                            <a href="javascript:void(0)"
+                                                               class="link-1">{{ attrValue.name }}</a>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div style=" margin-top: 20px">
+                                    <div class="form-group">
+                                        <div style="padding: 0" class="form-control">
+                                            <label class="hiden">Số lượng</label>
+                                            <button style=" border-right: 1px solid silver;" onclick="sub()"
+                                                    class="add-product btn" type="button">–
+                                            </button>
+                                            <input type="text" class="qty input-text" id="psQtt" name="quantity"
+                                                   size="4" min="1" max="{{ ivt }}" value="1">
+                                            <button style=" border-left: 1px solid silver;" onclick="add()"
+                                                    class="add-product btn" type="button">+
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div style="display: inline-block;margin-left: 20px" class="btncart">
+                                        {% if(ivt<=0) %}
+                                            <button id="addToCart" type="button"
+                                                    style="margin-top: -5px"
+                                                    class="btn btn-success btnAddToCart unsel"
+                                                    title="Sản phẩm tạm thời hết hàng!"
+                                                    value="{{ ivt }}"
+                                                    psid="{{ product.id }}" selId="{{ product.id }}">
+
+                                                Hết hàng
+                                            </button>
+                                        {% elseif(flag or flagchilds) %}
+                                            <button id="addToCart" type="button" psid="{{ product.id }}"
+                                                    selId="{{ product.id }}"
+                                                    title="Vui lòng chọn màu sắc hoặc kích cỡ!"
+                                                    style="margin-top: -5px"
+                                                    value="{{ ivt }}"
+                                                    class="btn btn-success btnAddToCart unset" ck="0">
+                                                Mua ngay
+                                            </button>
+                                        {% else %}
+                                            <button id="addToCart" type="button" psid="{{ product.id }}"
+                                                    selId="{{ product.id }}"
+                                                    style="margin-top: -5px"
+                                                    value="{{ ivt }}"
+                                                    class="btn btn-success btnAddToCart " ck="1">
+                                                Liên hệ
+                                            </button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row header product-tab">
+                    <ul class="nav">
+                        <li class="activee mota">mô tả</li>
+                        <li class="gioithieu">giới thiệu</li>
+                        <li class="danhgia">đánh giá</li>
+                    </ul>
+                </div>
+                <div class="content">
+                    <div style="font-size: 15px;overflow: hidden" class="mota">
+                        {{ product.content|raw }}
+                    </div>
+                    <div class="gioithieu hiden"></div>
+                    <div class="danhgia hiden">
+                        <h3 style="font-size: 20px">Đánh giá sản phẩm</h3>
+                        <hr/>
+                        <button class="vietdanhgia" data-toggle="modal" data-target="#exampleModal">Viết đánh giá
+                        </button>
+                        <br style="clear: right"/>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div style="width: 350px" class="modal-content">
+                                    <form action="">
+                                        <div style="position: relative" class="modal-heade text-center">
+                                            <h5 class="modal-title" id="exampleModalLabel">Đánh giá sản phẩm</h5>
+                                            <button type="button"
+                                                    class="close-modal" data-dismiss="modal" aria-label="Close">
+                                                <span style="font-size: 22px;font-weight: 500" aria-hidden="true">&times;</span>
+                                            </button>
+                                            <div style="width: 100%;color: yellow" class="star">
+                                                <i data-alt="1" title="rất tệ" class="fa fa-star-o"></i>
+                                                <i data-alt="2" title="không hài lòng" class="fa fa-star-o"></i>
+                                                <i data-alt="3" title="bình thường" class="fa fa-star-o"></i>
+                                                <i data-alt="4" title="hài lòng" class="fa fa-star-o"></i>
+                                                <i data-alt="5" title="tuyệt vời" class="fa fa-star-o"></i>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <div class="modal-body">
+                                            <input type="text" class="form-control header" placeholder="Nhập họ tên của bạn">
+                                            <input type="email" class="form-control header" placeholder="abc@gmail.com">
+                                            <input type="text" class="form-control header" placeholder="Tiêu đề">
+                                            <textarea class="form-control header" row="3" placeholder="Nội dung"></textarea>
+                                            <button style="width: 100%;background: #67bd45" type="submit"
+                                                    class="btn btn-success header">Gửi
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="padding-right: 0;padding-left: 0" class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                <div class="row service-box">
+                    <div class="col-12 box-b">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/vanchuyen.svg">
+                            </div>
+                            <div class="col-9">
+                                <h4 class="link-1 font-14">Giao hàng trong 24h</h4>
+                                <small>Với đơn hàng trên 500.000 đ</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 box-b">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/chatluong.svg">
+                            </div>
+                            <div class="col-9">
+                                <h4 class="link-1 font-14">Bảo dảm chất lượng</h4>
+                                <small>sản phẩm đảm bảo chất lượng</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 box-b">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/hotro.svg">
+                            </div>
+                            <div class="col-9">
+                                <h4 class="link-1 font-14">Hỗ trợ 24/7</h4>
+                                <div>
+                                    <small>Hotline:0123 456 789</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 box-b">
+                        <div class="row">
+                            <div class="col-3">
+                                <img class="img-fluid" alt="image" src="/tpl/V0511/image/chinhhang.svg">
+                            </div>
+                            <div class="col-9">
+                                <h4 class="link-1 font-14">Sản Phẩm 100% chính hãng</h4>
+                                <div>
+                                    <small>sản phẩm nhập khẩu chính hãng</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-note">
+                    <h2>Sản phẩm gợi ý</h2>
+                    <div class="box row">
+                        {% set proReleated = search({'limit':9, 'categoryId':product.categoryId}) %}
+                        {% if(proReleated is not empty) %}
+                        {% for p in proReleated %}
+                        {% set image = p.thumbnailUri %}
+                        {% set options = {
+                            alt: p.name,
+                            class: 'imageChange swatch-'~p.id,
+                            lazy: true,
+                            openDiv: false,
+                        } %}
+                        {% set percent = p.discountPercent %}
+                        {% set priceDiscount = p.priceAfterDiscount %}
+                        {% if loop.last == false %}
+                        <div class="col-lg-12 col-md-6 col-12 box-b">
+                            {% else %}
+                            <div class="col-lg-12 col-md-6 col-12">
+                                {% endif %}
+                                <div class="row" data-storeId="{{ p.storeId }}" psId="{{ p.id }}">
+                                    <div class="col-4">
+                                        <a href="{{ p.viewLink }}">
+
+                                            <img class="img-fluid" title="{{ p.name }}"
+                                                 src="{{ image }}" alt="{{ p.name }}">
+                                        </a>
+                                    </div>
+                                    <div class="col-8">
+                                        <a class="link-1" href="{{ p.viewLink }}">
+                                            <h3 class="font-14 title-product">{{ p.name }}</h3>
+                                        </a>
+                                        <div style="color:#fbf069" class="">
+                                            <i data-alt="1" class="fa fa-star-o "></i>
+                                            <i data-alt="1" class="fa fa-star-o "></i>
+                                            <i data-alt="1" class="fa fa-star-o "></i>
+                                            <i data-alt="1" class="fa fa-star-o "></i>
+                                            <i data-alt="1" class="fa fa-star-o "></i>
+                                        </div>
+                                        {% if (priceDiscount > 0) %}
+                                            <b class="color-greeen1">{{ priceDiscount|number_format(0) }}<u>đ</u></b>
+                                            <strike>{{ p.price|number_format(0) }} đ</strike>
+                                        {% elseif (p.oldprice() > 0) %}
+                                            <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                                            <strike>{{ p.oldprice|number_format(0) }} đ</strike>
+                                        {% else %}
+                                            <b class="color-greeen1">{{ p.price|number_format(0) }}<u>đ</u></b>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        if (window.screen.width > 900) {
+            $("#img-01").ezPlus({
+                scrollZoom: true
+            });
+        }
+        /*đổi ảnh nền trang view*/
+        $('#listImgZoom i img').click(function () {
+            var src = $(this).attr('src');
+            $('#img-01').attr('src', src);
+            $('.back-ground-active').removeClass("back-ground-active");
+            $(this).addClass('back-ground-active');
+            if (window.screen.width >= 900) {
+                $("#img-01").ezPlus({
+                    scrollZoom: true
+                });
+            }
+        });
+
+        function add() {
+            var qtt = $('#psQtt'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+            if (v < max) {
+                qtt.val(v + 1);
+                qtt.attr('val', v + 1);
+            } else {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+            }
+        }
+
+        function sub() {
+            var qtt = $('#psQtt'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+            if (v > 1) {
+                qtt.val(v - 1);
+                qtt.attr('val', v - 1);
+            } else {
+                alert('Bạn phải đặt số lượng tối thiểu là 1 sản phẩm !');
+            }
+        }
+
+        $('#psQtt').keyup(function () {
+            var t = $(this), max = parseInt(t.attr('max')), v = parseInt(t.val());
+            if (v >= max) {
+                alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+                t.val(max);
+            }
+        });
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return;
+            n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n;
+            n.push = n;
+            n.loaded = !0;
+            n.version = '2.0';
+            n.queue = [];
+            t = b.createElement(e);
+            t.async = !0;
+            t.src = v;
+            s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window,
+            document, 'script', '//connect.facebook.net/en_US/fbevents.js');
+        // Insert Your Facebook Pixel ID below.
+        fbq('init', '301355526702377');
+        fbq('track', 'PageView');
+
+        fbq('track', 'ViewContent', {
+            content_ids: {{ product.id }},
+            content_type: 'product',
+            value: {{ product.price }},
+            currency: 'VND'
+        });
+
+    </script>
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ (''~ templatePath  ~'/js/product.js') }}"></script>
+    <script type="text/javascript"
+            src="https://cdn.rawgit.com/igorlino/elevatezoom-plus/1.1.6/src/jquery.ez-plus.js"></script>
+{% endblock %}

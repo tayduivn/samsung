@@ -1,0 +1,846 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block meta %}
+    {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tp/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+    <section class="breadcrumb_blog d-none d-xl-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <ul>
+                        {% if(newsCategory is not empty) %}
+                            <div class="col-lg-12 col-sm-12 col-xs-12">
+                                <div class="navNews">
+                                    <ul>
+                                        {% for n in newsCategory %}
+                                            <li><a href="{{ n.viewLink }}">{{ n.name }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="section" itemscope="" itemtype="https://schema.org/Blog">
+        <meta itemprop="name" content="Blog chia sẻ">
+        <meta itemprop="description" content="<p>Blog.beemart ra đời với sứ mệnh gắn kết những người yêu thích nấu ăn, làm bánh, pha chế, muốn khám phá thế giới ẩm thực đa dạng và đặc sắc.&nbsp;</p>
+<p>Là nơi để chia sẻ công thức nấu ăn, kinh nghiệm vào bếp và tất tần tật những điều liên quan đến đam mê vào bếp của mọi người.</p>">
+        <div class="wrap_background_aside section margin-bottom-40">
+
+            <section class="section_slideblog">
+                <div class="container">
+                    <div class="d-none d-xl-block home-slider owl-carousel owl-theme owl-carousel-loop not owl-loaded owl-drag" data-dot="false" data-nav="false" data-loop="true" data-play="true" data-lg-items="1" data-md-items="1" data-sm-items="1" data-xs-items="1" data-margin="0">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                <div class="owl-item cloned">
+                                    <div class="item">
+                                        <a href="https://www.beemart.vn/combo-lam-banh-trung-thu?utm_source=web&amp;utm_medium=bannerchinhchublogweb" class="clearfix">
+                                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/slider_2_blog.jpg?1598461743904" alt="Combo trung thu">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned">
+                                    <div class="item">
+                                        <a href="https://www.beemart.vn/nguyen-lieu-lam-che?utm_source=web&amp;utm_medium=bannerslider3" class="clearfix">
+                                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/slider_3_blog.jpg?1598461743904" alt="Nguyên liệu nấu chè">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item active">
+                                    <div class="item">
+                                        <a href="https://www.beemart.vn/tai-app-beemart-trai-nghiem-scan-go-va-tham-gia-van-may-0d" class="clearfix">
+                                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/slider_1_blog.jpg?1598461743904" alt="Trải nghiệm Scan&amp;Go - Tham gia Vận may 0Đ">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item">
+                                    <div class="item">
+                                        <a href="https://www.beemart.vn/combo-lam-banh-trung-thu?utm_source=web&amp;utm_medium=bannerchinhchublogweb" class="clearfix">
+                                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/slider_2_blog.jpg?1598461743904" alt="Combo trung thu">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item">
+                                    <div class="item">
+                                        <a href="https://www.beemart.vn/nguyen-lieu-lam-che?utm_source=web&amp;utm_medium=bannerslider3" class="clearfix">
+                                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/slider_3_blog.jpg?1598461743904" alt="Nguyên liệu nấu chè">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned">
+                                    <div class="item">
+                                        <a href="https://www.beemart.vn/tai-app-beemart-trai-nghiem-scan-go-va-tham-gia-van-may-0d" class="clearfix">
+                                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/slider_1_blog.jpg?1598461743904" alt="Trải nghiệm Scan&amp;Go - Tham gia Vận may 0Đ">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="owl-item cloned">
+                                    <div class="item">
+                                        <a href="https://www.beemart.vn/combo-lam-banh-trung-thu?utm_source=web&amp;utm_medium=bannerchinhchublogweb" class="clearfix">
+                                            <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/slider_2_blog.jpg?1598461743904" alt="Combo trung thu">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-xl-none home-blog-slider owl-carousel owl-theme owl-carousel-loop not owl-loaded owl-drag" data-dot="true" data-nav="false" data-loop="false" data-lg-items="2" data-md-items="2" data-sm-items="2" data-xs-items="1" data-margin="30">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                {% if(newsCategory is not empty) %}
+                                    {% set i = 0 %}
+                                    {% for n in newsCategory %}
+                                        {% set news = searchArticleNews({'categoryId':n.id,'limit': 12}) %}
+                                        {% if i == 0 %}
+                                            {% if(news) %}
+                                                {% set k = 0 %}
+                                                {% for n in news %}
+                                                    {% set image = n.imageUri %}
+                                                    {% set options = {
+                                                        alt: n.title | e('html'),
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    }%}
+                                                    {% set intro =  n.intro %}
+
+                                                        {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                        <div class="owl-item">
+                                                            <div class="item">
+                                                                <div class="blog_item_large">
+                                                                    <a class="thumb_blog block a-center" href="{{ n.viewLink }}" {{ rel }}>
+                                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                    </a>
+                                                                    <div class="content_blog">
+                                                                        <h3>
+                                                                            <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                                {{ n.title | e('html') }}
+                                                                            </a>
+                                                                        </h3>
+                                                                        <span class="date"><i class="fa fa-clock"></i> {{ n.createdDateTime|date("d/m/Y") }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="category_blog d-xl-none">
+                <div class="container">
+                    <div class="owl_category_blog owl-carousel owl-loaded owl-drag" data-dot="false" data-nav="true" data-lg-items="5" data-md-items="5" data-height="true" data-xs-items="4" data-sm-items="6" data-margin="15">
+                        <div class="owl-stage-outer">
+                            <div class="owl-stage">
+                                <div class="owl-item">
+                                    <div class="item_category">
+                                        <div class="it">
+                                            <span class="block_img">
+                                                <img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_1.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_1.png?1598461743904" alt="Công thức làm bánh">
+                                            </span>
+                                            <div class="info">
+                                                <a href="cach-lam-banh-don-gian-chia-se-moi-cong-thuc-lam-banh-va-pha-che" title="Công thức làm bánh">Công thức làm bánh</a>
+                                            </div>
+                                        </div>
+                                        <div class="it">
+                                            <span class="block_img">
+                                                <img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_2.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_2.png?1598461743904" alt="Công thức pha chế">
+                                            </span>
+                                            <div class="info">
+                                                <a href="cach-lam-banh-don-gian-chia-se-moi-cong-thuc-lam-banh-va-pha-che" title="Công thức pha chế">Công thức pha chế</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item">
+                                    <div class="item_category">
+                                        <div class="it">
+							<span class="block_img">
+								<img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_3.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_3.png?1598461743904" alt="Công thức làm sữa hạt">
+							</span>
+                                            <div class="info">
+                                                <a href="cong-thuc-nau-che" title="Công thức làm sữa hạt">Công thức làm sữa hạt</a>
+                                            </div>
+                                        </div>
+                                        <div class="it">
+							<span class="block_img">
+								<img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_4.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_4.png?1598461743904" alt="Công thức nấu ăn">
+							</span>
+                                            <div class="info">
+                                                <a href="cong-thuc-nau-an" title="Công thức nấu ăn">Công thức nấu ăn</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item">
+                                    <div class="item_category">
+                                        <div class="it">
+							<span class="block_img">
+								<img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_5.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_5.png?1598461743904" alt="Công thức mới nhất">
+							</span>
+                                            <div class="info">
+                                                <a href="cong-thuc-moi-nhat" title="Công thức mới nhất">Công thức mới nhất</a>
+                                            </div>
+                                        </div>
+                                        <div class="it">
+							<span class="block_img">
+								<img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_6.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_6.png?1598461743904" alt="Công thức socola">
+							</span>
+                                            <div class="info">
+                                                <a href="cong-thuc-pha-che" title="Công thức socola">Công thức socola</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="owl-item">
+                                    <div class="item_category">
+                                        <div class="it">
+							<span class="block_img">
+								<img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_7.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_7.png?1598461743904" alt="Video hướng dẫn">
+							</span>
+                                            <div class="info">
+                                                <a href="video-huong-dan" title="Video hướng dẫn">Video hướng dẫn</a>
+                                            </div>
+                                        </div>
+                                        <div class="it">
+							<span class="block_img">
+								<img src="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_8.png?1598461743904" data-lazyload="//bizweb.dktcdn.net/thumb/icon/100/004/714/themes/783295/assets/image_cate_blog_8.png?1598461743904" alt="Chia sẻ và khám phá">
+							</span>
+                                            <div class="info">
+                                                <a href="special" title="Chia sẻ và khám phá">Chia sẻ và khám phá</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="news_index_content_mobile d-lg-none">
+                <div  class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="title_module_blog">
+                                <h2>
+                                    <a href="{{ newsCategory[1].viewLink }}" title=" {{ newsCategory[1].name }}">{{ newsCategory[1].name }}</a>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                {% if(newsCategory is not empty) %}
+                                    {% set i = 0 %}
+                                    {% for n in newsCategory %}
+                                        {% set news = searchArticleNews({'categoryId':n.id,'limit': 6}) %}
+                                        {% if i == 1 %}
+                                            {% if(news) %}
+                                                {% set k = 0 %}
+                                                {% for n in news %}
+                                                    {% set image = n.imageUri %}
+                                                    {% set options = {
+                                                        alt: n.title | e('html'),
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    }%}
+                                                    {% set intro =  n.intro %}
+
+                                                    {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                                        <div class="blog_item_large">
+
+                                                            <a class="thumb_blog" href="{{ n.viewLink }}" {{ rel }}>
+                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                            </a>
+
+                                                            <h3>
+                                                                <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                    {{ n.title | e('html') }}
+                                                                </a>
+                                                            </h3>
+                                                            <span class="date"><i class="fa fa-clock"></i>{{ n.createdDateTime|date("d/m/Y") }}</span>
+                                                            <div class="summary_item_blog">
+                                                                <p> {{subString(n.intro|striptags ,130) | raw }}<a href="{{ n.viewLink }}" title="Đọc tiếp">[Đọc tiếp]</a></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% set k = k+1 %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section_section_new_function_blog d-none d-xl-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="title_module_blog">
+                                <h2>
+                                    <a href="{{ newsCategory[0].viewLink }}" title=" {{ newsCategory[0].name }}">{{ newsCategory[0].name }}</a>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    {% if(paginator.currentModels is not empty) %}
+                                        {% set t = null %}
+                                        {% for n in paginator.currentModels %}
+                                            {% set image = n.pictureUri %}
+                                            {% set options = {
+                                                alt: n.title | e('html'),
+                                                lazy: true,
+                                                openDiv: false,
+                                            }%}
+                                            {% set rel = (n.categoryId == idRecrui ? 'rel="nofollow"' : '') %}
+                                            {% if(t == 0) %}
+                                                    <div class="blog_item_large">
+
+                                                        <a class="thumb_blog" href="{{ n.viewLink }}" {{ rel }}>
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </a>
+
+                                                        <div class="content_blog">
+                                                            <h3>
+                                                                <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                    {{ n.title | raw }}
+                                                                </a>
+                                                            </h3>
+                                                            <span class="date"><i class="fa fa-clock"></i> {{ n.createdDateTime|date("d/m/Y") }}</span>
+                                                            <div class="summary_item_blog">
+                                                                <p> {{subString(n.intro(true) ,130) }}<a href="{{ n.viewLink }}" title="Đọc tiếp">[Đọc tiếp]</a></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                            {% endif %}
+                                            {% set t= t+1 %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    {% if(paginator.currentModels is not empty) %}
+                                        {% set t = null %}
+                                        {% for n in paginator.currentModels %}
+                                            {% set image = n.pictureUri %}
+                                            {% set options = {
+                                                alt: n.title | e('html'),
+                                                lazy: true,
+                                                openDiv: false,
+                                            }%}
+                                            {% set rel = (n.categoryId == idRecrui ? 'rel="nofollow"' : '') %}
+                                            {% if(t == 0) %}
+                                            {% endif %}
+                                            {% if( t in 1..3) %}
+                                                {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                <div class="blog_item_list_medium">
+                                                    <a class="thumb_blog" href="{{ n.viewLink }}" {{ rel }}>
+                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                    </a>
+                                                    <div class="content_blog">
+                                                        <h3>
+                                                            <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                {{ n.title | raw }}
+                                                            </a>
+                                                        </h3>
+                                                        <span class="date"><i class="fa fa-clock"></i> {{ n.createdDateTime|date("d/m/Y") }}</span>
+                                                        <div class="summary_item_blog">
+                                                            <p> {{subString(n.intro(true)|striptags ,130) | raw }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                            {% set t= t+1 %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section_video_tutorial py-4 d-none d-lg-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="title_module_blog_bf">
+                                <h2>
+                                    <a href="{{ newsCategory[1].viewLink }}" title=" {{ newsCategory[1].name }}">{{ newsCategory[1].name }}</a>
+                                </h2>
+                                <a class="more" href="{{ newsCategory[1].viewLink }}" title="Xem tất cả">Xem tất cả <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            <section class="section_video_tutorial d-none d-lg-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="title_module_blog_bf">
+                                <h2>
+                                    <a href="{{ newsCategory[3].viewLink }}" title=" {{ newsCategory[3].name }}">{{ newsCategory[3].name }}</a>
+                                </h2>
+                                <a class="more" href="{{ newsCategory[3].viewLink }}" title="Xem tất cả">Xem tất cả <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 video_tutorial">
+                            <div class="row">
+                                {% if(newsCategory is not empty) %}
+                                    {% set i = 0 %}
+                                    {% for n in newsCategory %}
+                                        {% set news = searchArticleNews({'categoryId':n.id,'limit': 4}) %}
+                                        {% if i == 3 %}
+                                        {% if(news) %}
+                                              {% set k = 0 %}
+                                                {% for n in news %}
+                                                    {% set image = n.imageUri %}
+                                                    {% set options = {
+                                                        alt: n.title | e('html'),
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    }%}
+                                                    {% set intro =  n.intro %}
+                                                    {% if(k < 4) %}
+                                                        {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                            <div class="blog_item_large">
+
+                                                                <a class="thumb_blog" href="{{ n.viewLink }}" {{ rel }}>
+                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                </a>
+
+                                                                <h3>
+                                                                    <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                        {{ n.title | e('html') }}
+                                                                    </a>
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% set k = k+1 %}
+                                                {% endfor %}
+                                               {% endif %}
+                                        {% endif %}
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section_video_tutorial d-none d-lg-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="title_module_blog_bf">
+                                <h2>
+                                    <a href="{{ newsCategory[4].viewLink }}" title=" {{ newsCategory[4].name }}">{{ newsCategory[4].name }}</a>
+                                </h2>
+                                <a class="more" href="{{ newsCategory[4].viewLink }}" title="Xem tất cả">Xem tất cả <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 monan_responsive">
+                            <div class="row">
+                                {% if(newsCategory is not empty) %}
+                                    {% set i = 0 %}
+                                    {% for n in newsCategory %}
+                                        {% set news = searchArticleNews({'categoryId':n.id,'limit': 4}) %}
+                                        {% if i == 4 %}
+                                            {% if(news) %}
+                                                {% set k = 0 %}
+                                                {% for n in news %}
+                                                    {% set image = n.imageUri %}
+                                                    {% set options = {
+                                                        alt: n.title | e('html'),
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    }%}
+                                                    {% set intro =  n.intro %}
+                                                    {% if(k < 4) %}
+                                                        {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                            <div class="blog_item_large">
+
+                                                                <a class="thumb_blog" href="{{ n.viewLink }}" {{ rel }}>
+                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                </a>
+
+                                                                <h3>
+                                                                    <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                        {{ n.title | e('html') }}
+                                                                    </a>
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                    {% set k = k+1 %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                {% endif %}
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section_video_tutorial py-4 d-none d-lg-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="title_module_blog_bf">
+                                <h2>
+                                    <a href="{{ newsCategory[5].viewLink }}" title=" {{ newsCategory[5].name }}">{{ newsCategory[5].name }}</a>
+                                </h2>
+                                <a class="more" href="{{ newsCategory[5].viewLink }}" title="Xem tất cả">Xem tất cả <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                {% if(newsCategory is not empty) %}
+                                    {% set i = 0 %}
+                                    {% for n in newsCategory %}
+                                        {% set news = searchArticleNews({'categoryId':n.id,'limit': 4}) %}
+                                        {% if i == 5 %}
+                                            {% if(news) %}
+                                                {% set k = 0 %}
+                                                {% for n in news %}
+                                                    {% set image = n.imageUri %}
+                                                    {% set options = {
+                                                        alt: n.title | e('html'),
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    }%}
+                                                    {% set intro =  n.intro %}
+
+                                                        {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                                            <div class="blog_item_large">
+
+                                                                <a class="thumb_blog" href="{{ n.viewLink }}" {{ rel }}>
+                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                </a>
+
+                                                                <h3>
+                                                                    <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                        {{ n.title | e('html') }}
+                                                                    </a>
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    {% set k = k+1 %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endif %}
+                                        {% set i = i + 1 %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section_banner_lg d-none d-lg-block">
+                <div class="container">
+                    <a class="block a-center" href="https://www.beemart.vn/trung-thu-beemart?utm_source=web&amp;utm_medium=blogwebbannercolon" title="Ưu đãi từ Anchor">
+                        <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/banner_blog_lg.jpg?1598461743904" alt="Ưu đãi từ Anchor">
+                    </a>
+                </div>
+            </section>
+            <section class="section_banner_lg d-lg-none">
+                <a class="block a-center" href="https://docs.google.com/forms/d/1plo1vlWOzkkPdj12GJfhy1B9XQ4BixiiZMEw401XtuM/viewform?edit_requested=true&amp;utm_source=huongntt&amp;utm_medium=ebookchebanercolonmobi&amp;utm_campaign=t6" title="Ebook chè">
+                    <img src="//bizweb.dktcdn.net/100/004/714/themes/783295/assets/banner_blog_lg_article.jpg?1598597989418" alt="Ebook chè">
+                </a>
+            </section>
+            <section class="section_khampha_tag">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="title_module_blog_bf">
+                                        <h2>
+                                            <a href="{{ newsCategory[1].viewLink }}" title=" {{ newsCategory[1].name }}">{{ newsCategory[1].name }}</a>
+                                        </h2>
+                                        <a class="more" href="{{ newsCategory[1].viewLink }}" title="Xem tất cả">Xem tất cả <i class="fa fa-angle-right"></i></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 respon_khampha">
+                                    <div class="row">
+                                        {% if(newsCategory is not empty) %}
+                                            {% set i = 0 %}
+                                            {% for n in newsCategory %}
+                                                {% set news = searchArticleNews({'categoryId':n.id,'limit': 6}) %}
+                                                {% if i == 1 %}
+                                                    {% if(news) %}
+                                                        {% set k = 0 %}
+                                                        {% for n in news %}
+                                                            {% set image = n.imageUri %}
+                                                            {% set options = {
+                                                                alt: n.title | e('html'),
+                                                                lazy: true,
+                                                                openDiv: false,
+                                                            }%}
+                                                            {% set intro =  n.intro %}
+                                                            {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                                                <div class="blog_item_large">
+                                                                    <a class="thumb_blog" href="{{ n.viewLink }}" {{ rel }}>
+                                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                    </a>
+                                                                    <div class="content_bl">
+                                                                    <h3>
+                                                                        <a href="{{ n.viewLink }}" {{ rel }}>
+                                                                            {{ n.title | e('html') }}
+                                                                        </a>
+                                                                    </h3>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {% set k = k+1 %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% set i = i + 1 %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <div class="section">
+                                <div class="title_module_blog_bf title_border_bottom">
+                                    <h2>
+                                        <span>Từ khóa liên quan</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <div class="section tag_blog">
+                                <div class="section tag_inner">
+
+
+
+
+                                    <a href="/blogs/all/tagged/mon-an-mua-he" title="Món ăn mùa hè">Món ăn mùa hè</a>
+
+
+
+                                    <a href="/blogs/all/tagged/sua-hat" title="sữa hạt">sữa hạt</a>
+
+
+
+                                    <a href="/blogs/all/tagged/che" title="chè">chè</a>
+
+
+
+                                    <a href="/blogs/all/tagged/kem" title="kem">kem</a>
+
+
+
+                                    <a href="/blogs/all/tagged/tra-sua" title="trà sữa">trà sữa</a>
+
+
+
+                                    <a href="/blogs/all/tagged/cong-thuc-lam-banh" title="Công thức làm bánh">Công thức làm bánh</a>
+
+
+
+                                    <a href="/blogs/all/tagged/trung-thu" title="Trung thu">Trung thu</a>
+
+
+
+                                    <a href="/blogs/all/tagged/cong-thuc-pha-che" title="Công thức pha chế">Công thức pha chế</a>
+
+
+
+                                    <a href="/blogs/all/tagged/hat-dinh-duong" title="Hạt dinh dưỡng">Hạt dinh dưỡng</a>
+
+
+
+                                    <a href="/blogs/all/tagged/san-pham-thuc-duong" title="sản phẩm thực dưỡng">sản phẩm thực dưỡng</a>
+
+
+
+                                    <a href="/blogs/all/tagged/review-san-pham" title="Review sản phẩm">Review sản phẩm</a>
+
+
+
+                                    <a href="/blogs/all/tagged/coffee" title="Coffee">Coffee</a>
+
+
+
+                                    <a href="/blogs/all/tagged/chocolate" title="Chocolate">Chocolate</a>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section_brand">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12 ">
+                            <div class="owl-carousel owl-theme brand_content not-nav not-dot owl-loaded owl-drag" data-loop="false" data-nav="false" data-lg-items="10" data-md-items="8" data-xs-items="2" data-sm-items="4" data-margin="0">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <div class="owl-stage-outer"><div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 1220px;"><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://bobsredmill.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_1.png?1598461743904" alt="Bob's Red Mill" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_1.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://markal.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_2.png?1598461743904" alt="Markal" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_2.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://anchor.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_3.png?1598461743904" alt="Anchor" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_3.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://luminarc.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_4.png?1598461743904" alt="Luminarc" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_4.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://bluestone.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_5.png?1598461743904" alt="Bluestone" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_5.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://puratos.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_6.png?1598461743904" alt="Puratos" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_6.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://richs.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_7.png?1598461743904" alt="Rich's" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_7.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://chefmaster.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_8.png?1598461743904" alt="Chefmaster" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_8.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://anchor.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_9.png?1598461743904" alt="Anchor" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_9.png?1598461743904">
+                                                </a>
+                                            </div></div><div class="owl-item active" style="width: 122px;"><div class="item item_brand">
+                                                <a href="http://bluestone.beemart.vn/" target="_blank">
+                                                    <img src="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_10.png?1598461743904" alt="Bluestone" data-lazyload="//bizweb.dktcdn.net/100/004/714/themes/782942/assets/brand_10.png?1598461743904">
+                                                </a>
+                                            </div></div></div></div><div class="owl-nav disabled"><div class="owl-prev disabled">prev</div><div class="owl-next disabled">next</div></div><div class="owl-dots disabled"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+{% endblock %}

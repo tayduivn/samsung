@@ -1,0 +1,165 @@
+{% extends 'news_layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(album.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Album">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+
+{% block body %}
+  <style>
+    .albumTitle_a2 {
+      text-align: center;
+    }
+    .albumTitle_a2>a {
+        color: #000;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .items_album {
+        margin: 5px 0;
+    }
+    .bgr_blue1 {
+      background-color: #dad7d7;
+    }
+    .header_view_ab {
+        width: 100%;
+        text-align: center;
+        padding: 15px 0;
+    }
+    .box_small {
+        max-width: 500px;
+        margin: auto;
+        color: black;
+        line-height: 2;
+    }
+    .desptrip_a2 {
+        padding: 30px 20px;
+    }
+    @media (max-width: 992px) {
+      .desptrip_a2 {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      .desptrip_a2 img{
+        width: 100%;
+      }
+    }
+
+    .img_ab2_top {
+        padding-top: 15px;
+    }
+    .tag-news .tag-related {
+      margin-bottom: 40px;
+    }
+    .post-related .items_album {
+      margin-bottom: 20px;
+    }
+    .imge_album_a2 img {
+      width: 100%;
+    }
+    .heading-title {
+      padding: 0 10px 20px 20px;
+      font-weight: 700;
+      font-size: 1.7rem;
+    }
+    .tag-news .tag-news__item a {
+      padding: 3px 5px;
+      background-color: rgb(52, 58, 64);
+      font-size: 1rem;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .heading-title__news {
+      font-weight: 700;
+      font-size: 1.7rem;
+      position: relative;
+      display: inline-block;
+    }
+    .heading-title__news::before {
+      content: "";
+      position: absolute;
+      height: 3px;
+      width: 50%;
+      bottom: -5px;
+      left: 0;
+      background-color: #ff0000;
+    }
+
+    .tag-news {
+      padding: 30px 20px;
+      border-left: 1px solid #dad7d7;
+    }
+    @media (min-width: 992px) {
+      .tag-news {
+        border-left: 1px solid #dad7d7;
+      }
+    }
+  </style>
+    <section class="bgr_f1 pt-5">
+        {% if(album.description) %}
+          <div class="bgr_blue1 header_view_ab">
+              <div class="box_small">
+                  {{ album.description }}
+              </div>
+          </div>
+        {% endif %}
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-9">
+                    {% if(album.content) %}
+                        <div class="desptrip_a2">
+                            {{ album.content|raw }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-md-3">
+                    <section class="tag-news">
+                      <div class="tag-related">
+                        {% set getTags = getNewsCategories() %}
+                        {% if (getTags) %}
+                          <h5 class="heading-title__news">Tag Tin Tức</h5>
+                            <div class="tag-new-item">
+                              <div class="tag-news__item">
+                                {% for new in getTags %}
+                                  <a href="{{ new.viewLink }}">
+                                    <span class="tag text-white">{{ new.name | raw }}</span>
+                                  </a>
+                                {% endfor %}
+                              </div>
+                            </div>
+                        {% endif %}
+                      </div>
+                      <div class="post-related">
+                        {% set AlbumRela = searchAlbum({'categoryId':album.categoryId}) %}
+                        {% if(AlbumRela) %}
+                        <h5 class="heading-title__news">Album Khác</h5>
+                            {% for abitem in AlbumRela %}
+                                {% set image = abitem.thumbnailUri %}
+                                {% set options = {
+                                    alt: abitem.name,
+                                    class: 'img_thumb_album',
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <div class="items_album">
+                                    <div class="imge_album_a2">
+                                        <a href="{{ abitem.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                    </div>
+                                    <div class="albumTitle_a2">
+                                        <a href="{{ abitem.viewLink }}">{{ abitem.name }}</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                      </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

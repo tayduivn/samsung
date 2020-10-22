@@ -1,0 +1,1168 @@
+{% extends 'layout/layout' %}
+
+{% block body %}
+    {% set ivt = product.inventory().calcAvailable() %}
+    <section class="container-fluid">
+        <div class="container" id="product-details">
+            <div class="row d-block p-2" id="detailTitle">
+                <a href="/">Trang chủ</a> <i class="fas fa-angle-right"></i> <a>{{ product.categoryName }}</a> <i class="fas fa-angle-right"></i>
+                <span>{{ product.name ~ ' ' ~ product.id ~ ' ' ~ category.id}}</span>
+                {#<pre>{{ dump(product) }}</pre>#}
+            </div>
+            <div class="row pc">
+                <div class="col-12" id="detailBlocks">
+                    <div class="" id="detailTongQuan">
+                        <div class="row tab-pane">
+                            <div class="col-lg-6 col-xl-5">
+                                <div class="khung-ha" style="text-align: center">
+                                    <a href="{{ product.imageUri }}">
+                                        <img class="ha" src="{{ product.imageUri }}"
+                                             data-zoom-image="{{ product.imageUri }}" id="zoom_01">
+                                    </a>
+                                </div>
+
+                                <div id='gallery-2' style="text-align: center; margin-top: 20px"
+                                     class='gallery galleryid-9070 gallery-columns-3 gallery-size-thumbnail'>
+                                    {% set childImgs = product.images %}
+                                    {% set count = 0 %}
+                                    {% if(childImgs) %}
+                                        {% for ci in childImgs %}
+                                            {% if(count<5) %}
+                                            <dl class='gallery-item' style="display: inline-block; margin-right: 20px">
+                                                <dt class='gallery-icon landscape'>
+                                                    <a data-image="{{ ci.getSrcUri }}"
+                                                       data-zoom-image="{{ ci.getSrcUri }}">
+                                                        <img src="{{ ci.thumbnailUri }}"
+                                                             class="attachment-thumbnail size-thumbnail cloudzoom-gallery"
+                                                             data-image="{{ ci.getSrcUri }}"
+                                                             style="width: 64px; height: 64px; left: 0; top: 0"/>
+                                                    </a>
+                                                </dt>
+                                            </dl>
+                                            {% endif %}
+                                            {% set count = count + 1 %}
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div id="description" class="p-2 d-none d-xl-block"
+                                     style="padding: 0; text-align: left">
+
+                                    <div class="row p-2 justify-content-start">
+                                        <a class="btn btn-sm btn-secondary btn-read" href="#detailThongSoKyThuat">ĐỌC THÊM <i class="fa fa-angle-down"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-xl-5">
+                                <h1 class="mb-3" style="font-size: 20px;">
+                                    {{ product.name }}
+                                </h1>
+                                <div class="status-sp">
+                                    <div>Mã sản phẩm: <span class="text-red text-bold">{{ product.code }}</span></div>
+                                    <div>
+                                        <i class="fa fa-star text-muted "></i>
+                                        <i class="fa fa-star text-muted "></i>
+                                        <i class="fa fa-star text-muted "></i>
+                                        <i class="fa fa-star text-muted "></i>
+                                        <i class="fa fa-star text-muted "></i>
+                                        (0 đánh giá)
+                                    </div>
+                                    <div class="fb-like fb_iframe_widget"
+                                         data-href="{{ product.viewlink }}"
+                                         data-width="" data-layout="button_count" data-action="like" data-size="small"
+                                         data-share="true" fb-xfbml-state="rendered"
+                                         fb-iframe-plugin-query="action=like&amp;app_id=&amp;container_width=0&amp;href=https%3A%2F%2Fben.com.vn%2Facer-aspire-a31554k37b0-nxheesv00d-black-core-i3-4gb-256gb-156-inch-fhd-win10sl---ctsp&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;size=small">
+                                        <span style="vertical-align: bottom; width: 138px; height: 20px;">
+                                            <iframe name="f3c4a57b276c72c" width="1000px" height="1000px"
+                                                    data-testid="fb:like Facebook Social Plugin"
+                                                    title="fb:like Facebook Social Plugin" frameborder="0"
+                                                    allowtransparency="true" allowfullscreen="true" scrolling="no"
+                                                    allow="encrypted-media"
+                                                    src="https://web.facebook.com/v7.0/plugins/like.php?action=like&amp;app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df387fd414cd46d%26domain%3Dben.com.vn%26origin%3Dhttps%253A%252F%252Fben.com.vn%252Ff947622bacc834%26relation%3Dparent.parent&amp;container_width=0&amp;href=https%3A%2F%2Fben.com.vn%2Facer-aspire-a31554k37b0-nxheesv00d-black-core-i3-4gb-256gb-156-inch-fhd-win10sl---ctsp&amp;layout=button_count&amp;locale=vi_VN&amp;sdk=joey&amp;share=true&amp;size=small"
+                                                    style="border: none; visibility: visible; width: 138px; height: 20px;"
+                                                    class="">
+                                            </iframe>
+                                        </span>
+                                    </div>
+                                </div>
+                                {% set oldPrc =  product.price + 1000000 %}
+                                <div class="card-body text-bold mt-3 mb-3" id="detailBoxPrice">
+                                    <p class="d-flex">
+                                        <span class="price-title-detail">Giá niêm yết:</span>
+                                        <span class="price-old-detail price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' ₫' }}</span>
+                                    </p>
+                                    <p class="d-flex">
+                                        <span class="price-title-detail">Giá khuyến mại:</span>
+                                        <span class="price-new-detail price-m">{{ product.price|number_format(0, '.', '.') ~ ' ₫' }}</span>
+                                    </p>
+                                </div>
+                                <div class="card-body text-bold mt-3 mb-3 p-0 pc">
+                                    <div class="row">
+                                        <div class="col-12 pb-2">
+                                            <button type="submit" psid="{{ product.id }}" selid="{{ product.id }}"
+                                                    id="buynow" class="form-control btn btn-lg btn-danger pb-3 pt-3 btnAddToCart"
+                                                    style="height: 76px; font-weight: 500; font-size: 30px;"
+                                                    ck="1">
+                                                MUA NGAY<br>
+                                            </button>
+                                        </div>
+                                        <div class="col-6 pr-1">
+                                            <button type="button" class="btn btn-primary" style="width: 100%; font-weight: 500; font-size: 20px; line-height: 25px;">
+                                                <a href="/tin-tuc/chinh-sach-tra-gop/" style="color: white;">
+                                                    MUA TRẢ GÓP<br>
+                                                    <small>(Lãi suất thấp)</small>
+                                                </a>
+                                            </button>
+                                        </div>
+                                        <div class="col-6 pl-1 btncart">
+                                            {% if(ivt<=0) %}
+                                                <button id="addToCart" psid="{{ product.id }}" style="width: 100%; font-weight: 500; font-size: 20px; line-height: 25px;"
+                                                        selId="{{ product.id }}" class="btn btn-warning btnAddToCart">
+                                                    Hết hàng
+                                                </button>
+                                            {% else %}
+                                                <button type="submit" psid="{{ product.id }}" selid="{{ product.id }}"
+                                                        id="addToCart" class="btn btn-warning btnAddToCart"
+                                                        style="width: 100%; font-weight: 500; font-size: 20px; line-height: 25px;"
+                                                        ck="1">
+                                                    THÊM VÀO GIỎ HÀNG<br>
+                                                    <small>(Tiếp tục mua hàng)</small>
+                                                </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card card-ben-selloff mb-2">
+                                    <div class="card-header"><i class="fas fa-gift"></i> KHUYẾN MẠI</div>
+
+                                    <div class="card-body pt-4">
+                                        <div>
+                                            <p style="color: black">
+                                                - Túi máy tính xách tay + Chuột quang có dây/ không
+                                                dây + Bàn di chuột
+                                                cao cấp - Trị giá: 450,000 vnđ
+                                            </p>
+
+                                            <p style="color: black">
+                                                - Giảm 20% khi mua phụ kiện Laptop: Túi các loại,
+                                                Chuột HP, Microsoft, đế
+                                                tản nhiệt, balo các loại, thẻ nhớ các loại
+                                            </p>
+
+                                            <p style="color: black">
+                                                - Giảm 5% khi mua Ram, SSD kèm Laptop
+                                            </p>
+
+                                            <p style="color: black">
+                                                - Bộ nhớ trong máy tính xách tay Ram Hynix DDR4 4GB
+                                                bus 2666 kèm&nbsp;công
+                                                lắp đặt trị giá lên tới: 890,000 vnđ
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="card card-ben-buywith mb-2">
+                                    <div class="card-header"><i class="fas fa-shopping-cart fa-flip-horizontal"></i> SẢN
+                                        PHẨM THƯỜNG ĐƯỢC MUA CÙNG
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="media justify-content-between mb-2">
+                                            <label class="checkbox-control" for="chk-68">
+                                                <input id="chk-68" type="checkbox" checked="" onclick="return false;"
+                                                       main="1" value="true" data-pid="68" data-price="9490000">
+                                                <span class="checkmark"></span>
+                                            </label>
+
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <img src="{{ product.imageURI }}"
+                                                         class="product-image-64 mr-3"
+                                                         style="border: 1px solid #C8C8C8; border-radius: 2px;">
+                                                </div>
+                                                <div class="col-8">
+                                                    <p class="mt-0 mb-1 flex-grow-1" style="font-size: 14px; line-height: 16px; margin-right: 5px;">
+                                                        <a href="{{ product.viewlink }}" target="_blank">{{ product.name }}</a>
+                                                    </p>
+                                                </div>
+                                                <div class="col-2">
+                                                    <span class="text-bold pull-right" style="text-align:right;color:red;font-size:19px; white-space: nowrap; margin-top: 14px;">
+                                                        <span class="price-m">{{ product.price|number_format(0, '.', '.') ~ ' ₫' }}</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-bold text-right mb-2" style="font-size: 20px;">
+                                            Tổng tiền:
+                                            <span id="priceProductsAppend">{{ product.price|number_format(0, '.', '.') ~ ' ₫' }}</span>
+                                        </div>
+                                        <div class="text-right">
+                                            <button type="submit" psid="{{ product.id }}" selid="{{ product.id }}" ck="1" id="addToCart" class="btn btn-danger btnAddToCart">
+                                                Thêm sản phẩm đã chọn vào giỏ hàng
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 d-none d-xl-block">
+                                <div class="card-ben-style card mb-2">
+                                    <div class="card-header">
+                                        <i class="fas fa-shipping-fast"></i> CHÍNH SÁCH BÁN HÀNG
+                                    </div>
+                                    <div class="card-body">
+                                        <p style="color: black">
+                                            - Sản phẩm chính hãng 100%<br>
+                                            - Bán hàng online toàn quốc<br>
+                                            - Mua hàng trả góp lãi suất thấp<br>
+                                            - Bảo hàng chính hãng<br>
+                                            - Bảo hành tận nơi cho doanh nghiệp<br>
+                                            - Giá cạnh tranh nhất thị trường
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card-ben-style card">
+                                    <div class="card-header">
+                                        <i class="fas fa-truck"></i> CHÍNH SÁCH GIAO HÀNG
+                                    </div>
+                                    <div class="card-body">
+                                        <p style="color: black">
+                                            - Giao hàng nhanh chóng<br>
+                                            - Giao hàng trước trả tiền sau COD<br>
+                                            - Miễn phí giao hàng (bán kính 20km)<br>
+                                            -&nbsp;Giao hàng và lắp đặt từ 8h00 - 21h30 hàng ngày, gồm cả thứ 7, CN, ngày lễ
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {#San pham tuong tu#}
+                    <div class="card card-default border-right-0 border-bottom-0">
+                        <div class="card-header p-0  border-right">
+                            <ul class="nav nav-tabs card-header-tabs m-0" id="home-tab-products">
+                                <li class="nav-item">
+                                    <a id="nav-link-lq" class="nav-link active" data-toggle="tab" href="#tabSpLienQuan">SẢN PHẨM LIÊN QUAN</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="nav-link-lq" class="nav-link" data-toggle="tab" href="#tabSpCungDm">SẢN PHẨM CÙNG DANH MỤC </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body tab-content p-0" id="home-tab-slider">
+                            <div class="tab-pane active" id="tabSpLienQuan">
+                                <div class="list-products owl-carousel owl-theme owl-loaded">
+                                    <div class="owl-stage-outer owl-height" id="">
+                                        <div class="owl-stage" id="">
+                                            {% set productRelated = search({'limit':8, 'categoryId':product.categoryId,'excludedIds': product.id}) %}
+                                            {% if(productRelated) %}
+                                                {% for n in productRelated %}
+                                                    {% set image = n.thumbnailUri %}
+                                                    {% set options = {
+                                                        alt: n.name,
+                                                        class: 'imageChange swatch-'~n.id,
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    } %}
+
+                                                    {% set oldPrc = n.price + 1000000 %}
+                                                    <div class="owl-item" data-storeId="{{ n.storeId }}" psId="{{ n.id }}" style="width: 100%">
+                                                        <div class="card product-single" onclick="location.href='{{ n.viewLink }}'">
+
+                                                            <div class="product-image-box">
+                                                                <img src="{{ image }}"
+                                                                     class="product-image" alt="...">
+                                                            </div>
+                                                            <div class="card-body p-1">
+                                                                <p class="card-text product-name">
+                                                                    <a href="{{ n.viewLink }}">{{ n.name }}</a>
+                                                                </p>
+                                                            </div>
+                                                            <div class="card-footer">
+                                                                <div class="product-price-block">
+                                                                    <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                                    <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="product-stock text-green">
+                                                                    <i class="fas fa-check"></i> Còn hàng
+                                                                </span>
+                                                                    <span class="product-shoping">
+                                                                    <a class="btnAddToCart" href="/cart">
+                                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                                    </a>
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tabSpCungDm">
+                                <div class="list-products owl-carousel owl-theme owl-loaded">
+                                    <div class="owl-stage-outer owl-height" id="">
+                                        <div class="owl-stage" id="">
+                                            {% set newProduct = search({'limit':8,'categoryId':product.categoryId}) %}
+                                            {% if(newProduct) %}
+                                                {% for n in newProduct %}
+                                                    {% set image = n.thumbnailUri %}
+                                                    {% set options = {
+                                                        alt: n.name,
+                                                        class: 'imageChange swatch-'~n.id,
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    } %}
+
+                                                    {% set oldPrc = n.price + 1000000 %}
+                                                    <div class="owl-item" data-storeId="{{ n.storeId }}" psId="{{ n.id }}"
+                                                         style="width: 100%">
+                                                        <div class="card product-single"
+                                                             onclick="location.href='{{ n.viewLink }}'">
+
+                                                            <div class="product-image-box">
+                                                                <img src="{{ image }}"
+                                                                     class="product-image" alt="...">
+                                                            </div>
+                                                            <div class="card-body p-1">
+                                                                <p class="card-text product-name">
+                                                                    <a href="{{ n.viewLink }}">{{ n.name }}</a>
+                                                                </p>
+                                                            </div>
+                                                            <div class="card-footer">
+                                                                <div class="product-price-block">
+                                                                    <span class="price-new price-xm">{{ n.price|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                                    <span class="price-old price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' đ' }}</span><br>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between align-items-center">
+                                                                <span class="product-stock text-green">
+                                                                    <i class="fas fa-check"></i> Còn hàng
+                                                                </span>
+                                                                    <span class="product-shoping">
+                                                                    <a class="btnAddToCart" href="/cart">
+                                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                                    </a>
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {#Thong tin chi tiet#}
+                    {% set content = product.content | replace({'<p style="text-align:justify;">':"",'<p>':"",'<p style="margin:0px;padding:0px;font-family:Tahoma, Arial, Helvetica, sans-serif;font-size:14px;text-align:justify;">':""}) %}
+                    <div class="row tab-pane" id="tabDetails" style="margin-bottom: 6px; background-color: white">
+                        <div class="col-8">
+                            <div class="tab-pane" id="detailChiTiet">
+                                <h2 class="pane-header"><span>THÔNG TIN CHI TIẾT</span></h2>
+                                <div class="p-2">
+                                    {{ content | raw }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4 border-left">
+                            <div class="tab-pane" id="detailThongSo">
+                                <h4 class="pane-header">THÔNG SỐ KỸ THUẬT</h4>
+                                <div class="specifications" id="detailThongSoKyThuat">
+                                    {% if(product.description is not empty) %}
+                                        {% set des = product.description | replace({'<p style="margin:0px;">':"",'<p>':"",'<p style="margin:0px;padding:0px;font-family:Tahoma, Arial, Helvetica, sans-serif;font-size:14px;text-align:justify;">':""}) %}
+                                        {{ des | raw }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="detailRating" style="margin-bottom: 6px; background-color: white">
+                        <h2 class="pane-header"><span>ĐÁNH GIÁ SẢN PHẨM</span></h2>
+                        <div class="row align-items-stretch m-1 pt-2">
+                            <div class="col-5 col-lg-3 pb-2">
+                                <div class="card card-default" style="height: 234px;">
+                                    <div class="card-body text-center">
+                                        <h4>Đánh giá trung bình</h4>
+                                        <hr><br>
+                                        <h2 class="text-bold">0.0
+                                            <small>/ 5</small>
+                                        </h2>
+                                        <div>
+                                            <i class="fa fa-star text-orange"></i>
+                                            <i class="fa fa-star text-orange"></i>
+                                            <i class="fa fa-star text-orange"></i>
+                                            <i class="fa fa-star text-orange"></i>
+                                            <i class="fa fa-star text-orange"></i>
+                                        </div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-7 col-lg-4 pb-2">
+                                <div class="card card-default rate-progress-box" style="height: 234px;">
+                                    <div class="card-body">
+                                        <h4>Tổng hợp đánh giá</h4>
+                                        <div class="d-flex align-items-center mt-2">
+                                            <span class="text-bold">5 sao</span>
+                                            <div class="progress flex-grow-1">
+                                                <div class="progress-bar bg-ben-rate" role="progressbar"
+                                                     style="width: 0.00%" aria-valuenow="25" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-2">
+                                            <span class="text-bold">4 sao</span>
+                                            <div class="progress flex-grow-1">
+                                                <div class="progress-bar bg-ben-rate" role="progressbar"
+                                                     style="width: 0.00%" aria-valuenow="25" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-2">
+                                            <span class="text-bold">3 sao</span>
+                                            <div class="progress flex-grow-1">
+                                                <div class="progress-bar bg-ben-rate" role="progressbar"
+                                                     style="width: 0.00%" aria-valuenow="50" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-2">
+                                            <span class="text-bold">2 sao</span>
+                                            <div class="progress flex-grow-1">
+                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                     style="width: 0.00%" aria-valuenow="75" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex align-items-center mt-2">
+                                            <span class="text-bold">1 sao</span>
+                                            <div class="progress flex-grow-1">
+                                                <div class="progress-bar bg-danger" role="progressbar"
+                                                     style="width: 0.00%" aria-valuenow="100" aria-valuemin="0"
+                                                     aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-5 pb-2">
+                                <div class="card card-default">
+                                    <div class="card-body" style="height: 232px;">
+                                        <form action="/Products/Rating" method="post" id="ratingForm"
+                                              novalidate="novalidate">
+                                            <div class="form-group row">
+                                                <label class="col-4">Tên bạn</label>
+                                                <div class="col-8">
+                                                    <input type="text" name="rateName"
+                                                           class="form-control form-control-sm"
+                                                           placeholder="Nhập tên của bạn">
+                                                    <input type="hidden" value="4538" name="rateProductId">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-4">Số sao</label>
+                                                <div class="col-8">
+                                                    <div class="rating-container rating-sm rating-animate">
+                                                        <div class="clear-rating clear-rating-active" title="Xóa"><i
+                                                                    class="glyphicon glyphicon-minus-sign"></i></div>
+                                                        <div class="rating-stars" title="Chọn số sao">
+                                                            <span class="empty-stars">
+                                                                <span class="star"><i class="far fa-star"></i></span>
+
+                                                                <span class="star"><i class="far fa-star"></i></span>
+
+                                                                <span class="star"><i class="far fa-star"></i></span>
+
+                                                                <span class="star"><i class="far fa-star"></i></span>
+
+                                                                <span class="star"><i class="far fa-star"></i></span>
+                                                            </span>
+
+                                                            <span class="filled-stars" style="width: 0%;">
+                                                                <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                <span class="star"><i class="fas fa-star"></i></span>
+                                                            </span>
+                                                            <input type="number" id="rateStar" name="rateStar" class="rating-input" value="0">
+                                                        </div>
+
+                                                        <div class="caption">
+                                                            <span class="label label-default badge-secondary">Chọn số sao</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-4">Nhận xét</label>
+                                                <div class="col-8">
+                                                    <textarea type="text" name="rateComment"
+                                                              class="form-control form-control-sm"
+                                                              placeholder="Nội dung đánh giá"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row  mb-0">
+                                                <div class="col-8 offset-4">
+                                                    <button type="submit" class="btn btn-sm btn-danger">Gửi đánh giá
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row m-1 pt-0">
+                            <div class="col-12 pb-2">
+                                <div class="card card-default">
+                                    <div class="card-header d-flex justify-content-between align-items-baseline p-0">
+                                        <h4 class="p-2">Khách hàng nhận xét (0)</h4>
+                                        <ul class="nav nav-pills card-header-pills">
+                                            <li class="nav-item d-block">
+                                                <a class="nav-link active p-2" data-toggle="tab" href="#tabRatingNews"
+                                                   role="tab">Mới nhất</a>
+                                            </li>
+                                            <li class="nav-item d-block">
+                                                <a class="nav-link p-2" data-toggle="tab" href="#tabRatingHuuich"
+                                                   role="tab">Hữu ích</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="card-body tab-content">
+                                        <div class="tab-pane active" id="tabRatingNews">
+                                        </div>
+                                        <div class="tab-pane" id="tabRatingHuuich">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {#Hoi dap#}
+                    <div class="tab-pane" id="detailQandAns" style="margin-bottom: 6px;">
+                        <h2 class="pane-header"><span>HỎI ĐÁP VỀ {{ product.name }}</span></h2>
+                        <div class="row p-3">
+                            <div class="col-12">
+                                <form action="/Products/Question" method="post" id="questionForm" novalidate="novalidate">
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="questDetail" placeholder="Viết bình luận của bạn"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="questName" placeholder="Họ tên của bạn">
+                                        <input type="hidden" name="questProductId" value="61">
+                                    </div>
+                                    <div class="form-group text-right">
+                                        <input type="submit" class="btn btn-danger" value="Gửi câu hỏi">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-12"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {#mobile#}
+            <div class="row mobile" style="position: static">
+                <div class="card card-default card-detail">
+                    <div class="card-header p-0" id="fix-tabheader">
+                        <ul class="nav nav-tabs card-header-tabs m-0 flex-nowrap">
+                            <li class="nav-item">
+                                <a class="nav-link nav-mb active" data-toggle="tab" href="#tabTongQuan" role="tab"
+                                   aria-controls="home" aria-expanded="true" aria-selected="true">TỔNG QUAN</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-mb" data-toggle="tab" href="#tabChiTiet" role="tab" aria-controls="home"
+                                   aria-expanded="true" aria-selected="false">CHI TIẾT</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-mb" data-toggle="tab" href="#tabDanhGia" role="tab" aria-controls="home"
+                                   aria-expanded="true" aria-selected="false">ĐÁNH GIÁ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-mb" data-toggle="tab" href="#tabSpTuongTuMobile" role="tab"
+                                   aria-controls="home" aria-expanded="true" aria-selected="false">SẢN PHẨM TƯƠNG TỰ</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body tab-content p-0" id="detailMobileTab">
+                        <div class="tab-pane active" id="tabTongQuan">
+                            <div class="" id="detailTongQuan">
+                                <div class="row tab-pane">
+                                    <div class="col-lg-6 col-xl-5">
+                                        <div class="owl-carousel mobile owl-theme" style="position: static; margin-bottom: 10px">
+                                            {% if(childImgs) %}
+                                                {% for c in childImgs %}
+                                                    <div class="">
+                                                        <img src="{{ c.srcUri }}" style="display: block; margin-left: auto; margin-right: auto; width: 50%" alt="{{ c.name }}">
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <div class="">
+                                                    <img src="{{ product.imageUri }}" style="display: block; margin-left: auto; margin-right: auto; width: 50%" alt="{{ product.name }}">
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div id="description" class="p-2 d-none d-xl-block" style="padding: 0;">
+                                            <b>Thông số kỹ thuật:</b>
+                                            <br>
+                                            <ul>
+                                                <li>
+                                                    - Hãng sản xuất: Dell
+                                                </li>
+                                                <li>
+                                                    - Màu sắc: Bạc
+                                                </li>
+                                                <li>
+                                                    - Bảo hành: 12
+                                                </li>
+                                                <li>
+                                                    - Dòng CPU: Intel Core i5
+                                                </li>
+                                                <li>
+                                                    - Dung lượng RAM: 8GB
+                                                </li>
+                                            </ul>
+                                            <div class="row p-2 justify-content-start">
+                                                <a class="btn btn-sm btn-secondary btn-read" href="#detailThongSoKyThuat">ĐỌC THÊM
+                                                    <i class="fa fa-angle-down"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-5">
+                                        <h1 class="mb-3" style="font-size: 20px;">
+                                            {{ product.name }}
+                                        </h1>
+                                        <div class="status-sp">
+                                            <div>Mã sản phẩm: <span class="text-red text-bold">{{ product.id }}</span>
+                                            </div>
+                                            <div>
+                                                <i class="fa fa-star text-muted "></i>
+                                                <i class="fa fa-star text-muted "></i>
+                                                <i class="fa fa-star text-muted "></i>
+                                                <i class="fa fa-star text-muted "></i>
+                                                <i class="fa fa-star text-muted "></i>
+                                                (0 đánh giá)
+                                            </div>
+
+                                        </div>
+                                        <div class="card-body text-bold mt-3 mb-3" id="detailBoxPrice">
+                                            <p class="d-flex"><span class="price-title-detail">Giá niêm yết:</span>
+                                                <span class="price-old-detail price-xm">{{ oldPrc|number_format(0, '.', '.') ~ ' ₫' }}</span>
+                                            </p>
+                                            <p class="d-flex"><span class="price-title-detail">Giá khuyến mại:</span>
+                                                <span class="price-new-detail price-xm">{{ product.price|number_format(0, '.', '.') ~ ' ₫' }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="card-body text-bold mt-3 mb-3 p-0 pc">
+                                            <div class="row">
+                                                <div class="col-12 pb-2">
+                                                    <a href="#" class="form-control btn btn-lg btn-danger pb-3 pt-3" style="height: 76px; font-weight: 500; font-size: 30px; ">MUA NGAY</a>
+                                                </div>
+                                                <div class="col-6 pr-1">
+
+                                                    <button type="button" class="btn btn-primary" style="width: 100%; font-weight: 500; font-size: 20px; line-height: 25px;">
+                                                        <a href="/tin-tuc/chinh-sach-tra-gop/" style="color: white;">
+                                                            MUA TRẢ GÓP<br>
+                                                            <small>(Lãi suất thấp)</small>
+                                                        </a>
+                                                    </button>
+
+                                                </div>
+                                                <div class="col-6 pl-1">
+                                                    <button type="button" id="btn-add-cart" class="btn btn-warning" style="width: 100%; font-weight: 500; font-size: 20px; line-height: 25px;">
+                                                        THÊM VÀO GIỎ HÀNG<br>
+                                                        <small>(Tiếp tục mua hàng)</small>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card card-ben-selloff mb-2">
+                                            <div class="card-header"><i class="fas fa-gift"></i> KHUYẾN MẠI</div>
+                                            <div class="card-body pt-4">
+                                                <div><p>- Túi máy tính xách tay + Chuột quang có dây/ không dây + Bàn di
+                                                        chuột cao cấp + Túi chống sốc - Trị giá: 550,000 vnđ</p>
+
+                                                    <p>- Giảm 20% khi mua phụ kiện Laptop: Túi các loại, Chuột HP,
+                                                        Microsoft, đế tản nhiệt, balo các loại, thẻ nhớ các loại</p>
+
+                                                    <p>- Giảm 5% khi mua Ram, SSD kèm Laptop</p>
+
+                                                    <p>- Giao hàng miễn phí ( khu vực nội thành Hà Nội)</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="card card-ben-buywith mb-2">
+                                            <div class="card-header"><i
+                                                        class="fas fa-shopping-cart fa-flip-horizontal"></i> SẢN PHẨM
+                                                MUA KÈM ĐƯỢC GIẢM GIÁ
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="media justify-content-between mb-2">
+                                                    <label class="checkbox-control" for="chk-1667">
+                                                        <input id="chk-1667" type="checkbox" checked=""
+                                                               onclick="return false;" main="1" value="true"
+                                                               data-pid="1667" data-price="14690000">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+
+                                                    <div class="row">
+                                                        <div class="col-2"><img
+                                                                    src="{{ product.imageUri }}"
+                                                                    class="product-image-64 mr-3"
+                                                                    style="border: 1px solid #C8C8C8; border-radius: 2px;"
+                                                                    alt="{{ product.name }}">
+                                                        </div>
+                                                        <div class="col-8"><p class="mt-0 mb-1 flex-grow-1"
+                                                                              style="font-size: 14px; line-height: 16px; margin-right: 5px;">
+                                                                <a href="{{ product.viewLink }}"
+                                                                   target="_blank">{{ product.name }}</a></p></div>
+                                                        <div class="col-2">
+                                                            <span class="text-bold pull-right"
+                                                                  style="text-align:right;color:red;font-size:19px; white-space: nowrap; margin-top: 14px;"><span
+                                                                        class="price-xm">{{ product.price|number_format(0, '.', '.') ~ ' ₫' }}</span></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-bold text-right mb-2" style="font-size: 20px;">
+                                                    Tổng tiền: <span
+                                                            id="priceProductsAppend">{{ product.price|number_format(0, '.', '.') ~ ' ₫' }}</span>
+                                                </div>
+                                                <div class="text-right">
+                                                    <button type="submit" id="addToCart" ck="1" psid="{{ product.id }}" selid="{{ product.id }}"
+                                                            class="btn btn-danger btnAddToCart">Thêm sản phẩm đã chọn vào giỏ hàng
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-2 d-none d-xl-block">
+                                        <div class="card-ben-style card mb-2">
+                                            <div class="card-header">
+                                                <i class="fas fa-shipping-fast"></i> CHÍNH SÁCH BÁN HÀNG
+                                            </div>
+                                            <div class="card-body">
+                                                <p>
+                                                    - Sản phẩm chính hãng 100%<br>
+                                                    - Bán hàng online toàn quốc<br>
+                                                    - Mua hàng trả góp lãi suất thấp<br>
+                                                    - Bảo hàng chính hãng<br>
+                                                    - Bảo hành tận nơi cho doanh nghiệp<br>
+                                                    - Giá cạnh tranh nhất thị trường
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="card-ben-style card">
+                                            <div class="card-header">
+                                                <i class="fas fa-truck"></i> CHÍNH SÁCH GIAO HÀNG
+                                            </div>
+                                            <div class="card-body">
+                                                <p>
+                                                    - Giao hàng nhanh chóng<br>
+                                                    - Giao hàng trước trả tiền sau COD<br>
+                                                    - Miễn phí giao hàng (bán kính 20km)<br>
+                                                    -&nbsp;Giao hàng và lắp đặt từ 8h00 - 21h30 hàng ngày, gồm cả thứ 7,
+                                                    CN, ngày lễ
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane">
+                                <h2 class="pane-header"><i class="fas fa-gift"></i> THÔNG SỐ KỸ THUẬT</h2>
+                                <div class="specifications">
+                                    {% if(product.description is not empty) %}
+                                        {% set des = product.description | replace({'<p style="margin:0px;">':"",'<p>':"",'<p style="margin:0px;padding:0px;font-family:Tahoma, Arial, Helvetica, sans-serif;font-size:14px;text-align:justify;">':""}) %}
+                                        {{ des | raw }}
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                            {% set proTt = search({'limit':8, 'categoryId':product.categoryId,'excludedIds': product.id}) %}
+                            <div class="tab-pane">
+                                <h2 class="pane-header"><i class="fas fa-gift"></i> SẢN PHẨM TƯƠNG TỰ</h2>
+                                <div class="row">
+                                    {% for pt in proTt %}
+                                        <div class="col-md-3 col-sm-4 col-6">
+
+                                            <div class="card product-single"
+                                                 onclick="location.href='{{ pt.viewLink }}'"
+                                                 style="cursor: pointer">
+
+                                                <div class="product-image-box">
+                                                    <img src="{{ pt.imageUri }}" class="product-image"
+                                                         alt="{{ pt.name }}">
+                                                </div>
+                                                <div class="card-body p-1">
+                                                    <p class="card-text product-name"><a
+                                                                href="{{ pt.viewLink }}">
+                                                            {{ pt.name }}</a></p>
+                                                </div>
+                                                <div class="card-footer">
+                                                    <div class="product-price-block">
+                                                        <br><br>
+                                                    </div>
+
+                                                    <div class="product-code-block"></div>
+
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <span class="product-stock text-blue">
+                                                            <i class="fas fa-phone-alt"></i> Liên hệ
+                                                        </span>
+                                                        <span class="product-shoping">
+                                                            <a href="">
+                                                                <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            {#Thong tin chi tiet#}
+                            <div class="tab-pane">
+                                <h2 class="pane-header"><i class="fas fa-gift text-red"></i> THÔNG TIN CHI TIẾT</h2>
+                                <div class="p-2 chitiet-sp">
+                                    {{ content|raw }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tabChiTiet">
+                            <div class="card card-default">
+                                <div class="card-header p-0">
+                                    <ul class="nav nav-tabs card-header-tabs m-0">
+                                        <li class="nav-item border">
+                                            <a class="nav-link nav-mb2 active" data-toggle="tab" href="#subtabThongSo" role="tab" aria-controls="home" aria-expanded="true">
+                                                THÔNG SỐ KỸ THUẬT
+                                            </a>
+                                        </li>
+                                        <li class="nav-item border">
+                                            <a class="nav-link nav-mb2" data-toggle="tab" href="#subtabChiTiet" role="tab" aria-controls="home" aria-expanded="true">
+                                                MÔ TẢ SẢN PHẨM
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="card-body tab-content p-0">
+                                    <div class="tab-pane active" id="subtabThongSo">
+
+                                        <div class="tab-pane" id="detailThongSo">
+                                            <h2 class="pane-header"><span>THÔNG SỐ KỸ THUẬT</span></h2>
+
+                                            <div class="specifications" id="detailThongSoKyThuat">
+                                                {% if(product.description is not empty) %}
+                                                    {% set des = product.description | replace({'<p style="margin:0px;">':"",'<p>':"",'<p style="margin:0px;padding:0px;font-family:Tahoma, Arial, Helvetica, sans-serif;font-size:14px;text-align:justify;">':""}) %}
+                                                    {{ des | raw }}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="subtabChiTiet">
+                                        <div class="tab-pane" id="detailChiTiet">
+                                            <h2 class="pane-header"><span>THÔNG TIN CHI TIẾT</span></h2>
+                                            <div class="p-2 chitiet-sp">
+                                                {{ content | raw }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tabDanhGia">
+                            <div class="tab-pane" id="detailRating" style="margin-bottom: 6px;">
+                                <h2 class="pane-header"><span>ĐÁNH GIÁ SẢN PHẨM</span></h2>
+                                <div class="row align-items-stretch m-1 pt-2">
+                                    <div class="col-5 col-lg-3 pb-2">
+                                        <div class="card card-default" style="height: 234px;">
+                                            <div class="card-body text-center">
+                                                <h4>Đánh giá trung bình</h4>
+                                                <hr><br>
+                                                <h2 class="text-bold">0.0
+                                                    <small>/ 5</small>
+                                                </h2>
+                                                <div>
+                                                    <i class="fa fa-star text-orange"></i>
+                                                    <i class="fa fa-star text-orange"></i>
+                                                    <i class="fa fa-star text-orange"></i>
+                                                    <i class="fa fa-star text-orange"></i>
+                                                    <i class="fa fa-star text-orange"></i>
+                                                </div>
+                                                <br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-7 col-lg-4 pb-2">
+                                        <div class="card card-default rate-progress-box" style="height: 234px;">
+                                            <div class="card-body">
+                                                <h4>Tổng hợp đánh giá</h4>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <span class="text-bold">5 sao</span>
+                                                    <div class="progress flex-grow-1">
+                                                        <div class="progress-bar bg-ben-rate" role="progressbar"
+                                                             style="width: 0.00%" aria-valuenow="25" aria-valuemin="0"
+                                                             aria-valuemax="100">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <span class="text-bold">4 sao</span>
+                                                    <div class="progress flex-grow-1">
+                                                        <div class="progress-bar bg-ben-rate" role="progressbar"
+                                                             style="width: 0.00%" aria-valuenow="25" aria-valuemin="0"
+                                                             aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <span class="text-bold">3 sao</span>
+                                                    <div class="progress flex-grow-1">
+                                                        <div class="progress-bar bg-ben-rate" role="progressbar"
+                                                             style="width: 0.00%" aria-valuenow="50" aria-valuemin="0"
+                                                             aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <span class="text-bold">2 sao</span>
+                                                    <div class="progress flex-grow-1">
+                                                        <div class="progress-bar bg-warning" role="progressbar"
+                                                             style="width: 0.00%" aria-valuenow="75" aria-valuemin="0"
+                                                             aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <span class="text-bold">1 sao</span>
+                                                    <div class="progress flex-grow-1">
+                                                        <div class="progress-bar bg-danger" role="progressbar"
+                                                             style="width: 0.00%" aria-valuenow="100" aria-valuemin="0"
+                                                             aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-5 pb-2">
+                                        <div class="card card-default">
+                                            <div class="card-body" style="height: 232px;">
+                                                <form action="/Products/Rating" method="post" id="ratingForm2"
+                                                      novalidate="novalidate">
+                                                    <div class="form-group row">
+                                                        <label class="col-4">Tên bạn</label>
+                                                        <div class="col-8">
+                                                            <input type="text" name="rateName"
+                                                                   class="form-control form-control-sm"
+                                                                   placeholder="Nhập tên của bạn">
+                                                            <input type="hidden" value="1667" name="rateProductId">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-4">Số sao</label>
+                                                        <div class="col-8">
+                                                            <div class="rating-container rating-sm rating-animate">
+                                                                <div class="clear-rating clear-rating-active"
+                                                                     title="Xóa"><i
+                                                                            class="glyphicon glyphicon-minus-sign"></i>
+                                                                </div>
+                                                                <div class="rating-stars" title="Chọn số sao">
+                                                                    <span class="empty-stars">
+                                                                        <span class="star"><i class="far fa-star"></i></span>
+
+                                                                        <span class="star"><i class="far fa-star"></i></span>
+
+                                                                        <span class="star"><i class="far fa-star"></i></span>
+
+                                                                        <span class="star"><i class="far fa-star"></i></span>
+
+                                                                        <span class="star"><i class="far fa-star"></i></span>
+                                                                    </span>
+
+                                                                    <span class="filled-stars" style="width: 0%;">
+                                                                        <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                        <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                        <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                        <span class="star"><i class="fas fa-star"></i></span>
+
+                                                                        <span class="star"><i class="fas fa-star"></i></span>
+                                                                    </span>
+
+                                                                    <input type="number" id="rateStar2" name="rateStar" class="rating-input" value="0">
+                                                                </div>
+                                                                <div class="caption">
+                                                                    <span class="label label-default badge-secondary">Chọn số sao</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-4">Nhận xét</label>
+                                                        <div class="col-8">
+                                                            <textarea type="text" name="rateComment"
+                                                                      class="form-control form-control-sm"
+                                                                      placeholder="Nội dung đánh giá"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row  mb-0">
+                                                        <div class="col-8 offset-4">
+                                                            <button type="submit" class="btn btn-sm btn-danger">Gửi đánh
+                                                                giá
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row m-1 pt-0">
+                                    <div class="col-12 pb-2">
+                                        <div class="card card-default">
+                                            <div class="card-header d-flex justify-content-between align-items-baseline p-0">
+                                                <h4 class="p-2">Khách hàng nhận xét (0)</h4>
+                                                <ul class="nav nav-pills card-header-pills">
+                                                    <li class="nav-item d-block">
+                                                        <a class="nav-link active p-2" data-toggle="tab"
+                                                           href="#tabRatingNews" role="tab">Mới nhất</a>
+                                                    </li>
+                                                    <li class="nav-item d-block">
+                                                        <a class="nav-link p-2" data-toggle="tab"
+                                                           href="#tabRatingHuuich" role="tab">Hữu ích</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-body tab-content">
+
+                                                <div class="tab-pane active" id="tabRatingNews">
+                                                </div>
+                                                <div class="tab-pane" id="tabRatingHuuich">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {#san pham tuong tu#}
+                        {% set proTt2 = search({'limit':8, 'categoryId':product.categoryId,'excludedIds': product.id}) %}
+                        <div class="tab-pane" id="tabSpTuongTuMobile">
+                            <div class="row">
+                                {% for pt2 in proTt2 %}
+                                <div class="col-md-3 col-sm-4 col-6">
+                                    <div class="card product-single"
+                                         onclick="location.href='{{ pt2.viewLink }}"
+                                         style="cursor: pointer">
+
+                                        <div class="product-image-box">
+                                            <img src="{{ pt2.imageUri }}" class="product-image"
+                                                 alt="{{ pt2.name }}">
+                                        </div>
+                                        <div class="card-body p-1">
+                                            <p class="card-text product-name"><a
+                                                        href="{{ pt2.viewLink }}">
+                                                    {{ pt2.name }}</a></p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="product-price-block">
+                                                <br><br>
+                                            </div>
+
+                                            <div class="product-code-block"></div>
+
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <span class="product-stock text-blue">
+                                                    <i class="fas fa-phone-alt"></i> Liên hệ
+                                                </span>
+                                                <span class="product-shoping">
+                                                    <a href="/cart">
+                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{#    {% include 'layout/footer' %}#}
+
+{% endblock %}
+
+{% block fixfoot %}
+    <div class="fixbot-detail">
+        <a href="https://www.messenger.com/t/bencomputers" class="btn-icon"><i
+                    class="fab fa-facebook-messenger"></i><span>Nhắn tin</span></a>
+        <a href="tel:0899179991 " class="btn-icon"><i class="fas fa-phone-alt"></i><span>Gọi điện</span></a>
+        <button id="addToCart" class="btn-icon-cart btnAddToCart" type="submit" psid="{{ product.id }}"
+                selid="{{ product.id }}"
+                ck="1" style="border: none; background-color: white">
+            <i class="fas fa-cart-plus"></i><span> Thêm vào giỏ</span>
+        </button>
+        <button type="submit" psid="{{ product.id }}" selid="{{ product.id }}"
+                id="buynow" class="btn-red btnAddToCart" style="border: none; height: 100%"
+                ck="1">
+            MUA NGAY
+        </button>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/translate/vi-vn.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/elevatezoom/elevatezoom.min.js' }}"></script>
+    <script type="text/javascript" src="{{ '/tpl/' ~ templateDir ~ '/js/pview.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.js' }}"></script>
+{% endblock %}

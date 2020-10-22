@@ -1,0 +1,69 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Thông tin người dùng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Thông tin người dùng">
+    <meta name="keywords" content="Thông tin người dùng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Thông tin người dùng">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{  ''~ templatePath  ~'/css/profile.css'}}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="top-product">
+        {% set category = [{'label':'Thông tin người dùng ', 'uri':'/profile'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <div class="container">
+        <div style="margin-top: 20px" class="row">
+            <div class="col-md-4 col-12 border-right1">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <div class="nav-link link-1 active">
+                            <div class="dropdown"> Trang cá nhân<i style="margin-left: 10px" class="fa fa-angle-down"></i></div>
+                            <ul class="nav menu flex-column">
+                                <li class="nav-item">
+                                    <a href="/order" class="nav-link link-1">Quản trị đơn hàng</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/profile/edit" class="nav-link link-1">Thay đổi thông tin</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/user/signout" class="nav-link link-1">Thoát</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/order" class="nav-link link-1 deactive">Quản trị đơn hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/profile/edit" class="nav-link link-1 deactive">Thay đổi thông tin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="user/signout" class="nav-link link-1 deactive">Thoát</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-8 col-12">
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link">Họ và tên : {{ user.fullname }}</a> </li>
+                    <li class="nav-item"><a class="nav-link">Email : {{ user.email }}</a> </li>
+                    <li class="nav-item"><a class="nav-link">Điện thoại : {{ user.mobile }}</a> </li>
+                    <li class="nav-item"><a class="nav-link">Ngày sinh : {{ user.birthday | date("d/m/Y") }}</a> </li>
+                    <li class="nav-item"><a class="nav-link">Giới tính : {{  (user.gender==1?'Nam':'Nữ') }}</a> </li>
+                    <li class="nav-item"><a class="nav-link">Điểm tích lũy : {{ (user.points)? user.points :'0' }}  điểm</a> </li>
+                </ul>
+            </div>
+        </div>
+        <hr/>
+        <div style="padding: 0" class="row ">
+            <a class="shopping" href="/">Tiếp tục mua sắm <i class="fa fa-caret-right"></i></a>
+        </div>
+    </div>
+{% endblock %}
+  {% block script %}
+      <script type="text/javascript" src="{{ ''~ templatePath  ~'/js/profile.js' }}"></script>
+  {% endblock %}

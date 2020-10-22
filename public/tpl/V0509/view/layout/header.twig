@@ -1,0 +1,198 @@
+{% set quantity = serviceCart().totalQuantities %}
+{% set urlLogo = getLogoUri() %}
+<header>
+    <nav class="navbar is-visible" data-nav-status="toggle">
+        <h2 class="d-none">Header</h2>
+        <div class="navbar-head" id="navbar-header">
+            <div class="navbar-left">
+                <a href="tel:0123-45678" class="hotline"><i class="fa fa-phone" aria-hidden="true"></i> 1800 6646 (miễn phí) - Giao hàng toàn quốc</a>
+            </div>
+            <div class="navbar-right">
+                {% if(hasIdentity() != null) %}
+                    <a href="/profile" rel="nofollow" class="text-white form-acount-header-top">
+                        <span>Xin chào {{ getUser().fullName }}</span> 
+                    </a>  
+                    <span class="text-white form-acount-header-top"> | </span>
+                    <a href="/user/signout" rel="nofollow" class="text-white form-acount-header-top">
+                        <span>Logout</span> 
+                    </a>
+                {% else %}
+                    <a href="/user/signin" class="border border-white rounded text-white form-acount-header-top">
+                        <span>Đăng nhập</span>
+                    </a>
+                    <a href="/user/signup" class="border border-white rounded text-white form-acount-header-top">
+                        <span>Đăng ký</span>
+                    </a>
+                {% endif %}
+                <a href="/he-thong-cua-hang">
+                    <span class="text-white">Hệ thống 66 cửa hàng thành toán</span>
+                </a>
+            </div>
+        </div>
+        <div class="navbar-body">
+            <div class="containerp-fluid">
+                <div class="navbar-wrap">
+                    <a href="/" class="logo">
+                    {% if urlLogo %}
+                        <img src="{{urlLogo}}" alt="Logo" class="img" />
+                        {% else %}
+                            <img src="/tpl/V0509/img/temp/logo-menu.png" alt="Logo" class="img" />
+                    {% endif %}
+                    </a>
+                    <button class="toggle toggle-show">
+                        <span>Toggle</span>
+                    </button>
+                    <button class="icon icon-search__moblie" type="button">
+                        <svg width="1em"  height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                    </button>
+                    <div class="navbar-nav">
+                        <div class="navbar-content">
+                            <button class="toggle">
+                                <span>Toggle</span>
+                            </button>
+                            {% if(hasIdentity() != null) %}
+                                <div class="moblie-box-acount justify-content-between align-items-center w-100">
+                                    <a href="/profile" rel="nofollow" class="">
+                                        <span>Xin chào {{ getUser().fullName }}</span> 
+                                    </a>  
+                                    <a href="/user/signout" rel="nofollow" class="border border-light moblie-form-acount font-weight-normal">
+                                        <span>Logout</span> 
+                                    </a>
+                                </div>    
+                                {% else %}
+                                <div class="moblie-box-acount justify-content-between align-items-center w-100">
+                                    <a href="/user/signin" class="border border border-light moblie-form-acount font-weight-normal">
+                                        <span>Đăng nhập</span>
+                                    </a>
+                                    <a href="/user/signup" class="border border border-light moblie-form-acount font-weight-normal">
+                                        <span>Đăng ký</span>
+                                    </a>
+                                </div>  
+                            {% endif %}
+                            <div class="shop-system">
+                                <a href="/he-thong-cua-hang">
+                                    <span>Hệ thống 66 cửa hàng thành toán</span>
+                                </a>
+                            </div>
+                            <ul class="menu">
+                                {% set cate = getCategories() %}
+                                {% if(cate is not empty) %}
+                                    {% for cate_pro in cate %}
+                                        <li class="menu-item menu-type2">
+                                            <a href="{{ cate_pro.viewLink }}" class="menu-link color-red menu">{{ cate_pro.name | raw  }}</a>
+                                            {% if (cate_pro.childs is not empty) %}
+                                            <span class="arrow"></span>
+                                            <div class="submenu" id="product">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <div class="content-left">
+                                                                <ul>
+                                                                    {% for cate_child in cate_pro.childs %}
+                                                                        <li><a href="{{ cate_child.viewLink }}" >{{ cate_child.name }}</a></li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <div class="row">
+                                                                {% set product = search({'limit': 3,'categoryId':cate_pro.id}) %}
+                                                                {% for pro in product %}
+                                                                    <div class="col-md-3">
+                                                                        <div class="content-right">
+                                                                            <a href="{{ pro.viewLink }}">
+                                                                                <img src="{{ pro.thumbnailUri }}" alt="{{ pro.name }}" class="img img-fluid">
+                                                                            </a>
+
+                                                                            <p class="des-img">{{ pro.name | raw }}</p>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                    </li>
+                                    <li class="menu-item">
+                                        <a href="/news" class="menu-link menu">News</a>
+                                    </li>
+                                {% endif %}
+                                <li class="menu-item moblie-hidden">
+                                    <form action="/search">
+                                        <div class="input-search">
+                                            <input type="text" class="form-control" placeholder="Bạn cần tìm sản phẩm" name="q" id="txtSearch">
+                                            <button type="submit">
+                                                <svg width="1em"  height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                                                    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </li>
+                                <li class="menu-item moblie-hidden">
+                                    <a href="/he-thong-cua-hang" class="mr-right">
+                                        <span class="icon icon-map"></span>
+                                    </a>
+                                    <a href="/cart">
+                                        <span class="icon icon-card position-relative">
+                                            <svg width="30" height="30" viewBox="0 0 16 16" class="bi bi-bag-check" fill="#d01132" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/>
+                                                <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"/>
+                                                <path fill-rule="evenodd" d="M10.854 7.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 10.293l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                              </svg>
+                                            <span class="number-cart text-light text-center font-weight-bold">{{ quantity }}</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="navbar-overlay"></div>
+                </div>
+            </div>
+            <div class="icon-moblie-right">
+                <ul>
+                    <li class="menu-item moblie-show">
+                        <a href="/he-thong-cua-hang">
+                            <span class="icon icon-map"></span>
+                        </a>
+                        <a href="/cart">
+                            <span class="icon icon-card position-relative">
+                                <svg width="30" height="30" viewBox="0 0 16 16" class="bi bi-bag-check" fill="#d01132" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M14 5H2v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5zM1 4v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4H1z"/>
+                                    <path d="M8 1.5A2.5 2.5 0 0 0 5.5 4h-1a3.5 3.5 0 1 1 7 0h-1A2.5 2.5 0 0 0 8 1.5z"/>
+                                    <path fill-rule="evenodd" d="M10.854 7.646a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 10.293l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                  </svg>
+                                <span class="number-cart text-light text-center font-weight-bold">{{ quantity }}</span>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="search-moblie position-absolute w-100">
+                <form action="/search" class="position-relative">
+                    <input name="q" 
+                           id="txtSearch" 
+                           class="form form-control input-search__moblie " 
+                           type="text" 
+                           placeholder="Bạn cần tìm sản phẩm"
+                           >
+                    <button class="submit-search position-absolute" type="submit" >
+                        <svg width="1em"  height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>

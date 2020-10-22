@@ -1,0 +1,111 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block meta %}
+    {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{#    <meta property="og:image" content="https://captot.vn/tp/T0002/img/logoShare.png">#}
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ ''~templatePath ~'/css/product/index-product.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+    {#    Danh mục Thông tin tuyển dụng#}
+    <div class="top-product">
+        {% set category = [{'label': ' Tin tức', 'uri':'/news'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <div class="container header>">
+        <div class="row news">
+            <div style="margin-top: 30px;margin-bottom: 30px" class="col-lg-9  col-lg-push-3">
+                <div class="row"><h1 style="text-transform: uppercase;font-size: 20px;padding: 5px 30px">Tin tức</h1></div>
+                <div style="margin-bottom: 10px" class="row ">
+                    {% if(paginator.currentModels is not empty) %}
+                        {% set t = null %}
+                        {% for n in paginator.currentModels %}
+                            {% set image = n.pictureUri %}
+                            {% set options = {
+                                alt: n.title | e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            {% set rel = (n.categoryId == idRecrui ? 'rel="nofollow"' : '') %}
+                            <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                <div class="news-list">
+                                    <a href="{{ n.viewLink }}" class="link-1" id="imgNewHome">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="tag-date">
+                                    {{ n.createdDateTime|date("d/m") }}
+                                    <br/>
+                                    {{ n.createdDateTime|date("Y") }}
+                                </div>
+                                <div>
+                                    <a href="{{ n.viewLink }}" class="font-14 link-1" id="infoNewHome" title="{{ n.title|e('html') }}" >{{ n.title|e('html') }}</a>
+                                </div>
+                                <p>{{ subString(n.intro(true),128) | raw }}</p>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="pagination">
+                    {{ render_paginator(paginator) }}
+                </div>
+            </div>
+            <div style="margin-top: 30px" class="col-lg-3  col-lg-push-9">
+                <div  class="row header font-14"><h5 style="font-weight: 400;text-transform: uppercase">Danh Mục Bài Viết</h5></div>
+                <div style="border: 1px solid #ebebeb" class="container-fluid">
+                    {% if(newsCategory is not empty) %}
+                    <div class="row">
+                        <ul style="width: 100%" class="nav flex-column">
+                            <li  class="nav-item">
+                                <div class="col box-b"> <a style="padding: 5px 0 5px 10px;display: inline-block" class="link-1 nav-link" href="/news">Tất cả</a></div>
+                            </li>
+                            {% for n in newsCategory %}
+                                <li class="nav-item">
+                                   <div class="col box-b"> <a style="padding: 5px 0 5px 10px;display: inline-block" class="link-1 nav-link" href="{{ n.viewLink }}">{{ n.name }}</a></div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+                <div style="margin-top: 30px;border-bottom: 1px solid gainsboro" class="row header font-14"><h5 style="font-weight: 400;text-transform: uppercase">Bài Viết Mới Nhất</h5></div>
+                <div class="container-fluid">
+                    {% set lastestNews = getLastestNews({'limit':4}) %}
+                    {% if(lastestNews is not empty) %}
+                            {% for n in lastestNews %}
+                                {% set image = n.imageUri %}
+                                {% set options = {
+                                    alt: n.title|e('html'),
+                                    lazy: true,
+                                    openDiv: false,
+                                }%}
+                                <div style="margin-top: 10px;margin-left: 0" class="row news-list font-14" >
+                                    <div style="padding: 0;margin-top: 10px" class="col-4 ">
+                                        <a href="{{ n.viewLink }}" class="link-1" id="imgNewHome">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                    </div>
+                                    <div style="padding: 0 0 0 5px" class="col-8">
+                                        <a style="display: block" href="{{ n.viewLink }}" class="font-14 link-1" id="infoNewHome" title="{{ n.title|e('html') }}" >{{ n.title|e('html') }}</a>
+                                        <i class="date">
+                                            {{ n.createdDateTime|date("d/m/Y") }}
+                                        </i>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ (''~ templatePath  ~'/js/product.js') }}"></script>
+    <script type="text/javascript" src="{{ ''~ templatePath  ~'/js/category.js' }}"></script>
+{% endblock %}

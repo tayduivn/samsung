@@ -1,0 +1,580 @@
+{% extends "layout/layout" %}
+  {% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+  {% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Hệ thống cửa hàng Cặp, Balô, Vali kéo du lịch chính hãng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+  {% endblock %}
+  {% block stylesheets %}
+  <link rel="stylesheet" href="{{ templatePath ~'/css/plugin.css' }}" type="text/css">
+{% endblock %}
+
+{% block body %}
+
+  <!-- icon contact -->
+  {% include 'layout/icon-contact' %}
+  <!-- icon contact -->
+
+  <!-- main -->
+  {% include 'layout/poputCookie' %}
+  <main>
+    {% include 'layout/banner' %}
+    <!-- slider top favorite -->
+    <section class="top-favorite">
+      <div class="container">
+        <h5 class="title">
+          <a href="/product?show=hot"><p>Top các sản phẩm được yêu thích</p></a>
+        </h5>
+        <div class="top-favorite-body">
+          <div class="slick top-favorite-slick">
+            {% set productBestseller = search({'limit': 6, 'brands':true, 'showHot': 1 }) %}
+            {% if(productBestseller is not empty) %}
+              {% for pro in productBestseller %}
+                {% set image = pro.thumbnailUri %}
+                {% set options_lazy = {
+                  alt: pro.name,
+                  class: 'img is-full',
+                  lazy: true,
+                  openDiv: false
+                } %}
+                {% set percent = p.discountPercent %}
+                {% set priceDiscount = p.priceAfterDiscount %}
+                <div class="slick-item" data-id="{{ pro.id }}" data-storeId="{{ pro.storeId }}">
+                  <div class="card">
+                    <div class="card-thumb">
+                      {% if(pro.options.psGifts) %}
+                        <style>
+                          .card-thumb::before {
+                            background-image: url('/tpl/V0509/img/gif/gift.jpg');
+                          }
+                        </style>
+                      {% endif %}
+                      <a href="{{ pro.viewLink }}">
+                        {# <img src="{{ image }}" class="img is-full" alt=""> #}
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options_lazy) }}
+                      </a>
+                    </div>
+                    <div class="card-body">
+                      {% if(pro.options.psGifts.name != null) %}
+                        <label class="card-free">{{ pro.options.psGifts.name }}</label>
+                      {% endif %}
+                      <a href="{{ pro.viewLink }}">
+                          <span class="card-title">{{ pro.brandName }}</span>
+                      </a>
+                      <span class="card-name">{{ pro.name }}</span>
+                      <span class="card-price">{{ pro.price | number_format(0) }}₫
+                        {% if(pro.priceAfterDiscount > 0) %}
+                          <strike>{{ pro.priceAfterDiscount | number_format(0) }}₫</strike>
+                          {% elseif (pro.oldPrice > 0) %}
+                            <strike>{{ pro.oldPrice | number_format(0) }}₫</strike>
+                        {% endif %}
+                        {% if(pro.discountPercent > 0) %}
+                          <span class="percent">- {{ pro.discountPercent }} %</span>
+                        {% endif %}
+                </span>
+                      <div class="box-button">
+                        {% set values = pro.options.attrValues %}
+                        {% if(values) %}
+                          {% set count = 0 %}
+                          {% for button_color in values  %}
+                          {% set count = count + 1 %}
+                            {% if count <= 4 %}
+                              {% set color = button_color.options.attrContent %}
+                              <button class="card-button">
+                                <span style="background-color: #{{color}}" data-src="{{ button_color.thumbnailUri }}"></span>
+                              </button>
+                            {% endif %}
+                          {% endfor %}
+                          {% if count > 4 %}
+                            <a href="{{ pro.viewLink }}" class="button-add card-button__add"></a>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- slider top favorite -->
+
+    <!-- slider favorite-backpack -->
+    <section class="favorite-backpack">
+      <div class="container">
+        <h5 class="title">
+          <a href="/product?show=new">
+            <p>TOP SẢN PHẨM BÁN CHẠY</p>
+          </a>
+        </h5>
+        <div class="favorite-backpack-body">
+          <div class="slick favorite-backpack-slick">
+            {% set productBestseller_New = search({'limit': 6, 'brands':true, 'showNew': 1 }) %}
+            {% if(productBestseller_New is not empty) %}
+              {% for pro in productBestseller_New %}
+                {% set image = pro.thumbnailUri %}
+                {% set options_lazy = {
+                  alt: pro.name,
+                  class: 'img is-full',
+                  lazy: true,
+                  openDiv: false
+                } %}
+                {% set percent = p.discountPercent %}
+                {% set priceDiscount = p.priceAfterDiscount %}
+                  <div class="slick-item" data-id="{{ pro.id }}" data-storeId="{{ pro.storeId }}" >
+                    <div class="card">
+                      <div class="card-thumb">
+                        {% if(pag.options.psGifts) %}
+                          <style>
+                            .card-thumb::before {
+                              background-image: url('/tpl/V0509/img/gif/gift.jpg');
+                            }
+                          </style>
+                        {% endif %}
+                        <a href="{{ pro.viewLink }}">
+                        {# <img src="{{ image }}" class="img is-full" alt=""> #}
+                          {{ macroLazyFocusImager.LazyFocusImager(image,options_lazy) }}
+                        </a>
+                      </div>
+                      <div class="card-body">
+                        {% if(pro.options.psGifts.name != null) %}
+                          <label class="card-free">{{ pro.options.psGifts.name }}</label>
+                        {% endif %}
+                        <a href="{{ pro.viewLink }}">
+                          <span class="card-title">{{ pro.brandName }}</span>
+                        </a>
+                        <span class="card-name">{{ pro.name }}</span>
+                        <span class="card-price">{{ pro.price | number_format(0) }}₫
+                        {% if(pro.priceAfterDiscount > 0) %}
+                          <strike>{{ pro.priceAfterDiscount | number_format(0) }}₫</strike>
+                          {% elseif (pro.oldPrice > 0) %}
+                          <strike>{{ pro.oldPrice | number_format(0) }}₫</strike>
+                        {% endif %}
+                          {% if(pro.discountPercent > 0) %}
+                            <span class="percent">- {{ pro.discountPercent }} %</span>
+                          {% endif %}
+                </span>
+                        <div class="box-button">
+                        {% set values = pro.options.attrValues %}
+                        {% if(values) %}
+                          {% set count = 0 %}
+                          {% for button_color in values  %}
+                          {% set count = count + 1 %}
+                            {% if count <= 4 %}
+                              {% set color = button_color.options.attrContent %}
+                              <button class="card-button">
+                                <span style="background-color: #{{color}}" data-src="{{ button_color.thumbnailUri }}"></span>
+                              </button>
+                            {% endif %}
+                          {% endfor %}
+                          {% if count > 4 %}
+                            <a href="{{ pro.viewLink }}" class="button-add card-button__add"></a>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- slider favorite-backpack -->
+
+    <!-- slider favorite-bag -->
+    <section class="favorite-bag">
+      <div class="container">
+        <h5 class="title">
+          <a href="/product?show=home">
+            <p>TOP sản phẩm giá rẻ nhất</p>
+          </a>
+        </h5>
+        <div class="favorite-bag-body">
+          <div class="slick favorite-bag-slick">
+            {% set productBestseller_Home = search({'limit': 6, 'brands':true, 'showHome': 1 }) %}
+            {% if(productBestseller_Home is not empty) %}
+              {% for pro in productBestseller_Home %}
+                {% set image = pro.thumbnailUri %}
+                {% set options_lazy = {
+                  alt: pro.name,
+                  class: 'img is-full',
+                  lazy: true,
+                  openDiv: false
+                } %}
+                {% set percent = p.discountPercent %}
+                {% set priceDiscount = p.priceAfterDiscount %}
+                <div class="slick-item" data-id="{{ pro.id }}" data-storeId="{{ pro.storeId }}">
+                  <div class="card">
+                    <div class="card-thumb">
+                      {% if(pro.options.psGifts) %}
+                        <style>
+                          .card-thumb::before {
+                            background-image: url('/tpl/V0509/img/gif/gift.jpg');
+                          }
+                        </style>
+                      {% endif %}
+                      <a href="{{ pro.viewLink }}">
+                        {# <img src="{{ image }}" class="img is-full" alt=""> #}
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options_lazy) }}
+                      </a>
+                    </div>
+                    <div class="card-body">
+                      {% if(pro.options.psGifts.name != null) %}
+                        <label class="card-free">{{ pro.options.psGifts.name }}</label>
+                      {% endif %}
+                      <a href="{{ pro.viewLink }}">
+                        <span class="card-title">{{ pro.brandName }}</span>
+                      </a>
+                      <span class="card-name">{{ pro.name | raw }}</span>
+                      <span class="card-price">{{ pro.price | number_format(0) }}₫
+                        {% if(pro.priceAfterDiscount > 0) %}
+                          <strike>{{ pro.priceAfterDiscount | number_format(0) }}₫</strike>
+                          {% elseif (pro.oldPrice > 0) %}
+                          <strike>{{ pro.oldPrice | number_format(0) }}₫</strike>
+                        {% endif %}
+                        {% if(pro.discountPercent > 0) %}
+                          <span class="percent">- {{ pro.discountPercent }} %</span>
+                        {% endif %}
+                </span>
+                      <div class="box-button">
+                        {% set values = pro.options.attrValues %}
+                        {% if(values) %}
+                          {% set count = 0 %}
+                          {% for button_color in values  %}
+                          {% set count = count + 1 %}
+                            {% if count <= 4 %}
+                              {% set color = button_color.options.attrContent %}
+                              <button class="card-button">
+                                <span style="background-color: #{{color}}" data-src="{{ button_color.thumbnailUri }}"></span>
+                              </button>
+                            {% endif %}
+                          {% endfor %}
+                          {% if count > 4 %}
+                            <a href="{{ pro.viewLink }}" class="button-add card-button__add"></a>
+                          {% endif %}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- slider favorite-bag -->
+
+    <!-- main banner image -->
+    <section class="banner-main">
+      <div class="container">
+        <div class="row">
+            {% set banner_main = getBannerByPositionCode ('BANNER_MIDDLE') %}
+            {% if(banner_main is not empty) %}
+              {% for b_main in banner_main %}
+
+              {% set image = b_main.imagesrc %}
+              {% set options_lazy = {
+                alt: b_main.name,
+                lazy: true,
+                openDiv: false,
+              } %}
+              <div class="col-12 col-md-6">
+                <aside class="banner-main__item f-center">
+                  <a href="javascript:void(0)">
+                    {{ macroLazyFocusImager.LazyFocusImager(image,options_lazy) }}
+                  </a>
+                </aside>
+              </div>
+              {% endfor %}
+              {% else %}
+                <div class="col-12 col-md-6">
+                        <aside class="banner-main__item f-center">
+                            <img src="/tpl/V0509/img/temp/balo-tre-em.png" alt="Balo trẻ em">
+                        </aside>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <aside class="banner-main__item">
+                            <img src="/tpl/V0509/img/temp/phu-kien-tien-ich.png" alt="Phụ kiện tiện ích">
+                        </aside>
+                    </div>
+                    <div class="col-12 col-md-6"> 
+                        <aside class="banner-main__item f-center">
+                            <img src="/tpl/V0509/img/temp/vali-size-xach-tay.png" alt="Vali Xach tay">
+                        </aside>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <aside class="banner-main__item">
+                            <img src="/tpl/V0509/img/temp/cua-hang.png" alt="Cửa hàng">
+                        </aside>
+                    </div>
+            {% endif %}
+        </div>
+      </div>
+    </section>
+    <!-- main banner image -->
+
+    <!-- shop system -->
+    <section class="shop-system-main">
+      <img src="/tpl/V0509/img/temp/bg_system.png" alt="Hệ thống cửa hàng">
+      <div class="container">
+        <div class="shop-system-main__content">
+          <h5 class="title">HỆ THỐNG CỬA HÀNG</h5>
+          <p class="des">Với hệ thống 66 cửa hàng LUG trên toàn quốc, người Việt hoàn toàn dễ dàng trong việc đến với
+            LUG và lựa chọn cho mình những sản phẩm Vali - Balo/Túi Xách - Phụ Kiện phù hợp. Để những chuyến hành trình
+            sẽ khởi đầu thuận tiện hơn, và
+            kết thúc tròn đầy hơn.</p>
+          <a href="/maps" class="see-more">Xem thêm</a>
+        </div>
+      </div>
+    </section>
+    <!-- shop system -->
+
+    <!-- collection images-->
+    <section class="collection-image">
+      <div class="container">
+        <div class="row">
+          {% set banner_news = getNewsCategories() %}
+          {# <pre>
+            {{ dump(banner_news) }}
+          </pre> #}
+          {% if(banner_news is not empty) %}
+          <div class="slider-home--news">
+            {% for b in banner_news %}
+              {% set image = b.imageUri %}
+              {% set options = {
+                alt: b.name,
+                lazy: true,
+                openDiv: false,
+              } %}
+                <div class="bg-img" style="background-image: url({{ image }});">
+                  <div class="box-border">
+                    <a href="{{ b.viewLink }}">
+                      <p class="title-image">{{ b.name }}</p>
+                    </a>  
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+            {% else %}
+              <div class="col-12 col-xs-6 col-md-3">
+                        <div class="bg-img" style="background-image: url(/tpl/V0509/img/temp/500x500-kn-du-lich.jpg);">
+                            <div class="box-border">
+                                <p class="title-image">Câu chuyện thương hiệu</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xs-6 col-md-3">
+                        <div class="bg-img" style="background-image: url(/tpl/V0509/img/temp/500x500-meo-vat.jpg);">
+                            <div class="box-border">
+                                <p class="title-image">kinh nghiệm du dịch</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xs-6 col-md-3">
+                        <div class="bg-img" style="background-image: url(/tpl/V0509/img/temp/thao-luan-cung-lug.jpg);">
+                            <div class="box-border">
+                                <p class="title-image">Mẹo vặt hữu ích</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xs-6 col-md-3">
+                        <div class="bg-img" style="background-image: url(/tpl/V0509/img/temp/cau-chuyen-thuong-hieu-1.jpg);">
+                            <div class="box-border">
+                                <p class="title-image">Thảo luận cùng chúng tôi</p>
+                            </div>
+                        </div>
+                    </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+    <!-- collection images -->
+
+    <!-- banner journeys -->
+    {% set banner_journeys = getBannerByPositionCode('BANNER_JOURNEYS',{'limit' : 1}) %}
+    {% if banner_journeys %}
+    {% for b_jou in banner_journeys %}
+      {% set image = b_jou.image %}
+      {% set options = {
+        alt: b_jou.name,
+        lazy: true,
+        class: "img img-fluid",
+        openDiv: false
+      } %}
+      <section class="banner-journeys">
+        <div class="container">
+          <a href="javascript:void(0)">
+            {{ macroLazyFocusImager.LazyFocusImager(image, options) }}
+          </a>
+        </div>
+      </section>
+    {% endfor %}
+    {% else %}
+      <section class="banner-journeys">
+        <div class="container">
+          <a href="javascript:void(0)">
+            <img src="/tpl/V0509/img/temp/kv-web-dich-vu-1400x600.jpg"
+                alt="Gói trọn hành trình" class="img img-fluid">
+          </a>
+        </div>
+      </section>
+    {% endif %}
+    <!-- banner journeys -->
+
+    <!-- slider exclusive distribution -->
+    <section class="exclusive-distribution">
+      <div class="container">
+        <h5 class="title"><p>PHÂN PHỐI ĐỘC QUYỀN</p></h5>
+        <div class="exclusive-distribution-body">
+          <div class="slick exclusive-distribution-slick">
+            {% set listBrands = loadBrand() %}
+              {% if(listBrands is not empty) %}
+               {% for brand in listBrands %}
+                 {% set image = brand.imageUri %}
+                 {% set options = {
+                   alt: brand.name,
+                   lazy: true,
+                   openDiv: false
+                 } %}
+                  <div class="slick-item">
+                    <a href="javascript:void(0)">
+                      {{ macroLazyFocusImager.LazyFocusImager(image, options) }}
+                    </a>
+                  </div>
+                {% endfor %}
+
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- slider exclusive distribution -->
+
+    <!-- text animation -->
+    {% include 'layout/text_run' %}
+    <!-- text animation -->
+
+    <!-- horizontal stripes -->
+    <div
+        style="background-image: url('/tpl/V0509/img/gif/blue-white-red.gif'); height: 8px">
+    </div>
+    <!-- horizontal stripes -->
+
+    <!-- slider hasgtag  -->
+    {% set banner_customer = getBannerByPositionCode('BANNER_CUSTOMER',{'limit' : 1}) %}
+      <section class="slider-hasgtag">
+        <div class="container-fluid">
+          <h5 class="title">
+            <p>HASHTAG ĐỂ CÓ CƠ HỘI XUẤT HIỆN TRÊN WEBSITE CỦA LUG NHÉ</p>
+          </h5>
+          <div class="slider-hasgtag-body">
+            <div class="slick slider-hasgtag-slick">
+            {% if(banner_customer is not empty) %}
+              {% for b_cus in banner_customer %}
+                {% set image = b_cus.image %}
+                  {% set options = {
+                    alt: b_cus.name,
+                    lazy: true,
+                    openDiv: false
+                  } %}
+                  <div class="slick-item">
+                    <a href="javascript:void(0)" class="carousel-link">
+                      {{ macroLazyFocusImager.LazyFocusImager(image, options) }}
+                    </a>
+                  </div>
+                  {% endfor %}
+                {% else %}
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-1.jpg" alt="items 1">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-2.jpg" alt="items 2">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-3.jpg" alt="items 3">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-4.jpg" alt="items 4">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-5.jpg" alt="items 5">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-6.jpg" alt="items 6">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-7.jpg" alt="items 7">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-8.jpg" alt="items 8">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-9.jpg" alt="items 9">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-10.jpg" alt="items 10">
+                  </a>
+                </div>
+                <div class="slick-item">
+                  <a href="javascript:void(0)" class="carousel-link">
+                    <img src="/tpl/V0509/img/temp/banner-customer-11.jpg" alt="items 11">
+                  </a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+    <!-- slider hasgtag  -->
+
+    <!-- services -->
+    {% include 'layout/services' %}
+    <!-- services -->
+
+  </main>
+  <!-- main -->
+
+{% endblock %}
+
+  {% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/magnific-popup.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/slick.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/slider.js' }}"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      $('.slider-hasgtag-slick').magnificPopup({
+          delegate: '.carousel-link',
+          disableOn: 0,
+          gallery: { 
+            enabled: true 
+          },
+          type: 'image',
+      });
+    });
+  </script>
+  {% endblock %}

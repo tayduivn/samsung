@@ -1,0 +1,13 @@
+{% extends 'news_layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% block meta %}
+  {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta property="og:title" content="Tin tức">
+  <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %} 
+
+{% block body %}
+  
+{% endblock %}
+

@@ -1,0 +1,67 @@
+<?php
+// Load lib js + css : colorswatches
+$this->headLink()->appendStylesheet($this->libs()->srcLink([
+    '/js/colorswatches/color-swatches.css'
+],15));
+$this->headScript()->appendFile($this->libs()->srcLink([
+    '/js/colorswatches/color-swatches.js'
+],15));
+
+/*
+ * http://t0002.toannv.store.dev.nhanh.vn/balo-cap-1-hami-bl248amrobnavred-p6240925.html?i6=6
+ * Trang mẫu checked active màu khi có param color
+ * file: view.js
+ * */
+
+
+/* @var $p \Product\Model\Store */
+if (count($paginator)) {
+    foreach ($paginator as $p) {
+        $priceDiscount = $p->getPriceAfterDiscount();
+        $percent = $p->calcDiscountPercent();
+        ?>
+        <div class="col-lg-4 col-md-4 col-xs-6">
+            <div class="product-item">
+                <div class="relative proImg">
+                    <a href="<?= $p->getViewLink() ?>">
+                        <?php
+                        /* swatches-<?= $p->getId() ?> : class image append when event hover or click  color-item */
+                        ?>
+                        <img class="lazy swatches-<?= $p->getId() ?>" src='<?= $p->getThumbnailUri(); ?>' alt="<?= $p->getName() ?>"/>
+                    </a>
+                </div>
+                <div class="proInfo">
+                    <?php
+                    //========== Hiển thị hình ảnh theo thuộc tính màu =================================
+                    /*
+                     * @author: TuanNM
+                     * option: data-hover = true =>  set true nếu muốn sử dụng event js hover
+                     * option: data-click = true =>  set true nếu muốn sử dụng event js click
+                     * option: data-handle =>  Nếu có link thì sẽ redirect vào CTSP và active màu vừa chọn
+                     * option: column =>  column Attributes
+                     *
+                     */
+                    if ($values = $p->getOption('attrValues')) {
+                        if (count($values)) {
+                            echo '<ul class="color-swatches" data-hover="true" data-click="true" psId="'.$p->getId().'" data-handle="'.$p->getViewLink().'" column="">';
+                            /* @var $att \Product\Model\Store */
+                            foreach ($values as $att) {
+                                $img = $att->getThumbnailUri();
+                                $content = $val->getOption('attrContent'); // VD: giá trị màu fff
+                                $name = $val->getOption('attrName'); // VD: giá trị màu fff
+
+                                echo '<li class="color-item" data-img="'.$img.'" value="'.$att->getId().'"><img src="'.$img.'" alt="'.$name.'"></li>';
+                            }
+                            echo '</ul>';
+                        }
+                    }
+                    //========== Hiển thị hình ảnh theo thuộc tính màu =================================
+                    ?>
+                    <h3 class="proName"><a href="<?= $p->getViewLink(); ?>"><?= $p->getName() ?></a></h3>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+}
+?>

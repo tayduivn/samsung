@@ -1,0 +1,150 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Abus.com">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ getLogoUri()  }}">
+{% endblock %}
+{% block stylesheets %}
+{#    <link rel="stylesheet" href="{{ templatePath ~'/css/index.css' }}" type="text/css">#}
+{% endblock %}
+
+{% block body %}
+    {% set bnMain = getBannerByPositionCode('BANNER_HOME',{'limit' : 3})  %}
+    {% if(bnMain) %}
+        <section class="container-fluid">
+            <div class="row banner-home ">
+                {% for bn in bnMain %}
+                <div class="col-12 col-lg-4 pl-0 pr-0 banner-home__item"
+                     style="background-image:url('{{ bn.imageSrc }}')">
+                    <div class="d-flex align-items-end justify-content-center flex-wrap align-content-end">
+                        <a href="{{ bn.viewLink }}" class="banner-name text-uppercase font-weight-bold text-center position-relative" title="{{ bn.name }}">{{ bn.name | raw }}</a>
+                        <div class="button-banner text-center d-none d-lg-block position-relative">
+                            <a href="" class="font-weight-bold text-uppercase d-inline-block text-center btn-custom">weiter</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% else %}
+        <section class="container-fluid">
+            <div class="row banner-home ">
+                <div class="col-12 col-lg-4 pl-0 pr-0 banner-home__item"
+                     style="background-image:url('/tpl/V0512/img/bannerMain.jpg')">
+                    <div class="d-flex align-items-end justify-content-center flex-wrap align-content-end">
+                        <a href="" class="banner-name text-uppercase font-weight-bold text-center position-relative">Sicherheit Unterwegs</a>
+                        <div class="button-banner text-center d-none d-lg-block position-relative">
+                            <a href="" class="font-weight-bold text-uppercase d-inline-block text-center btn-custom">weiter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 pl-0 pr-0 banner-home__item"
+                     style="background-image:url('/tpl/V0512/img/bannerMain.jpg')">
+                    <div class="d-flex align-items-end flex-wrap align-content-end">
+                        <a href="" class="banner-name text-uppercase font-weight-bold text-center position-relative">Sicherheit Unterwegs</a>
+                        <div class="button-banner text-center d-none d-lg-block position-relative">
+                            <a href="" class="font-weight-bold text-uppercase d-inline-block text-center btn-custom">weiter</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 pl-0 pr-0 banner-home__item"
+                     style="background-image:url('/tpl/V0512/img/bannerMain.jpg')">
+                    <div class="d-flex align-items-end flex-wrap align-content-end">
+                        <a href="" class="banner-name text-uppercase font-weight-bold text-center position-relative">Sicherheit Unterwegs</a>
+                        <div class="button-banner text-center d-none d-lg-block position-relative">
+                            <a href="" class="font-weight-bold text-uppercase d-inline-block text-center btn-custom">weiter</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {% set news = getLastestNews({'limit':8}) %}
+    {% if(news is not empty) %}
+    <section class="content-home">
+        <div class="news-home mx-auto">
+            <div class="title">
+                <h2 class="position-relative title-small">News</h2>
+            </div>
+        </div>
+        <div class="news-home news-list slide-news mx-auto owl-carousel owl-theme">
+            {% for n in news %}
+                {% set image = n.imageUri %}
+                {% set options = {
+                    alt: n.title|e('html'),
+                    lazy: true,
+                    openDiv: false,
+                } %}
+                <div class="item">
+                    <a class="d-block" href="{{ n.viewLink }}" title="{{ n.title }}">
+                        <div class="image">
+                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </div>
+                        <div class="box-text text-center">
+                            <h3 class="name text-uppercase font-weight-bold" title="{{ n.title }}">
+                                {{ n.title | raw }}
+                            </h3>
+                            {% if(n.intro) %}
+                            <p class="intro">
+                                {{ n.intro | striptags }}
+                            </p>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <style>
+        header{
+            position: absolute;
+        }
+        header .search-form,header nav{
+            display: none;
+        }
+        .logo {
+            width: 104px;
+        }
+        @media screen and (min-width: 768px){
+            .content-home {
+                padding-top: 52px;
+                padding-bottom: 52px;
+            }
+            .banner-home .banner-home__item>div{
+                padding-bottom: 64px;
+            }
+            .banner-home .banner-home__item .banner-name{
+                font-size: 40px;
+            }
+        }
+        @media (min-width: 992px) {
+            .banner-home{
+                height: 100vh;
+            }
+            .banner-home .banner-home__item{
+                padding-bottom: 100vh;
+            }
+            .banner-home .banner-home__item>div{
+                padding: 0 30px 80px;
+            }
+            .banner-home__item:hover .button-banner{
+                margin-top: 40px;
+                max-height: 50px;
+                opacity: 1;
+            }
+            .content-home {
+                padding-top: 60px;
+                padding-bottom: 60px;
+            }
+        }
+    </style>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

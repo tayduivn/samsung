@@ -1,0 +1,43 @@
+{% set keyMenu = getStoreId()~"_MAIN_MENU_"~getDomainId() %}
+{% set nav = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ nav | raw }}
+{% endif %}
+{% set nav = nav ~'<div id="menuNav-2" class="body-menu">'%}
+    {% if(getCategories() is not empty) %}
+        {% set nav = nav ~ '  <div style="margin-top: -10px" class="ds">Tất cả danh mục</div>' %}
+        {% set nav = nav ~ ' <ul><li class="nav-item "><a href="/">' ~ translate('Trang chủ') ~ '</a></li>' %}
+        {% set nav = nav ~ '<li class="nav-item"><a class="nav-link link-2 " href="/product">' ~ translate('Sản Phẩm') ~ '</a></li>' %}
+        {% for c in getCategories() %}
+            {% set nav = nav ~ '<li class="nav-item">' %}
+            {% set nav = nav ~ '<a href="'~ c.viewLink ~ '" itemprop="url">' ~ c.name | raw ~ '</a>' %}
+            {% if(c.childs is not empty) %}
+                {% set nav = nav ~ '<i class="button fa fa-plus-square"></i>' %}
+                {% set nav = nav ~ '<div> <ul class="menu hiden">' %}
+                {% for c1 in c.childs %}
+                    {% set nav = nav ~ '<li >' %}
+                    {% set nav = nav ~ '<a href="'~ c1.viewLink ~ '" itemprop="url">' ~ c1.name | raw ~ '</a>' %}
+                    {% if(c1.childs is not empty) %}
+                        {% set nav = nav ~ '<i class="button-2 fa fa-plus-square"></i>' %}
+                        {% set nav = nav ~ '<div> <ul class="menu-2 hiden">' %}
+                        {% for c2 in c1.childs %}
+                            {% set nav = nav ~ '<li >' %}
+                            {% set nav = nav ~ '<a href="'~ c2.viewLink ~ '" itemprop="url">' ~ c2.name | raw ~ '</a>' %}
+                            {% set nav = nav ~ '</li >' %}
+                        {% endfor %}
+                        {% set nav = nav ~ '</ul></div>' %}
+                    {% endif %}
+                    {% set nav = nav ~ '</li >' %}
+                {% endfor %}
+                {% set nav = nav ~ '</ul></div>' %}
+            {% endif %}
+            {% set nav = nav ~ '</li>' %}
+        {% endfor %}
+        {% set nav = nav ~ '<li class="nav-item "><a href="/news">' ~ translate('Tin Tức') ~ '</a></li>' %}
+        {% set nav = nav ~ '<li class="nav-item "><a href="/contact">' ~ translate('Liên hệ') ~ '</a></li>' %}
+        {% set nav = nav ~ '<li class="nav-item "><img src="/tpl/V0511/image/footer-menu.png"class="img-fluid"></li>' %}
+        {% set nav = nav ~ ' </ul>'%}
+    {% endif %}
+{% set nav = nav ~'</div>'%}
+{{ saveCache(keyMenu, nav | raw, 1800) }}
+{{ nav | raw }}

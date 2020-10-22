@@ -1,0 +1,41 @@
+{% macro build(breadcrumbs) %}
+    {% set setUlClass = 'nav container' | raw %}
+    {% if(setUlClass) %}
+        {% set setUlClass = setUlClass %}
+    {% endif %}
+    {% set breadcrumb = null %}
+    {% if(breadcrumbs) %}
+        {% set breadcrumb = breadcrumbs %}
+    {% endif %}
+    <ul class="{{ setUlClass | raw }}" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a class="link-1" href="/" itemprop="item">
+                <span itemprop="name">Trang chủ</span>
+            </a>
+            <meta itemprop="position" content="1" />
+        </li>
+        {% if(breadcrumb) %}
+            {% set k = 1 %}
+            {% for br in breadcrumb %}
+                {% set uri = (br['uri'])?br['uri']:'' %}
+                {% set name = (br['label'])?br['label']:'' %}
+                {% set class = (br['class'])?br['class']:'nav-item' %}
+                {% set rel = (br['rel'])?br['rel']:'' %}
+                <span style="padding-top: 15px" class="fa fa-angle-right"></span>
+                <li class="{{ class }}" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    {% if loop.last == false %}
+                        <a class="link-1" href="{{ uri }}" itemprop="item" {{ rel }}>
+                            <span itemprop="name">{{ name }}</span>
+                        </a>
+                    {% else %}
+                        <a class="link-1 color-greeen1" href="{{ uri }}" itemprop="item" {{ rel }}>
+                            <span itemprop="name">{{ name }}</span>
+                        </a>
+                    {% endif %}
+                    <meta itemprop="position" content="{{ k }}" />
+                </li>
+                {% set k = k + 1 %}
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endmacro %}

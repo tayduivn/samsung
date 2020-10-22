@@ -1,0 +1,143 @@
+{% set category = getCategories() %}
+
+<header id="hedix">
+    <div class="container mb_c">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 z-indexlogo bv">
+                <div class="search-box text-left">
+                    <form action="/search" method="get" id="search_mini_form">
+                        <input type="text" maxlength="70" name="query" id="search">
+                        <button class="btn btn-default search-btn-bg">
+                            <img src="{{ '/tpl/'~ templateDir ~'/imgs/search.png' }}">
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 z-indexlogo">
+                <!-- Header Logo -->
+                <div class="logo">
+                    <a title="Mew Furniture" href="/">
+                        <img src="{{ '/tpl/'~ templateDir ~'/imgs/logo.png' }}">
+                    </a>
+                </div>
+                <!-- mobile-menu -->
+                <div class="hidden-desktop" id="mobile-menu">
+                    <div class="navmenu">
+                        <div class="menutop">
+                            <div class="toggle">
+                                <div class="line_mn">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--End mobile-menu -->
+                <div class="l_o_mb hidden-lg hidden-md">
+                    <img src="{{ '/tpl/'~ templateDir ~'/imgs/user.png' }}" class="cl_lg">
+                    <div class="box_log mb_cl">
+                        <div class="login"><span><a href="/account/login">Đăng nhập</a></span></div>
+                        <div class="res"><span><a href="/account/register">Đăng ký</a></span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-12 mobi_bt vf">
+                <div class="search-box text-right">
+                    <div class="fix-cart">
+                        <div class="l_o hidden-xs hidden-sm remove_html">
+                            <img src="{{ '/tpl/'~ templateDir ~'/imgs/user.png' }}">
+                            <div class="box_log">
+                                <div class="login"><span><a href="/account/login">Đăng nhập</a></span></div>
+                                <div class="res"><span><a href="/account/register">Đăng ký</a></span></div>
+                            </div>
+                        </div>
+                        <div class="top-cart-contain pull-right">
+                            <!-- Top Cart -->
+                            <div class="mini-cart">
+                                <div class="basket dropdown-toggle">
+                                    <a href="/cart" title="Giỏ hàng">
+                                        <img src="{{ '/tpl/'~ templateDir ~'/imgs/cart.png' }}">
+                                        <div class="cart-box">
+											<span id="cart-total">
+												<b class="count_item_pr">0</b>
+											</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div>
+                                    <div style="display: none;" class="top-cart-content arrow_box">
+                                        <ul id="cart-sidebar" class="mini-products-list">
+                                            <div class="no-item"><p>Không có sản phẩm nào.</p></div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="na hidden-xs hidden-sm remove_html">
+        <div class="container mb_c">
+            <div class="row">
+                <div class="col-xs-12 mobi_bt">
+                    <nav class="mb0">
+                        <div class="nav-inner clearfix">
+                            <ul id="nav" class="nav_main">
+                                <li class="level0 parent">
+                                    <a href="/"><span>Trang chủ</span></a>
+                                </li>
+                                <li class="level0 parent drop-tablet">
+                                    <a id="sp-nav" href="/product"><span>Sản phẩm<i class="down_icon"></i></span></a>
+
+                                    <div class="level0-wrapper dropdown-6col" id="drp-mn">
+                                        <div class="level0-wrapper2">
+                                            <div class="nav-block nav-block-center">
+                                                <ul class="level0">
+                                                    {% if(category) %}
+                                                        {% for c in category %}
+                                                            <li class="level1 parent item">
+                                                                <a href="{{ c.viewLink }}"><span>{{ c.name }}</span></a>
+                                                                <ul class="level1">
+                                                                    {% for c1 in c.childs %}
+                                                                        <li class="level2">
+                                                                            <a href="{{ c1.viewLink }}"><span>{{ c1.name }}</span></a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </li>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </ul>
+
+                                                <div class="banner_mega">
+                                                    <img class="lazyload" src="{{ '/tpl/'~ templateDir ~'/imgs/bn_mg.png' }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li class="level0 parent">
+                                    <a href="/news"><span>Tin tức</span></a>
+                                </li>
+
+                                <li class="level0 parent">
+                                    <a href="/gioi-thieu"><span>Giới thiệu</span></a>
+                                </li>
+
+                                <li class="level0 parent">
+                                    <a href="/lien-he"><span>Liên hệ</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

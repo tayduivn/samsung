@@ -1,0 +1,119 @@
+{% extends "layout/layout" %}
+
+{% block body %}
+    <br/>
+    <div class="containerMain">
+        <div id="menuMain">
+            <div id="srlMn" class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                <div id="menuScrollWrp">
+                    <div id="menuMain" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        {% if(getCategories() is not empty) %}
+                            <ul class="menuTrigger">
+                                <li class="labelMenu">
+                                    <i class="fa fa-bars"></i>
+                                    <a href="/">Danh mục sản phẩm</a>
+                                </li>
+                                {% for c in getCategories() %}
+                                    <li class="ctMenuMain">
+                                        <i class="fa fa fa-arrow-circle-right"></i>
+                                        <a href="{{ c.viewLink }}">{{ c.name | raw }}</a>
+                                        {% if(c.childs is not empty) %}
+                                            <i class="fa fa-angle-right pull-right"></i>
+                                            <div class="blockChilds">
+                                                <ul>
+                                                    {% for c1 in c.childs %}
+                                                        <li>
+                                                            <a href="{{ c1.viewLink }}">{{ c1.name | raw }}</a>
+                                                            {% if(c1.childs is not empty) %}
+                                                                <ul>
+                                                                    {% for c2 in c1.childs %}
+                                                                        <li><a href="{{ c2.viewLink }}">{{ c2.name | raw }}</a></li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <ul class="mainHelper" style="display: block">
+                            <li><a href="">SCROLL_TITLE_1</a></li>
+                            <li><a href="">SCROLL_TITLE_2</a></li>
+                            <li><a href="">SCROLL_TITLE_3</a></li>
+                            <li><i class="image imgSuport"></i><span>HOTLINE</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="promotionPage" class="col-md-12 col-xs-12 col-ms-12">
+            <h1 style="text-align: center;font-size: 30px;padding: 10px 0;margin: 35px 0; font-weight: bold">{{ translate('CÁC CHƯƠNG TRÌNH KHUYẾN MẠI HẤP DẪN TẠI BEN') }}</h1>
+            <div>
+                {% if(promotion is not empty) %}
+                    {% for p in promotion %}
+                        {% set image = p.imageUri %}
+                        {% set options = {
+                            alt: p.name,
+                            lazy: true,
+                            openDiv: false,
+                        }%}
+
+                        <div class="col-lg-12 col-md-12 col-xs-12" id="proItem">
+                            <div>
+                                <a href="{{ p.viewLink }}">
+                                    {{ image }}
+                                </a>
+                            </div>
+                            <div class="proInfo">
+                                <div class="proName">
+                                    <a href="{{ p.viewLink }}">
+                                        {{ p.name }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <span class="clearfix"></span>
+                    {% else %}
+                        <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có khuyến mại nào') }}!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{#    {% include 'layout/footer' %}#}
+
+    <style>
+        #proItem{
+            border: 1px solid transparent;
+        }
+        #proItem .proInfo .proName{
+            height: auto;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        #proItem{
+            padding: 0;
+            height: auto !important;
+            max-height: 100% !important;
+        }
+        #proItem .proImg{
+            height: 100%;
+        }
+        .proName>a{
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+
+        @media (min-width: 1200px){
+
+        }
+    </style>
+{% endblock %}

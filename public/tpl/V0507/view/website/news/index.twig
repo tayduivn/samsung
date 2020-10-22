@@ -1,0 +1,277 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Hệ thống cửa hàng Cặp, Balô, Vali kéo du lịch chính hãng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+
+{% block body %}
+    <!-- Main -->
+    <main class="main-new">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Blog - Tin tức</li>
+            </ol>
+        </nav>
+        <div id="carouselExampleIndicators" class="carousel slide carousel--slide--new" data-ride="carousel">
+            <ol class="carousel-indicators icon-direction">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active icon-fix"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1" class="icon-fix"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2" class="icon-fix"></li>
+            </ol>
+            <div class="carousel-inner">
+            {% set banner_new = getBannerByPositionCode('BANNER_SERVICE') %}
+            {% if(banner_new) %}
+                {% for c in banner_new %}
+                    {% set imageSlide = c.imagesrc %}
+                    {% set options = {
+                        alt: c.name,
+                        lazy: true,
+                        openDiv: false,
+                    } %}
+                <div class="carousel-item">
+                    {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+                    <div class="carousel-caption card--item">
+                        {% set news = getNewsCategories() %}
+                        {% if(news is not empty) %}
+                            <div class="link-new--slide"> <a href=""> Bài viết nổi bật </a> </div>
+                            {% for n in news %}
+                                <p>{{ n.intro }}.</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            {% else %}
+                <div class="carousel-item active">
+                    <img src="https://i.ytimg.com/vi/XzS62UApcGo/maxresdefault.jpg" class="d-block w-100" >
+                    <div class="carousel-caption card--item">
+                        <div class="link-new--slide"> <a href=""> Bài viết nổi bật </a> </div>
+                        <h5> Tặng bạn bộ hình nền phong cảnh siêu đẹp </h5>
+
+                        <p>
+                            Tặng bạn bộ hình nền phong cảnh siêu đẹp chất lượng Full HD miễn phí cho điện thoại
+                            và máy tính. Nếu các bạn đang có ý định thay đổi hình nền mặc định bằng .
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://i.ytimg.com/vi/XzS62UApcGo/maxresdefault.jpg" class="d-block w-100" >
+                    <div class="carousel-caption card--item">
+                        <div class="link-new--slide"> <a href=""> Bài viết nổi bật </a> </div>
+                        <h5> Tặng bạn bộ hình nền phong cảnh siêu đẹp </h5>
+
+                        <p>
+                            Tặng bạn bộ hình nền phong cảnh siêu đẹp chất lượng Full HD miễn phí cho điện thoại
+                            và máy tính. Nếu các bạn đang có ý định thay đổi hình nền mặc định bằng .
+                        </p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://i.ytimg.com/vi/XzS62UApcGo/maxresdefault.jpg" class="d-block w-100" >
+                    <div class="carousel-caption card--item">
+                        <div class="link-new--slide"> <a href=""> Bài viết nổi bật </a> </div>
+                        <h5> Tặng bạn bộ hình nền phong cảnh siêu đẹp </h5>
+
+                        <p>
+                            Tặng bạn bộ hình nền phong cảnh siêu đẹp chất lượng Full HD miễn phí cho điện thoại
+                            và máy tính. Nếu các bạn đang có ý định thay đổi hình nền mặc định bằng .
+                        </p>
+                    </div>
+                </div>
+            {% endif %}
+                {{ saveCache(keyMenu, banner | raw, 1800) }}
+                {{ banner | raw }}
+            </div>
+        </div>
+        <!--end slide-new-->
+
+        <div class="wrap-new">
+            <div class="new__left">
+                <div class="new__left--item">
+                    {% set news = getNewsCategories() %}
+                    {% if(news is not empty) %}
+                        {% set New = getLastestNews({'limit': 1, 'categoryId': hot.id}) %}
+                        {% for n in New %}
+                            {% set images = n.imageUri %}
+                            {% set options = {
+                                alt: n.title,
+                                lazy: true,
+                                openDiv: false,
+                                class:''
+                            } %}
+                            <div class="new__left--img">
+                                <a href="{{ n.viewLink }}">
+                                    {{ macroLazyFocusImager.LazyFocusImager(images,options) }}
+                                </a>
+                            </div>
+
+                            <div class="new__left--post">
+                                <div class="link-new"> <a href="">Tin tức</a></div>
+                                <h4>🌿 {{ n.title }}</h4>
+                                <span>
+                                    {{ n.intro | raw }}
+                                </span>
+                            </div>
+                    {% endfor %}
+                {% endif %}
+                </div>
+                <div class="card-news">
+                    {% set newsCategory = getNewsCategories() %}
+                    {% if(newsCategory is not empty) %}
+                    {% set i = 0 %}
+                    {% for new_post in newsCategory %}
+                        {% set ex_news = searchNewsByCategory(new_post.id) %}
+                        {% if (ex_news) %}
+                        <div class="showCateNew">
+                            <span class="titleNews">
+                                {{ translate(new_post.name) }}
+                            </span>
+                            <a href="{{ new_post.viewLink }}" title="Xem thêm">Xem thêm</a>
+                        </div>
+                        {% set k = 0 %}
+                        {% for nPostItem in ex_news %}
+                            {% set image = nPostItem.imageUri %}
+                            {% set options = {
+                            alt: nPostItem.title | e('html'),
+                            lazy: true,
+                            openDiv: false,
+                            class: 'img img-fluid'
+                            } %}
+                            {% if (k < 4) %}
+                            <div class="infoItem{{ i }}">
+                                <div class="news-items ">
+                                    <div class="imgnewContent">
+                                        <a href="{{ nPostItem.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                    </div>
+                                    <div class="borderLinkNew">
+                                        <div class="link-new"><a href="">SỰ KIỆN</a></div>
+                                    </div>
+
+                                    <div class="linkNewstitle">
+                                        <a href="{{ nPostItem.viewLink }}">
+                                            <span class="title-news">
+                                                {{ subString(nPostItem.title, 40) }}
+                                            </span>
+                                        </a>
+                                    </div>
+
+                                    <div class="headerDateNews">
+                                        {% set time = nPostItem.createdDateTime|split(' ') %}
+                                        {% set date = time[0]|split('-') %}
+                                        <div class="dateNewsContent">
+                                            <span class="timeDate">{{ date[2] }} {{ date[1] }} {{ date[0] }}</span>
+                                            <span class="iconComment">0</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="infoContent-text">
+                                        <span> {{ subString(nPostItem.intro, 180) }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% set k = k+1 %}
+                        {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="new__right">
+                <div class="new__right-item">
+                    <h4>Bài viết nổi bậc</h4>
+                    <div class="new__right--post">
+                        {% set highlight_new = getNewsCategories() %}
+                        {% if(highlight_new is not empty) %}
+                            {% set New_hight = getLastestNews({'limit': 3, 'categoryId': showHot.id}) %}
+                            {% for nitem in New_hight %}
+                                {% set c_n = nitem.imageUri %}
+                                {% set options = {
+                                    alt: nitem.title,
+                                    lazy: true,
+                                    openDiv: false,
+                                    class:'card-img-top'
+                                } %}
+                                <div class="content_new-right">
+                                    <div class="new__right--post-img">
+                                        <a href="{{ nitem.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(c_n,options) }}
+                                        </a>
+                                    </div>
+
+                                    <div class="new__right--post-event">
+                                        <h4> {{ nitem.createdDateTime }}  </h4>
+                                        <span>{{ subString(nitem.intro, 100) }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="new__right-item mt-5">
+                    <h4>Tin chính</h4>
+                    <div class="content-newhot">
+                        {% set newHot = getNewsCategories() %}
+                        {% if(newHot is not empty) %}
+                            {% set hot = getLastestNews({'limit': 3, 'categoryId': showHot.id}) %}
+                            {% for nHot in hot %}
+                            {% set imageHot = nHot.imageUri %}
+                            {% set options = {
+                                alt: nHot.title,
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+                            <div class="new__right--post">
+                                <div class="new__right--item">
+                                    <a href="{{ nHot.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(imageHot,options) }}
+                                    </a>
+                                </div>
+
+                                <div class="new__right--item-event">
+                                    <span>{{ subString(nHot.intro, 130) }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="new__right-item mt-5">
+                    <h4>Theo dõi chúng tôi trên</h4>
+                    <div class="right--icon">
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                        <div class="new__right--icon">
+                            <a href="#"><i class="fa fa-facebook-official"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+    <!--End Main-->
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/bootstrap.js' }}"></script>
+{% endblock %}
+

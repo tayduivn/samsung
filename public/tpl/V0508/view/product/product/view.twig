@@ -1,0 +1,352 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    {% set metaDescription = product.name()~ ' - '~product.price|number_format(0)~' đ' %}
+    <meta name="description" content="{{ metaDescription }}">
+    <meta name="keywords" content="{{ product.metaKeywords?:product.name }}">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="{{ product.name }}">
+    <meta property="og:description" content="{{ metaDescription }}">
+    <meta property="og:image" content="{{ 'https:'~product.imageUri }}">
+    <meta property="og:type" content="website">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/view.css' }}">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/plugin-slick.css' }}">
+{% endblock %}
+{% block body %}
+    {% set ivt = product.inventory().calcAvailable() %}
+    {% set variableAttributes = product.variableAttributes %}
+    <main>
+        <!--slider view img-->
+        <div class="icon-view-click-js">
+            <i class="fa fa-arrows-alt"></i>
+        </div>
+        <!--end slider view img-->
+        <!--header-block-view-->
+        <div class="header-block-view">
+        <div class="container"> <!-- container -->
+                    <div class="row"> <!-- row -->
+                        <div class="col-lg-1 col-sm-12 col-md-12">
+                            <div class="total-left-img"> <!--total-left-img-->
+                                <div class="total-slide magic-popup-img-child d-sm-none d-md-none d-none d-lg-block">
+                                    {% set childImgs = product.images %}
+                                    {% if(childImgs is not empty) %}
+                                        {% for v in childImgs %}
+                                            {% set ascending2 = ascending2 + 1 %}
+                                                <div class="item">
+                                                    <a href="javascript:" id="list-item-{{ ascending2 }}" data-scroll="{{ v.srcUri }}">
+                                                        <img class="click-img" src="{{ v.srcUri }}" alt="{{ v.srcUri }}">
+                                                    </a>
+                                                </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div> <!-- end total-left-img -->
+                        </div>
+                    <div class="col-lg-7 col-sm-12 col-md-12">
+                        <div class="total-display-content-product">
+                            <div data-spy="scroll" data-target="#list-example" data-offset="0"
+                                 class="scrollspy-example display-content-product">
+                                {% set childImgs = product.images %}
+                                {% if(childImgs is not empty) %}
+                                    {% for v in childImgs %}
+                                        {% set ascending = ascending + 1 %}
+                                        <div id="list-item-{{ ascending }}" href="{{ v.srcUri }}" disabled type="button" data-scroll="#list-item-{{ ascending }}"  class="item list-display-content-product">
+                                            <img src="{{ v.srcUri }}" data-anchor="{{ v.srcUri }}" alt="{{ v.srcUri }}" class="img-display-content-product">
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            <div class="icon">
+                                <i class="fa fa-angle-left"></i>
+                                <i class="fa fa-angle-right"></i>
+                            </div>
+                        </div>
+{#                    <div data-spy="scroll" data-target="#list-example" data-offset="0"#}
+{#                         class="scrollspy-example display-content-product d-none d-xl-block">#}
+{#                        <div class="block-selec-color">#}
+{#                            <img src="" class="img-select-color" alt="">#}
+{#                        </div>#}
+{#                        {% set color = variableAttributes['color'] %}#}
+{#                        {% if color is not null or color is not empty %}#}
+{#                            {% set valuesColor = color.childValues %}#}
+{#                            {% set numbCl =  (valuesColor | length) %}#}
+{#                            {% if(valuesColor is not null) %}#}
+{#                                {% for attrValue in valuesColor %}#}
+{#                                    {% set arrColor = [] %}#}
+{#                                    {% set arrColor = arrColor|merge({ (color.column): attrValue.id }) %}#}
+{#                                    {% set img = product.attrValueImage(arrColor,false, returnImg) %}#}
+{#                                    {% set ascending = ascending + 1 %}#}
+{#                                        <div data-src="{{ img }}" id="list-item-{{ ascending }}" data-scroll="#list-item-{{ ascending }}"  class="list-display-content-product">#}
+{#                                            <img src="{{ img }}" data-anchor="{{ img }}" alt="" class="img-display-content-product"#}
+{#                                                 id="{{ img }}">#}
+{#                                        </div>#}
+{#                                {% endfor %}#}
+{#                            {% endif %}#}
+{#                        {% else %}#}
+{#                            <div data-src="{{ product.thumbnailUri }}" id="list-item-{{ ascending }}" data-scroll="#list-item-{{ ascending }}"  class="list-display-content-product">#}
+{#                                <img data-src="{{ product.thumbnailUri }}" data-anchor="{{ product.thumbnailUri }}" alt="" class="img-display-content-product"#}
+{#                                     id="{{ product.thumbnailUri }}">#}
+{#                            </div>#}
+{#                        {% endif %}#}
+{#                </div>#}
+            </div>
+                <div class="col-lg-4 col-sm-12 col-md-12"> <!-- col-md-6 -->
+                    <div class="discription-product-details-mobile"> <!-- discription-product-details-->
+
+                        <div class="product-title-info border-bottom"><!-- product-title-info -->
+                            <h1 class="product-title-details">{{ product.name }}</h1>
+                            <span class="product-sku">SKU: {{ product.code }}</span>
+
+                            {% set priceDiscount = product.priceAfterDiscount %}
+                            {% if(priceDiscount)>0 %}
+                                <span class="product-rice-discount textselectsize"> {{ priceDiscount|number_format(0) }} ₫</span>
+                                <span class="product-rice-discount price-cost">Giá gốc: <del> {{ product.price|number_format(0) }} ₫ </del></span>
+                                <span class="product-rice-discount price-saving" price-saving="{{ product.price-priceDiscount }}"> Tiết Kiệm {{ (product.price-priceDiscount)|number_format(0) }}₫</span>
+                            {% elseif(product.oldprice) %}
+                                <span class="product-rice textselectsize"> {{ product.price|number_format(0) }} ₫</span>
+                                <span class="product-rice price-cost" price-cost="{{ product.oldprice }}">Giá gốc: <del> {{ product.oldprice |number_format(0) }} ₫ </del> </span>
+                                <span class="product-rice-discount price-saving" price-saving="{{ product.oldprice-product.price }}"> Tiết Kiệm {{ (product.oldprice-product.price)|number_format(0) }} ₫</span>
+                            {% else %}
+                                <span class="product-rice-discount textselectsize" data-price="{{ product.price }}">
+                                    {{ product.price|number_format(0) }} ₫
+                                </span>
+                            {% endif %}
+                        </div>
+                        <div class="product-color border-bottom">
+                            <span class="title-color-product"></span>
+                            {% set flag=0 %}
+                            {% set color = variableAttributes['color'] %}
+                            {% if color is not null or color is not empty %}
+                                {% set valuesColor = color.childValues %}
+                                {% set numbCl =  (valuesColor | length) %}
+                                {% if(valuesColor is not null and numbCl > 0) %}
+                                    {% set flag = flag + 1 %}
+                                    <div class=" swatch-color swatch clearfix">
+                                        <p><span class="title_pro_info">Chọn màu</span></p>
+                                        <p class="name-color-select__total"><span class="name-color-select"></span></p>
+                                        <p class="color req" column="{{ color.column }}">
+                                            {% for attrValue in valuesColor %}
+                                                {% set arrColor = [] %}
+                                                {% set arrColor = arrColor|merge({ (color.column): attrValue.id }) %}
+                                                {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                                                {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                                {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                                {% if(attrValue.content) %}
+                                                <a data-pIds="{{ pIdsAttrStr }}" rel="nofollow"
+                                                   href="javascript:0"
+                                                   data-cloudzoom="useZoom: '.cloudzoom', image: '{{ img }}', zoomImage: '{{ img }}'"
+                                                   class="cloudzoom-gallery {{ (numbCl==1)?'active':'' }}"
+                                                   value="{{ attrValue.id }}" data-name="{{ attrValue.name }}" title="{{ attrValue.name }}"
+                                                   style="background-color: #{{ attrValue.content }}" data-src-img="{{ img }}">
+                                                </a>
+                                                {% else %}
+                                                    <a data-pIds="{{ pIdsAttrStr }}" rel="nofollow"
+                                                       href="#"
+                                                       data-cloudzoom="useZoom: '.cloudzoom', image: '{{ img }}', zoomImage: '{{ img }}'"
+                                                       class="cloudzoom-gallery {{ (numbCl==1)?'active':'' }}"
+                                                       value="{{ attrValue.id }}" data-name="{{ attrValue.name }}" title="{{ attrValue.name }}"
+                                                       style="background-color: '#{{ attrValue.content }}'" data-src-img="{{ img }}">
+                                                        <img src="{{ img }}" data-src="{{ img }}" alt="{{ attrValue.name }}"/>
+                                                    </a>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div><!-- end product-color -->
+                        <div class="prodcut-size border-bottom"><!-- prodcut-size -->
+
+                            {% set size = variableAttributes['size'] %}
+                            {% if size is not null or size is not empty %}
+                                {% set valuesSize = size.childValues %}
+                                {% set numbS =  (valuesSize | length) %}
+                                {% if(valuesSize is not null and numbS>0) %}
+                                    {% set flag = flag + 1 %}
+                                    <div class=" swatch-size swatch clearfix">
+                                        <p class="size req" column="{{ size.column }}">
+                                            {% for attrValue in valuesSize %}
+                                                {% set ascending = ascending + 1 %}
+                                                <a rel="nofollow" value="{{ attrValue.id }}"
+                                                   href="javascript:void(0)"
+                                                   class="{{ (numbS==1)?'active':'' }} conut_{{ ascending }}">{{ attrValue.name }}</a>
+                                            {% endfor %}
+                                        </p>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            {% if((flag==0) and (product.childs)) %}
+                                {% set flagchilds= product.childs|length %}
+                                <div class="box__select--size">
+                                    <select class="childProduct-size">
+                                        <option value="1">Chọn sản phẩm</option>
+                                        {% set name_parent =product.name %}
+                                        {% for cp in product.childs %}
+                                            <option value="{{ cp.id }}, {{ cp.price }}"
+                                                    href="{{ cp.imageUri }}"
+                                                    data-src="{{ cp.imageUri }}">
+                                                {{ cp.name|replace({ name_parent :''}) }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
+                            <div class="title-tutorial-product-size">
+                                CÁCH CHỌN SIZE
+                            </div>
+                        </div><!-- end prodcut-size -->
+                        <div class="select-amount-product border-bottom">
+                            <div class="title-select-amount-product">
+                                Hiện tại còn <span class="qtt-count">{{ ivt }}</span> sản phẩm.
+                            </div>
+                            <div class="form-select-amount-product">
+                                <input type="button" value="-" class="calculation Down">
+                                <input id="quantity" type="text" min="0" max="{{ ivt }}"  value="1" class="result-input">
+                                <input type="button" value="+" class="calculation Plus">
+                            </div>
+                        </div>
+                        <div class="button-cart-product-details">
+                            {% if(ivt<=0) %}
+                                <button id="addToCart" psid="{{ product.id }}"
+                                        selId="{{ product.id }}" class="btnCart btn unsel">
+                                    Hết hàng
+                                </button>
+                            {% else %}
+                                {% if(flag>0) %}
+                                    <button id="addToCartLive" class="btnCart mb-3 btn unsel"
+                                            psid="{{ product.id }}"
+                                            selId="{{ product.id }}"
+                                            title="Vui lòng chọn màu sắc hoặc kích cỡ!" ck="0">
+                                        Thêm vào giỏ
+                                    </button>
+                                    <button id="addToCart" class="btnCart bg-danger btn unsel"
+                                            psid="{{ product.id }}"
+                                            selId="{{ product.id }}"
+                                            title="Vui lòng chọn màu sắc hoặc kích cỡ!" ck="0"><i
+                                                class="fa fa-shopping-cart"></i>
+                                        mua ngay
+                                    </button>
+                                {% else %}
+                                    <button id="addToCartLive" class="btnCart mb-3 btn"
+                                            psid="{{ product.id }}"
+                                            selId="{{ product.id }}"
+                                             ck="1">
+                                        Thêm vào giỏ
+                                    </button>
+                                    <button id="addToCart" class="btnCart bg-danger btn"
+                                            psid="{{ product.id }}"
+                                            selId="{{ product.id }}"  ck="1">
+                                        <i class="fa fa-shopping-cart"></i>mua ngay
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        <div class="meta-description-product-details ovl-hidden-content"><!-- meta-description-product-details -->
+                            <p>
+
+                                {{ product.description | raw}}
+                                {{ product.content | raw}}
+
+                            </p>
+
+                        </div> <!-- end meta-description-product-details -->
+                        {% if(product.content is not empty)%}
+                            <div class="show-more-des-view xemthem">
+                                Xem Thêm
+                            </div>
+                        {% elseif(product.description is not empty) %}
+                            <div class="show-more-des-view xemthem">
+                                Xem Thêm
+                            </div>
+                            {% else %}
+                        {% endif %}
+                    </div><!-- end product-title-info -->
+                </div><!-- end col-md-6 -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </div>
+        <!--end header-block-view-->
+        <div class="prodcuct-new container mt-5">
+            <h1 class="text-center title-category-product">SẢN PHẨM LIÊN QUAN</h1>
+            <div class="product-items-all row">
+                {% set proReleated = search({'limit':4, 'categoryId':product.categoryId}) %}
+                {% if(proReleated is not empty) %}
+                    {% for p in proReleated %}
+                        {% set image = p.thumbnailUri %}
+                        {% set options = {
+                            alt: p  .name,
+                            class: 'img-hover-defaul',
+                            lazy: true,
+                            openDiv: false,
+                        } %}
+                        {% set percent = p.calcDiscountPercent %}
+                        {% set priceDiscount = p.priceAfterDiscount %}
+                        {% set arrayIds = [p.id] %}
+                        <div class="product-item seller col-6 col-md-6 col-xl-3 text-center" data-id="{{ p.id }}"
+                             data-storeId="{{ p.storeId }}"> <!-- product-item -->
+                                <div class="img-hover img-hover-best-seller">
+                                    <a href="{{ p.viewLink }}">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    {% if(p.showHot > 0) %}
+                                        <img src="https://theme.hstatic.net/1000197303/1000565533/14/best_seller.png?v=573"
+                                             alt="{{ p.name }}" class="symbol-bestseller">
+                                    {% else %}
+                                    {% endif %}
+                                    {% if(percent > 0) %}
+                                        <span class="product-sale">{{ percent }}%</span>
+                                    {% endif %}
+                                    </a>
+                                </div>
+                                <h3 class="title-product-item">{{ p.name }}</h3>
+                                {% if (p.priceAfterDiscount > 0) %}
+                                <div class="price-total-del">
+                                    <span class="price-product-item">{{ p.priceAfterDiscount|number_format(0) }}₫</span>
+                                    <span class="price-product-item-discount">{{ p.price|number_format(0) }}₫</span>
+                                </div>
+                                {% elseif (p.oldprice() > 0) %}
+                                <div class="price-total-del">
+                                    <span class="price-product-item">{{ p.price|number_format(0) }}₫</span>
+                                    <span class="price-product-item-discount">{{ p.oldprice|number_format(0) }}₫</span>
+                                </div>
+                                {% else %}
+                                    <p class="price-product-item">{{ p.price|number_format(0) }}₫</p>
+                                {% endif %}
+
+                        </div> <!-- end product-item -->
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="box-modal-tutorial-layer"></div>
+        <div class="box-modal-tutorial-select-size close-layer">
+            <div class="box-modal-tutorial-select-size-child">
+                <span class="close-box-modal"><i class="fa fa-times"></i></span>
+                <img src="https://theme.hstatic.net/1000197303/1000641267/14/size_chart_content.jpg?v=171" class="img-desktop-tutorial-size" alt="">
+                <img src="https://theme.hstatic.net/1000197303/1000641267/14/size.jpg?v=171" class="img-mobile-tutorial-size" alt="">
+            </div>
+        </div>
+        <div class="layer-shield-img"></div>
+</main>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/jquery/jquery.min.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/lib.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/slick.min.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/view.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/magnific-popup.js' }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.display-content-product').magnificPopup({
+                delegate: '.list-display-content-product',
+                disableOn: 0,
+                gallery: { enabled: true },
+                type: 'image',
+                closeOnBgClick:false,
+                closeOnContentClick:true,
+            });
+        });
+    </script>
+{% endblock %}

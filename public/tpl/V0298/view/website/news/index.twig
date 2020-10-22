@@ -1,0 +1,161 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block meta %}
+    {{ headTitle('Tin tức').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Tin tức">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/news.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set newsCategory = getNewsCategories() %}
+{#    Danh mục Thông tin tuyển dụng#}
+    {% set idRecrui = 4009 %}
+    <div class="containerMain">
+        {% set category = [{'label': ' Tin tức', 'uri':'/news'}] %}
+        {{ breadcrumbs.build(category) }}
+        {% if(newsCategory) %}
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="navNews">
+                <ul>
+                    {% for n in newsCategory %}
+                        <li><a href="{{ n.viewLink }}">{{ n.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    <div class="containerMain">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="hotNews">
+                    {% if(paginator) %}
+                        {% set t = null %}
+                        {% for n in paginator %}
+                            {% set image = n.pictureUri %}
+                            {% set options = {
+                                alt: n.title | e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            {% set rel = (n.categoryId == idRecrui ? 'rel="nofollow"' : '') %}
+                            <div class="itemsHotnews {{ (( t == 0) ? 'itemshnFirst' : '') }} {{ ((t - 1 == 0) ? 'itemshnFirst2' : '') }}">
+                                {% if(t == 0) %}
+                                    <a class="bimgHot" href="{{ n.viewLink }}" {{ rel }}>
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                    <h3 class="titleNewss">
+                                        <a href="{{ n.viewLink }}" {{ rel }}>
+                                            {{ n.title | raw }}
+                                        </a>
+                                    </h3>
+                                    <p>{{ n.intro(true) | raw }}</p>
+                                {% elseif(t - 1 == 0) %}
+                                    <a class="bimgHot2" href="{{ n.viewLink }}" {{ rel }}>
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                    <h3 class="titleNewss">
+                                        <a href="{{ n.viewLink }}" {{ rel }}>
+                                            {{ n.title | e('html') }}
+                                        </a>
+                                    </h3>
+                                {% else %}
+                                    <h2 class="titleNewss">
+                                        <a href="{{ n.viewLink }}" {{ rel }}>
+                                            {{ n.title | e('html') }}
+                                        </a>
+                                    </h2>
+                                {% endif %}
+                                {% set t= t + 1 %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 hidden-xs">
+                <div class="siderBar2">
+                    {% set bannerNews = getBannerByPositionCode('HOME_NEWS') %}
+                    {% if(bannersNews) %}
+                    <ul class="slides adsNews owl-carousel owl-theme">
+                        {% for bn in bannerNews %}
+                            {% set image = bn.imageSrc %}
+                            {% set options = {
+                                alt: bn.name | e('html'),
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+                            <li>
+                                <a href="{{ bn.link }}" rel="nofollow">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="containerMain">
+        <div class="row">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="news">
+                    {% if(newsCategory) %}
+                        {% set i = 0 %}
+                        {% for n in newsCategory %}
+                            {% set news = searchNewsByCategory(n.id) %}
+                            {% if(news) %}
+                            <div class="itemsCategory itemsCategory{{ i }}">
+                                <a class="titleNews title{{ i }}" href="{{ n.viewLink }}"><h2>{{ translate(n.name) }}</h2></a>
+                                {% set k = 0 %}
+                                {% for n in news %}
+                                    {% set image = n.pictureUri %}
+                                    {% set options = {
+                                        alt: n.title | e('html'),
+                                        lazy: true,
+                                        openDiv: false,
+                                    }%}
+                                    {% if(k < 4) %}
+                                        {% set rel = (n.categoryId == idRecrui?'rel="nofollow"':'') %}
+                                        <div class="lnews {{ (( k == 0) ? 'lnewsFirst' : '') }}">
+                                            <a class="nImgs" href="{{ n.viewLink }}" {{ rel }}>
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                            <h3 class="titleNewss">
+                                                <a href="{{ n.viewLink }}" {{ rel }}>
+                                                {{ n.title | e('html') }}
+                                                </a>
+                                            </h3>
+
+                                            <p>{{ ((n == 0) ? n.intro : subString(n.intro(),300)) }}</p>
+                                        </div>
+                                    {% endif %}
+                                    {% set k = k+1 %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            {% set i = i + 1 %}
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 newsList">
+                    {% include 'layout/generalbarNews' %}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    <h1 style="display: none">Tin tức</h1>
+    <style>
+        #proSaleBar ul li:first-child{
+            border-top: 1px solid #DEDEDE;
+        }
+    </style>
+{% endblock %}

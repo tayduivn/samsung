@@ -1,0 +1,88 @@
+<section class="tab-menu">
+    <span class="icon-menu"></span>
+    <p class="title">Thực đơn của nhà hàng</p>
+    <span class="describe">Thực đơn buffet phong phú có hơn 50 món do chính tay đầu bếp giàu kinh nghiệm lựa chọn</span>
+</section>
+<div class="assist-body">
+    <div class="tab">
+        <div class="container">
+            <p class="tab-menu-item" id="home-tab-products">
+                <a href="#products_hot" data-name="products_hot" class="tab-item">
+                    <span>Shshi</span>
+                </a>
+                <a href="#products_selling" data-name="products_selling" class="tab-item">
+                    <span>Shalad</span>
+                </a>
+                <a href="#products_new" data-name="products_new" class="tab-item">
+                    <span>Thức uống</span>
+                </a>
+                <a href="#products_promotion" data-name="products_promotion" class="tab-item js-tab-active">
+                    <span>Bánh fizza</span>
+                </a>
+            </p>
+        </div>
+
+    </div>
+    <div class="container">
+        <div class="tab-body position-relative">
+            {# Products hot #}
+            <div class="tab-content tab-prds" id="products_hot">
+							
+						</div>
+            {# End products hot #}
+
+            {# Selling products #}
+            <div class="tab-content tab-prds" id="products_selling"></div>
+            {# End selling products #}
+            
+            {# Products new #}
+            <div class="tab-content tab-prds" id="products_new"></div>
+						{# End products new #}
+
+						{# Products promotion #}
+            <div class="tab-content js-tab-active" id="products_promotion">
+							<div class="products-all other-products">
+								<div class="sub-container">
+										<div class="slick-slider-product">
+											{% set saleProducts = search({'limit':8,'discount':1}) %}
+											{% if (saleProducts) %}
+												{% for product_item in saleProducts %}
+													{% set image = product_item.thumbnailUri %}
+														<div class="slick-item" 
+																 data-id="{{ product_item.id }}" 
+																 data-storeId="{{ product_item.storeId }}" 
+																 psId="{{ product_item.id }}">
+															<div class="card">
+																	<img src="{{ image }}" alt="{{ product_item.name }}">
+																	<div class="icon-card">
+																			<a href="javascript:void(0)">
+																					<span class="add-cart" data-toggle="modal" data-target="#exampleModal">Thêm vào giỏ</span>
+																			</a>
+																			<a href="">
+																					<span class="icon-add"></span>
+																			</a>
+																			<a href="javascript:void(0)">
+																					<span class="icon-search" data-toggle="modal" data-target="#exampleModalCenter"></span>
+																			</a>
+																	</div>
+															</div>
+															<div class="product-name">
+																	<span class="name">{{ product_item.name }}</span>
+																	<span class="price">{{ product_item.price|number_format()}}₫</span>
+															</div>
+															{% if (product_item.priceAfterDiscount > 0) %}
+																<span class="old-price">{{ product_item.priceAfterDiscount|number_format() }}₫</span>
+																{% elseif (product_item.oldPrice > 0) %}
+																<span class="old-price">{{ product_item.oldPrice|number_format() }}₫</span>
+															{% endif %}
+														</div>
+												{% endfor %}
+											{% endif %}
+										</div>
+								</div>
+              </div>
+						</div>
+						{# End products promotion #}
+        </div>
+    </div>
+</div>

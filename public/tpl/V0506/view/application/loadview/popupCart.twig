@@ -1,0 +1,89 @@
+{% set products= serviceCart().getProducts %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+        </button>
+        <div class="modal-body content_modal_cart">
+            <div class="title_quantity">
+                <h4><i class="fa fa-shopping-cart"></i> Hiện đang có
+                <span>{{ serviceCart().totalQuantities }}</span> sản phẩm trong giỏ hàng
+                </h4>
+            </div>
+            <div class="popup_header">
+                <div class="pd_name">SẢN PHẨM</div>
+                <div class="pd_price">ĐƠN GIÁ</div>
+                <div class="pd_quantity">SỐ LƯỢNG</div>
+                <div class="pd_total">THÀNH TIỀN</div>
+            </div>
+            <div class="popup_content">
+                {% if(products is not empty) %}
+                    {% for p in products %}
+                        {% set priceDiscount=p.priceAfterDiscount(p.quantity) %}
+                        {% set countPs = (products | length)? (products | length) : 0 %}
+                        <div class="popup_item clearfix">
+                            <div class="popup_item_img">
+                                <a href="{{ p.viewLink }}">
+                                    <img data-sizes="auto" class="lazyload" src="img/lazyLoading.gif"
+                                         data-src="{{ p.thumbnailUri }}">
+                                </a>
+                            </div>
+                            <div class="popup_item_info">
+                                <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                <a class="remove_item removeCartItem" psId="<?=$p->getId()?>" title="Xóa"><i
+                                            class="fa fa-trash-o"></i> Bỏ sản phẩm này</a>
+                            </div>
+                            <div class="popup_item_price">
+                                <div class="line_price">
+                                    {% if(priceDiscount>0) %}
+                                        {{ priceDiscount|number_format(0) }} VNĐ
+                                    {% elseif(p.price<=0) %}
+                                        Liên hệ
+                                    {% else %}
+                                        {{ p.price }} VNĐ
+                                    {% endif %}
+                                </div>
+                                <div class="quantity_count text-center">
+                                    <div class="product-quantity">
+                                        <input id="quantity" type="number" maxlength="10"
+                                               value="{{ p.quantity }}" data-id="{{ p.id }}"
+                                               class="qty-input updateCart" min="1"
+                                               max="{{ p.inventory().calcAvailable() }}"/>
+                                    </div>
+                                </div>
+                                <span class="line_total_price">
+                                    {% if (p.moneyDiscount) %}
+                                        {% set ttsMoney = (p.price * p.quantity) - p.moneyDiscount %}
+                                        {% if (countPs == 1) %}
+                                            {% set ttsMoney = (p.price * p.quantity) - serviceCart().moneyDiscount %}
+                                        {% endif %}
+                                        {{ ttsMoney | number_format(0) }} VNĐ
+                                    {% else %}
+                                        {{ (p.price * p.quantity) | number_format(0) }} VNĐ
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="popup_footer">
+                <div class="popup_amount">
+                    <a href="#" data-dismiss="modal" class="continueShopping"><i class="fa fa-caret-left"></i> Tiếp tục
+                        mua hàng</a>
+                    <div class="fright">Tổng cộng: <span style="color: red; font-weight: bold">
+                           {{ serviceCart().totalMoney|number_format(0) }} VNĐ
+                        </span></div>
+                </div>
+                <div class="popup_action clearfix">
+                    <button onclick="window.location.href='/cart/checkout'"
+                            class="button norightmargin noleftmargin fright">THANH TOÁN
+                    </button>
+                </div>
+            </div>
+            <?php
+            }
+            ?>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,47 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+{% set banner = "" %}
+
+{% if(getCache(keyMenu) is null) %}
+  {{ banner | raw }}
+{% endif %}
+
+{% set banner_home = getBannerByPositionCode('BANNER_HOME') %}
+
+<!-- banner -->
+<section class="banner">
+  <div class="banner-slider">
+    {% if(banner_home is not empty) %}
+      {% for c in banner_home %}
+      {% set banner =  banner ~  '<div class="slider-items">' %}
+
+        {% set imageSlide = c.imagesrc %}
+        {% set options = {
+          alt: c.name,
+          lazy: true,
+          openDiv: false,
+        } %}
+        {% set banner = banner ~ '<a href="javascript:void(0)" class="item">'~macroLazyFocusImager.LazyFocusImager(imageSlide,options) %}
+        {% set banner = banner ~ '</a>' %}
+
+
+        {% set banner = banner ~ '</div>' %}
+        {% endfor %}
+        {% else %}
+          <div class="slider-items">
+            <img src="/tpl/V0509/img/temp/banner-home.png" alt="Slider 1" class="img img-fluid">
+          </div>
+          <div class="slider-items">
+            <img src="/tpl/V0509/img/temp/banner-home-2.png" alt="Slider 2" class="img img-fluid">
+          </div>
+          <div class="slider-items">
+            <img src="/tpl/V0509/img/temp/banner-home.png" alt="Slider 3" class="img img-fluid">
+          </div>
+    {% endif %}
+    {{ saveCache(keyMenu, banner | raw, 1800) }}
+    {{ banner | raw }}
+  </div>
+</section>
+
+<!-- banner -->

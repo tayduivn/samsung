@@ -1,0 +1,9 @@
+.top-cart-content li.item .wrap_item {
+    overflow: hidden;
+    padding: 10px 20px 10px 60px;
+    border-bottom: solid 1px #ebebeb;
+    width: 100%;
+    display: inline-flex; }
+
+.top-cart-content .list-item-cart {
+    padding: 0px 0px; }

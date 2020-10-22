@@ -1,0 +1,450 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/tpl/'~ templateDir ~'/css/product_view.css' }}" type="text/css">
+{% endblock %}
+
+{% block body %}
+    {% block breadcrumb %}
+        {% set buildBread = buildBreadcrumbs(category) %}
+        {% set buildBread = buildBread | merge ([{'label': product.name,'uri': product.viewLink, 'class' : 'msp'}]) %}
+        {{ breadcrumbs.build(buildBread) }}
+    {% endblock %}
+
+    {% set ivt = product.inventory().calcAvailable() %}
+
+    {% set variableAttributes = product.variableAttributes %}
+    {% set valuesColor = null  %}
+    {% set valuesImage = null  %}
+
+    {% set color = variableAttributes['color'] %}
+    {% if color is not null or color is not empty %}
+        {% set valuesColor = color.childValues %}
+    {% endif %}
+
+    {% set psAttrImages =  variableAttributes['psimage']%}
+    {% if psAttrImages is not null or psAttrImages is not empty %}
+        {% set valuesImage = psAttrImages.childValues %}
+    {% endif %}
+
+    <section class="main-container col1-layout">
+        <div class="main container">
+            <div class="col-main details-product">
+                <div class="row">
+                    <div class="product-view form-product">
+                        <div class="product-essential">
+                            <div class="product-img-box col-sm-6 col-xs-12 col-md-5 col-lg-5">
+                                <div class="product-name">
+                                    <h1>{{ product.name }}</h1>
+                                </div>
+
+                                <div class="product-detail-left product-images">
+                                    <div class="col_large_default large-image">
+                                        <a href="{{ product.imageUri }}" class="large_image_url checkurl">
+                                            <div style="height:302px;width:455px;" class="zoomWrapper khung-ha">
+                                                <img id="img_01" class="img-responsive ha" src="{{ product.imageUri }}" data-zoom-image="{{ product.imageUri }}" style="position: absolute; width: 455px; height: 302px;">
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="thumb_gallary">
+                                        <div id="gallery-2" class="owl_width no-padding thumbnail-product thumb_product_details slick_margin slick-initialized slick-slider">
+                                            <div class="slick-list draggable">
+                                                <div class="slick-track" role="listbox" style="opacity: 1; width: 468px; transform: translate3d(0px, 0px, 0px);">
+                                                    {% set childImgs = product.images %}
+                                                    {% set count = 0 %}
+                                                    {% if(childImgs) %}
+                                                        {% for ci in childImgs %}
+                                                            {% if(count<4) %}
+                                                                <div class="item slick-slide slick-current slick-active" style="width: 107px;">
+                                                                    <a data-image="{{ ci.getSrcUri }}" data-zoom-image="{{ ci.getSrcUri }}">
+                                                                        <img data-img="{{ ci.getSrcUri }}" src="{{ ci.thumbnailUri }}">
+                                                                    </a>
+                                                                </div>
+                                                            {% endif %}
+                                                            {% set count = count + 1 %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if (product.priceAfterDiscount > 0) %}
+                                {% set prc = product.priceAfterDiscount | number_format(0,'.','.') ~ '₫' %}
+                            {% else %}
+                                {% set prc = product.price | number_format(0,'.','.') ~ '₫' %}
+                            {% endif %}
+                            <div class="product-shop col-sm-6 col-xs-12 col-md-4 col-lg-4 details-pro">
+                                <div class="price-block">
+                                    <div class="price-box">
+                                        <p class="special-price">
+                                            <span class="price">
+                                                Giá bán: {{ prc }}
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="box_green o1">
+                                    <div class="inventory_quantity">
+                                        <span class="stock-brand-title"><strong>Tình trạng:</strong></span>
+                                        {% if(ivt>0) %}
+                                            <span class="a-stock">Còn hàng</span>
+                                        {% else %}
+                                            <span class="a-stock">Hết hàng</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="product_sku" id="sku"><span class="fnew">Mã sản phẩm:</span> {{ product.code }}</div>
+                                </div>
+                                <div class="box_green o2">
+                                    <div class="product_sku" id="vendor"><span class="fnew">Hãng sản xuất:</span> {{ product.brandName }}</div>
+                                    <div class="product_sku" id="type"><span class="fnew">Loại:</span> {{ product.categoryName }}</div>
+                                </div>
+
+                                <div class="add-to-box form-product ">
+                                    <div class="add-to-cart">
+                                        <form action="" method="post" id="add-to-cart-form" class="form-inline">
+                                            <div class="box-variant clearfix">
+                                                <input type="hidden" name="variantId" value="29654689">
+                                            </div>
+
+                                            <div id="product-select-watch" class="select-swatch">
+                                                {% set color = variableAttributes['color'] %}
+                                                {% set flag = 0 %}
+                                                {% if color is not null or color is not empty %}
+                                                    {% set valuesColor = color.childValues %}
+                                                    {% set numbC = (valuesColor|length) %}
+                                                    {% if(valuesColor is not null and numbC>0) %}
+                                                        {% set flag = flag + 1 %}
+                                                        <div id="variant-swatch-0" class="swatch color req swatch-product-single clearfix" data-option="option1" data-option-index="0" column="{{ color.column }}">
+                                                            <div class="header">Màu sắc</div>
+                                                            <div class="select-swap">
+                                                                {% for val in valuesColor %}
+                                                                    {% set arrColor = [] %}
+                                                                    {% set arrColor = arrColor|merge({ (color.column): val.Id }) %}
+                                                                    {% set returnImg = {'return':'image'} %}
+                                                                    {% set img = product.attrValueImage(arrColor) %}
+                                                                    {% set imgZoom = product.attrValueImage(arrColor,false, returnImg) %}
+                                                                    {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                                                    {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                                                    <div data-value="{{ val.name }}" class="{{ (numbC==1)?'active':'' }} n-sd swatch-element {{ val.name }}" value="{{ val.id }}">
+                                                                        <input id="swatch-0-{{ val.name }}" type="radio" name="option1" value="{{ val.name }}">
+                                                                        <label for="swatch-0-trang">
+                                                                            <span id="attrTxt">{{ val.name }}</span>
+                                                                            <img class="crossed-out" src="{{ '/tpl/'~ templateDir ~'/imgs/close.png' }}" width="14px" height="14px">
+                                                                            <img class="img-check" src="{{ '/tpl/'~ templateDir ~'/imgs/check.png' }}" width="14px" height="14px">
+                                                                        </label>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endif %}
+                                                {% set size = variableAttributes['size'] %}
+                                                {% if size is not null or size is not empty %}
+                                                    {% set valuesSize = size.childValues %}
+                                                    {% set numbS =  (valuesSize | length) %}
+                                                    {% if(valuesSize is not null and numbS>0) %}
+                                                        {% set flag = flag + 1 %}
+                                                        <div id="variant-swatch-1" class="swatch size req swatch-product-single clearfix" column="{{ size.column }}" data-option="option2" data-option-index="1">
+                                                            <div class="header">Kích thước</div>
+                                                            <div class="select-swap">
+                                                                {% for attrValue in valuesSize %}
+                                                                    <div data-value="{{ attrValue.name }}" value="{{ attrValue.id }}" class="{{ (numbS==1)?'active':'' }} n-sd swatch-element {{ attrValue.name }}" value="{{ attrValue.id }}">
+                                                                        <input id="swatch-1-{{ attrValue.name }}" type="radio" name="option2" value="{{ attrValue.name }}">
+                                                                        <label for="swatch-1-{{ attrValue.name }}">
+                                                                            <span id="attrTxt">{{ attrValue.name }}</span>
+                                                                            <img class="crossed-out" src="{{ '/tpl/'~ templateDir ~'/imgs/close.png' }}" width="14px" height="14px">
+                                                                            <img class="img-check" src="{{ '/tpl/'~ templateDir ~'/imgs/check.png' }}" width="14px" height="14px">
+                                                                        </label>
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                            <script>
+
+                                                            </script>
+                                                        </div>
+                                                    {% endif %}
+                                                {%  endif %}
+                                                {% if((flag==0) and (product.childs)) %}
+                                                    {% set flagchilds= product.childs|length %}
+                                                    <p style="padding: 5px; text-align: left;">
+                                                        <span style="width: 131px; display: inline-block">Chọn sản phẩm</span>
+                                                        <select class="input childProducts">
+                                                            <option value="1">Chọn sản phẩm</option>
+                                                            {% set name_parent =product.name %}
+                                                            {% for cp in product.childs %}
+                                                                <option value="{{ cp.id }}, {{ cp.price }}"
+                                                                        href="{{ cp.imageUri }}"
+                                                                        data-src="{{ cp.imageUri }}">
+                                                                    {{ cp.name|replace({ name_parent :''}) }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="box_buy">
+                                                {% if(ivt>0) %}
+                                                    <label class="hqty hidden-xs fixprice box">Số lượng</label>
+                                                    <div class="hqty ct2 pull-left fixprice box">
+                                                        <div class="custom pull-left">
+                                                            <button onclick="var result = document.getElementById('qtym'); var qtyas = result.value; if( !isNaN( qtyas ) &amp;&amp; qtyas > 1 ) result.value--;return false;" class="reduced items-count-s" type="button">-</button>
+                                                            <input type="text" class="input-text qty" title="Qty" value="1" maxlength="3" id="qtym" name="quantity" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" onchange="if(this.value == 0)this.value=1;">
+                                                            <button onclick="var result = document.getElementById('qtym'); var qtyas = result.value; if( !isNaN( qtyas )) result.value++;return false;" class="increase items-count-s" type="button">+</button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="pull-left ct2 fixprice">
+                                                        <button class="button btn-cart add_to_cart" title="Mua hàng">
+                                                            <span>Mua hàng</span>
+                                                        </button>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="pull-left ct2 fixprice">
+                                                        <button class="button btn-cart add_to_cart">
+                                                            <span>Hết hàng</span>
+                                                        </button>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+{#                                <div class="short-description rte justify">#}
+{#                                    <ul>#}
+{#                                        <li>Bàn ăn 1m6 NARA (1600 x 850 x 750mmH) – Giá : 14.900.000đ</li>#}
+{#                                        <li>Ghế ăn NARA (500 x 550 x 830mmH) – Giá : 2.800.000đ.</li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+                            </div>
+
+                            <div class="col-sm-6 col-xs-12 col-md-3 col-lg-3 hidden-xs hidden-sm">
+                                <div class="popular-posts widget widget__sidebar">
+                                    <a href="tin-tuc" title="Nội thất 2020">
+                                        <h3 class="widget-title">Nội thất 2020</h3>
+                                    </a>
+                                    <div class="widget-content latest-blog">
+                                        <div class="item_bl_index_list unstyled clearfix">
+                                            <div class="blog_inner">
+                                                <div class="blog-l">
+                                                    <a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS">
+                                                        <img class="lazyload loaded" src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/7-650x339.jpg?v=1574742097003" data-src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/7-650x339.jpg?v=1574742097003" alt="Nội thất biệt thự mang phong cách xe sang LEXUS" data-was-processed="true">
+                                                    </a>
+                                                </div>
+                                                <div class="blog-c">
+                                                    <h3><a href="/noi-that-biet-thu-mang-phong-cach-xe-sang-lexus" title="Nội thất biệt thự mang phong cách xe sang LEXUS">Nội thất biệt thự mang phong cách xe sang LEXUS</a> </h3>
+                                                    <span class="entry-date">08/07/2020</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="blog_inner">
+                                                <div class="blog-l">
+                                                    <a href="/thiet-ke-phong-bep-hien-dai-2020" title="Thiết kế phòng bếp hiện đại 2020">
+                                                        <img class="lazyload loaded" src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/6-650x339.jpg?v=1574742415567" data-src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/6-650x339.jpg?v=1574742415567" alt="Thiết kế phòng bếp hiện đại 2020" data-was-processed="true">
+                                                    </a>
+                                                </div>
+                                                <div class="blog-c">
+                                                    <h3><a href="/thiet-ke-phong-bep-hien-dai-2020" title="Thiết kế phòng bếp hiện đại 2020">Thiết kế phòng bếp hiện đại 2020</a> </h3>
+                                                    <span class="entry-date">08/07/2020</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="blog_inner">
+                                                <div class="blog-l">
+                                                    <a href="/noi-that-phong-khach-nhap-khau-duoc-ua-chuong-trong-2019" title="Nội thất phòng khách nhập khẩu được ưa chuộng trong 2019">
+                                                        <img class="lazyload loaded" src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/noi-that-phong-khach-nhap-khau-dep4-650x339.jpg?v=1574742714653" data-src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/noi-that-phong-khach-nhap-khau-dep4-650x339.jpg?v=1574742714653" alt="Nội thất phòng khách nhập khẩu được ưa chuộng trong 2019" data-was-processed="true">
+                                                    </a>
+                                                </div>
+                                                <div class="blog-c">
+                                                    <h3><a href="/noi-that-phong-khach-nhap-khau-duoc-ua-chuong-trong-2019" title="Nội thất phòng khách nhập khẩu được ưa chuộng trong 2019">Nội thất phòng khách nhập khẩu được ưa chuộng trong 2019</a> </h3>
+                                                    <span class="entry-date">08/07/2020</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="blog_inner">
+                                                <div class="blog-l">
+                                                    <a href="/thiet-ke-phong-khach-tinh-te-va-sang-trong" title="Thiết kế phòng khách tinh tế và sang trọng">
+                                                        <img class="lazyload loaded" src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/picture7-650x339.png?v=1574743108017" data-src="//bizweb.dktcdn.net/thumb/large/100/368/970/articles/picture7-650x339.png?v=1574743108017" alt="Thiết kế phòng khách tinh tế và sang trọng" data-was-processed="true">
+                                                    </a>
+                                                </div>
+                                                <div class="blog-c">
+                                                    <h3><a href="/thiet-ke-phong-khach-tinh-te-va-sang-trong" title="Thiết kế phòng khách tinh tế và sang trọng">Thiết kế phòng khách tinh tế và sang trọng</a> </h3>
+                                                    <span class="entry-date">08/07/2020</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--widget-content-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-collateral">
+                        <div class="col-xs-12">
+                            <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
+                                <li>
+                                    <a href="#product_tabs_description" data-toggle="tab" class="active">Thông tin chi tiết</a>
+                                </li>
+                                <li>
+                                    <a href="#product_tabs_custom" data-toggle="tab" class="">Thông tin khác</a>
+                                </li>
+                            </ul>
+
+                            {% set content = product.content %}
+                            {% set description = product.description %}
+                            <div id="productTabContent" class="tab-content">
+                                <div class="tab-pane fade in active show" id="product_tabs_description">
+                                    <div class="std justify add_apper">
+                                        {{ content | raw }}
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="product_tabs_custom">
+                                    <div class="product-tabs-content-inner clearfix">
+                                        {{ description | raw }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="aside sock_to_day">
+                                <div class="product-sok">
+                                    <div class="new_title text-center">
+                                        <h2>
+                                            <a href="phong-bep" title="Sản phẩm cùng loại">
+                                                Sản phẩm cùng loại
+                                            </a>
+                                        </h2>
+                                    </div>
+
+                                    <div class="sock_slide slider-items slick_margin slick-initialized slick-slider">
+                                        <button type="button" data-role="none" class="slick-prev slick-arrow slick-disabled" aria-label="Previous" role="button" aria-disabled="true" style="display: block;">Previous</button>
+                                        <div aria-live="polite" class="slick-list draggable">
+                                            <div class="slick-track" role="listbox" style="opacity: 1; width: 1698px; transform: translate3d(0px, 0px, 0px);">
+                                                <div class="item slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide10" style="width: 273px;">
+                                                    <div class="col-item">
+                                                        <div class="sale-label sale-top-right">
+                                                            <span>-20%</span>
+                                                        </div>
+
+                                                        <div class="item-inner">
+                                                            <div class="product-wrapper">
+                                                                <div class="thumb-wrapper" onclick="window.location.href='/bo-ban-an-milano-ceramic'">
+                                                                    <a href="/bo-ban-an-milano-ceramic" class="thumb flip" title="Bộ bàn ăn Milano Ceramic" tabindex="0">
+                                                                        <img class="lazyload loaded" src="https://bizweb.dktcdn.net/100/368/970/products/dsc-4755.jpg?v=1576594580000" data-src="https://bizweb.dktcdn.net/100/368/970/products/dsc-4755.jpg?v=1576594580000" alt="Bộ bàn ăn Milano Ceramic" data-was-processed="true">
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="item-info">
+                                                                <div class="info-inner">
+                                                                    <h3 class="item-title">
+                                                                        <a href="/bo-ban-an-milano-ceramic" title="Bộ bàn ăn Milano Ceramic" tabindex="0">Bộ bàn ăn Milano Ceramic </a>
+                                                                    </h3>
+                                                                    <div class="item-content">
+                                                                        <div class="item-price">
+                                                                            <div class="price-box">
+                                                                                <p class="special-price">
+                                                                                    <span class="price">20.900.000₫</span>
+                                                                                </p>
+                                                                                <p class="old-price">
+                                                                                    <span class="price">26.000.000₫</span>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Holder for Product Review -->
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="actions hidden-xs hidden-sm remove_html">
+                                                                    <form action="/cart/add" method="post" class="variants form-nut-grid form-ajaxtocart has-validation-callback" data-id="product-actions-16543531" enctype="multipart/form-data">
+                                                                        <button class="button btn-cart btn-more" title="Chi tiết sản phẩm" type="button" onclick="window.location.href='/bo-ban-an-milano-ceramic'" tabindex="0">
+                                                                            Chi tiết
+                                                                        </button>
+
+                                                                        <input type="hidden" name="variantId" value="29654769" tabindex="0">
+                                                                        <button class="button btn-cart add_to_cart" title="Mua hàng" tabindex="0">
+                                                                            Mua hàng
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="item slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" tabindex="-1" role="option" aria-describedby="slick-slide10" style="width: 273px;">
+                                                    <div class="col-item">
+                                                        <div class="sale-label sale-top-right">
+                                                            <span>-20%</span>
+                                                        </div>
+
+                                                        <div class="item-inner">
+                                                            <div class="product-wrapper">
+                                                                <div class="thumb-wrapper" onclick="window.location.href='/bo-ban-an-milano-ceramic'">
+                                                                    <a href="/bo-ban-an-milano-ceramic" class="thumb flip" title="Bộ bàn ăn Milano Ceramic" tabindex="0">
+                                                                        <img class="lazyload loaded" src="https://bizweb.dktcdn.net/100/368/970/products/dsc-4755.jpg?v=1576594580000" data-src="https://bizweb.dktcdn.net/100/368/970/products/dsc-4755.jpg?v=1576594580000" alt="Bộ bàn ăn Milano Ceramic" data-was-processed="true">
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="item-info">
+                                                                <div class="info-inner">
+                                                                    <h3 class="item-title">
+                                                                        <a href="/bo-ban-an-milano-ceramic" title="Bộ bàn ăn Milano Ceramic" tabindex="0">Bộ bàn ăn Milano Ceramic </a>
+                                                                    </h3>
+                                                                    <div class="item-content">
+                                                                        <div class="item-price">
+                                                                            <div class="price-box">
+                                                                                <p class="special-price">
+                                                                                    <span class="price">20.900.000₫</span>
+                                                                                </p>
+                                                                                <p class="old-price">
+                                                                                    <span class="price">26.000.000₫</span>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- Holder for Product Review -->
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="actions hidden-xs hidden-sm remove_html">
+                                                                    <form action="/cart/add" method="post" class="variants form-nut-grid form-ajaxtocart has-validation-callback" data-id="product-actions-16543531" enctype="multipart/form-data">
+                                                                        <button class="button btn-cart btn-more" title="Chi tiết sản phẩm" type="button" onclick="window.location.href='/bo-ban-an-milano-ceramic'" tabindex="0">
+                                                                            Chi tiết
+                                                                        </button>
+
+                                                                        <input type="hidden" name="variantId" value="29654769" tabindex="0">
+                                                                        <button class="button btn-cart add_to_cart" title="Mua hàng" tabindex="0">
+                                                                            Mua hàng
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="Next" role="button" style="display: block;" aria-disabled="false">Next</button>
+                                    </div>
+                                    <a href="/phong-bep" class="btn-view-more" title="Xem thêm">
+                                        Xem thêm &gt;&gt;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

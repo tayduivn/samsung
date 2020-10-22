@@ -1,0 +1,122 @@
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% extends 'layout/layout' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/tpl/'~ templateDir ~'/css/childs/news.css' }}" type="text/css">
+
+{% endblock %}
+
+{% block iheader %}
+{% endblock %}
+
+{% block body %}
+    <div data-elementor-type="header" data-elementor-id="4501"
+         class="elementor elementor-4501 elementor-location-header"
+         data-elementor-settings="[]">
+        <div class="elementor-inner">
+            <div class="elementor-section-wrap">
+                <header class="elementor-element elementor-element-073d5d2 elementor-section-boxed elementor-section-height-default elementor-section-height-default elementor-section elementor-top-section">
+                    <div class="elementor-container elementor-column-gap-no">
+                        <div class="elementor-row">
+                            <div class="elementor-element elementor-element-419c7c7 elementor-column elementor-col-50 elementor-top-column">
+                                <div class="elementor-column-wrap elementor-element-populated">
+                                    <div class="elementor-widget-wrap">
+                                        <a href="/">
+                                            <img style="margin-top: 5px"
+                                                 id="logo-news"
+                                                 src="{{ '/tpl/'~ templateDir ~'/img/2019/logo.png' }}"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                $(document).ready(function () {
+                                    var width = $(window).width();
+                                    if(width<1200) {
+                                        // document.getElementById("logo-news").style.height = "50%";
+                                        document.getElementById("logo-news").style.width = "40%";
+                                    } else {
+                                        document.getElementById("logo-news").style.width = "100%";
+                                    }
+                                });
+                            </script>
+
+                            <div class="elementor-element elementor-element-597fc88 elementor-column elementor-col-50 elementor-top-column">
+                                <div class="elementor-column-wrap elementor-element-populated">
+                                    <div class="elementor-widget-wrap">
+                                        {% set newsCategory = getNewsCategories() %}
+                                        {% set idRecrui = 4009 %}
+                                        <div class="elementor-element elementor-element-3fab62d elementor-icon-list--layout-inline elementor-align-right elementor-hidden-tablet elementor-hidden-phone elementor-widget elementor-widget-icon-list">
+                                            <div class="elementor-widget-container">
+                                                {% if(newsCategory is not empty) %}
+                                                    <ul class="elementor-icon-list-items elementor-inline-items">
+                                                        <li class="elementor-icon-list-item">
+                                                            <a href="{{ newsCategory[0].childs[1].viewlink }}">
+                                                                <span class="elementor-icon-list-icon">
+                                                                    <i aria-hidden="true" class="fa fa-tags"></i>
+                                                                </span>
+                                                                <span class="elementor-icon-list-text">{{ newsCategory[0].childs[1].name }}</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <div class="elementor-element elementor-element-921e8a2 elementor-nav-menu__align-right elementor-nav-menu--indicator-chevron elementor-nav-menu--stretch elementor-nav-menu--dropdown-tablet elementor-nav-menu__text-align-aside elementor-nav-menu--toggle elementor-nav-menu--burger elementor-widget elementor-widget-nav-menu">
+                                            <div class="elementor-widget-container">
+                                                <nav class="elementor-nav-menu--main elementor-nav-menu__container elementor-nav-menu--layout-horizontal e--pointer-underline e--animation-grow">
+                                                    {% if(newsCategory is not empty) %}
+                                                        <ul id="menu-1-921e8a2" class="elementor-nav-menu">
+                                                            <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-5597">
+                                                                <a target="_blank" rel="noopener noreferrer" href="/"
+                                                                   class="elementor-item">Trang chủ</a>
+                                                            </li>
+                                                            {% for n in newsCategory[0].childs %}
+                                                                <li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-4740">
+                                                                    <a href="{{ n.viewlink }}"
+                                                                       class="elementor-item">{{ n.name }}</a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    {% endif %}
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="background-color: #f1f1f1; padding-top: 20px">
+        <div class="container" style="background-color: white">
+{#            {% set buildBread = buildBreadcrumbs(category)%}#}
+{#            {% set buildBread1 = [{'label': (news.title | e('html')),'uri': news.viewLink}] %}#}
+{#            {% set buildBread = buildBread | merge (buildBread1) %}#}
+{#            {{ breadcrumbs.build(buildBread) }}#}
+            <div style="font-size: 16px; padding-top: 15px; padding-bottom: 15px">
+                <a href="/"> TRANG CHỦ </a> <i class="fas fa-angle-right"></i>
+                <a href="/"> TIN TỨC </a><i class="fas fa-angle-right"></i>
+                <a href="/">{{ ' ' ~ category.name ~ ' ' }}</a><i class="fas fa-angle-right"></i>
+                <a href="/">{{ ' ' ~ news.title }}</a>
+            </div>
+
+            <h1>{{ news.title }}</h1>
+            <i class="date" style="color: gray">{{ news.createdDateTime }}, Lượt xem: {{ news.hits }}</i>
+            <hr>
+            <div style="color: black; z-index: 5">
+                {% set ncontent = news.content | replace({'<p style="text-align:justify;">':"",'<p>':"",'<p':"<span"}) %}
+                {{ ncontent | raw }}
+            </div>
+        </div>
+    </div>
+
+{#    {% include 'layout/footer' %}#}
+
+{% endblock %}

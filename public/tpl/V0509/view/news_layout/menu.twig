@@ -1,0 +1,48 @@
+<style>
+  .header-menu .icon.icon-home {
+    background-image: url(/tpl/V0509/img/home.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+  }
+</style>
+{% set news = getNewsCategories() %}
+<section class="header-menu container">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <img src="https://bizweb.dktcdn.net/100/349/716/themes/736844/assets/logo_blog.png?1595581759380" alt="" class="logo-moblie">
+      <button
+        class="navbar-toggler"
+        type="button" data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a href="/news" class="nav-link active">
+              <span class="icon icon-home "></span>
+            </a>
+{#            <a class="nav-link active" aria-current="page" href="#">Home</a>#}
+          </li>
+          {% if(news is not empty) %}
+            {% for news_item in news %}
+              <li class="nav-item">
+                <a class="nav-link text-uppercase"
+                   href="{{ news_item.viewLink }}"
+                >
+                  {{ news_item.name | raw }}
+                </a>
+              </li>
+            {% endfor %}
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</section>

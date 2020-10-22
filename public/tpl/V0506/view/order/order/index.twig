@@ -1,0 +1,79 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Quản lí đơn hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Quản lí đơn hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    <section class="section bgr_f3 sect_20">
+        <div class="container">
+            <div class="row box_user">
+                <div class="col-md-3 col-sm-12 col-12">
+                    <div class="action_user">
+                        <ul>
+                            <li><a href="/profile">Trang cá nhân</a></li>
+                            <li><a class="active" href="/order">Quản trị đơn hàng</a></li>
+                            <li><a href="/order/search">Tra cứu đơn hàng</a></li>
+                            <li><a href="/profile/edit">Thay đổi thông tin</a></li>
+                            <li><a href="/user/signout">Thoát</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-12 col-12 box_bd_left">
+                    <div class="info_user">
+                        <table class="table table-cart" id="my-orders-table">
+                            <thead class="thead-default">
+                            <tr>
+                                <th>Đơn hàng</th>
+                                <th>Ngày</th>
+                                <th>Tên khách hàng</th>
+                                <th>Địa chỉ</th>
+                                <th>Giá trị đơn hàng</th>
+                                <th>Hình thức thanh toán</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if(paginator.currentModels) %}
+                                {% for order in paginator.currentModels %}
+                                    {% set products = orders[order.id].products %}
+                                    {% set totalOrderPrice = 0 %}
+                                    {% for pOrder in products %}
+                                        {% set totalOrderPrice = totalOrderPrice + (pOrder.quantity * pOrder.price) %}
+                                    {% endfor %}
+                                    <tr class="first odd">
+                                        <td><a>
+                                                {{ order.id }}
+                                            </a>
+                                        </td>
+                                        <td> {{ order.createdDate("d/m/Y") }}
+                                        </td>
+                                        <td>{{ order.customerName }}</td>
+                                        <td>{{ order.customerAddress }}</td>
+                                        <td><span class="price">{{ totalOrderPrice|number_format(0) }}VNĐ</span></td>
+                                        <td>
+                                            <em>
+                                                {{ orderPayment(order.paymentMethod) }}
+                                            </em>
+                                        </td>
+                                        <td>
+                                            {{ order.statusName(order.status) }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        {{ render_paginator(paginator) }}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include 'user/profile/productsHis' %}
+    <div class="foote_user clearfix container pt-4">
+        <a href="/" class="pull-right">Tiếp tục mua sắm <i class="fa fa-caret-right"></i></a>
+    </div>
+{% endblock %}

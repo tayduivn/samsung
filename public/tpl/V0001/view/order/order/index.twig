@@ -1,0 +1,142 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Quản lý đơn hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Quản lý đơn hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/user.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="containerMain">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="headerProfile">
+                    <p id="avatarProfile">
+                        <img src="/img/avatar_comment.png" alt="avatar"/>
+                    </p>
+                    <h3>{{ user.fullName | e('html') }}</h3>
+                    <p>{{ user.email }}</p>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="sidebar">
+                    <ul id="profileMenu">
+                        <li><a href="/profile">{{ translate('Trang cá nhân') }}</a></li>
+
+                        <li class="active"><a href="/order">{{ translate('Quản lý đơn hàng') }}</a></li>
+                        <li><a href="/user/signout">{{ translate('Thoát') }}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="ctrl-wrapper">
+                    <div id="profileContent">
+                        <div id="orderManager">
+                            <p style="padding: 10px 0"><img src="/tpl/V0001/img/stepOrder.png" alt="sttep order"/></p>
+                            <div style="border: 1px solid #ddd;margin: 0 20px;">
+                                <form action="/" method="get">
+                                    <a href="" class="active">{{ translate('Tất cả') }}</a>
+                                </form>
+                                <br/>
+
+                                <table>
+                                    <tr class="title">
+                                        <td style="width: 150px">{{ translate('Đơn hàng') }}</td>
+                                        <td style="width: 250px">{{ translate('Thông tin đơn hàng') }}</td>
+                                        <td style="width: 250px">{{ translate('Trạng thái') }}</td>
+                                        <td style="width: 350px">{{ translate('Sản phẩm') }}</td>
+                                        <td style="width: 150px">{{ translate('Hành động') }}</td>
+                                    </tr>
+                                    {% if(paginator.getCurrentModels is not empty) %}
+                                        {% for order in paginator.getCurrentModels %}
+                                            {% set products = orders[order.getId()].getProducts %}
+                                            {% set totalOrderPrice = 0 %}
+                                            {% set p = pOrder.product %}
+                                            {% set totalOrderPrice = totalOrderPrice + (pOrder.quantity * pOrder.price) %}
+                                            <tr>
+                                                <td>
+                                                    <b style="display: block">ID: {{ order.id }}</b>
+                                                    {% if(order.status == 54) %}
+                                                        <a style="display:inline-block;padding: 3px 15px; border-radius: 3px;"
+                                                           href="javascript:" class="btnOrange cancelOrder"
+                                                           data-id="{{ order.id }}">{{ translate('Hủy') }}</a>
+                                                    {% endif %}
+
+                                                </td>
+                                                <td style="text-align: left">
+                                                    <p style="display: block;padding: 3px 0;">{{ translate('Ngày đặt mua') }}
+                                                        :
+                                                        <span style="color: #999">{{ order.createdDate | date("d/m/Y") }}</span>
+                                                    </p>
+                                                    <p style="display: block;padding: 3px 0;">{{ translate('Thanh toán') }}
+                                                        :
+                                                        <span style="color: #999">{{ orderPayment(order.paymentMethod) }}</span>
+                                                    </p>
+                                                    <p style="display: block;padding: 3px 0;">{{ translate('Địa chỉ nhận hàng') }}
+                                                        : <span style="color: #999">{{ order.customerAddress }}</span>
+                                                    </p>
+                                                    <p style="display: block;padding: 3px 0;">{{ translate('Ghi chú') }}
+                                                        : <span style="color: #999">{{ order.description }}</span></p>
+                                                </td>
+                                                <td>
+                                                    {{ order.statusName(order.status) }}
+                                                </td>
+                                                <td style="text-align: left;padding: 0" colspan="2">
+                                                    {% if(pOrder is not empty) %}
+                                                        {% for pOrder in products %}
+                                                            {% set p = pOrder.product %}
+                                                            {% set total = (pOrder.quantity * pOrder.price) %}
+
+                                                            {% set image = p.thumbnailUri %}
+                                                            {% set options = {
+                                                                alt: p.name,
+                                                                lazy: true,
+                                                                openDiv: false,
+                                                            } %}
+                                                            <div class="item">
+                                                                <div style="float: left;width: 60%;padding: 2%;border-right: 1px solid #EFECE4">
+                                                                    <h3 style="font-size: 13px;font-weight: 700; line-height: 15px">
+                                                                        <a href="{{ p.viewLink }}">{{ p.name }}</a></h3>
+                                                                    <a style="float: left; width: 80px; margin-right: 5px;"
+                                                                       href="{{ p.viewLink }}">
+                                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+
+                                                                        <p style="margin-top: 20px;">{{ translate('Số lượng') }}
+                                                                            : {{ pOrder.quantity }}</p>
+
+                                                                        <p>{{ translate('Đơn giá') }}
+                                                                            : {{ total | number_format(0) }} đ</p>
+                                                                        <span class="clearfix"></span>
+                                                                    </a>
+                                                                </div>
+                                                                <div style="float: left;width: 35%;text-align:center;">
+                                                                    <a target="_blank"
+                                                                       style="display: block;margin-top: 50px;"
+                                                                       href="{{ p.viewLink }}">{{ translate('Xem chi tiết') }}</a>
+                                                                </div>
+                                                                <span class="clearfix"></span>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                </table>
+                            </div>
+                            {{ render_paginator(paginator) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="dMsg"></div>
+    <style>body {
+            background: #F7F5F0
+        }</style>
+{% endblock %}

@@ -1,0 +1,261 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đặt hàng thành công').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán thành công">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    {% set products = order.products %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="logo">
+                <img src="/tpl/V0511/image/logo.png" class="img-fluid">
+            </div>
+            <div class="col-lg-7 col-md-12">
+                <div class="row dathang">
+                    <div class="col-lg-2 col-md-12">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
+                            <g fill="none" stroke="#8EC343" stroke-width="2">
+                                <circle cx="36" cy="36" r="35"
+                                        style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
+                                <path d="M17.417,37.778l9.93,9.909l25.444-25.393"
+                                      style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="col-lg-9 col-md-12">
+                        <div class="row">
+                            <p><strong>Cảm ơn bạn đã đặt hàng</strong></p>
+                            <p>Một email xác nhận đã được gửi tới {{ order.customerEmail }}.</p>
+                            <p>Xin vui lòng kiểm tra email của bạn</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 col-md12 col-push-7">
+                <div class="hoadon">
+                    <div style="margin:0px;border-bottom: 1px solid gainsboro" class="row">
+                        <div class="col-lg-12 col-7">
+                            <h2 style="font-size: 15px;padding:5px 0px 0px 10px">Đơn hàng:{{ order.id }}({{ products|length }})</h2>
+                        </div>
+                        <div class="col-5">
+                            <span class="chitiet">xem chi tiết
+                                <i class="fa fa-angle-down"></i>
+                            </span>
+                        </div>
+                    </div>
+                    {% set total=0 %}
+                    <div class="product">
+                        {% for p in products %}
+                            {% set image = p.product.thumbnailUri %}
+                            {% set options = {
+                                alt: p.product.name,
+                                lazy: true,
+                                openDiv: false,
+                                class: 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
+                            } %}
+                            <div style="margin-top: 10px" class="row ">
+                                <div class="col-2">
+                                    <img class="img-fluid" src="{{ image }}">
+                                    <div class="tags" style="z-index: 100">{{ p.quantity }}</div>
+                                </div>
+                                <div class="col-7">{{ p.product.name|raw }}</div>
+                                <div class="col-3">{{ (p.product.price*p.product.quantity) | number_format(0)}}<u>đ</u>
+                                </div>
+                            </div>
+                            {% set total=total+p.product.price*p.product.quantity %}
+                        {% endfor %}
+
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-12">
+                            <span style="font-size: 14px">Tạm tính:</span>
+                            <span class="right">{{ total|number_format(0) }}|<u>đ</u></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span style="font-size: 15px">Phí vận chuyển:</span>
+                            <span class="right">{{ order.customerShipFee|number_format(0) }}<u>đ</u></span>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div style="font-size: 16px" class="row">
+                        <div class="col-12">
+                            <span>Tổng cộng:</span>
+                            <span class="right total">{{ (total+order.customerShipFee)|number_format(0) }}<u>đ</u></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md12 col-push-5">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <h3>Thông tin khách hàng</h3>
+                        <p>{{ order.customerName }}</p>
+                        <p>{{ order.customerEmail }}</p>
+                        <p>{{ order.customerMobile }}</p>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <h3>Địa chỉ nhận hàng</h3>
+                        <p>{{ order.customerName }}</p>
+                        <p>{{ order.customerAddress }}</p>
+                        <p>{{ order.options["districtName"] }},{{order.options["cityName"]  }}</p>
+                        <p>{{ order.customerMobile }}</p>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <h3>Phương thức thanh toán</h3>
+                        <p>Thanh toán khi nhận hàng</p>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <h3>Phương thức vận chuyển</h3>
+                        <p>Giao hàng tận nơi</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 button">
+                <a href="/"><button class="btn btn-primary">Tiếp tục mua hàng</button></a>
+                <span style="font-size: 30px;color:#2a9dcc;margin-left: 20px " onclick="window.print()">
+                    <i class="fa fa-print"></i>
+                    <span>In </span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        header, footer {
+            display: none;
+        }
+
+        .container-fluid {
+            background: #e6e8ea;
+            padding: 40px 80px;
+        }
+
+        .logo {
+            width: 100%;
+        }
+
+        .logo img {
+            display: block;
+            width: 150px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 0px;
+            display: block;
+            width: 100%;
+        }
+
+        .hoadon {
+            width: 100%;
+            height: 350px;
+            background: ghostwhite;
+            position: relative;
+            overflow: hidden;
+            padding: 0 10px;
+        }
+
+        .tags {
+            background: #2a9dcc;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 20px;
+            position: absolute;
+            top: 0;
+            right: 10px;
+        }
+
+        .product {
+            height: 150px;
+            overflow-y: scroll;
+        }
+        .right{
+            position: absolute;
+            right: 30px;
+        }
+        .total{
+            font-size: 20px;
+            color: #2a9dcc;
+        }
+        .col-push-5{
+            position: relative;
+            top: -230px;
+        }
+        .col-push-5 p{
+            padding: 5px 0px;
+        }
+        .button{
+            margin-top: -190px;
+           text-align: center;
+        }
+        .btn-primary{
+            background: #2a9dcc;
+            height: 50px;
+        }
+        .chitiet{
+            display: none;
+        }
+        .product{
+            display: block;
+        }
+        @media screen and (max-width:991px){
+            .col-push-5{
+                position: relative;
+                top: 0px;
+            }
+            .button{
+                margin-top: 20px;
+                text-align: center;
+            }
+            .logo img{
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .dathang{
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .col-push-5{
+                margin-top: 20px;
+            }
+            .col-push-7{
+                padding: 0px;
+            }
+            .product .col-2,.product .col-7,.product .col-3{
+                padding-right: 5px;
+                padding-left: 5px;
+            }
+            .container-fluid {
+                background: #e6e8ea;
+                padding: 20px 10px;
+            }
+            .product{
+                display: none;
+            }
+            .chitiet{
+                display: block;
+            }
+        }
+    </style>
+    <script>
+        $('.chitiet').click(function () {
+            var t = $(this).find('i')
+            if (t.hasClass('fa-angle-down')) {
+                t.removeClass('fa-angle-down').addClass('fa-angle-up');
+                $('.product').css('display', 'block');
+            }
+            else {
+                t.removeClass('fa-angle-up').addClass('fa-angle-down');
+                $('.product').css('display', 'none');
+            }
+        });
+    </script>
+{% endblock %}

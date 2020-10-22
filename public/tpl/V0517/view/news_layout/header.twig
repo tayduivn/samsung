@@ -1,0 +1,15 @@
+{% set urlLogo = getLogoUri() %}
+<!-- header blog -->
+<header class="header" id="header">
+  <div class="d-flex align-items-center justify-content-center">
+    <a href="/" class="logo">
+    {% if urlLogo %}
+        <img src="{{urlLogo}}" alt="Logo" class="logo-blog" />
+        {% else %}
+            <img src="/tp/V0509/img/temp/logo-menu.png" alt="Logo" class="logo-blog" />
+    {% endif %}
+    </a>
+  </div>
+  {% include 'news_layout/menu' %}
+</header>
+<!-- header blog -->

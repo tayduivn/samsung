@@ -1,0 +1,94 @@
+{% extends 'layout/layout' %}
+{% block meta %}
+    {{ headTitle('Đăng ký').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng ký">
+    <meta name="keywords" content="Đăng ký">
+    <meta property="og:url" content="/user/signup">
+    <meta property="og:title" content="Đăng ký">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+
+
+
+
+        <section class="bread-crumb">
+            <span class="crumb-border"></span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 a-left">
+                        <ul class="breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                            <li class="home">
+                                <a itemprop="url" href="/" ><span itemprop="title">Trang chủ</span></a>
+                                <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                            </li>
+
+                            <li><strong ><span itemprop="title">Tạo tài khoản</span></strong></li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container">
+            <h1 class="title-head"><a href="#">Tạo tài khoản</a></h1>
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <div class="page-login">
+                        <div id="login">
+                            <span>Nếu chưa có tài khoản vui lòng đăng ký tại đây</span>
+
+                            {% if(success) %}
+                                {{ message }}
+                            {% else %}
+                                {{ partial('partial/form',{'form':form}) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script src='//hstatic.net/0/0/global/haravan_common.js' type='text/javascript'></script>
+        <script src='//hstatic.net/0/0/global/customer_area.js' type='text/javascript'></script>
+
+
+
+
+
+
+        <!-- Quick view -->
+
+        <script src='//theme.hstatic.net/1000329721/1000424884/14/quickview.js?v=22' type='text/javascript'></script>
+
+
+        <!-- Main JS -->
+
+
+        <!-- Product detail JS,CSS -->
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

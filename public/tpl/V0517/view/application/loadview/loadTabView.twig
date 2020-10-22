@@ -1,0 +1,51 @@
+
+<div class="products-all other-products">
+		{% set pr = getParam('type') %}
+		{% if pr == "products_hot" %}
+				{% set productList = search({'limit': 8,'showHot': 1}) %}
+		{% elseif pr == "products_selling" %}
+				{% set productList = search({'limit':8,'showHome': 1}) %}
+		{% elseif pr == "products_new" %}
+				{% set productList = search({'limit':8,'showNew': 1}) %}
+		{% endif %}
+    <div class="sub-container">
+        <div class="slick-slider-product">
+        {% if (productList) %}
+            {% for product_item in productList %}
+							{% set image = product_item.thumbnailUri %}
+							<div class="slick-item" 
+									 data-id="{{ product_item.id }}" 
+									 data-storeId="{{ product_item.storeId }}"
+                   psId="{{ product_item.id }}">
+                <div class="card">
+                    <img src="{{ image }}" alt="{{ product_item.name }}">
+                    <div class="icon-card">
+                        <a href="javascript:void(0)">
+                            <span class="add-cart" data-toggle="modal" data-target="#exampleModal">Thêm vào giỏ</span>
+                        </a>
+                        <a href="">
+                            <span class="icon-add"></span>
+                        </a>
+                        <a href="javascript:void(0)">
+                            <span class="icon-search" data-toggle="modal" data-target="#exampleModalCenter"></span>
+                        </a>
+                    </div>
+                </div>
+                <div class="product-name">
+                    <span class="name">{{ product_item.name }}</span>
+                    <span class="price">{{ product_item.price|number_format()}}₫</span>
+                </div>
+                {% if (product_item.priceAfterDiscount > 0) %}
+									<span class="old-price">{{ product_item.priceAfterDiscount|number_format() }}₫</span>
+									{% elseif (product_item.oldPrice > 0) %}
+									<span class="old-price">{{ product_item.oldPrice|number_format() }}₫</span>
+								{% endif %}
+            	</div>
+						{% endfor %}
+        {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+	 
+</script>

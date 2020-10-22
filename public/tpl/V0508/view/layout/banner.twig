@@ -1,0 +1,58 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+{% set banner_home = getBannerByPositionCode('HOME_SLIDE') %}
+<div class="total-slide-container">
+{% set banner = banner ~ '<div class="slide-slick-total-home">' %}
+     {% if(banner_home) %}
+         {% for c in banner_home %}
+             {% set imageSlide = c.imagesrc %}
+             {% set options = {
+                 alt: c.name,
+                 lazy: true,
+                 openDiv: false,
+             } %}
+             {% set banner = banner ~ '<div class="item">'~macroLazyFocusImager.LazyFocusImager(imageSlide,options) %}
+             {% set banner = banner ~ '</div>' %}
+         {% endfor %}
+     {% else %}
+    <div class="slide-slick-total-home">
+         {% set banner = banner ~ '<div class="item">
+            <img src="tp/V0508/img/demo-banner/slideshow_4.jpg" alt="demo">
+        </div>' %}
+         {% set banner = banner ~ '<div class="item">
+            <img src="tp/V0508/img/demo-banner/slideshow_1.jpg" alt="demo">
+        </div>' %}
+    </div>
+     {% endif %}
+{% set banner = banner ~ '</div>' %}
+{{ saveCache(keyMenu, banner | raw, 1800) }}
+{{ banner | raw }}
+    <div class="nav-button-slide-button">
+        <div class="prev-slide-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" viewBox="0 0 30 26">    <path fill="#231F20" fill-rule="evenodd" d="M12.919 0L0 12.995 12.919 26h2.706L3.492 13.986H30V12.07H3.537L15.588 0z"/></svg>        </div>
+        <div class="next-slide-home">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" viewBox="0 0 30 26">    <path fill="#231F20" fill-rule="evenodd" d="M14.422 0l12.096 12.013H0v1.918h26.462L14.422 26h2.669L30 12.996v-.002L17.091 0z"/></svg>        </div>
+    </div>
+</div>
+
+
+{#<div class="total-slide-container">#}
+{#    <div class="slide-slick-total-home">#}
+{#        <div class="item">#}
+{#            <img src="tp/V0508/img/demo-banner/slideshow_4.jpg" alt="demo">#}
+{#        </div>#}
+{#        <div class="item">#}
+{#            <img src="tp/V0508/img/demo-banner/slideshow_1.jpg" alt="demo">#}
+{#        </div>#}
+{#    </div>#}
+{#    <div class="nav-button-slide-button">#}
+{#        <div class="prev-slide-home">#}
+{#            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" viewBox="0 0 30 26">    <path fill="#231F20" fill-rule="evenodd" d="M12.919 0L0 12.995 12.919 26h2.706L3.492 13.986H30V12.07H3.537L15.588 0z"/></svg>        </div>#}
+{#        <div class="next-slide-home">#}
+{#            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="26" viewBox="0 0 30 26">    <path fill="#231F20" fill-rule="evenodd" d="M14.422 0l12.096 12.013H0v1.918h26.462L14.422 26h2.669L30 12.996v-.002L17.091 0z"/></svg>        </div>#}
+{#    </div>#}
+{#</div>#}

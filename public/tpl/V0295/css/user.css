@@ -1,0 +1,342 @@
+/*===================================USER====================================================*/
+.menuPv{
+    padding: 0 !important;
+}
+.fAddress input[type='text'], .fAddress select{
+    background: none;
+    border: none;
+}
+.fAddress select{
+    width: 100%;
+}
+.userPage h1{
+    color: #444;
+    font-size: 36px;
+    margin-bottom: 21px;
+    margin-top: 15px;
+    line-height: 1;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+    clear: both;
+    padding-left: 15px;
+}
+.authentication-left .form_content, .authentication-right #login_form{
+    /*border: 1px solid #efefef;*/
+    /*box-shadow: 0 0 0 1px #ffffff inset;*/
+    /*-webkit-box-shadow: 0 0 0 1px #ffffff inset;*/
+    /*-moz-box-shadow: 0 0 0 1px #ffffff inset;*/
+    line-height: 23px;
+    margin: 0 0 30px;
+    padding: 14px 18px 13px;
+}
+.page-subheading {
+    font-family: 'Cerebri Sans Bold';
+    border-bottom: 1px solid #efefef;
+    box-shadow: 0 1px rgba(255,255,255,1);
+    color: #1e1e21;
+    font-size: 25px;
+    line-height: normal;
+    margin: 10px 0;
+    padding: 0 0 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.authentication-left .form_content, .authentication-right #login_form{
+    min-height: 270px;
+    position: relative;
+    padding-bottom: 10px !important;
+}
+#SubmitCreate{
+    text-transform: uppercase;
+    padding: 10px 15px;
+    font-size: 18px;
+    transition: all .3s ease-in-out 0s;
+    -webkit-transition: all .3s ease-in-out 0s;
+    -ms-transition: all .3s ease-in-out 0s;
+    border-radius: 0;
+    background: #000;
+    border: 1px solid #000;
+    color: #fff;
+    margin: 14px 0 0 0;
+}
+#btnSubmit{
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    transition: all 0.3s ease-in-out 0s;
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+    background: transparent;
+    border-radius: 0;
+    margin: 22px 0 0 0;
+    border: 1px solid #c4996b;
+}
+#btnSubmit{
+    background: #000;
+    border: 1px solid #000;
+    color: #fff;
+}
+#btnSubmit:hover{
+    background: #fff;
+    border-color: #000;
+    color: #000;
+}
+#SubmitCreate span{
+    font-size: 15px;
+}
+#SubmitCreate:hover{
+    background: #fff;
+    color: #000;
+}
+
+#login_form ul{
+    padding: 0;
+    margin: 0;
+}
+.form_content > a{
+    padding: 5px 0;
+    display: inline-block;
+    bottom: 5px;
+    left: 18px;
+    /*position: absolute;*/
+    transition: all 0.3s ease-in-out 0s;
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    -ms-transition: all 0.3s ease-in-out 0s;
+}
+#login_form ul li{
+    list-style: none;
+}
+
+#login_form ul li input[type=text], #login_form ul li input[type=password], #login_form ul li select{
+    padding: 6px 5px;
+    border: 1px solid #eee;
+    width: 80%;
+    line-height: 22px;
+    margin: 0 0 10px 0;
+}
+#login_form ul li select{
+    padding: 7px 5px 8px 5px;
+}
+.userPage{
+    margin-bottom: 20px;
+}
+ul.errors li{
+    font-style: italic;
+    color: #e20d0d;
+    font-size: 13px;
+    padding: 5px 0 0 0;
+}
+#login_form label {
+    padding: 7px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #eee;
+    border-radius: 0;
+    width: 40px;
+    display: inline-block;
+    line-height: 20px !important;
+}
+.profileHeader a{
+    font-size: 13px;
+    padding: 3px 10px;
+    line-height: 23px;
+    color: #8D8D8D;
+    display: inline-block;
+}
+#signGF{
+    position: absolute;
+    right: 20px;
+    bottom: 5px;
+}
+#signGF>a {
+    width: 200px;
+    height: 38px;
+    border-radius: 0;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 5px;
+}
+#signFacebook {
+    background: #3b5c91;
+}
+#signGoogle {
+    background: #e64d2d;
+}
+#signGF>a i {
+    text-align: center;
+    border-radius: 0;
+    font-size: 25px;
+    width: 40px;
+    padding: 6px 0;
+    border-right: 1px solid rgba(140, 137, 137, 0.55);
+}
+#signGF > a:hover i{
+    color: #fff;
+}
+#signFacebook>i {
+    background: #2f5181;
+}
+#signGoogle>i {
+    background: #b33924;
+}
+#signGF>a span {
+    text-align: unset;
+    width: 160px;
+    color: #fff;
+    display: inline-block;
+    vertical-align: top;
+    padding: 8px;
+    font-weight: normal;
+}
+
+/*===================================USER====================================================*/
+#profileContent > h1{
+    font-weight: 700;
+    font-size: 36px;
+    margin: 0 0 20px 0;
+}
+.itemsPr span{
+    display: block;
+}
+.itemsPr span:nth-child(1){
+    color: #b6b4b4;
+    padding-bottom: 5px;
+}
+.itemsPr span:nth-child(2){
+    padding-bottom: 10px;
+    border-bottom: 2px solid #000;
+    margin-bottom: 10px;
+}
+.btnGreen{
+    padding: 10px 25px;
+    background: #000;
+    text-transform: uppercase;
+    font-size: 15px;
+    color: #fff;
+    margin: 30px 0 0 0;
+    display: inline-block;
+    border: none;
+}
+.btnGreen:hover{
+    color: #fff;
+}
+
+.userList > a{
+    display: block;
+    padding: 0 0 20px 0;
+}
+#profileIf  form.profile .itemsPr input[type="text"]{
+    border: none;
+    background: none;
+}
+#profileIf  form.profile .itemsPr select{
+    background: none;
+    border: none;
+    width: 100%;
+}
+.userIndex{
+    background: #eee;
+    padding: 20px;
+    float: left;
+    width: 100%;
+    clear: both;
+    margin: 0 0 20px 0;
+}
+.userList1 h2{
+    margin: 0;
+    font-size: 24px;
+}
+.desUserIndex{
+    margin: 24px 0 34px 0;
+}
+.userList1 span{
+    display: block;
+}
+.userList1 span:nth-child(1){
+    padding-bottom: 5px;
+}
+.userProfile > h3{
+    font-size: 20px;
+}
+#profileIf > .userProfile{
+    float: left;
+    width: 100%;
+    clear: both;
+    margin: 0 0 15px 0;
+}
+.ctrl-wrapper > h1{
+    margin: 0 0 20px 0;
+    font-size: 30px;
+}
+.bookList{
+    float: left;
+    width: 100%;
+    background: #eee;
+    padding: 20px;
+}
+.bookItems:first-child{
+    padding-top: 0;
+}
+.bookItems{
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.bookList .bookItems:last-child{
+    border-bottom: 0;
+}
+.itemsLeft > h3{
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+.itemsRight{
+    text-align: right;
+}
+.itemsRight a{
+    padding: 5px 30px;
+    border: 2px solid #000;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline-block;margin-right: 10px;
+}
+.bookAdd{
+    display: none;
+}
+.hiddenBookHome{
+    margin-top: 15px;
+}
+.orderContent{
+    float: left;
+    width: 100%;
+    background: #eee;
+    padding: 15px;
+}
+.orderContent .cart_header_labels, .orderContent .list_product_cart{
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+.menuPv{
+    margin-left: 15px;
+}
+.userSignup .userFrm{
+    margin-bottom: 35px;
+}
+.userSignup input[type='text'], .userSignup input[type='password'], .userSignup select{
+    border: none;
+    width: 100%;
+    border-bottom: 2px solid #000;
+    padding: 10px 0;
+}
+.container > .row, .wrapper-home-service{
+    margin-top: 30px;
+}
+@media screen and (min-width: 1200px) {
+    .itemsPr span:nth-child(2){
+        width: 70%;
+    }
+}

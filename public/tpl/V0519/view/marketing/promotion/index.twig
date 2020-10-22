@@ -1,0 +1,75 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Chương trình khuyến mãi').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Chương trình khuyến mãi">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    {% block breadcrumb %}
+        {% set category = [{'label': ' Chương trình khuyến mãi', 'uri':'/promotion'}] %}
+        {{ breadcrumbs.build(category) }}
+        <main class="wrapper main-content">
+            <div id="promotionPage">
+                <h1 style="text-align: center;font-size: 30px;padding: 10px 0;margin: 35px 0; font-weight: bold">{{ translate('CÁC CHƯƠNG TRÌNH KHUYẾN MẠI HẤP DẪN TẠI SUPLO BABY') }}</h1>
+                    {% if(promotions is not empty) %}
+                        {% for p in promotions %}
+                            {% set image = p.imageUri %}
+                            {% set options = {
+                                alt: p.name,
+                                lazy: true,
+                                openDiv: false,
+                            }%}
+
+                            <div class="" id="proItem">
+                                <div>
+                                    <a href="{{ p.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="proInfo">
+                                    <div class="proName">
+                                        <a href="{{ p.viewLink }}">
+                                            {{ p.name }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <span class="clearfix"></span>
+                    {% else %}
+                        <p style="text-align: center;color: #a52a2a;margin: 15px 0">{{ translate('Hiện tại chưa có khuyến mại nào') }}!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+    <style>
+        #proItem{
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid transparent;
+        }
+        #proItem .proInfo .proName{
+            height: auto;
+            padding: 10px 0;
+            margin-bottom: 10px;
+        }
+        #proItem{
+            padding: 0;
+            height: auto !important;
+            max-height: 100% !important;
+        }
+        #proItem .proImg{
+            height: 100%;
+        }
+        .proName>a{
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 20px;
+        }
+    </style>
+{% endblock %}

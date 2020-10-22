@@ -1,0 +1,139 @@
+{% extends "layout/layout" %}
+
+{% block body %}
+
+    <section class="container-fluid">
+
+        <div class="container">
+            <div class="row d-block p-2">
+                <a href="/">Trang chủ</a> / <a href="/profile">Tài khoản</a> / Đơn hàng
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary card-outline mb-3 ml-0 mr-0">
+                        <div class="card-header">
+                            <h3 class="card-title">ĐƠN HÀNG</h3>
+
+                        </div>
+                        <div class="row-fluid">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-main-acount">
+
+                                <div id="a" class="col-xs-12 col-sm-12 col-lg-9 col-left-account" style="padding: 0">
+                                    <div class="form-signup name-account m992">
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-lg-12 no-padding">
+                                        <div class="my-account">
+                                            <div class="dashboard">
+                                                <div class="recent-orders">
+                                                    <div class="table-responsive tab-all" style="overflow-x:auto;">
+                                                        <table class="table table-cart" id="my-orders-table">
+                                                            <thead class="thead-default">
+                                                            <tr style="background-color: #ACACAC;">
+                                                                <th>Đơn hàng</th>
+                                                                <th>Ngày</th>
+                                                                <th>Địa chỉ</th>
+                                                                <th>Giá trị đơn hàng</th>
+                                                                <th>Hình thức thanh toán</th>
+                                                                <th>Trạng thái</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% if(paginator.getCurrentModels) %}
+                                                                {% for order in paginator.getCurrentModels %}
+                                                                    {% set products = orders[order.getId()].getProducts %}
+                                                                    {% for pOrder in products %}
+                                                                        {% set totalOrderPrice = 0 %}
+                                                                        {% set totalOrderPrice = totalOrderPrice + (pOrder.quantity * pOrder.price) %}
+                                                                        <tr class="first odd" data-show="od<?= $order->getId() ?>">
+                                                                            <td>
+                                                                                <a>
+                                                                                    {{ order.id }}
+                                                                                </a>
+                                                                            </td>
+                                                                            <td>
+                                                                                {{ order.createdDate("d/m/Y") }}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{ order.address }}
+                                                                            </td>
+                                                                            <td>
+                                                                                <span class="price">{{ totalOrderPrice|number_format(0) }}₫</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <em>
+                                                                                    {{ orderPayment(order.paymentMethod) }}
+                                                                                </em>
+                                                                            </td>
+                                                                            <td>
+                                                                                {{ order.statusName(order.status) }}
+                                                                            </td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="paginate-pages pull-right page-account text-right col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="b" class="col-xs-12 col-sm-12 col-lg-3 col-right-account margin-top-20">
+                                    <div class="block-account">
+                                        <div class="block-title-account">
+                                            <h1 style="font-size: 18px; padding: 10px 0; font-weight: bold">Tài khoản của tôi</h1>
+                                        </div>
+                                        <div class="block-content form-signup">
+                                            <p>Tên tài khoản:
+                                                <strong style="line-height: 20px;">{{ user.fullname }}!</strong>
+                                            </p>
+                                            <p>
+                                                <i class="fas fa-city"></i><span>{{ translate(' Thành phố')}}:</span> {{ user.Option('cityName') }}
+                                            </p>
+                                            <p>
+                                                <i class="fas fa-city"></i><span>{{ translate(' Quận')}}:</span> {{ user.Option('districtName')}}
+                                            </p>
+                                            <p>
+                                                <i class="fas fa-home" aria-hidden="true"></i>
+                                                <span>Địa chỉ: {{ user.address }}</span>
+                                            </p>
+                                            <p>
+                                                <i class="fas fa-mobile" aria-hidden="true"></i>
+                                                <span>Điện thoại: {{ user.mobile }}</span>
+                                            </p>
+                                            <p>
+                                                <i class="fa fa-envelope font-some" aria-hidden="true"></i>
+                                                <span> Email: {{ user.email }}</span>
+                                            </p>
+                                            <p style="margin-top:20px;">
+                                                <a href="/profile/edit" class="btn btn-full tp_button">Sửa</a>
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+{#    {% include 'layout/footer' %}#}
+
+    {% block fixfoot %}
+        <div class="fixbot-detail">
+            <a href="https://www.messenger.com/t/bencomputers" class="btn-red-home"><i class="fab fa-facebook-messenger text-white fa-fw"></i> Chat với tư vấn viên</a>
+            <a href="tel:0899179991" class="btn-icon"><i class="fas fa-phone-alt"></i><span>Gọi điện</span></a>
+            <a href="#" class="btn-icon" id="showFloatButton"><i class="fas fa-ellipsis-h"></i></a>
+        </div>
+    {% endblock %}
+{% endblock %}

@@ -1,0 +1,128 @@
+<aside class="aside-item filter-price">
+    <div class="title_module_arrow">
+        <h2 class="margin-top-0"><span>Tìm theo mức giá</span></h2>
+    </div>
+    <div class="aside-content filter-group">
+        <div class="field-search form-group">
+            <input type="text" placeholder="Tìm theo giá sản phẩm" class="form-control filter-price-list" onkeyup="filterItemInList(jQuery('.filter-price-list'))">
+            <span class="input-group-btn">
+					<button class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i></button>
+				</span>
+
+
+
+
+
+        </div>
+
+
+
+        {% if(paginator.currentModels) %}
+        <ul>
+
+
+
+
+            {% if(price < 300000 and price > 200000) %}
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label data-filter="200-000d" data-for="100.000đ - 200.000đ" for="filter-100-000d-200-000d">
+                                            <input type="checkbox"  value="{{ removeFilter('price', '0:600000') }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                            0đ - 300.000đ
+                                        </label>
+                                    </span>
+                </li>
+            {% else %}
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label >
+                                            <input type="checkbox" value="{{ addFilter('price', '0:600000') }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                                0đ - 300.000đ
+                                        </label>
+                                    </span>
+                </li>
+            {% endif %}
+
+
+
+            {% if(price > 200000 and price < 300000) %}
+
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label data-filter="300-000d" data-for="200.000đ - 300.000đ" for="filter-200-000d-300-000d">
+                                            <input type="checkbox" value="{{ removeFilter('price', '600000:800000') }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                            300.000đ - 500.000đ
+                                        </label>
+                                    </span>
+                </li>
+
+            {% else %}
+
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label  >
+                                            <input type="checkbox"  value="{{ addFilter('price', '600000:1000000', 2) }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                            300.000đ - 500.000đ
+                                        </label>
+                                    </span>
+                </li>
+            {% endif %}
+
+
+            {% if(price < 1000000 and price > 500000) %}
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label data-filter="1-000-000d" data-for="500.000đ - 1.000.000đ" for="filter-500-000d-1-000-000d">
+                                            <input type="checkbox"  value="{{ removeFilter('price', '1000000:1600000') }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                            500.000đ - 800.000đ
+                                        </label>
+                                    </span>
+                </li>
+            {% else %}
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label data-filter="1-000-000d" >
+                                            <input type="checkbox" value="{{ addFilter('price', '1000000:1600000', 2) }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                            500.000đ - 800.000đ
+                                        </label>
+                                    </span>
+                </li>
+            {% endif %}
+
+            {% if( price < 1000000 and price > 800000) %}
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label data-filter="1-000-000d" data-for="Giá trên 1.000.000đ" for="filter-tren1-000-000d">
+                                            <input type="checkbox"  value="{{ removeFilter('price', '1600000:2600000') }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                            800.000đ - 1.200.000đ
+                                        </label>
+                                    </span>
+                </li>
+            {% else %}
+                <li class="filter-item filter-item--check-box filter-item--green">
+                                    <span>
+                                        <label data-filter="1-000-000d" data-for="Giá trên 1.000.000đ" for="filter-tren1-000-000d">
+                                            <input type="checkbox" id="filter-tren1-000-000d"  value="{{ addFilter('price', '1600000:2600000', 2) }}" data-operator="OR">
+                                            <i class="fa"></i>
+                                            800.000đ - 1.000.000đ
+                                        </label>
+                                    </span>
+                </li>
+            {% endif %}
+
+
+
+
+        </ul>
+        {% endif %}
+
+    </div>
+
+</aside>

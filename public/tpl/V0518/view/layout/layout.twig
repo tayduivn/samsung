@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi-VN" data-nhanh.vn-template="{{ templateDir }}">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE"/>
+    <meta charset="utf-8">
+
+    {% block stylesheets %}{% endblock %}
+
+    {% set styleSheet = [
+        '/css/fontAwesome/font-awesome-5.12.0.min.css',
+        '/tpl/'~ templateDir ~'/css/bootstrap.css',
+        '/tpl/'~ templateDir ~'/css/style.css',
+    ]%}
+
+    <link rel="stylesheet" href="{{ srcLink(styleSheet,1) }}" type="text/css">
+
+</head>
+
+<body>
+    {% include 'layout/header' %}
+
+    {% block body %}{% endblock %}
+
+    {% include 'layout/footer' %}
+
+    {% set script = [
+        '/js/jquery/jquery.min.js',
+        '/js/elevatezoom/elevatezoom.min.js',
+        '/js/jquery/fancybox-2.1.5/source/jquery.fancybox.js',
+        '/tpl/'~ templateDir ~'/js/script.js'
+    ] %}
+
+    <script type="text/javascript" src="{{ srcLink(script,1) }}"></script>
+
+    {% block script %}{% endblock %}
+</body>
+</html>

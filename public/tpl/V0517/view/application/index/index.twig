@@ -1,0 +1,55 @@
+{% extends "layout/layout" %}
+  {% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+  {% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Hệ thống cửa hàng Cặp, Balô, Vali kéo du lịch chính hãng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="https://captot.vn/tpl/T0002/img/logoShare.png">
+  {% endblock %}
+  {% block stylesheets %}
+  <link rel="stylesheet" href="{{ templatePath ~'/css/plugin.css' }}" type="text/css">
+{% endblock %}
+
+{% block body %}
+      <!-- main -->
+      <main class="main" id="main">
+          <div class="">
+              <label for="menu-switch" id="menu-toggle"></label>
+              <!-- banner home -->
+              {% include "layout/banner-home" %}
+              <!-- end banner home -->
+
+              <!-- tab menu -->
+              {% include "layout/tab-menu-slider" %}
+              <!-- end tab slider -->
+
+              <!-- banner main -->
+              {% include "layout/banner-main-img" %}
+              <!-- end banner main -->
+
+              <!-- slider fixed background -->
+              {% include "layout/slider-bg-fixed" %}
+              <!-- end slider fixed background -->
+
+              <!-- product promotional  -->
+              {% include "layout/product-promotional" %}
+              <!-- end product promotional  -->
+
+              <!-- customer reviews -->
+              {% include "layout/customer-reviews" %}
+              <!-- end customer reviews -->
+
+              <!-- post news -->
+              {% include "layout/post-news" %}
+              <!-- end post news -->
+          </div>
+      </main>
+      <!-- end main -->
+
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/magnific-popup.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/slick.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/slider.js' }}"></script>
+    <script type="text/javascript" src="{{ templatePath ~'/js/plugin.js' }}"></script>
+{% endblock %}    

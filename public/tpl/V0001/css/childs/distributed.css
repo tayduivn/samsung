@@ -1,0 +1,170 @@
+a:hover{
+    text-decoration: none !important;
+}
+#labelCtPro{
+    width: 100% !important;
+}
+.bannerDis, .filterCity{
+    display: inline-block;
+    width: 100%;
+}
+.bannerDis a img{
+    max-width: 100%;
+}
+.filterCity .filterLeft, .filterCity .filterRight{
+    float: left;
+    width: 40%;
+}
+.filterCity{
+    border-radius: 5px;
+    background: #DEDEDE;
+    padding: 10px;
+    margin: 20px 0 20px 0;
+    -webkit-box-shadow: -1px 2px 16px -5px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 2px 16px -5px rgba(0,0,0,0.75);
+    box-shadow: -1px 2px 16px -5px rgba(0,0,0,0.75);
+}
+.filterCity span{
+    display: block;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 13px;
+    padding-bottom: 5px;
+}
+.filterCity form > div{
+}
+.filterCity select{
+    width: 100%;
+    padding: 4px 0;
+    border: 1px solid #fff;
+}
+.filterCity .filterRight{
+    margin-left: 5%;
+}
+.filterCity .filterLeft, .filterCity .filterRight{
+    padding: 5px 0;
+}
+.lstNews{
+    padding: 0 20px 0 0 !important;
+}
+.disBlock > h3{
+    font-weight: 600;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    font-size: 15px;
+}
+.disBlock > h3 span{
+    position: absolute;
+    border-bottom: 2px solid #f44242;
+    width: 100%;
+    bottom: -4px;
+    left: 0;
+}
+.disButton a{
+    color: #333;
+}
+.filterSearch{
+    float: right;
+    width: 10%;
+    margin: 2% auto 0 auto;
+    text-align: center;
+}
+.filterSearch button{
+    border: none;
+    background:  #f44242;
+    color: #fff;
+    padding: 5px 15px;
+}
+.disButton a i{
+    color: #f44242;
+    display: inline-block;
+    width: 12px;
+    font-size: 16px;
+    height: 18px;
+    vertical-align: middle;
+    margin: 0 10px;
+}
+.disBlock ul{
+    margin: 0;
+    display: inline-block;
+    width: 100%;
+    border-top: 1px solid #DEDEDE;
+}
+.disBlock ul li{
+    list-style: none;
+    padding: 15px;
+}
+.disBlock .listDis{
+    display: inline-block;
+    width: 100%;
+}
+.listDis ul li{
+    float: left;
+    /*width: 33%;*/
+    border-bottom: 1px solid #DEDEDE;
+    border-left: 1px solid #dedede;
+}
+.listDis ul li:nth-child(3n){
+    /*width: 34%;*/
+    border-right: 1px solid #dedede;
+}
+.listDis ul li .disImg{
+    width: 100%;
+    height: 150px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+.listDis ul li img{
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin: auto;
+}
+.listDis ul li .disDetails p{
+    margin: 0;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0;
+    height: 50px;
+    overflow: hidden;
+}
+.listDis ul li .disDetails span{
+    font-size: 12px;
+    display: block;
+    padding: 2px 0;
+}
+.listDis ul li .disButton{
+    margin: 10px 0 0 0;
+    -webkit-box-shadow: -1px 3px 2px -3px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 3px 2px -3px rgba(0,0,0,0.75);
+    box-shadow: -1px 3px 2px -3px rgba(0,0,0,0.75);
+    background: #f1f1f1;
+    font-style: italic;
+    padding: 3px 0;
+    cursor: pointer;
+    display: block;
+    border-radius: 3px;
+}
+.listDis ul li .disButton:hover{
+    background: #f44242;
+}
+.listDis ul li .disButton:hover a, .listDis ul li .disButton:hover i{
+    color: #fff;
+}
+#distriMain>div{
+    clear: inherit;
+}
+.contactContent > h3{
+    line-height: 25px;
+}
+
+#labelCtPro, #labelCtPro>a{
+    text-align: left !important;
+}

@@ -1,0 +1,11 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đặt hàng thành công').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán thành công">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block body %}
+   
+{% endblock %}

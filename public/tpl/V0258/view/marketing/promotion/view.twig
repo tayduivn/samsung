@@ -1,0 +1,101 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle( promotion.name ).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="{{ promotion.description?:promotion.name }}">
+    <meta name="keywords" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:title" content="{{ promotion.name }}">
+    <meta property="og:description" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:keywords" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:type" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ promotion.imageUri }}">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="breadcrumb breadcrumbs">
+                <div class="rdfa-breadcrumb">
+                    <div>
+                        <p>
+                            <span class="breadcrumbs-title"> </span>
+                            <span typeof="v:Breadcrumb">
+                            <a href="/" class="home">Trang chủ</a>
+                        </span>
+                            <span class='separator'>|</span> Khuyến mại
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+
+                <div class="home-page">
+                    <h3><span>{{ promotion.name }}</span></h3>
+                    {% if(paginator) %}
+                        <div class="list-sps">
+                            <div class="row">
+                                {% for p in paginator.currentModels %}
+                                    {% set image = p.thumbnailUri %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        class: 'attachment-270x152 size-270x152 wp-post-image',
+                                        lazy: true,
+                                        openDiv: false,
+                                    } %}
+                                    {% set percent = p.calcDiscountPercent %}
+                                    {% set priceDiscount = p.priceAfterDiscount %}
+                                    <ul class="col-xs-6 col-sm-4 col-md-4 col-lg-3 box-product box_tab_index prdWrapper"
+                                        data-storeId="{{ getStoreId }}" data-pid="{{ p.id }}">
+                                        <li class="item">
+                                            <div class="inner-item">
+                                                <a class="a-image" href="{{ p.viewLink }}">
+                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                    <div class="btn-quickview tp_button" data-psId="{{ p.id }}"><span>Xem nhanh</span>
+                                                    </div>
+                                                </a>
+                                                {% if(percent>0) %}
+                                                    <p class="discount-percent icpercent">
+                                                        -{{ percent }}<span
+                                                                class="percent">%</span>
+                                                    </p>
+                                                {% endif %}
+                                                <div class="box-text">
+                                                    <p class="title"><a class="tp_product_name" href="{{ p.viewLink }}"
+                                                                        title="{{ p.name }}">{{ p.name }}</a>
+                                                    </p>
+                                                </div>
+                                                <p class="price">
+                                                    <strong class="f-left">
+                                                        {% if(priceDiscount > 0) %}
+                                                            <span class="tp_product_price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                                                            <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                VNĐ
+                                                            </del>
+                                                        {% elseif(p.oldprice) %}
+                                                            <span class="tp_product_price">{{ p.price|number_format(0) }}VNĐ </span>
+                                                            <del class="tp_product_price_old">{{ p.oldprice|number_format(0) }}
+                                                                VNĐ
+                                                            </del>
+                                                        {% elseif(p.price <= 0 ) %}
+                                                            <span class="tp_product_price">Liên hệ</span>
+                                                        {% else %}
+                                                            <span class="tp_product_price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                        {% endif %}
+                                                    </strong>
+                                                </p>
+                                                <p class="discount-percent sold-out"></p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% endfor %}
+                                <div class='wp-pagenavi'>
+                                    {{paginationControl(paginator, 'Sliding', 'partial/listPage') }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

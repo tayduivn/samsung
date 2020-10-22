@@ -1,0 +1,533 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ category.name }}">
+    <meta property="og:url" content="{{ category.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+    <link rel="canonical" href="{{ category.viewLink }}" />
+    {% set nItems = 0 %}
+    {% if(paginator) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.getTotalItemCount() %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = []%}
+    <div class="breadcrumb_background pb-md-3">
+        <section class="bread-crumb">
+            {{ breadcrumbs.build(buildBreadcrumbs(category)) }}
+        </section>
+    </div>
+    <section class="category_in_collection d-none d-xl-block mb-3">
+        <section class="section_category">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-12 col-sm-12">
+                        {% if(category is not empty) %}
+                            <div class="owl_col_section owl_category owl-carousel owl-loaded owl-drag" data-dot="false" data-nav="true" data-lg-items="5" data-md-items="5" data-height="true" data-xs-items="3" data-sm-items="4" data-margin="15">
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage">
+                                        {% for c in category.childs %}
+                                            {% if c is not empty %}
+                                            <div class="owl-item">
+                                                <div class="item">
+                                                    <div class="thumb_s">
+                                                        <div class="image">
+                                                            <img src="{{ c.icon }}">
+                                                        </div>
+                                                        <div class="info">
+                                                            <h4 class="title_cate_"><a href="{{ c.viewLink }}">{{ c.name | raw }}</a></h4>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <p>Không có kết quả nào phù hợp </p>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="category_in_collection margin-bottom-15 d-xl-none">
+        <section class="section_category">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-md-9 col-sm-12">
+                        {% if(category is not empty) %}
+                            <div class="owl_col_section owl_category owl-carousel owl-loaded owl-drag"
+                                 data-dot="false" data-nav="false" data-lg-items="6" data-md-items="5"
+                                 data-height="true" data-xs-items="3" data-sm-items="4" data-margin="3">
+                                <div class="owl-stage-outer">
+                                    <div class="owl-stage">
+                                        {%  for c in category.childs | batch(2) %}
+                                            <div class="owl-item">
+                                                {% for c1 in c %}
+                                                    <div class="item_category">
+                                                        <div class="item_mobile">
+                                                            <div class="info">
+                                                                <h4 class="title_cate_"><a href="{{ c1.viewLink }}">{{ c1.name | raw }}</a></h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12">
+                        <div class="sortPagiBar d-xl-none">
+                            <div class="bg-white sort-cate clearfix">
+                                <div id="sort-by">
+                                    <label class="left dropdown">Sắp xếp: </label>
+                                    {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+                                    {% set price = getParam('price') %}
+                                    {% if(allAttr is not empty) %}
+                                        <ul class="ul_col">
+                                            <li><span>Mặc định</span>
+                                                <ul class="content_ul">
+                                                    <li><a href="#" title="{{ category.viewLink }}">{{ translate('Mặc định') }}</a></li>
+                                                    {% if 'priceAsc' in shows %}
+                                                        <li class="active"><a rel="noindex"
+                                                                              title="{{ removeFilter('show', 'priceAsc') }}"
+                                                                              class=""> Giá tăng dần</a></li>
+                                                    {% else %}
+                                                        <li><a rel="noindex"
+                                                               title="{{ addFilter('show', 'priceAsc', 2) }}">Giá tăng dần</a></li>
+                                                    {% endif %}
+
+                                                    {% if 'priceDesc' in shows %}
+                                                        <li class="active"><a rel="noindex"
+                                                                              title="{{ removeFilter('show', 'priceDesc') }}"
+                                                                              class=""> Giá giảm dần</a></li>
+                                                    {% else %}
+                                                        <li><a rel="noindex"
+                                                               title="{{ addFilter('show', 'priceDesc', 2) }}">Giá giảm dần</a></li>
+                                                    {% endif %}
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <div class="container">
+        <div class="background_aside_wrap section">
+            <div class="row bg_collection">
+                <div class="d-none d-xl-block ul_collections col-xl-3 col-xl-3-fix">
+                    <div class="collection-sidebar-wrapper">
+                        <div class="grid">
+                            <div class="grid__item large--one-whole medium--one-half small--one-whole">
+                                <div class="collection-categories">
+                                    <button class="accordion cs-title col-sb-trigger">
+                                        <span>Danh mục sản phẩm</span>
+                                    </button>
+                                    <div class="panel" style="overflow: auto">
+                                        <ul class="no-bullets">
+                                            {% set category = getCategories() %}
+                                            {% if (category) %}
+                                                {% for c in category %}
+                                                    <li>
+                                                        <a href="{{ c.viewLink }}">- {{ c.name | raw }}</a>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% set price = {} %}
+                            {% if(price) %}
+                                {% set price = price %}
+                            {% endif %}
+
+                            <div class="grid__item large--one-whole medium--one-half small--one-whole">
+                                {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+                                {% if (allAttr) %}
+                                    <div class="collection-filter-price">
+                                        <button class="accordion cs-title col-sb-trigger">
+                                            <span>Khoảng giá</span>
+                                        </button>
+                                        <div class="panel sidebar-sort" style="overflow: auto">
+                                            <ul class="no-bullets filter-price clearfix">
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" name="price-filter" data-price="0:max" value="/product">
+                                                        <span>Tất cả</span>
+                                                    </label>
+                                                </li>
+                                                {% if (price < 100000 and price > 0) %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="checkbox" name="price-filter" data-price="0:100000" value="{{ removeFilter('price', '0:100000') }}">
+                                                            <span>Nhỏ hơn 100,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="checkbox" name="price-filter" data-price="0:100000" value="{{ addFilter('price', '0:100000', 2) }}" {{ getParam('price') == '0:100000' ? 'checked' : '' }}>
+                                                            <span>Nhỏ hơn 100,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+
+                                                {% if (price < 200000 and price > 100000) %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="100000:200000" value="{{ removeFilter('price', '100000:200000') }}">
+                                                            <span>Từ 100,000₫ - 200,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="100000:200000" value="{{ addFilter('price', '100000:200000', 2) }}" {{ getParam('price') == '100000:200000' ? 'checked' : '' }}>
+                                                            <span>Từ 100,000₫ - 200,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+
+                                                {% if (price < 300000 and price > 200000) %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="200000:300000" value="{{ removeFilter('price', '200000:300000') }}">
+                                                            <span>Từ 200,000₫ - 300,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="200000:300000" value="{{ addFilter('price', '200000:300000', 2) }}" {{ getParam('price') == '200000:300000' ? 'checked' : '' }}>
+                                                            <span>Từ 200,000₫ - 300,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+
+                                                {% if (price < 400000 and price > 300000) %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="300000:400000" value="{{ removeFilter('price', '300000:400000') }}">
+                                                            <span>Từ 300,000₫ - 400,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="300000:400000" value="{{ addFilter('price', '300000:400000', 2) }}" {{ getParam('price') == '300000:400000' ? 'checked' : '' }}>
+                                                            <span>Từ 300,000₫ - 400,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+
+                                                {% if (price < 500000 and price > 400000) %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="400000:500000" value="{{ removeFilter('price', '400000:500000') }}">
+                                                            <span>Từ 400,000₫ - 500,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="400000:500000" value="{{ addFilter('price', '400000:500000', 2) }}" {{ getParam('price') == '400000:500000' ? 'checked' : '' }}>
+                                                            <span>Từ 400,000₫ - 500,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                {% endif %}
+
+                                                {% if (price > 500000) %}
+                                                    <li>
+                                                        <label>
+                                                            <input type="radio" name="price-filter" data-price="500000:max" value="{{ addFilter('price', '500000:max', 2) }}" {{ getParam('price') == '500000:max' ? 'checked' : '' }}>
+                                                            <span>Lớn hơn 500,000₫</span>
+                                                        </label>
+                                                    </li>
+                                                    {#                                                            <li>#}
+                                                    {#                                                                <label>#}
+                                                    {#                                                                    <input type="radio" name="price-filter" data-price="500000:max" value="{{ removeFilter('price', '500000:max') }}">#}
+                                                    {#                                                                    <span>Lớn hơn 500,000₫</span>#}
+                                                    {#                                                                </label>#}
+                                                    {#                                                            </li>#}
+                                                    {#                                                        {% else %}#}
+                                                    {#                                                            <li>#}
+                                                    {#                                                                <label>#}
+                                                    {#                                                                    <input type="radio" name="price-filter" data-price="500000:max" value="{{ addFilter('price', '500000:max', 2) }}">#}
+                                                    {#                                                                    <span>Lớn hơn 500,000₫</span>#}
+                                                    {#                                                                </label>#}
+                                                    {#                                                            </li>#}
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="grid__item large--one-whole medium--one-half small--one-whole">
+                                <div class="collection-filter-vendor">
+                                    <button class="accordion cs-title col-sb-trigger">
+                                        <span>Thương hiệu</span>
+                                    </button>
+                                    <div class="panel sidebar-sort" style="overflow: auto">
+                                        <ul class="no-bullets filter-vendor clearfix">
+                                            {% set brand = loadBrand({'categoryId':category.id}) %}
+                                            {% if (brand) %}
+                                                {% set prBrand = getParam('brand') %}
+                                                {% for b in brand %}
+                                                    {% if b.id in prBrand %}
+                                                        <li>
+                                                            <label data-filter="{{ b.name }}" class="filter-vendor__item {{ b.name }}">
+                                                                <input type="checkbox" value="{{ removeFilter('brand', b.id) }}" {{ getParam('brand') == b.id ? 'checked' : '' }}>
+                                                                <span>{{ b.name }}</span>
+                                                            </label>
+                                                        </li>
+                                                    {% else %}
+                                                        <li>
+                                                            <label data-filter="{{ b.name }}" class="filter-vendor__item {{ b.name }}">
+                                                                <input type="checkbox" value="/product?brand={{ b.id }}" {{ getParam('brand') == b.id ? 'checked' : '' }}>
+                                                                <span>{{ b.name }}</span>
+                                                            </label>
+                                                        </li>
+                                                    {% endif %}
+
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            {% for c in allAttr %}
+
+                                {% set column = c.column %}
+                                {% if (c.id != 17343) %}
+                                    <div class="grid__item large--one-whole medium--one-half small--one-whole">
+                                        <div class="collection-filter-vendor filter_{{ c.id }}">
+                                            <button class="accordion cs-title col-sb-trigger">
+                                                <span>{{ c.name }}</span>
+                                            </button>
+                                            <div class="panel sidebar-sort" style="overflow: auto">
+                                                <ul class="no-bullets filter-vendor clearfix">
+                                                    {% set attrColumnValues = attrColumnValues %}
+                                                    {% if (c.id == 12960) %}
+                                                        <li class="colorList">
+                                                            <label data-filter="{{ value.name }}" class="filter-vendor__item {{ value.name }}">
+                                                                {% for value in c.values %}
+                                                                    {% if (value.id in attrColumnValues[column]) %}
+                                                                        <div class="{{ getParam(column) == value.id() ? 'sd' : '' }}" title="{{ value.name }}" value="{{ removeFilter(column, value.id) }}" style="background-color: {{ '#' ~ value.content }};">
+                                                                            <img class="img-check" style="position: absolute; right: 0; bottom: 0" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                        </div>
+                                                                    {% else %}
+                                                                        <div class="{{ getParam(column) == value.id() ? 'sd' : '' }}" title="{{ value.name }}" value="{{ addFilter(column, value.id(), 2) }}" style="background-color: {{ '#' ~ value.content }};">
+                                                                            <img class="img-check" style="position: absolute; right: 0; bottom: 0" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                        </div>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </label>
+                                                        </li>
+                                                    {% else %}
+                                                        {% for value in c.values %}
+                                                            {% if (value.id in attrColumnValues[column]) %}
+                                                                <li>
+                                                                    <label data-filter="{{ value.name }}" class="filter-vendor__item {{ value.name }}">
+                                                                        <input type="checkbox" value="{{ removeFilter(column, value.id) }}" {{ getParam(column) == value.id() ? 'checked' : '' }}>
+                                                                        <span>{{ value.name }}</span>
+                                                                    </label>
+                                                                </li>
+                                                            {% else %}
+                                                                <li>
+                                                                    <label data-filter="{{ value.name }}" class="filter-vendor__item {{ value.name }}">
+                                                                        <input type="checkbox" value="{{ addFilter(column, value.id(), 2) }}" {{ getParam(column) == value.id() ? 'checked' : '' }}>
+                                                                        <span>{{ value.name }}</span>
+                                                                    </label>
+                                                                </li>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+              {#  <aside class="dqdt-sidebar sidebar left-content col-xl-3 col-xl-3-fix">
+
+                    <div class="section">
+                        <a class="section d-block margin-bottom-20 a-center" href="/" title="Nhân sên sẵn">
+                            <img src="/tp/V0510/img/banner_collection_1.jpg" alt="Nhân sên sẵn">
+                        </a>
+                        <a class="section d-block margin-bottom-20 a-center" href="/" title="Combo trung thu">
+                            <img src="/tp/V0510/img/banner_collection_2.jpg" alt="Combo trung thu">
+                        </a>
+                    </div>
+                </aside> #}
+                <div class="main_container collection col-xl-9 col-xl-9-fix padding-col-left-0">
+                    <div class="category-products products">
+                        <div class="sortPagiBar">
+                            <div class="bg-white sort-cate clearfix d-none d-xl-block">
+                                <div id="sort-by" class="dropdown">
+                                    <label class="left">Sắp xếp: </label>
+                                    {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+                                    {% set price = getParam('price') %}
+                                    {% if(allAttr is not empty) %}
+                                        <ul class="ul_col">
+                                            <li><span>Mặc định</span>
+                                                <ul class="content_ul">
+                                                    <li><a href="#" title="{{ category.viewLink }}">{{ translate('Mặc định') }}</a></li>
+                                                    {% if 'priceAsc' in shows %}
+                                                        <li class="active"><a rel="noindex"
+                                                                              title="{{ removeFilter('show', 'priceAsc') }}"
+                                                                              class=""> Giá tăng dần</a></li>
+                                                    {% else %}
+                                                        <li><a rel="noindex"
+                                                               title="{{ addFilter('show', 'priceAsc', 2) }}">Giá tăng dần</a></li>
+                                                    {% endif %}
+
+                                                    {% if 'priceDesc' in shows %}
+                                                        <li class="active"><a rel="noindex"
+                                                                              title="{{ removeFilter('show', 'priceDesc') }}"
+                                                                              class=""> Giá giảm dần</a></li>
+                                                    {% else %}
+                                                        <li><a rel="noindex"
+                                                               title="{{ addFilter('show', 'priceDesc', 2) }}">Giá giảm dần</a></li>
+                                                    {% endif %}
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <section class="products-view products-view-grid collection_reponsive list_hover_pro">
+                            <div class="row rows_custome">
+                                {% if(paginator.currentModels is not empty) %}
+                                    {{  paginator.setPageRange(4) }}
+                                    {% for p in paginator.currentModels %}
+                                        {% set image = p.thumbnailUri %}
+                                        {% set options = {
+                                            alt: p.name,
+                                            class: 'imageChange',
+                                            lazy: true,
+                                            openDiv: false,
+                                        }%}
+                                        {% set percent = p.calcDiscountPercent %}
+                                        {% set priceDiscount = p.priceAfterDiscount %}
+                                        {% set arrayIds = [p.id] %}
+                                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 product-col col_custome">
+                                            <div class="margin-bottom-20  thumb_collection item_product_main-product" data-storeId="{{ p.storeId }}" psId="{{ p.name }}">
+                                                <div class="bg-white product-item-main-product product-item-compare">
+                                                    <div class="product-thumbnail-product">
+                                                        <a href="{{ p.viewLink }}">
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-bottom-product">
+                                                        <h3 class="product-name-product">
+                                                            <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                                        </h3>
+                                                        <div class="block-width-min-height-product">
+                                                            <div class="blockprice-product">
+                                                                <div class="product-item-price price-box-product ">
+                                                                <span class="special-price">
+                                                                    <span class="price product-price-product">{{ p.price|number_format(0) }}₫</span>
+                                                                </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Không có kết quả nào phù hợp </p>
+                                {% endif %}
+                            </div>
+                            <nav class="shop-pag text-center clearfix relative nav_pagi f-right w_100">
+                                {{ render_paginator(paginator) }}
+                            </nav>
+                        </section>
+                    </div>
+                    <div id="open-filters" class="open-filters hidden-lg">
+                        <i class="fa fa-align-right"></i>
+                        <span>Lọc</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'layout/blockfooter' %}
+    <section class="index_policy d-none d-lg-block">
+        <div class="container">
+            <div class="row pl-3 pr-3">
+                <div class="section wplogindex">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="policy_item">
+                                <div class="icon-policy">
+                                    <img src="/tp/V0510/img/index_po_1.png" alt="Miễn phí vận chuyển">
+                                </div>
+                                <div class="content">
+                                    <h3>Miễn phí vận chuyển</h3>
+                                    <p>Beemart miễn phí vận chuyển với đơn hàng trên 350.000đ...<a href="#" title="Xem chi tiết">[Xem chi tiết]</a></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="policy_item">
+                                <div class="icon-policy">
+                                    <img src="/tp/V0510/img/index_po_2.png" alt="Đổi trả trong vòng 7 ngày">
+                                </div>
+                                <div class="content">
+                                    <h3>Đổi trả trong vòng 7 ngày</h3>
+                                    <p>Nhận đổi trả hàng với các thiết bị dụng cụ làm bánh có sử dụng điện..<a href="#" title="Xem chi tiết">[Xem chi tiết]</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="policy_item">
+                                <div class="icon-policy">
+                                    <img src="/tp/V0510/img/index_po_3.png">
+                                </div>
+                                <div class="content">
+                                    <h3>Phương thức thanh toán</h3>
+                                    <p>Hỗ trợ thanh toán qua thẻ: Vietcombank, Techcombank, BIDV,...<a href="#" title="Xem chi tiết">[Xem chi tiết]</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đặt hàng thành công').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán thành công">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="row-fluid">
+                <div class="container">
+                    <div class="orderview">
+                        <span class="sidebar-title">- Cảm ơn ! -</span>
+                        <div class="clearfix"></div>
+                        <p>Mã đơn đặt hàng của bạn là <b>{{ order.id }}</b><br></p>
+                        <div class="text-center col-xs-12"><a href="/" class="btn btn-green">Tiếp tục mua sắm</a></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

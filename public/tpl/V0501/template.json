@@ -1,0 +1,36 @@
+{
+    "author":"toannd",
+    "sourceLink":"https://dl-pelican.myharavan.com/",
+    "//": "set type: 1 =>> cái này set luôn ID là template thiết kế, nếu k phải template thiết kế thì k cần thêm cái này",
+    "type": 1,
+    "domain": {
+        "storeId":15113,
+        "name": "V0501.toanndstore2.bot3s.net",
+        "alias": "V0501.toanndstore2.bot3s.net"
+    },
+    "banners":{
+        "BANNER_HOME":{
+            "name" : "Banner chính trang chủ",
+            "description" : "Kích cỡ banner 720x358",
+            "size" : "720x358"
+        },
+        "BANNER_TOP":{
+            "name" : "Banner hai bên banner countdown",
+            "description" : "Kích cỡ banner 303x148",
+            "size" : "303x148"
+        },
+        "BANNER_BOT":{
+            "name" : "Banner hai bên banner countdown",
+            "description" : "Kích cỡ banner 303x148",
+            "size" : "303x148"
+        }
+    },
+    "contents":{
+        "HOME":{
+            "name": "Trang chủ",
+            "keys": {
+
+            }
+        }
+    }
+}

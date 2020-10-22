@@ -1,0 +1,950 @@
+{#{% extends "layout/layout" %}#}
+{#{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}#}
+{#{% block meta %}#}
+{#    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}#}
+{#    <meta property="og:title" content="nhanh.vn">#}
+{#    <meta property="og:url" content="{{ getCurrentUrl() }}">#}
+{#    <meta property="og:image" content="{{ getLogoUri() }}">#}
+{#{% endblock %}#}
+{#{% block stylesheets %}#}
+{#    <link rel="stylesheet" href="{{ ''~ templatePath  ~'/css/index2.css' }}" type="text/css">#}
+{#{% endblock %}#}
+{#{% block body %}#}
+{#    <div class="container-fluid">#}
+{#        <div class="body-index">#}
+{#            <div class="row banner">#}
+{#                <div  class="col-xl-8 col-md-12">#}
+{#                    <div class=" item-1 owl-carousel">#}
+{#                        <a href="#">#}
+{#                            <img class="img-fluid" alt=""#}
+{#                                 srcset="https://goop.com/app/uploads/2020/10/2001001-Jumbo-Large.jpg 1624w, https://goop.com/app/uploads/2020/10/2001001-Jumbo-Large-300x178.jpg 300w, https://goop.com/app/uploads/2020/10/2001001-Jumbo-Large-768x456.jpg 768w, https://goop.com/app/uploads/2020/10/2001001-Jumbo-Large-1024x608.jpg 1024w, https://goop.com/app/uploads/2020/10/2001001-Jumbo-Large-630x374.jpg 630w, https://goop.com/app/uploads/2020/10/2001001-Jumbo-Large-512x304.jpg 512w">#}
+{#                        </a>#}
+{#                        <a href="#">#}
+{#                            <img class="img-fluid" alt=""#}
+{#                                 srcset="https://goop.com/app/uploads/2020/09/200923-Jumbo-Large-3-1.jpg 1624w, https://goop.com/app/uploads/2020/09/200923-Jumbo-Large-3-1-300x178.jpg 300w, https://goop.com/app/uploads/2020/09/200923-Jumbo-Large-3-1-768x456.jpg 768w, https://goop.com/app/uploads/2020/09/200923-Jumbo-Large-3-1-1024x608.jpg 1024w, https://goop.com/app/uploads/2020/09/200923-Jumbo-Large-3-1-630x374.jpg 630w, https://goop.com/app/uploads/2020/09/200923-Jumbo-Large-3-1-512x304.jpg 512w">#}
+{#                        </a>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div style="padding: 0" class="col-xl-3 col-md-12">#}
+{#                    <div class="row">#}
+{#                        <div style=" margin-bottom: 25px;padding-left: 0" class="col-xl-12 col-md-6 col-6">#}
+{#                            <a href="#">#}
+{#                                <img class="img-fluid" alt=""#}
+{#                                     srcset="https://goop.com/app/uploads/2020/09/200931-Jumbo-Medium.jpg 1208w, https://goop.com/app/uploads/2020/09/200931-Jumbo-Medium-300x243.jpg 300w, https://goop.com/app/uploads/2020/09/200931-Jumbo-Medium-768x623.jpg 768w, https://goop.com/app/uploads/2020/09/200931-Jumbo-Medium-1024x831.jpg 1024w, https://goop.com/app/uploads/2020/09/200931-Jumbo-Medium-630x511.jpg 630w, https://goop.com/app/uploads/2020/09/200931-Jumbo-Medium-512x415.jpg 512w">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="padding-left: 0" class="col-xl-6 col-md-3 col-3">#}
+{#                            <a href="#">#}
+{#                                <img class="img-fluid" alt=""#}
+{#                                     srcset="https://goop.com/app/uploads/2020/09/200906_Jumbo_Small-2.jpg 580w, https://goop.com/app/uploads/2020/09/200906_Jumbo_Small-2-200x300.jpg 200w, https://goop.com/app/uploads/2020/09/200906_Jumbo_Small-2-370x556.jpg 370w">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="padding-left: 0" class="col-xl-6 col-md-3 col-3">#}
+{#                            <a href="#">#}
+{#                                <img class="img-fluid" alt=""#}
+{#                                     srcset="https://goop.com/app/uploads/2020/09/200906_Jumbo_Small-2.jpg 580w, https://goop.com/app/uploads/2020/09/200906_Jumbo_Small-2-200x300.jpg 200w, https://goop.com/app/uploads/2020/09/200906_Jumbo_Small-2-370x556.jpg 370w">#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div style="margin-top: 20px" class="col-11">#}
+{#                    <img src="https://tpc.googlesyndication.com/simgad/9562995374596346437" border="0"#}
+{#                         class="img-fluid">#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="row cate-group">#}
+{#                <ul class="nav">#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link link-2 ">SHOP BY:</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link border-after link-1">What's New</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a href="#" class="nav-link link-1">What's New</a>#}
+{#                    </li>#}
+{#                </ul>#}
+{#            </div>#}
+{#            <div class="row">#}
+{#                <div class="col-xl-3 col-md-12 shop-clean">#}
+{#                    <div class="row">#}
+{#                        <a style="font-size: 24px;margin: 0 auto" href="https://shop.goop.com/shop/collection/beauty/"#}
+{#                           class="link-3">SHOP CLEAN#}
+{#                            BEAUTY</a></div>#}
+{#                    <div class="row">#}
+{#                        <a style="font-weight: 400;margin: 0 auto" href="https://shop.goop.com/shop/collection/beauty/"#}
+{#                           class="link-2"><u>SHOP ALL</u></a>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-xl-9 col-md-12">#}
+{#                    <div style="padding:0 35px" class="item-5 owl-carousel">#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/028/751/product/open-uri20180604-21768-1w5z18y?1528132445"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/047/665/product/open-uri20190715-28450-1nqtjv2?1563226996"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/028/751/product/open-uri20180604-21768-1w5z18y?1528132445"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/047/665/product/open-uri20190715-28450-1nqtjv2?1563226996"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/028/751/product/open-uri20180604-21768-1w5z18y?1528132445"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/047/665/product/open-uri20190715-28450-1nqtjv2?1563226996"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/028/751/product/open-uri20180604-21768-1w5z18y?1528132445"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/047/665/product/open-uri20190715-28450-1nqtjv2?1563226996"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/028/751/product/open-uri20180604-21768-1w5z18y?1528132445"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/047/665/product/open-uri20190715-28450-1nqtjv2?1563226996"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/028/751/product/open-uri20180604-21768-1w5z18y?1528132445"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div style="text-align: center">#}
+{#                            <a href="#" class="link-1">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/047/665/product/open-uri20190715-28450-1nqtjv2?1563226996"#}
+{#                                     alt="Balm">#}
+{#                                <div class="product-pod__brand">Olio E Osso</div>#}
+{#                                <div class="product-pod__title">Balm</div>#}
+{#                                <div class="product-pod__price">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div style="padding-left: 20px" class="row">#}
+{#                <div class="col-xl-8 col-md-12">#}
+{#                    <div class="cate-product margin-top-20">#}
+{#                        <div class="row">#}
+{#                            <div class="col-12">#}
+{#                                <h5 style="border-top:1.5px solid #999;" class="text-center">#}
+{#                                    <span class="title">OCT 01, 2020: ADULT CONTENT</span>#}
+{#                                </h5>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="cate-product margin-top-20">#}
+{#                        <div class="row">#}
+{#                            <div class="col-12">#}
+{#                                <h5 style="border-top:1.5px solid #999;" class="text-center">#}
+{#                                    <span class="title">OCT 01, 2020: ADULT CONTENT</span>#}
+{#                                </h5>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="cate-product margin-top-20">#}
+{#                        <div class="row">#}
+{#                            <div class="col-12">#}
+{#                                <h5 style="border-top:1.5px solid #999;" class="text-center">#}
+{#                                    <span class="title">OCT 01, 2020: ADULT CONTENT</span>#}
+{#                                </h5>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="cate-product margin-top-20">#}
+{#                        <div class="row">#}
+{#                            <div class="col-12">#}
+{#                                <h5 style="border-top:1.5px solid #999;" class="text-center">#}
+{#                                    <span class="title">OCT 01, 2020: ADULT CONTENT</span>#}
+{#                                </h5>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <img class="img-fluid" src="https://goop.com/app/uploads/2020/09/hero-5-480x366.jpg">#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-1">Food and home</a>#}
+{#                                </div>#}
+{#                                <div>#}
+{#                                    <a href="#" class="link-3">The Upgrades That Make Us Feel Like Adults</a>#}
+{#                                </div>#}
+{#                                <p>While there is definitely joy that comes from upgrading to a nice...</p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class=" margin-top-20">#}
+{#                        <div class="row">#}
+{#                            <div class="col-12">#}
+{#                                <h5 style="border-top:1.5px solid #999;" class="text-center">#}
+{#                                    <a style="font-size: 20px;font-weight: 500" href="#" class="title link-3">GP's#}
+{#                                        picks</a>#}
+{#                                </h5>#}
+{#                            </div>#}
+{#                            <div style="padding: 35px" class="col-12">#}
+{#                                <div style="padding:0 35px" class="item-5 owl-carousel">#}
+{#                                    <div style="text-align: center">#}
+{#                                        <a href="#" class="link-1">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://shop.goop-img.com/spree/images/attachments/000/054/368/product/open-uri20191219-26220-xh77fn?1576777452"#}
+{#                                                 alt="Balm">#}
+{#                                            <div class="link-1">Olio E Osso</div>#}
+{#                                            <div class="link-2">Balm</div>#}
+{#                                            <div class="link-1">US $28.00</div>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="text-align: center">#}
+{#                                        <a href="#" class="link-1">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://shop.goop-img.com/spree/images/attachments/000/034/933/product/open-uri20181026-3908-qww58?1540586291"#}
+{#                                                 alt="Balm">#}
+{#                                            <div class="link-1">Olio E Osso</div>#}
+{#                                            <div class="link-2">Balm</div>#}
+{#                                            <div class="link-1">US $28.00</div>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="text-align: center">#}
+{#                                        <a href="#" class="link-1">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://shop.goop-img.com/spree/images/attachments/000/054/368/product/open-uri20191219-26220-xh77fn?1576777452"#}
+{#                                                 alt="Balm">#}
+{#                                            <div class="link-1">Olio E Osso</div>#}
+{#                                            <div class="link-2">Balm</div>#}
+{#                                            <div class="link-1">US $28.00</div>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="text-align: center">#}
+{#                                        <a href="#" class="link-1">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://shop.goop-img.com/spree/images/attachments/000/034/933/product/open-uri20181026-3908-qww58?1540586291"#}
+{#                                                 alt="Balm">#}
+{#                                            <div class="link-1">Olio E Osso</div>#}
+{#                                            <div class="link-2">Balm</div>#}
+{#                                            <div class="link-1">US $28.00</div>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="text-align: center">#}
+{#                                        <a href="#" class="link-1">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://shop.goop-img.com/spree/images/attachments/000/054/368/product/open-uri20191219-26220-xh77fn?1576777452"#}
+{#                                                 alt="Balm">#}
+{#                                            <div class="link-1">Olio E Osso</div>#}
+{#                                            <div class="link-2">Balm</div>#}
+{#                                            <div class="link-1">US $28.00</div>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="text-align: center">#}
+{#                                        <a href="#" class="link-1">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://shop.goop-img.com/spree/images/attachments/000/034/933/product/open-uri20181026-3908-qww58?1540586291"#}
+{#                                                 alt="Balm">#}
+{#                                            <div class="link-1">Olio E Osso</div>#}
+{#                                            <div class="link-2">Balm abc def</div>#}
+{#                                            <div class="link-1">US $28.00</div>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="margin-top-20">#}
+{#                        <div class="row">#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-3">#}
+{#                                        <a href="https://goop.com/beauty/">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://goop.com/app/uploads/2018/01/icon-cat-beauty-2x.png">#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="margin-top: 10px" class="col-9 link-3">#}
+{#                                        <a style="font-size: 18px" class="link-3" href="https://goop.com/beauty/">#}
+{#                                            BEAUTY#}
+{#                                            <i class="fa fa-angle-double-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <hr/>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content ">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-3">#}
+{#                                        <a href="https://goop.com/beauty/">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://goop.com/app/uploads/2018/01/icon-cat-beauty-2x.png">#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="margin-top: 10px" class="col-9 link-3">#}
+{#                                        <a style="font-size: 18px" class="link-3" href="https://goop.com/beauty/">#}
+{#                                            BEAUTY#}
+{#                                            <i class="fa fa-angle-double-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <hr/>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content ">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-3">#}
+{#                                        <a href="https://goop.com/beauty/">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://goop.com/app/uploads/2018/01/icon-cat-beauty-2x.png">#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="margin-top: 10px" class="col-9 link-3">#}
+{#                                        <a style="font-size: 18px" class="link-3" href="https://goop.com/beauty/">#}
+{#                                            BEAUTY#}
+{#                                            <i class="fa fa-angle-double-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <hr/>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content ">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-3">#}
+{#                                        <a href="https://goop.com/beauty/">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://goop.com/app/uploads/2018/01/icon-cat-beauty-2x.png">#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="margin-top: 10px" class="col-9 link-3">#}
+{#                                        <a style="font-size: 18px" class="link-3" href="https://goop.com/beauty/">#}
+{#                                            BEAUTY#}
+{#                                            <i class="fa fa-angle-double-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <hr/>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content ">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-3">#}
+{#                                        <a href="https://goop.com/beauty/">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://goop.com/app/uploads/2018/01/icon-cat-beauty-2x.png">#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="margin-top: 10px" class="col-9 link-3">#}
+{#                                        <a style="font-size: 18px" class="link-3" href="https://goop.com/beauty/">#}
+{#                                            BEAUTY#}
+{#                                            <i class="fa fa-angle-double-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <hr/>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content ">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="col-xl-4 col-md-6 col-12">#}
+{#                                <div class="row">#}
+{#                                    <div class="col-3">#}
+{#                                        <a href="https://goop.com/beauty/">#}
+{#                                            <img class="img-fluid"#}
+{#                                                 src="https://goop.com/app/uploads/2018/01/icon-cat-beauty-2x.png">#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                    <div style="margin-top: 10px" class="col-9 link-3">#}
+{#                                        <a style="font-size: 18px" class="link-3" href="https://goop.com/beauty/">#}
+{#                                            BEAUTY#}
+{#                                            <i class="fa fa-angle-double-right"></i>#}
+{#                                        </a>#}
+{#                                    </div>#}
+{#                                </div>#}
+{#                                <hr/>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="cat-content ">#}
+{#                                    <a href="#" class="nav-link">#}
+{#                                        <div class="link-2">#}
+{#                                            GP and goop Staffers on Feeling Good in Your Own Skin#}
+{#                                        </div>#}
+{#                                        <p class="link-1">As GP and the goop team started brainstorming about a new#}
+{#                                            (clean!...</p>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div style="margin-top: 34px" class="col-xl-3 col-md-3 count">#}
+{#                    <div class="row margin-top-20">#}
+{#                        <img width="312" height="600" border="0"#}
+{#                             src="https://tpc.googlesyndication.com/simgad/17562027669715330143?">#}
+{#                    </div>#}
+{#                    <div style="border: 1px solid #666" class="row margin-top-20">#}
+{#                        <h3 style="margin: 0 auto" class="text-center"><a style="font-size: 20px;" class="link-3"#}
+{#                                                                          href="https://goop.com/goop-genes/">Shop#}
+{#                                GOOPGENES</a></h3>#}
+{#                        <div class="col-6 text-center">#}
+{#                            <a href="#">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/060/544/product/open-uri20200922-25948-vsfag5?1600804851"#}
+{#                                     alt="GOOPGENES Nourishing Repair Body Butter">#}
+{#                                <div class="link-1">Olio E Osso</div>#}
+{#                                <div class="link-2">Balm</div>#}
+{#                                <div class="link-1">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div class="col-6 text-center">#}
+{#                            <a href="#">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/060/544/product/open-uri20200922-25948-vsfag5?1600804851"#}
+{#                                     alt="GOOPGENES Nourishing Repair Body Butter">#}
+{#                                <div class="link-1">Olio E Osso</div>#}
+{#                                <div class="link-2">Balm</div>#}
+{#                                <div class="link-1">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div class="col-6 text-center">#}
+{#                            <a href="#">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/060/544/product/open-uri20200922-25948-vsfag5?1600804851"#}
+{#                                     alt="GOOPGENES Nourishing Repair Body Butter">#}
+{#                                <div class="link-1">Olio E Osso</div>#}
+{#                                <div class="link-2">Balm</div>#}
+{#                                <div class="link-1">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div class="col-6 text-center">#}
+{#                            <a href="#">#}
+{#                                <img class="img-fluid"#}
+{#                                     src="https://shop.goop-img.com/spree/images/attachments/000/060/544/product/open-uri20200922-25948-vsfag5?1600804851"#}
+{#                                     alt="GOOPGENES Nourishing Repair Body Butter">#}
+{#                                <div class="link-1">Olio E Osso</div>#}
+{#                                <div class="link-2">Balm</div>#}
+{#                                <div class="link-1">US $28.00</div>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="row margin-top-20">#}
+{#                        <div class="goop-inbox text-center">#}
+{#                            <h4 >goop your inbox</h4>#}
+{#                            <h5 class="link-1">Sign-up for our newsletter</h5>#}
+{#                            <form>#}
+{#                                <input type="email" class="form-control" placeholder="Email Address">#}
+{#                                <button class="btn btn-outline-dark margin-top-20" type="submit">#}
+{#                                    Sign Up#}
+{#                                </button>#}
+{#                            </form>#}
+{#                            <p class="margin-top-20x">#}
+{#                                By clicking "submit," you agree to receive emails from#}
+{#                                goop and accept our <u>web terms of use</u> and <u> privacy and cookie policy</u>.#}
+{#                            </p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#    <script>#}
+{#        $('.item-1').owlCarousel({#}
+{#            loop: false,#}
+{#            margin: 10,#}
+{#            nav: true,#}
+{#            responsive: {#}
+{#                0: {#}
+{#                    items: 1#}
+{#                }#}
+{#            },#}
+{#        });#}
+{#        $('.item-5').owlCarousel({#}
+{#            loop: false,#}
+{#            margin: 10,#}
+{#            nav: true,#}
+{#            responsive: {#}
+{#                0: {#}
+{#                    items: 1#}
+{#                },#}
+{#                768: {#}
+{#                    items: 4#}
+{#                },#}
+{#                1200: {#}
+{#                    items: 5#}
+{#                }#}
+{#            },#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}

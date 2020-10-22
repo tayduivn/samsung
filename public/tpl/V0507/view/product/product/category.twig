@@ -1,0 +1,333 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ category.name }}">
+    <meta property="og:url" content="{{ category.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block body %}
+
+<div class="wrap__product">
+	<nav aria-label="breadcrumb">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+			<li class="breadcrumb-item"><a href="#">Danh mục</a></li>
+			<li class="breadcrumb-item active" aria-current="page">{{ category.name | raw }}</li>
+		</ol>
+	</nav>
+
+	<div class="menu__product">
+		<div class="menu_pro-left">
+			<span class="name-cate">{{ category.name | raw }}</span>
+			<ul class="show_category">
+			<span class="all-cate">Tất cả sản phẩm</span>
+				{% if (category.childs) %}
+					{% for c2 in category.childs %}
+						<a href="{{ c2.viewLink }}" class="listShow">{{ c2.name }}</a>
+					{% endfor %}
+				{% else %}
+					{% set category = getCategories(parentId) %}
+					{% if(category is not empty) %}
+						{% for cate in category %}
+							<a href="{{ cate.viewLink }}" class="listShow">{{ cate.name }}</a>
+						{% endfor %}
+					{% endif %}
+				{% endif %}
+			</ul>
+		</div>
+		
+		<div class="menu_pro-right">
+			{% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+			{% if(allAttr) %}
+				{% set i=0 %}
+			<ul class="show_filter" data-column="{{ column }}">
+				<span class="name__filter">Bộ lọc: </span>
+				<li class="custom-filter" title="{{ category.viewLink }}">Giá sản phẩm
+					<ul class="sub-filter">
+						{% if(price < 100000 and price > 0) %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ removeFilter('price', '0:100000') }}" class="price-filter">
+									<div class="check-attr"></div>
+								 	<span class="info-attr"> Dưới 100K</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ addFilter('price', '0:100000', 2) }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Dưới 100K</span>
+								</a>
+							</li>
+						{% endif %}
+						{% if(price < 200000 and price > 100000) %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ removeFilter('price', '100000:200000') }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Từ 100K - 200K</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ addFilter('price', '100000:200000', 2) }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Từ 100K - 200K</span>
+								</a>
+							</li>
+						{% endif %}
+	
+						{% if(price < 300000 and price > 200000) %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ removeFilter('price', '200000:300000') }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Từ 200K - 300K</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ addFilter('price', '200000:300000', 2) }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Từ 200K - 300K</span>
+								</a>
+							</li>
+						{% endif %}
+	
+						{% if(price < 400000 and price > 300000) %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ removeFilter('price', '300000:400000') }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Từ 300K - 400K</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ addFilter('price', '300000:400000', 2) }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Từ 300K - 400K</span>
+								</a>
+							</li>
+						{% endif %}
+	
+						{% if(price > 400000) %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ removeFilter('price', '400000') }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Trên 400K</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ addFilter('price', '400000', 2) }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Trên 400K</span>
+								</a>
+							</li>
+						{% endif %}
+	
+						{% if 'priceAsc' in shows %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ removeFilter('show', 'priceAsc') }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Giá tăng dần</span>
+								</a>
+							</li>
+							{% else %}
+								<li class="list-hiden-fliter">
+									<a rel="noindex" href="{{ addFilter('show', 'priceAsc', 2) }}" class="price-filter">
+										<div class="check-attr"></div>
+										<span class="info-attr">Giá tăng dần</span>
+									</a>
+								</li>
+						{% endif %}
+	
+						{% if 'priceDesc' in shows %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ removeFilter('show', 'priceDesc') }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Giá tăng dần</span>
+								</a>
+							</li>
+						{% else %}
+							<li class="list-hiden-fliter">
+								<a rel="noindex" href="{{ addFilter('show', 'priceDesc', 2) }}" class="price-filter">
+									<div class="check-attr"></div>
+									<span class="info-attr">Giá giảm dần</span>
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+				</li>
+				{% for attr in allAttr %}
+					{% set i=i+1 %}
+					{% if(attr.values != null) %}
+						{% set column = attr.column %}
+						<li class="custom-filter colum{{ i }}">{{ attr.name|raw }}
+							<ul class="sub-filter">
+							{% for cl in attr.values %}
+								{% if(cl.id in attrColumnValues[column]) %}
+								<li class="list-hiden-fliter">
+									<a rel="noindex" class="link-attr" href="{{ removeFilter(column, cl.id) }}"
+										data-link="{{ removeFilter(column, cl.id) }}"
+										title="{{ cl.name|raw }}"
+										style="background:#{{ cl.content }}">
+										<div class="check-attr"></div>
+										<span class="info-attr">{{ cl.name|raw }}</span>
+									</a>
+								</li>
+								{% else %}
+								<li class="list-hiden-fliter">
+									<a rel="noindex" class="link-attr" href="{{ addFilter(column, cl.id, 2) }}"
+										data-link="{{ addFilter(column, cl.id, 2) }}"
+										title="{{ cl.name|raw }}"
+										style="background:#{{ cl.content }}">
+										<div class="check-attr"></div>
+										<span class="info-attr">{{ cl.name|raw }}</span>
+									</a>
+								</li>
+								{% endif %}
+							{% endfor %}
+							</ul>
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+			{% endif %}
+		</div>
+	</div>
+	<div class="contentPorduct">
+	  {% set k = 0 %}
+		{% if(paginator.currentModels is not empty) %}
+			{% for p in paginator.currentModels %}
+				{% if (k < 20) %}
+				<div class="product_box" data-id="{{ p.id }}">
+					{% set image = p.thumbnailUri %}
+					{% set percent = p.calcDiscountPercent %}
+					{% set priceDiscount = p.priceAfterDiscount %}
+					{% set options = {
+						alt: p.name,
+						class: 'img_thumb_product',
+						lazy: true,
+						openDiv: false,
+					} %}
+	
+					<div class="box_image">
+						<a class="a-image" href="{{ p.viewLink }}">
+							{{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+						</a>
+						{% if(percent>0) %}
+							<div class="content-percent">
+								<span class="percent">-{{ percent }}%</span>
+							</div>
+						{% endif %}
+					</div>
+					
+					<div class="box_info">
+						<div class="box_text">
+						<a href="{{ p.viewLink }}">
+							<span class="product_name">{{ p.name }}</span>
+						</a>
+						</div>
+						<div class="box_price">
+							{% if(priceDiscount > 0) %}
+								<span class="product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+								<del class="product_price_old">{{ p.price|number_format(0) }}
+									₫
+								</del>
+							{% elseif(p.oldPrice) %}
+								<span class="product_price">{{ p.price|number_format(0) }}₫ </span>
+								<del class="product_price_old">{{ p.oldPrice|number_format(0) }}
+									₫
+								</del>
+							{% elseif(p.price <= 0 ) %}
+								<span class="product_price">Liên hệ</span>
+							{% else %}
+								<span class="product_price">{{ p.price|number_format(0) }} ₫ </span>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% set k = k+1 %}
+			{% endfor %}
+			{% else %}
+				<p>Không có kết quả nào phù hợp </p>
+			{% endif %}
+		<div class="pagination">
+			<div class="links">
+				{{ render_paginator(paginator) }}
+			</div>
+		</div>
+	</div>
+
+
+<div style="clear: left"></div>
+
+</div>
+<style>
+.contentPorduct {
+	width: 100%;
+}
+.box_info {
+	font-size: .9em;
+}
+.product_box {
+	float: left;
+	width: 17%;
+	min-height: 17%;
+	padding: .7em;
+}
+.product_box:nth-child(1) {
+	width: 48%;
+}
+.product_box:nth-child(2),
+.product_box:nth-child(3),
+.product_box:nth-child(4) {
+	float: left;
+    width: 17%;
+	margin-bottom: 3em;
+}
+.product_box:nth-child(5),
+.product_box:nth-child(6) {
+	width: 25%;
+    margin-bottom: 3em;
+	margin-left: .6em;
+}
+.product_box:nth-child(7),
+.product_box:nth-child(8),
+.product_box:nth-child(9),
+.product_box:nth-child(10) {
+	margin: 3em 0;
+	width: 25%;
+}
+.product_box:nth-child(11),
+.product_box:nth-child(12),
+.product_box:nth-child(13) {
+	margin-bottom: 3em;
+}
+.product_box:nth-child(14) {
+	width: 49%;
+	float: right;
+}
+.product_box:nth-child(15),
+.product_box:nth-child(16) {
+	width: 25%;
+    float: left;
+}
+.product_box:nth-child(17),
+.product_box:nth-child(18),
+.product_box:nth-child(19),
+.product_box:nth-child(20) {
+	width: 25%;
+	margin-top: 3em;
+	float: right;
+}
+.paginator {
+	margin: 2.5em;
+	
+}
+</style>
+{% endblock %}
+{% block script %}
+	<script src="{{ templatePath ~'/js/category.js' }}"></script>
+{% endblock %}

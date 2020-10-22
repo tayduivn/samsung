@@ -1,0 +1,284 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Hệ thóng cửa hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    {% set agency = searchAgency() %}
+    {% if (agency) %}
+        <main>
+            <!-- top nav  -->
+            <section class="banner-products top-nav">
+                <div class="slug">
+                    <div class="container">
+                        <div class="slug-container">
+                            <span class="color-black">Thông tin cửa hàng</span>
+                            <span>Thông tin liên hệ</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- top nav  -->
+
+            <!-- service block -->
+            <section class="service-block">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-md-6 col-lg-2-5">
+                            <div class="box-service">
+                                <div class="row dFlex dFlex-column">
+                                    <div class="col-5 dFlex-moblie">
+                                        <article class="service-guarantee">
+                                            <div class="icon">
+                                                <span class="services-img"></span>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="col-7">
+                                        <article class="service-text">
+                                            <span>BẢO HÀNH 10 NĂM</span><br>
+                                            <span>Chính hãng toàn cầu</span>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-2-5">
+                            <div class="box-service">
+                                <div class="row dFlex dFlex-column">
+                                    <div class="col-5 dFlex-moblie">
+                                        <article class="service-guarantee">
+                                            <div class="icon">
+                                                <span class="services-img"></span>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="col-7">
+                                        <article class="service-text">
+                                            <span>BẢO HÀNH 10 NĂM</span><br>
+                                            <span>Chính hãng toàn cầu</span>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-2-5">
+                            <div class="box-service">
+                                <div class="row dFlex dFlex-column">
+                                    <div class="col-5 dFlex-moblie">
+                                        <article class="service-guarantee">
+                                            <div class="icon">
+                                                <span class="services-img"></span>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="col-7">
+                                        <article class="service-text">
+                                            <span>BẢO HÀNH 10 NĂM</span><br>
+                                            <span>Chính hãng toàn cầu</span>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-2-5">
+                            <div class="box-service">
+                                <div class="row dFlex dFlex-column">
+                                    <div class="col-5 dFlex-moblie">
+                                        <article class="service-guarantee">
+                                            <div class="icon">
+                                                <span class="services-img"></span>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="col-7">
+                                        <article class="service-text">
+                                            <span>BẢO HÀNH 10 NĂM</span><br>
+                                            <span>Chính hãng toàn cầu</span>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-2-5">
+                            <div class="box-service last">
+                                <div class="row dFlex dFlex-column">
+                                    <div class="col-5 dFlex-moblie">
+                                        <article class="service-guarantee">
+                                            <div class="icon">
+                                                <span class="services-img"></span>
+                                            </div>
+                                        </article>
+                                    </div>
+                                    <div class="col-7">
+                                        <article class="service-text">
+                                            <span>BẢO HÀNH 10 NĂM</span><br>
+                                            <span>Chính hãng toàn cầu</span>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- service block -->
+
+            <!-- background top product -->
+            <section class="bg-top-product">
+                <div class="container">
+                    <a href="">
+                        <img src="https://bizweb.dktcdn.net/100/349/716/files/topspbanchay.png?v=1590056654427" alt="" class="img img-fluid">
+                    </a>
+                </div>
+            </section>
+            <!-- background top product -->
+
+            <!-- slider map -->
+            <section class="top-favorite map">
+            <div class="container">
+              <div class="top-favorite-body">
+                <div class="slick top-favorite-slick">
+                  {% set productBestseller = search({'limit': 6, 'brands':true, 'showHot': 1 }) %}
+                  {% if(productBestseller is not empty) %}
+                    {% for pro in productBestseller %}
+                      {% set image = pro.thumbnailUri %}
+                      {% set options_lazy = {
+                        alt: pro.name,
+                        class: 'img is-full',
+                        lazy: true,
+                        openDiv: false
+                      } %}
+                      {% set percent = p.discountPercent %}
+                      {% set priceDiscount = p.priceAfterDiscou %}
+                      <div class="slick-item" data-id="{{ pro.id }}" data-storeId="{{ pro.storeId }}">
+                        <div class="card">
+                          <div class="card-thumb">
+                            {% if(pro.options.psGifts) %}
+                              <style>
+                                .card-thumb::before {
+                                  background-image: url('/tpl/V0001/img/2019/gift.jpg');
+                                }
+                              </style>
+                            {% endif %}
+                            <a href="{{ pro.viewLink }}">
+                              {{ macroLazyFocusImager.LazyFocusImager(image,options_lazy) }}
+                            </a>
+                          </div>
+                          <div class="card-body">
+                            {% if(pro.options.psGifts.name != null) %}
+                              <label class="card-free">{{ pro.options.psGifts.name }}</label>
+                            {% endif %}
+                            <a href="{{ pro.viewLink }}">
+                              <span class="card-title">{{ pro.brandName }}</span>
+                            </a>
+                            <span class="card-name">{{ pro.name }}</span>
+                            <span class="card-price">{{ pro.price | number_format(0) }}VNĐ
+                        {% if(pro.priceAfterDiscount > 0) %}
+                          <strike>{{ pro.priceAfterDiscount | number_format(0) }}</strike>
+                          {% elseif (pro.oldPrice > 0) %}
+                          <strike>{{ pro.oldPrice | number_format(0) }}</strike>
+                        {% endif %}
+                              {% if(pro.discountPercent > 0) %}
+                                <span class="percent">{{ pro.discountPercent }} %</span>
+                              {% endif %}
+                </span>
+                            <div class="box-button">
+                              {% set values = pro.options.attrValues %}
+                              {% if(values) %}
+                                {% set count = 0 %}
+                                {% for button_color in values  %}
+                                {% set count = count + 1 %}
+                                  {% if count <= 4 %}
+                                    {% set color = button_color.options.attrContent %}
+                                    <button class="card-button">
+                                      <span style="background-color: #{{color}}" data-src="{{ button_color.thumbnailUri }}"></span>
+                                    </button>
+                                  {% endif %}
+                                {% endfor %}
+                                {% if count > 4 %}
+                                  <a href="{{ pro.viewLink }}" class="button-add card-button__add"></a>
+                                {% endif %}
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </section>
+            <!-- slider map -->
+
+            <!-- map address -->
+            <section class="map-address">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-lg-4 order_2">
+                            <div class="dropdown-address item">
+                                <label for="">Chọn Thành Phố</label>
+                                <select class="form-control form-control-lg select-city"
+                                        name="cityId"
+                                        id="cityId"
+                                >
+                                    <option disabled selected
+                                            value=""
+                                    >
+                                        --- Chọn Thành Phố ---
+                                    </option>
+                                    {% if(agency) %}
+                                        {{ toSelectBox(getCity()) | raw }}
+                                    {% endif %}
+                                </select>
+                            </div>
+                            <div class="form-address" id="scroll">
+                                {% if(agency) %}
+                                    {% for agc in agency %}
+                                        <div class="form-address__items"
+                                             data-depotId="{{ agc.id }}"
+                                             data-name="{{ agc.name }}"
+                                             data-address="{{ agc.address }}"
+                                             rel="1"
+                                             data-lat="{{ agc.latitude }}"
+                                             data-long="{{ agc.longitude }}"
+                                             data-email="{{ agc.email }}"
+                                             data-img="{{ agc.imageUri }}"
+                                             data-phone="{{ agc.phone }}"
+                                        >
+                                            <span class="district ">{{ agc.name | raw }}</span>
+                                            <span class="street">{{ agc.address | raw }}</span>
+                                        </div>
+                                    {% endfor %}
+                                    {% else %}
+                                    <h3>Chưa có đại lý nào</h3>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <div id="map_embed" class="listMap">
+                                <div id="map"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- map address -->
+
+            <hr>
+            <!-- services -->
+            {% include 'layout/services' %}
+            <!-- services -->
+        </main>
+    {% endif %}
+
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGIINqgOVLX_fR9oCE_YRJQnH1Px51Dts"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/maps.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/slick.js' }}"></script>
+  <script type="text/javascript" src="{{ templatePath ~'/js/slider.js' }}"></script>
+{% endblock %}

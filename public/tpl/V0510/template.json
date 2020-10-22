@@ -1,0 +1,46 @@
+
+{   "author":"hungdq",
+"sourceLink": "https://www.beemart.vn/",
+
+"domain":{
+"storeId": 15113,
+"name": "V0510.hungdqstore2.bot3s.net",
+"alias": "V0510.hungdqstore2.bot3s.net"
+},
+"banners":{
+"HOME_SLIDE":{
+"name": "Banner slide home",
+"description": "Kích cỡ banner 1920 x auto",
+"size": "auto"
+},
+"HOME_HOT":{
+"name": "Banner dưới slide trang chủ",
+"description": "Kích cỡ banner auto",
+"size": "auto"
+},
+"BANNER_HOME_BOT":{
+"name": "Banner dưới sản phẩm mới, hot trang chủ",
+"description": "Kích cỡ banner 1900 x auto",
+"size": "auto"
+},
+"BANNER_TOP_ALBUM":{
+"name": "Banner dưới trang album",
+"description": "Kích cỡ banner 1900 x auto",
+"size": "auto"
+},
+"FOOTER_CERTIFICATE":{
+"name": "Banner nền dưới footer",
+"description": "Kích cỡ banner 1900 x auto",
+"size": "auto"
+}
+},
+"contents":{
+"HOME":{
+"name": "Trang chủ",
+"keys": {
+
+}
+}
+}
+}
+

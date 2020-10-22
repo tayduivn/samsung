@@ -1,0 +1,273 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="{{ category.name }}">
+    <meta property="og:url" content="{{ category.viewLink }}">
+    <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+    <meta property="og:type" content="category">
+{% endblock %}
+{% block stylesheets %}
+{#    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/index.css' }}" type="text/css">#}
+{#    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/catePro.css' }}" type="text/css">#}
+{% endblock %}
+{% block body %}
+    <link rel="canonical" href="{{ category.viewLink }}" />
+    {% set nItems = 0 %}
+    {% set itemCountPerPage =  paginator.setItemCountPerPage(24) %}
+    {% if(paginator) %}
+        {% set pageRanger =  paginator.setPageRange(5) %}
+        {% set isPaginator = true %}
+        {% set nItems = paginator.getTotalItemCount() %}
+    {% else %}
+        {% set nItems = paginator|length %}
+    {% endif %}
+    {% set arrayIds = []%}
+    <div class="top-bar__spacer"></div>
+    <div class="breadcrumb-Abus d-none d-sm-block">
+        <div class="breadcrumb-inner mx-auto">
+            {{ breadcrumbs.build(buildBreadcrumbs(category)) }}
+        </div>
+    </div>
+
+    {% if(category.childs) %}
+        <section class="section-teaser">
+            <div class="width-content mx-auto">
+                <div class="pd-teaser clearfix teaser-block">
+                    <div class="name-teaser float-left">
+                        <h1 class="text-uppercase font-weight-bold position-relative beforePremium">
+                            <span class="d-block title-span">{{ category.name | raw }}</span>
+                            {{ category.description }}
+                            </h1>
+                    </div>
+                    {% if(category.content) %}
+                        <div class="content-teaser float-left">
+                            {{ category.content | raw }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <section class="category-list d-flex flex-wrap">
+            {% for cateChild in category.childs|slice(0,4) %}
+                <div class="col-12 col-md-6 col-xl-3 p-0 category-list__item">
+                    <img src="{{ cateChild.imgUri ? : '/tpl/V0512/img/BSS Gothard_0D9A1289.jpg' }}" alt="{{ cateChild.name | raw }}">
+                    <a href="javascript:"
+                       class="name position-absolute font-weight-bold d-flex justify-content-end text-center text-uppercase">
+                        <span>{{ cateChild.name | raw }}</span>
+                    </a>
+                </div>
+            {% endfor %}
+        </section>
+            {% for cateChild in category.childs %}
+                {% set image = cateChild.imgUri ? : '/tpl/V0512/img/BSS Gothard_0D9A1289.jpg' %}
+                {% set options = {
+                    alt: cateChild.name | e('html'),
+                    lazy: true,
+                    openDiv: false,
+                } %}
+                {%  set product = search({'limit':6,'categoryId' : cateChild.id}) %}
+                {% if(product is not empty) %}
+                    <section class="section-cate">
+                        <div class="section-cate__cateChild">
+                            <div class="width-content mx-auto">
+                                <div class="description-Cate">
+                                    <h2 class="name-cateChild text-uppercase font-weight-bold">{{ cateChild.name | raw }}</h2>
+                                    <div class="description-content">
+                                        {% if(cateChild.description) %}
+                                            {{ cateChild.description | raw}}
+                                        {% else %}
+                                            <p>
+                                                Erfahrungen aus dem Profisport, gewonnen aus inspirierenden Kooperationen und Sponsorings, fließen in die Produktentwicklung ein und bringen wertvolle Produkte für Breitensportler zur Serienreife. Wir wollen Profis und ambitionierten Hobbysportlern attraktive Roadhelme bieten, ohne Kompromisse einzugehen.
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                    <a href="{{ cateChild.viewLink }}" class="btn-custom d-inline-block text-center" title="Alle entdecken"> Alle entdecken</a>
+                                </div>
+                                <div class="content-cateChild position-relative">
+                                    <div class="cateChild-img">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </div>
+                                    <div class="product-cateChild">
+                                        <div class="owl-carousel owl-theme">
+                                            {% for p in product %}
+                                                {% set image = p.thumbnailUri %}
+                                                {% set options = {
+                                                    alt: p.name | e('html'),
+                                                    lazy: true,
+                                                    openDiv: false,
+                                                } %}
+                                            <div class="item-product">
+                                                <div class="item-product__content">
+                                                <div class="item-product__img d-flex justify-content-center align-items-center">
+                                                    <a href="{{ p.viewLink }}" class="d-block" title="{{ p.name }}">
+                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                    </a>
+                                                </div>
+                                                <div class="item-product__infor text-sm-center">
+                                                    <span class="font-weight-bold text-uppercase">{{ cateChild.name }}</span>
+                                                    <h3 class="name-product">
+                                                        <a href="{{ p.viewLink }}" class="font-weight-bold text-uppercase">{{ p.name }}</a>
+                                                    </h3>
+                                                </div>
+                                                <div class="item-product__action">
+                                                    <a href="{{ p.viewLink }}" class="d-flex align-items-center font-weight-bold justify-content-center text-uppercase" title="Vergleichen"><i class="fal fa-plus"></i>Vergleichen</a>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            {%  endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                {% endif %}
+            {% endfor %}
+    {% else %}
+        {% set image = category.imgUri ? : 'https://mobil.abus.com/var/de/storage/images/_aliases/abus_960x/6/3/0/1/711036-1-ger-DE/ABUS_Website_Helme_Road.jpg?asset-version=1596796292' %}
+        {% set options = {
+            alt: category.name | e('html'),
+            lazy: true,
+            openDiv: false,
+        } %}
+{#        <pre>{{ dump(category) }}</pre>#}
+        <section class="section-cate section-cate__last position-relative">
+            <div class="header-cate__image">
+                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+            </div>
+                <div class="width-content mx-auto clearfix">
+                    <div class="name-teaser description-Cate float-left">
+                        <h1 class="text-uppercase font-weight-bold position-relative beforePremium">
+                            <span class="d-block title-span">{{ category.name }}</span>
+                            {{ category.description }}
+                        </h1>
+                        <div class="description-content">
+                            {{ category.content ? category.content | raw : '<p>Erfahrungen aus dem Profisport, gewonnen aus inspirierenden Kooperationen und Sponsorings, fließen in die Produktentwicklung ein und bringen wertvolle Produkte für Breitensportler zur Serienreife. Wir wollen Profis und ambitionierten Hobbysportlern attraktive Roadhelme bieten, ohne Kompromisse einzugehen.</p>' }}
+                        </div>
+                    </div>
+                </div>
+        </section>
+        {% if(paginator.currentModels is not empty) %}
+            {{  paginator.setPageRange(3) }}
+            {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+            {% if(allAttr) %}
+                {% set i = 0 %}
+                {% set k = 0 %}
+                <section class="filter-group position-relative">
+                    <div class="style-mobileFilter">
+                        <div class="Filter-headerMobile d-flex d-md-none justify-content-between align-items-center">
+                            <span class="text-uppercase font-weight-bold">filter</span>
+                            <span><i class="fal fa-long-arrow-right"></i></span>
+                        </div>
+                        <nav class="filter-header d-none d-md-block">
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                {% for attr in allAttr %}
+                                    {% set i=i+1 %}
+                                    {% if(attr.values != null) %}
+                                        <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative" href="#tab-{{ i }}">
+                                            {{ attr.name }}
+                                            <span class="d-sm-none"><i class="fal fa-square-full"></i></span>
+                                        </a>
+                                    {% endif %}
+
+                                {% endfor %}
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+
+                            {% for attr in allAttr %}
+                                {% set k=k+1 %}
+                                {% if(attr.values != null) %}
+                                    {% set column = attr.column %}
+                                    <a class="nav-item nav-link text-uppercase font-weight-bold d-flex align-items-center position-relative d-md-none">
+                                        {{ attr.name }}
+                                        <span class="d-md-none"><i class="fal fa-square-full"></i></span>
+                                    </a>
+                                    <div class="tab-pane" id="tab-{{ k }}" role="tabpanel" aria-labelledby="nav-home-tab">
+                                        <ul class="width-content mx-auto d-flex flex-wrap justify-content-sm-center m-0">
+                                            {% for cl in attr.values %}
+                                                {% if(cl.id in attrColumnValues[column]) %}
+                                                    <li class="filter-properties">
+                                                        <a href="{{ removeFilter(column, cl.id) }}" class="position-relative d-block text-sm-center active" title="{{ cl.name }}">{{ cl.name }}</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="filter-properties">
+                                                        <a href="{{ addFilter(column, cl.id, 2) }}" class="position-relative d-block text-sm-center" title="{{ cl.name }}">{{ cl.name }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            {% endif %}
+            <section class="section-products">
+                <div class="width-content mx-auto clearfix d-flex flex-wrap">
+                    {% for p in paginator.currentModels %}
+                    {% set image = p.thumbnailUri %}
+                    {% set options = {
+                        alt: p.name,
+                        lazy: true,
+                        openDiv: false,
+                    }%}
+                    <div class="item-product">
+                        <div class="item-product__content">
+                            <div class="item-product__img d-flex justify-content-center align-items-center">
+                                <a href="{{ p.viewLink }}" class="d-block" title="{{ p.name }}">
+                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                </a>
+                            </div>
+                            <div class="item-product__infor text-sm-center">
+                                <span class="font-weight-bold text-uppercase">{{ category.name }}</span>
+                                <h3 class="name-product">
+                                    <a href="{{ p.viewLink }}" class="font-weight-bold text-uppercase" title="{{ p.name }}">{{ p.name }}</a>
+                                </h3>
+                            </div>
+                            <div class="item-product__action">
+                                <a href="{{ p.viewLink }}" class="d-flex align-items-center font-weight-bold justify-content-center text-uppercase" title="{{ p.name }}">
+                                    <i class="fal fa-plus"></i>Vergleichen
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {%  endfor %}
+
+                </div>
+
+            </section>
+
+            <section class="section-paginator">
+                <div class="width-content mx-auto">
+                    {{ render_paginator(paginator) }}
+                </div>
+            </section>
+        {% endif %}
+    {% endif %}
+
+
+    <style>
+        header{
+            background: #fff;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        header .short-nav path{
+            color: #262626;
+        }
+        header span.search-field__label__text,header .search-form span.search-field__icon path{
+            color: #575557;
+        }
+        @media (min-width: 992px){
+            header .search-form {
+                border: 1px solid #f5f5f5;
+            }
+        }
+    </style>
+{% endblock %}
+{% block script %}
+{#    <script type="text/javascript" src="{{ templatePath ~'/js/category.js' }}"></script>#}
+{% endblock %}

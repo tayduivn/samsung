@@ -1,0 +1,145 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Thông tin người dùng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Thông tin người dùng">
+    <meta name="keywords" content="Thông tin người dùng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Thông tin người dùng">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+    <section class="bread-crumb">
+        <span class="crumb-border"></span>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 a-left">
+                    <ul class="breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                        <li class="home">
+                            <a itemprop="url" href="/" ><span itemprop="title">Trang chủ</span></a>
+                            <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                        </li>
+
+                        <li><strong ><span itemprop="title">Tài khoản</span></strong></li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="signup page_customer_account">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-main-acount">
+                    <div id="parent" class="row">
+                        <div id="a" class="col-xs-12 col-sm-12 col-lg-9 col-left-account">
+                            <div class="page-title m992">
+                                <h1 class="title-head margin-top-0"><a href="#">Thông tin tài khoản</a></h1>
+                            </div>
+                            <div class="form-signup name-account m992">
+                                <p><strong>Xin chào, <a href="/account/addresses" style="color:#ff5722;">{{ user.fullname }}</a>&nbsp;!</strong></p>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-lg-12 no-padding">
+                                <div class="my-account">
+                                    <div class="dashboard">
+
+                                        <div class="recent-orders">
+                                            <div class="table-responsive tab-all"style="overflow-x:auto;">
+                                                <table class="table table-cart" id="my-orders-table">
+                                                    <thead class="thead-default a-center">
+                                                    <tr>
+                                                        <th>Đơn hàng</th>
+                                                        <th>Ngày</th>
+
+
+                                                        <th>Địa chỉ</th>
+                                                        <th>Giá trị đơn hàng</th>
+                                                        <th>Hình thức thanh toán</th>
+                                                        <th>Trạng thái</th>
+                                                    </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                    {% if(paginator.getCurrentModels is not null) %}
+                                                    {% for order in paginator.getCurrentModels %}
+                                                    {% set products = orders[order.getId()].getProducts %}
+                                                    {% for pOrder in products %}
+                                                    {% set totalOrderPrice = 0 %}
+                                                    {% set totalOrderPrice = totalOrderPrice + (pOrder.quantity * pOrder.price) %}
+                                                    <tr class="first odd" data-show="od<?= $order->getId() ?>">
+                                                        <td><p>{{ pOrder.id }}</p></td>
+                                                        <td> {{ order.createdDate("d/m/Y") }}</td>
+                                                        <td>{{ pOrder.product.name }}</td>
+                                                        <td><span class="price">{{ totalOrderPrice|number_format(0) }}
+                                                                        ₫</span></td>
+                                                        <td>
+                                                            <em>
+                                                                {{ orderPayment(order.paymentMethod) }}
+                                                            </em>
+                                                        </td>
+                                                        <td>
+                                                            {{ order.statusName(order.status) }}
+                                                        </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                    </tbody>
+
+
+                                                </table>
+
+                                            </div>
+
+                                            <div class="text-xs-right">
+
+                                            </div>
+                                        </div>
+                                        <div class="paginate-pages pull-right page-account">
+                                            <nav>
+                                                <ul class="pagination clearfix">
+
+                                                    <li class="page-item disabled"><a class="page-link" href="#">«</a></li>
+
+
+
+                                                    <li class="page-item disabled"><a class="page-link" href="#">»</a></li>
+
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div id="b" class="col-xs-12 col-sm-12 col-lg-3 col-right-account margin-top-20">
+                            <div class="page-title mx991">
+                                <h1 class="title-head"><a href="#">Thông tin tài khoản</a></h1>
+                            </div>
+                            <div class="form-signup body_right mx991">
+                                <p><strong>Xin chào, <a href="/account/addresses" style="color:#ff5722;">{{ user.fullname }}</a>&nbsp;!</strong></p>
+                            </div>
+                            <div class="block-account">
+                                <div class="block-title-account"><h5>Tài khoản của tôi</h5></div>
+                                <div class="block-content form-signup">
+                                    <p>Tên tài khoản: <strong style="line-height: 20px;"> {{ user.fullname }}!</strong></p>
+                                    <p><i class="fa fa-home font-some" aria-hidden="true"></i>  <span>Địa chỉ:{{ user.Option('districtName')}} {{ user.Option('cityName') }}</span></p>
+                                    <p><i class="fa fa-mobile font-some" aria-hidden="true"></i> <span>Điện thoại: {{ user.mobile }}</span> </p>
+                                    <p><i class="fa fa-map-marker font-some" aria-hidden="true"></i> <span> Địa chỉ 1: {{ user.address }}</span></p>
+                                    <p><i class="fa fa-yelp font-some" aria-hidden="true"></i> <span> Công ty: </span></p>
+                                    <p><i class="fa fa-plane font-some" aria-hidden="true"></i> <span> Quốc gia : Vietnam</span></p>
+                                    <p><i class="fa fa-code font-some" aria-hidden="true"></i> <span> Zip code: 70000</span></p>
+                                    <p style="margin-top:20px;"><a href="/account/addresses" class="btn btn-full btn-primary">Sổ địa chỉ (1)</a></p>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

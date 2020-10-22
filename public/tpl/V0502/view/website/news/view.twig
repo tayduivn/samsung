@@ -1,0 +1,247 @@
+{% extends 'layout/layout' %}
+
+{% block body %}
+    <!DOCTYPE html>
+    <html lang="vi">
+
+
+
+
+        <section class="bread-crumb">
+            <span class="crumb-border"></span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 a-left">
+                        <ul class="breadcrumb" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+                            <li class="home">
+                                <a itemprop="url" href="/" ><span itemprop="title">Trang chủ</span></a>
+                                <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                            </li>
+
+                            <li >
+                                <a itemprop="url" href="/blogs/news"><span itemprop="title">Tin tức</span></a>
+                                <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                            </li>
+                            <li><strong><span itemprop="title">OPPO Find X lộ ảnh sắc nét với màn hình cong 2 cạnh</span></strong></li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {% set idRecrui = 4009 %}
+        {% set newsCategory = getNewsCategories() %}
+
+
+        <section class="blog_page_section margin-bottom-30">
+            <div class="container article-wraper">
+                <div class="row row_article">
+                    <section id="b" class="right-content col-lg-9 col-md-9 col-sm-12 col-xs-12 col-lg-push-3 col-md-push-3">
+                        <article class="article-main" itemscope itemtype="http://schema.org/Article">
+
+
+                            <div class="hidden" itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                                <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                                    <img src="//theme.hstatic.net/1000329721/1000424884/14/logo.png?v=22" alt="dl_goshopping"/>
+
+                                </div>
+                                <meta itemprop="name" content="dl_goshopping">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content_ar">
+                                    <h1 class="title-head-article"><a href="javascript:;" itemprop="name">{{ news.title | e('html') }}</a></h1>
+                                    <span class="time_post"><i class="fa fa-clock-o"></i>&nbsp;{{ news.createdDateTime }} <span class="pot"><i class="fa fa-user" aria-hidden="true"></i>&nbsp;Đăng bởi: <span class="name_">dl_goshopping dl_goshopping</span></span> </span>
+
+                                    <div class="article-details">
+                                        <div class="article-content">
+                                            <div class="rte">
+                                                {{ news.content |raw }}<p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tags_share margin-top-30">
+                                        <div class="share_row">
+
+
+
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 a-left">
+                                                <div class="addthis_inline_share_toolbox share_add">
+                                                    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58589c2252fc2da4"></script>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="hidden blog_other margin-top-15 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+                                </div>
+
+
+
+
+                            </div>
+                        </article>
+                    </section>
+
+                    <aside id="a" class="left left-content col-lg-3 col-md-3 col-sm-12 col-xs-12 col-md-pull-9 col-lg-pull-9">
+
+                        <aside class="aside-item collection-category ">
+
+                            <div class="title_module_main">
+                                <h2>
+                                    <span>
+                                        Danh mục tin tức
+                                    </span>
+                                </h2>
+                            </div>
+
+                            <div class="aside-content aside-cate-link-cls margin-bottom-15">
+                                <nav class="cate_padding nav-category navbar-toggleable-md">
+
+                                    <ul class="nav-ul nav navbar-pills">
+
+
+                                        {% if(newsCategory) %}
+                                        {% for c in newsCategory %}
+                                        {% set childs = c.childs() %}
+
+                                        <li class="nav-item  lv1">
+                                            <a href="{{ c.viewLink }}" class="nav-link">{{ c.name }}
+                                            </a>
+
+                                            {% if(childs) %}<i class="fa fa-caret-down"></i>{% endif %}
+
+                                            <ul class="dropdown-menu" style="display:none;">
+                                                {% if(childs) %}
+                                                {% for childs in childs %}
+                                                <li class="dropdown-submenu nav-item lv2 ">
+                                                    <a class="nav-link" href="/products/">{{ childs.name }}</a>
+                                                    <i class="fa fa-caret-down"></i>
+
+                                                </li>
+
+                                                {% endfor %}
+                                                {% endif %}
+                                            </ul>
+
+                                        </li>
+
+                                        {% endfor %}
+                                        {% endif %}
+
+
+
+
+
+
+
+
+
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </aside>
+
+                        {% set new = searchNewsByCategory(n.id) %}
+
+
+                        <div class="aside-item">
+                            <div>
+
+                                <div class="title_module_main">
+                                    <h2>
+                                        <a href="news" title="Tin liên quan">
+                                            Tin liên quan
+                                        </a>
+                                    </h2>
+                                </div>
+                                {% if(new) %}
+                                <div class="list-blogs">
+                                    <div class="blog_list_item">
+                                        {% for n in new %}
+                                            {% set image = n.imageUri %}
+                                            {% set options = {
+                                                alt: n.title|e('html'),
+                                                lazy: true,
+                                                openDiv: false,
+                                            }%}
+
+                                        <article class="blog-item blog-item-list ">
+                                            <div class="blog-item-thumbnail img1" onclick="window.location.href='/blogs/news/oppo-find-x-lo-anh-sac-net-voi-man-hinh-cong-2-canh';">
+                                                <a href="product">
+
+                                                    <picture>
+
+                                                        <img data-original = "{{ image }}"
+                                                             src="{{ image }}" style="max-width:100%;" class="img-responsive" >
+                                                    </picture>
+
+                                                </a>
+                                            </div>
+                                            <div class="ct_list_item">
+                                                <h3 class="blog-item-name"><a href="{{ n.viewLink }}" title="OPPO Find X lộ ảnh sắc nét với màn hình cong 2 cạnh">{{ n.title|e('html') }}</a></h3>
+                                            </div>
+                                        </article>
+                                        {% endfor %}
+
+
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+        <div class="ab-module-article-mostview"></div>
+        <input class="abbs-article-id" type="hidden" data-article-id="1000710293">
+        <script>
+            jQuery(document).ready(function() {
+                jQuery( ".article-content .rte img" ).each(function( index ) {
+                    var alt = jQuery(this).attr('alt');
+                    if(alt != ""){
+                        jQuery(this).attr('alt','OPPO Find X lộ ảnh sắc nét với màn hình cong 2 cạnh');
+                    }
+                });
+            });
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+    </body>
+    </html>
+{% endblock %}

@@ -1,0 +1,132 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {% set title = getParam('q') %}
+    {{ headTitle('Kết quả tìm kiếm: ' ~ title).setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block body %}
+    {% set title = getParam('q') %}
+    {% set arrayIds = []%}
+    {% block breadcrumb %}
+        {% set category = [{'label': ' Tìm kiếm', 'uri':'/search'}] %}
+        {{ breadcrumbs.build(category) }}
+    {% endblock %}
+    <main class="wrapper main-content  custom_page">
+        <section id="other-sections-wrapper">
+            <div class="wrapper">
+                <div class="inner">
+                    <!-- /templates/search.liquid -->
+                    <div id="collection-wrapper">
+                        {% if (paginator.currentModels) %}
+                            <h1 class="search-h1 text-center">Kết quả tìm kiếm: {{ title }}</h1>
+                            <hr class="hr--clear">
+                            <div class="search-title">
+                                <h3>Sản phẩm phù hợp</h3>
+                            </div>
+                            <div class="grid-uniform mg-left-0 product-loop">
+                                {% for p in paginator.currentModels %}
+                                    {% set image = p.thumbnailUri %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        class: 'imageChange',
+                                        lazy: true,
+                                        openDiv: false,
+                                    }%}
+                                    {% set percent = p.calcDiscountPercent %}
+                                    {% set priceDiscount = p.priceAfterDiscount %}
+                                    {% set arrayIds = [p.id] %}
+                                    <div class="grid__item product--loop product--grid-item large--one-quarter medium--one-third small--one-half pd-left0 search-item">
+                                        <div class="product-item" data-storeId="{{ p.storeId }}"
+                                             data-pid="{{ p.id }}">
+                                            <div class="product-img">
+                                                <a href="{{ p.viewLink }}">
+                                                    <img id="{{ p.id }}" class="img lazyload img-first" src="//theme.hstatic.net/1000187250/1000280706/14/lazyload.jpg?v=1588" data-src="{{ p.thumbnailUri }}" alt="{{ p.name }}">
+                                                    <img id="{{ p.id }}" class="img lazyload img-second" src="//theme.hstatic.net/1000187250/1000280706/14/lazyload.jpg?v=1588" data-src="{{ p.thumbnailUri }}" alt="{{ p.name }}">
+                                                </a>
+                                                <div class="product-actions text-center clearfix medium--hide small--hide">
+                                                    <div>
+                                                        <button type="button"
+                                                                class="out-stock"
+                                                                data-id="{{ p.id }}" style="display: none">Tạm hết
+                                                        </button>
+                                                        {% set parentId = constant('Product\\Model\\Store::PS_PARENT_ROOT') %}
+                                                        {% if(p.parentId == parentId) %}
+                                                            <button type="button"
+                                                                    class="btnQuickView quick-view"
+                                                                    data-handle="{{ p.viewLink }}"
+                                                                    data-psId="{{ p.id }}" ->
+                                                                        <span><i
+                                                                                    class="fa fa-cart-plus"
+                                                                                    aria-hidden="true"></i></span>
+                                                            </button>
+                                                            <button type="button" class="btnBuyNow buy-now btnQuickView quick-view" data-psId="{{ p.id }}">Mua ngay</button>
+                                                        {% else %}
+                                                            <button type="button" id="btnQuickCart"
+                                                                    class="btnAddToCart add-to-cart"
+                                                                    data-id="{{ p.id }}" ck="1" selid="{{ p.id }}" data-buy="1"><span><i
+                                                                            class="fa fa-cart-plus"
+                                                                            aria-hidden="true"></i></span>
+                                                            </button>
+                                                            <button type="button"
+                                                                    class="btnAddToCart btnBuyNow buy-now" id="buyNow" ck="1" selid="{{ p.id }}"
+                                                                    data-id="{{ p.id }}">Mua ngay
+                                                            </button>
+                                                        {% endif %}
+                                                        <button type="button" class="btnQuickView quick-view" data-handle="{{ p.viewLink }}" data-psId="{{ p.id }}">
+                                                            <span>
+                                                                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                {% if (percent and percent > 0) %}
+                                                    <div class="product-tags">
+                                                    <span class="tag-saleoff text-center">
+                                                        -{{ percent }}%
+                                                    </span>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+
+                                            <div class="product-info">
+                                                <div class="product-title">
+                                                    <a href="{{ p.viewLink }}">{{ p.name }}</a>
+                                                </div>
+
+                                                <div class="product-price clearfix">
+                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                        <span class="current-price">{{ p.priceAfterDiscount|number_format(0) }}₫</span>
+                                                        <span class="original-price"><s>{{ p.price|number_format(0) }}₫</s></span>
+                                                    {% elseif (p.oldprice() > 0) %}
+                                                        <span class="current-price">{{ p.price|number_format(0) }}₫</span>
+                                                        <span class="original-price"><s>{{ p.oldPrice|number_format(0) }}₫</s></span>
+                                                    {% else %}
+                                                        <span class="current-price">{{ p.price|number_format(0) }}₫</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <h1 class="search-h1 text-center">Không tìm thấy kết quả tìm kiếm phù hợp cho: {{ title }}</h1>
+                            <hr class="hr--clear">
+                            <div class="search-title">
+                                <h3>Không có kết quả phù hợp</h3>
+                            </div>
+                        {% endif %}
+                        <div class="pagination">
+                            <div id="pagination-" class="text-center">
+                                {{ render_paginator(paginator) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

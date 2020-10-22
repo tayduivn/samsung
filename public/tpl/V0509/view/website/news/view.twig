@@ -1,0 +1,133 @@
+{% extends 'news_layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% block meta %}
+  {{ headTitle(news.title | e('html')).setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta name="keywords" content="{{ news.metaKeywords ?: news.title | e('html') }}">
+  <meta name="description" content="{{ (news.metaDescription ?: news.title | e('html')) }}">
+  <meta property="og:title" content="{{ news.title | e('html') }}">
+  <meta property="og:url" content="{{ news.viewLink }}">
+  <meta property="og:image" content="{{ 'https:'~news.pictureUri }}">
+  <meta property="og:type" content="category">
+{% endblock %}
+
+{% block body %}
+  <style>
+    body {
+      background: #fbfbfb url('/tpl/V0509/img/temp/background-blog.jpg') no-repeat scroll center top;
+      padding: 2rem;
+    }
+    .post-involve {
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+      padding: 0 20px;
+    }
+    .involve-date::before {
+      content: "";]
+      position: absolute;
+      top: 2px;
+      background-image: url(/tpl/V0509/img/calendar.svg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+    }
+    .title-related {
+      display: inline-block;
+      padding: 10px 0;
+    }
+    .news-content img {
+      max-width: 100%;
+      height: 100% !important;
+    }
+    @media (min-width: 992px) {
+      .border-left-blog {
+        border-left: 1px solid #dee2e6;
+      }
+      .news-content {
+        max-width: 95%;
+      }
+    }
+  </style>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9">
+        <h1 class="heading text-secondary">
+          {{ news.title | e('html') }}
+        </h1>
+        <section class="news-content">
+            {{ news.content |raw }}
+        </section>
+        <div class="singleNews">
+                    <h1 class="titlesingleNews">{{ news.title | e('html') }}</h1>
+                    <i class="date">{{ news.createdDateTime }}, Lượt xem: {{ news.hits }}</i>
+                    <div class="bt-like-share" style="">
+                        <div class="fb-like" data-href="{{ getCurrentUrl() }}" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+                    </div>
+                    <p class="brBottom"></p>
+                    <div class="news-content">{{ news.content |raw }}</div>
+                    <div class="blockSocial">
+                        <div class="socialLeft">
+                          <div class="fb-like"
+                                data-href="https://www.facebook.com/Capbalovali/"
+                                data-layout="box_count" data-action="like" data-show-faces="true"
+                                data-share="false"></div>
+                          <div class="googlePlus g-plusone" data-size="tall"></div>
+                        </div>
+                    </div>
+                    <div class="commentFb" style="margin: 15px 0 10px 0;">
+                        <div class="fb-comments" data-href="{{ getCurrentUrl() }}" data-numposts="5" data-colorscheme="light"></div>
+                    </div>
+                </div>
+      </div>
+      <div class="col-lg-3 border-left-blog">
+
+        <section class="tag-news">
+
+          {% set tags = getTags({
+            'itemId' : news.id,
+            'type': 'article'
+          }) %}
+          {% if (tags is not empty) %}
+            <h3 class="text-dark">Tag liên quan</h3>
+            {% for tag in tags %}
+              <a href="/search?tag={{ tag.id }}">
+                <span class="tag_news">{{tag.name }}</span>
+              </a>
+            {% endfor %}
+          {% endif %}
+        </section>
+
+        <section class="post-involve">
+          <h3 class="text-dark">Bài viết liên quan</h3>
+          {% set postInvolve = searchArticleNews ({
+            'limit': 5,
+            'categoryId':news.categoryId,
+            'excludeIds': news.id
+          }) %}
+          {% if (postInvolve) %}
+            {% for p_item in postInvolve %}
+              {% set image = p_item.imageUri %}
+              {% set options = {
+                alt: p_item.title | e('html'),
+                lazy: true,
+                openDiv: false,
+                class: 'img is-full'
+              } %}
+              <a href="{{ p_item.viewLink }}">
+                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+              </a>
+              <span class="title-related text-secondary">{{ p_item.title | raw }}</span>
+              <p class="text-secondary involve-date position-relative">
+                {{ p_item.createdDateTime }}
+              </p>
+            {% endfor %}
+          {% endif %}
+        </section>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

@@ -1,0 +1,129 @@
+<footer id="footer">
+    <div class="modal" id="productQuickView">
+        <div class="modal-content" style="opacity: 1;transform: translateY(0px);margin-top: 68.5px;">
+        </div>
+    </div></div>
+    <div id="modalAddComplete">
+        <div class="modalAddComplete-content" id="modalAddCompleteContent"></div>
+    </div>
+    <div id="loading" style="display: none;">
+        <div></div>
+    </div>
+    <div class="wrapper footer-bottom">
+        <div class="grid">
+            <div class="grid__item large--four-twelfths">
+                <a href="nhanh.vn" class="site-footer__logo-link">
+                    Nhanh.vn
+                </a>
+                <ul class="footer-nav footer-contact  no-bullets">
+                    <li>
+                        <i class="fa fa-map-marker"></i>
+                        <p>Địa chỉ: Số 102 Thái Thịnh, phường Trung Liệt, quận Đống Đa, TP Hà Nội</p>
+                    </li>
+                    <li>
+                        <i class="fa fa-phone"></i>
+                        <a href="tel:(+84) 934 323 882">
+                            Hotline: (+84) 934 323 882
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa fa-envelope"></i>
+                        <a href="mailto:abc@nhanh.vn">
+                            Email: abc@nhanh.vn
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="grid__item large--two-twelfths medium--one-half small--one-half">
+                <div class="widget-wrapper animated">
+                    <h3 class="title title_left">Tài khoản</h3>
+                    <div class="inner">
+                        <ul class="no-bullets ft-nav">
+                            <li>
+                                <a href="/">Trang chủ</a>
+                            </li>
+                            {% set category = getCategories() %}
+                            {% if category %}
+                                {% for c in category %}
+                                    <li>
+                                        <a href="{{ c.viewLink }}">{{ c.name|raw }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                            <li>
+                                <a href="/news">Tin tức</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="grid__item large--two-twelfths medium--one-half small--one-half">
+                <div class="widget-wrapper animated">
+                    <h3 class="title title_left">Dịch vụ</h3>
+                    <div class="inner">
+                        <ul class="no-bullets ft-nav">
+                            <li>
+                                <a href="/search">Tìm kiếm</a>
+                            </li>
+                            <li>
+                                <a href="/pages/about-us">Giới thiệu</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="grid__item large--four-twelfths">
+                <div class="ft-subscribe wow fadeInRight" data-wow-delay="0.6s" data-wow-duration="0.75s">
+                    <h3 class="title">Đăng ký nhận tin</h3>
+                    <div class="ft-sub-desc">
+                        Hãy nhập địa chỉ email của bạn vào ô dưới đây để có thể nhận được tất cả các tin tức mới nhất của Suplo về các sản phẩm mới, các chương trình khuyến mãi mới. Suplo xin đảm bảo sẽ không gửi mail rác, mail spam tới bạn.
+                    </div>
+                    <div class="ft-sub-wrapper">
+
+                        <form accept-charset="UTF-8" action="/account/contact" class="contact-form" method="post">
+                            <input name="form_type" type="hidden" value="customer">
+                            <input name="utf8" type="hidden" value="✓">
+                            <div class="input-group">
+                                <input type="email" value="" placeholder="Nhập email..." name="contact[email]" id="EmailBottom" class="input-group-field" aria-label="email@example.com">
+                                <input type="hidden" name="contact[tags]" value="newsletter">
+                                <span class="input-group-btn">
+								<button type="submit" name="subscribe" id="subscribeBottom" value="GỬI"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+							</span>
+                            </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="footer-copyright wrapper">
+    <div class=" copyright">
+        <div class="grid">
+            <div class="grid__item large--one-half medium--one-half ">
+                <div class="cyr"><a target="_blank" href="http://nhanh.vn"> Nhanh.vn</a> | Thiết kế web bởi<a target="_blank" href="http://nhanh.vn"> Nhanh.vn</a>.</div>
+            </div>
+            <div class="grid__item large--one-half  medium--one-half ">
+                <div class="ft-social-network text-right">
+
+                    <a href="https://www.facebook.com/SuploTeam/" class="fb-icon" target="_blank"><i class="fab fa-facebook-f"></i></a>
+
+
+                    <a href="https://twitter.com/" class="tw-icon" target="_blank"><i class="fab fa-twitter"></i></a>
+
+
+                    <a href="https://plus.google.com/" class="gg-icon" target="_blank"><i class="fab fa-google-plus-g"></i></a>
+
+
+                    <a href="https://www.youtube.com/" class="yt-icon" target="_blank"><i class="fab fa-youtube"></i></a>
+
+
+                    <a href="https://www.instagram.com/" class="ins-icon" target="_blank"><i class="fab fa-instagram"></i></a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Quản lí đơn hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Quản lí đơn hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    <section class="banner-products">
+        <div class="slug">
+            <div class="container">
+                <div class="slug-container">
+                <span><a href="/">Trang chủ</a> / Trang khách hàng</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <main>
+      <section class="history-order">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="list-order">
+                <table class="table table-striped table-responsive">
+                  <thead>
+                    <tr>
+                      <th scope="col">Đơn hàng</th>
+                      <th scope="col">Ngày</th>
+                      <th scope="col">Tên khách hàng</th>
+                      <th scope="col">Địa chỉ</th>
+                      <th scope="col">Giá trị đơn hàng</th>
+                      <th scope="col">Hình thức thanh toán</th>
+                      <th scope="col">Trạng thái</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% if (paginator.getCurrentModels) %}
+                    {% for order in paginator.getCurrentModels %}
+                        {% set products = orders[order.getId()].getProducts %}
+                        {% set totalOrderPrice = 0 %}
+                      {% for pOrder in products %}
+                          {% set totalOrderPrice = totalOrderPrice + (pOrder.quantity * pOrder.price) %}
+                      {% endfor %}
+                      <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.createdDate("d/m/Y") }}</td>
+                        <td>{{ order.customerName }}</td>
+                        <td>{{ order.customerAddress }}</td>
+                        <td>{{ totalOrderPrice|number_format(0) }}</td>
+                        <td>
+                          <em>
+                              {{ orderPayment(order.paymentMethod) }}
+                          </em>
+                        </td>
+                        <td>{{ order.statusName(order.status) }}</td>3
+                      </tr> 
+                    {% endfor %}
+                    {% else %}
+                      <tr>
+                        <td colspan="7" class="text-danger text-center">Không có đơn hàng nào !</td>
+                      </tr> 
+                  {% endif %}
+                  </tbody>
+                </table>
+                {{ render_paginator(paginator) }}
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="infomation-user">
+                <ul>
+                  <li><a href="/profile">Trang cá nhân</a></li>
+                  <li><a class="active" href="/order">Quản trị đơn hàng</a></li>
+                  <li><a href="/order/search">Tra cứu đơn hàng</a></li>
+                  <li><a href="/profile/edit">Thay đổi thông tin</a></li>
+                  <li><a href="/user/signout">Thoát</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+{% endblock %}

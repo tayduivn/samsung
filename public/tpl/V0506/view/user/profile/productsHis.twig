@@ -1,0 +1,64 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% set productHis = getHistory({'limit': 8}) %}
+    {% if(productHis) %}
+        <section class="pt-4">
+            <div class="container">
+                <h3 class="title_page tp_title title_his pb-2">
+                    Sản phẩm bạn vừa xem
+                </h3>
+                <div class="row">
+                    <div class="block_slide_products owl-carousel owl-theme">
+                        {% for p in productHis %}
+                            {% set image = p.thumbnailUri %}
+                            {% set percent = p.discountPercent %}
+                            {% set priceDiscount = p.priceAfterDiscount %}
+                            {% set options = {
+                                alt: p.name,
+                                class: 'img_thumb_product',
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+                            <div class="product_box" data-id="{{ p.id }}">
+                                <div class="box_image">
+                                    <a class="a-image" href="{{ p.viewLink }}">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                    </a>
+                                </div>
+                                <div class="box_info">
+                                    <div class="box_text">
+                                        <a class="tp_product_name">{{ p.name }}</a>
+                                    </div>
+                                    <div class="box_price">
+                                        {% if(priceDiscount > 0) %}
+                                            <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                            <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                ₫
+                                            </del>
+                                        {% elseif(p.oldPrice) %}
+                                            <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                            <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                ₫
+                                            </del>
+                                        {% elseif(p.price <= 0 ) %}
+                                            <span class="tp_product_price">Liên hệ</span>
+                                        {% else %}
+                                            <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                        {% endif %}
+                                        {% if(percent>0) %}
+                                            <span class="percent">
+                                            -{{ percent }}%
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="box_action">
+                                    <div><a class="quickView" href="javascript:void(0)">Xem nhanh</a></div>
+                                    <div><a href="javascript:void(0)">Mua ngay</a></div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}

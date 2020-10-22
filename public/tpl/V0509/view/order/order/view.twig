@@ -1,0 +1,86 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đặt hàng thành công').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Thanh toán thành công">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block body %}
+    {# {% block breadcrumb %}
+        {% set buildBread = ([{'label': 'Thanh toán hàng thành công','uri': 'javascript:void(0)', 'class' : 'msp'}]) %}
+        {{ breadcrumbs.build(buildBread) }}
+    {% endblock %} #}
+    <style>
+
+    .row-fluid {
+        margin: 43px 0;
+    }
+
+    @media (min-width: 992px) {
+        .main-content {
+            min-height: 350px;
+        }
+
+        .container-thks {
+            max-width: 90rem;
+        }
+    }
+    @media (max-width: 992px) {
+        .container-thks {
+            margin: 20px;
+        }
+    }
+    .container-thks .orderview {
+        background: #ededed;
+        padding: 20px;
+        border-radius: 5px;
+    }
+    {# .continue-to-buy {
+        font-size
+    } #}
+    
+    </style>
+    <section class="banner-products">
+        <div class="slug">
+            <div class="container">
+                <div class="slug-container">
+                <span><a href="/">Trang chủ</a> / Thanh toán hàng thành công</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <main class="wrapper main-content ">
+        <div class="all-ms d-flex justify-content-center align-items-center">
+            <div class="row-fluid ">
+                <div class="container-thks">
+                    <div class="orderview">
+                        <span class="sidebar-title">- Cảm ơn ! -</span>
+                        <div class="clearfix"></div>
+                        <p>Mã đơn đặt hàng của bạn là <b>{{ order.id }}</b><br></p>
+                        <p>Bạn sẽ sớm nhận được email đến <b class="red">{{ order.email }}</b>
+                            xác nhận thông tin đơn hàng và một đường link để kiểm tra tình trạng đơn hàng. </br>
+                            Hy vọng bạn sẽ hài lòng với sản phẩm vừa đặt mua.</p>
+                        <div class="text-center col-xs-12">
+                            <a href="/" class="continue-to-buy  text-danger">Tiếp tục mua sắm</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+    <style type="text/css">
+        .orderview {
+            text-align: center;
+            font-size: 16px;
+            margin: 10px 0;
+            display: inline-block;
+            width: 100%;
+        }
+        .orderview{
+            margin-top: 20px;
+        }
+
+    </style>
+{% endblock %}

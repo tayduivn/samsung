@@ -1,0 +1,61 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+
+{% block meta %}
+    {{ headTitle('Liên hệ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Liên hệ">
+    <meta name="keywords" content="Liên hệ">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="Liên hệ">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+    <div class="containerMain">
+        {% set category = [{'label': 'Liên hệ', 'uri':'/lien-he'}] %}
+        {{ breadcrumbs.build(category) }}
+
+        <div class="contactContent">
+            <h2>Bản đồ CAPTOT.VN - website captot phân phối cặp sách hàng đầu Việt Nam</h2>
+            <ul>
+                <li>
+                    <p><span class="image iconMap"></span>Showroom 1: 138 Bạch Mai, Bạch Mai, Thanh Nhàn, Hai Bà Trưng, Hà Nội</p>
+                    <iframe src="javascript:;" class="lazyload" data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.6711587959044!2d105.84898631432372!3d21.00581488601081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac753fbaf755%3A0xca9be88934d3da95!2zQ-G7rWEgaMOgbmcgQ0FQVE9ULnZuIC0gMTM4IELhuqFjaCBNYWk!5e0!3m2!1sen!2s!4v1547435663019" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <style>
+        .contactContent h2{
+            display: block;
+            clear: both;
+            font-size: 18px;
+            padding: 10px 15px;
+            background: #DEDEDE;
+            text-transform: uppercase;
+            margin: 0;
+        }
+        .contactContent ul{
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            width: 100%;
+        }
+        .contactContent ul li{
+            list-style: none;
+            margin: 10px 0 0 0;
+        }
+        .contactContent ul li p{
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+        .contactContent ul li p span{
+            display: inline-block;
+            width: 57px;
+            height: 60px;
+            vertical-align: middle;
+            margin: 0 10px 0 0;
+        }
+    </style>
+{% endblock %}

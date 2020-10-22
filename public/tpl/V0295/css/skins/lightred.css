@@ -1,0 +1,45 @@
+.pro-loop .product-img .button-add{
+    background: #dd4031 !important;
+}
+.footer-contact ul>li.home-list-store{
+    background: #dd4031 !important;
+}
+.content-newsletter button{
+    background: #dd4031 !important;
+}
+.service-box .icon:before{
+    background-color: #dd4031 !important;
+}
+.instagram-list-img .list-img .owl-nav button{
+    background: #dd4031 !important;
+}
+.product-gallery__thumb.active, .product-gallery__thumb.active:hover{
+    border-color: #dd4031 !important;
+}
+#variant-swatch-1 .select-swap span a.active{
+    background: #dd4031 !important;
+    color: #fff;
+}
+#variant-swatch-1 .select-swap span a:hover{
+    border: 1px solid #dd4031 !important;
+}
+button.btn-addtocart, button.coming_soon{
+    background: #dd4031 !important;
+}
+a.fitting{
+    border: 1px solid #dd4031 !important;
+    color: #dd4031 !important;
+}
+.cart-view a.linktocheckout, .cart-view a.linktoupdate{
+    background: #dd4031 !important;
+    border: 1px solid #dd4031 !important;
+}
+#layout_Cart .order-summary-block .summary-action .checkout-btn{
+    background: #dd4031 !important;
+}
+.sidebar-sort input[type=checkbox]:checked:after{
+    color: #dd4031 !important;
+}
+#nav-menu .main-nav-menu .menu__list--top>li>a, #nav-menu .main-nav-menu>ul>li:last-child>a, .main-nav-menu .menu__list--second .menu__item .menu__link, #nav-menu .main-nav-menu .menu__list--top .menu__item--dropdown .menu__item--dropdown a, .product-img a>span, .footer-col .footer-contact ul li span{
+    color: #dd4031 !important;
+}

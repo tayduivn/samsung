@@ -1,0 +1,72 @@
+<div class="content__banner--popup">
+{% set banner_popup = getBannerByPositionCode('banner_popup') %}
+    {% if (banner_popup is not empty) %}
+        {% for m in banner_popup %}
+        {% set imageSlide = m.imagesrc %}
+        {% set options = {
+            alt: m.name,
+            lazy: true,
+            openDiv: false,
+        } %}
+        <div class="popup-img">
+             {{ macroLazyFocusImager.LazyFocusImager(imageSlide, options) }}
+            <div class="btn-closed"></div>
+        </div>
+        {% endfor %}
+    {% else %}
+      <div class="popup-img">
+        <img src="//theme.hstatic.net/200000000133/1000569834/14/slideshow_1.jpg?v=2231" alt="banner">
+        <div class="btn-closed"></div>
+      </div>
+    {% endif %}
+</div>
+
+<style>
+  .content__banner--popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.5);
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+  }
+    .popup-img {
+      position: relative;
+      width: 54em;
+      height: 38em;
+      overflow: hidden;
+    }
+  .btn-closed {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2rem;
+    width: 1em;
+    height: 1em;
+    background: red;
+    cursor: pointer;
+  }
+  .btn-closed::after,
+  .btn-closed::before {
+    position: absolute;
+    content: '';
+    top: .1em;
+    left: .5em;
+    display: block;
+    width: .07em;
+    height: .8em;
+    background: #000;
+  }
+  .btn-closed::after {
+    transform: rotate(45deg);
+  }
+  .btn-closed::before {
+    transform: rotate(-45deg);
+  }
+</style>

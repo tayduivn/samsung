@@ -1,0 +1,68 @@
+{% extends "layout/layout" %} {% block meta %} {{ headTitle('Thông tin người dùng').setSeparator(' - ').setAutoEscape(false)|raw }}
+<meta name="description" content="Thông tin người dùng">
+<meta name="keywords" content="Thông tin người dùng">
+<meta property="og:url" content="{{ getCurrentUrl() }}">
+<meta property="og:title" content="Thông tin người dùng">
+<meta property="og:type" content="article"> 
+{% endblock %} 
+
+{% block body %}
+<style>
+    body {
+        overflow: hidden;
+    } 
+    .information-user {
+        min-height: 356px;
+    }
+    .slug {
+        background-color: #ededed;
+        padding: 10px 0;
+    }
+    .information-user .form-user {
+        padding-top: 50px;
+    }
+    .form-user {
+        width: 400px;
+        padding: 20px;
+        border: 1px solid #ededed;
+        background: #ededed;
+        border-radius: 5px;
+    }
+    .pd-tb {
+        padding: 10px 0;
+    }
+    .h-356 {
+        height: 356px;
+    }
+    .information-user .text-user:hover {
+        text-decoration: underline;
+        color: #0d6efd;
+    }
+</style>
+<div class="slug">
+    <div class="container">
+        <div class="slug-container">
+            <span><a href="/">Trang chủ</a> / Trang khách hàng</span>
+        </div>
+    </div>
+</div>
+<section class="information-user">
+    <div class="container d-flex justify-content-center align-items-center h-356">
+        <div class="form-user d-flex justify-content-center align-items-center flex-column">
+            <h3 class="title-user pd-tb">Tài Khoản</h3>
+            <a href="/profile/edit" class="pd-tb text-user">
+                <span class="text-primary">Thay đổi thông tin tài khoản</span>
+            </a>
+            <a href="/profile/changepassword" class="pd-tb text-user">
+                <span class="text-primary">Trang đổi mật khẩu tài khoản</span>
+            </a>
+            <a href="/order" class="pd-tb text-user">
+                <span class="text-primary">Lịch sử đơn hàng</span>
+            </a>
+            <a href="/user/signout" class="pd-tb logout">
+                <span class="text-danger">Đăng xuất</span>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

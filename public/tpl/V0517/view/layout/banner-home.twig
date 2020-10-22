@@ -1,0 +1,74 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+
+{% set banner_home = getBannerByPositionCode('BANNER_HOME') %}
+<section class="banner__slider">
+    <div class="slider stick-dots">
+    {% if (banner_home is not empty) %}
+        {% for c in banner_home %}
+					{% set imageSlide = c.imagesrc %}
+					{% set options = {
+						alt: c.name,
+						class: 'full-image animated',
+          	lazy: true,
+          	openDiv: false,
+					} %}
+					<div class="slide">
+            <div class="slide__img">
+                {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+            </div>
+            <div class="slide__content ">
+                <div class="slide__content--headings text-center">
+                    <p class="animated top-title" data-animation-in="fadeInUp" data-delay-in="0.3">Welcome to Shareat restaurant</p>
+                    <h2 class="animated title" data-animation-in="fadeInUp">Let Enjoy The Rhym Of Fooday Dishes</h2>
+                    <button class="btn-light btn button-custom animated" data-animation-in="fadeInUp">Our menu</button>
+                </div>
+            </div>
+        </div>
+				{% endfor %}
+				{% else %}
+					<div class="slide">
+            <div class="slide__img">
+                <img src="" alt="" data-lazy="https://theme.hstatic.net/1000055804/1000533479/14/slideshow_1.jpg?v=99}" class="full-image animated" data-animation-in="zoomInImage" />
+            </div>
+            <div class="slide__content ">
+                <div class="slide__content--headings text-center">
+                    <p class="animated top-title" data-animation-in="fadeInUp" data-delay-in="0.3">Welcome to Shareat restaurant</p>
+                    <h2 class="animated title" data-animation-in="fadeInUp">Let Enjoy The Rhym Of Fooday Dishes</h2>
+                    <button class="btn-light btn button-custom animated" data-animation-in="fadeInUp">Our menu</button>
+                </div>
+            </div>
+        	</div>
+        <div class="slide">
+            <div class="slide__img">
+                <img src="" alt="" data-lazy="https://theme.hstatic.net/1000055804/1000533479/14/slideshow_2.jpg?v=99}" class="full-image animated" data-animation-in="zoomOutImage" />
+            </div>
+            <div class="slide__content slide__content__right">
+                <div class="slide__content--headings text-right">
+                    <p class="animated top-title" data-animation-in="fadeInLeft" data-delay-in="0.2">Wish you have good food at our restaurant</p>
+                    <h2 class="animated title" data-animation-in="fadeInLeft">Experience the food</h2>
+                    <button class="btn-success btn button-custom animated text-white" data-animation-in="fadeInUp">Order Now</button>
+                </div>
+            </div>
+        </div>
+        <div class="slide">
+            <div class="slide__img">
+                <img src="" alt="" data-lazy="https://theme.hstatic.net/1000055804/1000533479/14/slideshow_3.jpg?v=99}" class="full-image animated" data-animation-in="zoomInImage" />
+            </div>
+            <div class="slide__content slide__content__left">
+                <div class="slide__content--headings text-left">
+                    <p class="animated top-title" data-animation-in="fadeInRight" data-delay-in="0.2">Purchase today. just $76</p>
+                    <h2 class="animated title" data-animation-in="fadeInRight">SUPER DEAL LUNCH</h2>
+                    <button class="btn-light btn button-custom animated" data-animation-in="fadeInUp">Today's Menu</button>
+                </div>
+            </div>
+        </div>
+    {% endif %} 
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44px" height="44px" id="circle" fill="none" stroke="currentColor">
+            <circle r="20" cy="22" cx="22" id="test">
+        </symbol>
+    </svg>
+</section>

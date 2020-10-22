@@ -1,0 +1,23 @@
+{   "author":"vietvkmv",
+    "sourceLink": "https://goop.com/",
+    "domain":{
+        "storeId": 224,
+        "name": "V0516.khanhvdstore2.bot3s.net",
+        "alias": "V0516.khanhvdstore2.bot3s.net"
+    },
+    "banners":{
+        "HOME_SLIDE":{
+            "name": "Banner slide home",
+            "description": "Kích cỡ banner 1920 x auto",
+            "size": "auto"
+        }
+    },
+    "contents":{
+        "HOME":{
+            "name": "Trang chủ",
+            "keys": {
+
+            }
+        }
+    }
+}

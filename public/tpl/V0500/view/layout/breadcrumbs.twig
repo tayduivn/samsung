@@ -1,0 +1,30 @@
+{% macro build(breadcrumbs) %}
+    {% set setUlClass = 'wrap-breadcrumb' | raw %}
+    {% if(setUlClass) %}
+        {% set setUlClass = setUlClass %}
+    {% endif %}
+    {% set breadcrumb = null %}
+    {% if(breadcrumbs) %}
+        {% set breadcrumb = breadcrumbs %}
+    {% endif %}
+    <div class="{{ setUlClass | raw }}">
+        <div class="wrapper main-header">
+            <nav class="breadcrumb-wrapper" role="navigation" aria-label="breadcrumbs">
+                <a href="/" title="Quay trở về trang chủ">Trang chủ</a>
+                {% if(breadcrumb) %}
+                    {% set k = 1 %}
+                    {% for br in breadcrumb %}
+                        {% set uri = (br['uri'])?br['uri']:'' %}
+                        {% set name = (br['label'])?br['label']:'' %}
+                        {% set class = (br['class'])?br['class']:'' %}
+                        {% set rel = (br['rel'])?br['rel']:'' %}
+                        <a href="{{ uri }}">
+                            <span style="margin-right: 0">{{ name }}</span>
+                        </a>
+                            {% set k = k + 1 %}
+                    {% endfor %}
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+{% endmacro %}

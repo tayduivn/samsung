@@ -1,0 +1,63 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đăng ký').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng ký">
+    <meta name="keywords" content="Đăng ký">
+    <meta property="og:url" content="/user/signup">
+    <meta property="og:title" content="Đăng ký">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/user.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="breadcrumb_background">
+        <section class="bread-crumb">
+            <span class="crumb-border"></span>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 a-center">
+                        <ul class="breadcrumb">
+                            <li class="home">
+                                <a href="/"><span>Trang chủ</span></a>
+                                <span class="mr_lr">&nbsp;<i class="fa fa-angle-right"></i>&nbsp;</span>
+                            </li>
+
+                            <li><strong><span>Đăng ký tài khoản</span></strong></li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="container margin-bottom-20">
+        <div class="wrap_background_aside margin-bottom-40">
+            <h1 class="title-head row"><a href="#">{{ translate('Đăng ký') }}</a></h1>
+            <div class="container">
+            <div class="row">
+                <div class="col-lg-12 px-0">
+                    <div class="page-login">
+                        <div id="login">
+                            <div class="container">
+                            <div class="row mt-3">
+                            {% if(success) %}
+                                <p class="message sigup pl-3" style="color: black">Chúc mừng bạn đăng ký thành công tài khoản website
+                                    vui lòng vào <a href="/user/signin" style="color: red">Đây</a> để đăng nhập
+                                </p>
+                            {% else %}
+                                <span class="mb-3 pl-3">Nếu chưa có tài khoản vui lòng đăng ký tại đây</span>
+                                {{ partial('partial/form',{'form':form}) }}
+                                <span class="ml-3">Bạn đã có tài khoản?</span><br>
+                                <a href="/user/signin" class="btn-link-style btn-register" style="margin-left: 25px; text-decoration: underline;">Đăng nhập</a>
+                            {% endif %}
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

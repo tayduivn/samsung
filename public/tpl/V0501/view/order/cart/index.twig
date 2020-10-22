@@ -1,0 +1,137 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    <link rel="shortcut icon" href="//theme.hstatic.net/1000329005/1000419954/14/favicon.png?v=93" type="image/png">
+    {{ headTitle('Giỏ hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Giỏ hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    {% set category = [{'label': ' Giỏ hàng', 'uri':'/cart'}] %}
+    {{ breadcrumbs.build(category) }}
+    {% set totalCartMoney = serviceCart().totalMoney %}
+    {% set products = serviceCart().products %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="page_title page__  margin-top-20 margin-bottom-20">
+                    <h1 class="title_page_h1"><span>Giỏ hàng</span></h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="main-cart-page main-container col1-layout">
+        <div class="main container ">
+            {% if (products) %}
+                <div class="col-main cart_desktop_page cart-page">
+                    <div class="cart page_cart ">
+                        <form action="/cart" method="post" novalidate="" class="margin-bottom-0">
+                            <div class="bg-scroll">
+                                <div class="cart-thead hidden-xs hidden-sm">
+                                    <div style="width: 45%" class="a-left">Sản phẩm</div>
+                                    <div style="width: 25%" class="a-center"><span class="nobr">Giá</span></div>
+                                    <div style="width: 14%" class="a-center">Số lượng</div>
+                                    <div style="width: 16%" class="a-right">Tổng tiền</div>
+                                </div>
+                                {% for p in products %}
+                                    {% set image = p.thumbnailUri %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        lazy: true,
+                                        openDiv: false,
+                                        class: 'attachment-post-thumbnail size-post-thumbnail wp-post-image',
+                                    } %}
+                                    <div class="cart-tbody">
+                                        <div class="item-cart productid-{{ p.id }}" price="{{ p.price }}">
+                                            <div style="width: 10%" class="image">
+                                                <a class="product-image" title="{{ p.name }}"
+                                                   href="{{ p.viewLink }}">
+
+                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                </a>
+                                            </div>
+                                            <div class="_cart">
+                                                <div style="width: 43%" class="a-left">
+                                                    <h3 class="product-name"><a class="text2line"
+                                                                                href="{{ p.viewLink }}">{{ p.name }}</a></h3><span
+                                                            class="variant-title"></span><a class="remove-itemx remove-item-cart" psId ="{{ p.id }}"
+                                                                                            title="Xóa" href="javascript:;"
+                                                                                            data-id="{{ p.id }}"><span><i
+                                                                    class="fa fa-times"></i> Xoá</span></a></div>
+                                                <div style="width: 40%" class="a-center"><span class="item-price"><span
+                                                                class="price">
+                                                        {% if (p.priceAfterDiscount > 0) %}
+                                                            <span class="price product-price">{{ p.priceAfterDiscount|number_format(0) }}VNĐ</span>
+                                                            <span class="price product-price-old">{{ p.price|number_format(0) }} VNĐ</span>
+                                                        {% elseif (p.oldprice() > 0) %}
+                                                            <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                            <span class="price product-price-old">{{ p.oldprice|number_format(0) }} VNĐ</span>
+                                                        {% elseif (p.price == 0) %}
+                                                            <span class="price product-price">Liên hệ</span>
+                                                        {% else %}
+                                                            <span class="price product-price">{{ p.price|number_format(0) }}VNĐ</span>
+                                                        {% endif %}
+                                                    </span></span></div>
+                                                <div style="width: 17%" class="a-center">
+                                                    <div class="input_qty_pr"><input class="variantID" type="hidden"
+                                                                                     name="variantId" value="1033524560">
+                                                        <input
+                                                                type="text" psId ="{{ p.id }}" min="1" max="{{ p.inventory().calcAvailable() }}"
+                                                                class="input-text number-sidebar input_pop input_pop qtyItem{{ p.id }}"
+                                                                id="qtyItem{{ p.id }}" name="Lines" value="{{ p.quantity }}">
+                                                        <button
+                                                                class="increase_pop items-count btn-plus" type="button"><i
+                                                                    class="fa fa-caret-up"></i></button>
+                                                        <button class="reduced_pop items-count btn-minus" type="button"><i
+                                                                    class="fa fa-caret-down"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div style="width: 15%" class="a-right">
+                                                <span class="cart-price">
+                                                    {% if (p.priceAfterDiscount > 0) %}
+                                                        <span class="price">{{ (p.priceAfterDiscount * p.quantity) |number_format(0) }}VNĐ</span>
+                                                        {% elseif (p.price == 0) %}
+                                                        <span class="price">0 VNĐ</span>
+                                                        {% else %}
+                                                        <span class="price">{{ (p.price * p.quantity) | number_format(0) }}VNĐ</span>
+                                                    {% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                        </form>
+                        <div class="cart-collaterals cart_submit row">
+                            <div class="totals col-sm-12 col-md-12 col-xs-12">
+                                <div class="totals">
+                                    <div class="inner">
+                                        <div class="fot_totals shopping-cart-table-total col-lg-6 col-md-6 col-sm-6 col-lg-offset-6 col-md-offset-6 col-sm-offset-6">
+                                            <div class="total_price"><span class="total_text"></span><span class="total_p">Tổng tiền thanh toán: <span
+                                                            class="totals_price price">{{ totalCartMoney|number_format(0) }}VNĐ</span></span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout_button margin-bottom-50">
+                            <button class="btn btn-primary button btn-proceed-checkout f-right" title="Tiến hành đặt hàng"
+                                    type="button" onclick="window.location.href='/cart/checkout?emptylayout=true'">
+                                <span>Tiến hành thanh toán</span></button>
+                            <button class="btn btn-white f-right" title="Tiếp tục mua hàng" type="button"
+                                    onclick="window.location.href='/product'"><span>Tiếp tục mua hàng</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/cart.js' }}"></script>
+{% endblock %}

@@ -1,0 +1,207 @@
+<div class="sidebar-nav active-filter">
+  <div class="block-sidebar">
+    <span class="icon-delete dp-none" id="js-hide"></span>
+    <label class="title-products fonts mr-top-20">Loại</label>
+    <form action="#" class="species mr-bottom-20">
+      {% if(getCategories() is not empty) %}
+        {% for cate in getCategories() %}
+          <a class="radio-sidebar js-filter-cate radio-sidebar--pd d-block" 
+              href="{{ cate.viewLink }}" 
+              >
+              <span class="square position-relative"></span>
+              <span class="cate-name">{{ cate.name | raw }}</span>
+          </a>
+        {% endfor %}
+      {% endif %}
+    </form>
+    {% set brand = loadBrand({'categoryId':category.id}) %}
+
+    {% if(brand is not empty) %}
+      <div class="trademark">
+        <label class="fonts">Thương hiệu</label>
+        {% set prBrand = getParam('brand') %}
+        <div class="sort-menu">
+        <div class="dropdown">
+          <div class="select">
+            <span>--- Chọn thương hiệu ---</span>
+            <i class="icon-arrow"></i>
+          </div>
+          <ul class="dropdown-menu">
+            {% for brand_pro in brand %}
+              {% if(brand_pro.id in prBrand) %}
+                <li class="sort-active">
+                  <a rel="noindex"
+                    title="{{ removeFilter('brand', brand_pro.id) }}"
+                    class="active"> {{ brand_pro.name | raw }}</a>
+                </li>
+                {% else %}
+                  <li class="sort-active">
+                  <a rel="noindex"
+                    title="{{ addFilter('brand', brand_pro.id, 2) }}"
+                    class=""> {{ brand_pro.name | raw }}
+                  </a>
+                </li>
+                {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% set allAttr = getAllAttributes({'categoryId':category.id}) %}
+    {% set price = getParam('price') %}
+    {% if(allAttr is not empty) %}
+    <label class="title-products fonts mr-top-20">Giá</label>
+    <form action="#" class="price mr-bottom-20">
+      {% if(price < 100000 and price > 0) %}
+        <div class="radio-sidebar radio-sidebar--pd">
+          <span class="square position-relative" data-href="{{ removeFilter('price', '0:100000') }}">
+            <i class="icon-tick"></i>
+          </span>
+          <label
+            title="{{ removeFilter('price', '0:100000') }}"
+            class="text-danger"
+          >
+            Giá dưới 100.000đ
+          </label>
+        </div>
+        {% else %}
+          <div class="radio-sidebar radio-sidebar--pd">
+            <span class="square position-relative" data-href="{{ addFilter('price', '0:100000', 2) }}"></span>
+            <label
+              for="item-price-1"
+              title="{{ addFilter('price', '0:100000', 2) }}"
+            >
+              Giá dưới 100.000đ
+            </label>
+          </div>
+      {% endif %}
+      {% if(price < 200000 and price > 100000) %}
+        <div class="radio-sidebar radio-sidebar--pd">
+        <span class="square position-relative" data-href="{{ removeFilter('price', '100000:200000') }}">
+          <i class="icon-tick"></i>
+        </span>
+          <label
+            for="item-price-2"
+            title="{{ removeFilter('price', '100000:200000') }}"
+            class="text-danger"
+          >100.000đ - 200.000đ</label>
+        </div>
+        {% else %}
+          <div class="radio-sidebar radio-sidebar--pd">
+            <span class="square position-relative" data-href="{{ addFilter('price', '100000:200000', 2) }}"></span>
+            <label
+              for="item-price-2"
+              title="{{ addFilter('price', '100000:200000', 2) }}"
+            >
+              100.000đ - 200.000đ
+            </label>
+          </div>
+      {% endif %}
+      {% if(price < 300000 and price > 200000) %}
+        <div class="radio-sidebar radio-sidebar--pd">
+        <span class="square position-relative" data-href="{{ removeFilter('price', '200000:300000') }}">
+          <i class="icon-tick"></i>
+        </span>
+          <label
+            for="item-price-3"
+            title="{{ removeFilter('price', '200000:300000') }}"
+            class="text-danger"
+          >200.000đ - 300.000đ</label>
+        </div>
+          {% else %}
+            <div class="radio-sidebar radio-sidebar--pd">
+              <span class="square position-relative" data-href="{{ addFilter('price', '200000:300000', 2) }}"></span>
+              <label
+                for="item-price-3"
+                title="{{ addFilter('price', '200000:300000', 2) }}"
+              >200.000đ - 300.000đ</label>
+            </div>
+      {% endif %}
+      {% if(price < 400000 and price > 300000) %}
+        <div class="radio-sidebar radio-sidebar--pd">
+        <span class="square position-relative" data-href="{{ removeFilter('price', '300000:400000') }}">
+          <i class="icon-tick"></i>
+        </span>
+          <label
+            for="item-price-4"
+            title="{{ removeFilter('price', '300000:400000') }}"
+            class="text-danger"
+          > 300.000đ - 400.000đ</label>
+        </div>
+        {% else %}
+          <div class="radio-sidebar radio-sidebar--pd">
+            <span class="square position-relative" data-href="{{ addFilter('price', '300000:400000', 2) }}">
+            </span>
+            <label
+              for="item-price-4"
+              title="{{ addFilter('price', '300000:400000', 2) }}"
+            >300.000đ - 400.000đ</label>
+          </div>
+      {% endif %}
+      {% if( price > 400000 ) %}
+        <div class="radio-sidebar radio-sidebar--pd">
+          <span class="square position-relative" data-href="{{ removeFilter('price', '400000') }}">
+            <i class="icon-tick"></i>
+          </span>
+          <label
+            for="item-price-4"
+            title="{{ removeFilter('price', '400000') }}"
+            class="text-danger"
+          > Trên 400.000đ</label>
+        </div>
+      {% else %}
+        <div class="radio-sidebar radio-sidebar--pd">
+          <span class="square position-relative" data-href="{{ addFilter('price', '400000', 2) }}"></span>
+          <label
+            for="item-price-4"
+            title="{{ addFilter('price', '400000', 2) }}"
+          >Trên 400.000đ</label>
+        </div>
+      {% endif %}
+    </form>
+    {% endif %}
+  
+        {% if(allAttr) %}
+          {% set i=0 %}
+          {% for attr in allAttr %}
+              {% set i=i+1 %}
+              {% if(attr.values != null) %}
+                  {% set column = attr.column %}
+                  <div class="trademark">
+                    <label class="fonts">{{ attr.name | raw }}</label>
+                      <div class="sort-menu">
+                        <div class="dropdown">
+                          <div class="select">
+                            <span>--- Chọn {{ attr.name | raw | lower }} ---</span>
+                            <i class="icon-arrow"></i>
+                          </div>
+                          <ul class="dropdown-menu">
+                      {% for cl in attr.values %}
+                          {% if(cl.id in attrColumnValues[column]) %}
+
+                          <li class="sort-active">
+                            <a rel="noindex"
+                              href="javascript:void(0)"
+                              title="{{ removeFilter(column, cl.id) }}"
+                              class="active"> {{ cl.name|raw }}</a>
+                          </li>
+                          {% else %}
+                          <li class="sort-active">
+                            <a rel="noindex"
+                              href="javascript:void(0)"
+                              title="{{ addFilter(column, cl.id, 2) }}"
+                              class=""> {{ cl.name|raw }} </a>
+                          </li>
+                          {% endif %}
+                      {% endfor %}
+                      </ul>
+                      </div>
+                    </div>
+                  </div>
+              {% endif %}
+          {% endfor %}
+        {% endif %}
+  </div>
+</div>

@@ -1,0 +1,504 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang chủ').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="nhanh.vn">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ getLogoUri() }}">
+{% endblock %}
+{% block body %}
+    <section class="box-slider tp_banner_main">
+        <div class="slider">
+            <div id="metaslider">
+                <ul class="slides home-slider owl-carousel owl-theme">
+                    {# Banner trang chủ #}
+                    {% set head_banners = getBannerByPositionCode('HOME_SLIDE') %}
+                    {% if(head_banners) %}
+                        {% for c in head_banners %}
+                            {% set imageSlide = c.imagesrc %}
+                            {% set options = {
+                                alt: c.name,
+                                lazy: true,
+                                openDiv: false,
+                            } %}
+                            <li class="ms-image">
+                                <a>
+                                    {{ macroLazyFocusImager.LazyFocusImager(imageSlide,options) }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <li class="ms-image">
+                            <img src="/tpl/V0258/img/phong-bep-slideshow-lac-gia-1.jpg" alt=""
+                                 title="phong-bep-slideshow-lac-gia">
+                        </li>
+                        <li class="ms-image">
+                            <img src="/tpl/V0258/img/sofa-slideshow-phong-khach-lacgia.jpg" alt=""
+                                 title="sofa-slideshow-phong-khach-lacgia">
+                        </li>
+                        <li class="ms-image">
+                            <img src="/tpl/V0258/img/slide-phong-khach-lac-gia.jpg" alt=""
+                                 title="slide-phong-khach-lac-gia">
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="content container  page-home">
+        <div class="row">
+            <div class="all-ms">
+                <div class="row-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div id="main" class="main">
+                                <div class="box-prod-show">
+                                    <div class="home-page top-san-pham-moi">
+                                        <div class="tabs ">
+                                            <div id="tab-caption">
+                                                <div id="tab-cap-1"
+                                                     class="tab-caption-item tp_product_discount selected">
+                                                    <p class="headtitle tp_title"><span class="text"><a
+                                                                    href="/">sản phẩm khuyến mãi</a></span>
+                                                    </p>
+                                                </div>
+                                                <div id="tab-cap-2"
+                                                     class="tab-caption-item tp_product_new">
+                                                    <p class="headtitle tp_title"><span
+                                                                class="text">sản phẩm mới</span>
+                                                    </p>
+                                                </div>
+                                                <div id="tab-cap-3" class="tab-caption-item tp_product_hot">
+                                                    <p class="headtitle tp_title"><span
+                                                                class="text">sản phẩm hot</span>
+                                                    </p>
+                                                </div>
+                                                <div id="tab-cap-4" class="tab-caption-item tp_product_betseller">
+                                                    <p class="headtitle tp_title"><span
+                                                                class="text">sản phẩm bán chạy</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div id="tab-content">
+                                                <div id="tab-content-1" class="tab-content-item tp_product_discount"
+                                                     style="display: block">
+                                                    <div class="list-sps">
+                                                        {% set saleProds = search({'limit':8,'discount':1}) %}
+                                                        {% if(saleProds) %}
+                                                            <div class="row-fluid">
+                                                                {% for p in saleProds %}
+                                                                    {% set image = p.thumbnailUri %}
+                                                                    {% set percent = p.calcDiscountPercent %}
+                                                                    {% set priceDiscount = p.priceAfterDiscount %}
+                                                                    {% set options = {
+                                                                        alt: p.name,
+                                                                        class: 'attachment-medium size-medium wp-post-image',
+                                                                        lazy: true,
+                                                                        openDiv: false,
+                                                                    } %}
+                                                                    <ul class="col-xs-6 col-sm-4 col-md-4 col-lg-3 box-product box_tab_index prdWrapper"
+                                                                        data-storeId="{{ p.storeId }}"
+                                                                        data-pid="{{ p.id }}">
+                                                                        <li class="item">
+                                                                            <div class="inner-item">
+                                                                                <a class="a-image"
+                                                                                   href="{{ p.viewLink }}">
+                                                                                    {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                                    <div class="btn-quickview tp_button"
+                                                                                         data-psId="{{ p.id }}"><span>Xem nhanh</span>
+                                                                                    </div>
+                                                                                </a>
+                                                                                {% if(percent>0) %}
+                                                                                    <p class="discount-percent icpercent">
+                                                                                        -{{ percent }}<span
+                                                                                                class="percent">%</span>
+                                                                                    </p>
+                                                                                {% endif %}
+                                                                                <div class="box-text">
+                                                                                    <p class="title"><a
+                                                                                                class="tp_product_name"
+                                                                                                href="{{ p.viewLink }}"
+                                                                                                title="{{ p.name }}">{{ p.name }}</a>
+                                                                                    </p>
+                                                                                </div>
+                                                                                <p class="price">
+                                                                                    <strong class="f-left">
+                                                                                        {% if(priceDiscount > 0) %}
+                                                                                            <span class="tp_product_price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                                                                                            <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                                                VNĐ
+                                                                                            </del>
+                                                                                        {% elseif(p.oldprice) %}
+                                                                                            <span class="tp_product_price">{{ p.price|number_format(0) }}VNĐ </span>
+                                                                                            <del class="tp_product_price_old">{{ p.oldprice|number_format(0) }}
+                                                                                                VNĐ
+                                                                                            </del>
+                                                                                        {% elseif(p.price <= 0 ) %}
+                                                                                            <span class="tp_product_price">Liên hệ</span>
+                                                                                        {% else %}
+                                                                                            <span class="tp_product_price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                                                        {% endif %}
+                                                                                    </strong>
+                                                                                </p>
+                                                                                <p class="discount-percent sold-out"></p>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                {% endfor %}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="tab-content-2" class="tab-content-item tp_product_new">
+                                                <div class="list-sps">
+                                                    {% set newPro = search({'limit':8,'showNew':1}) %}
+                                                    {% if(newPro) %}
+                                                        <div class="row-fluid">
+                                                            {% for p in newPro %}
+                                                                {% set image = p.thumbnailUri %}
+                                                                {% set percent = p.calcDiscountPercent %}
+                                                                {% set priceDiscount = p.priceAfterDiscount %}
+                                                                {% set options = {
+                                                                    alt: p.name,
+                                                                    class: 'attachment-medium size-medium wp-post-image',
+                                                                    lazy: true,
+                                                                    openDiv: false,
+                                                                } %}
+                                                                <ul class="col-xs-6 col-sm-4 col-md-4 col-lg-3 box-product box_tab_index prdWrapper"
+                                                                    data-storeId="{{ p.storeId }}"
+                                                                    data-pid="{{ p.id }}">
+                                                                    <li class="item">
+                                                                        <div class="inner-item">
+                                                                            <a class="a-image"
+                                                                               href="{{ p.viewLink }}">
+                                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                                <div class="btn-quickview tp_button"
+                                                                                     data-psId="{{ p.id }}">
+                                                                                    <span>Xem nhanh</span>
+                                                                                </div>
+                                                                            </a>
+                                                                            {% if(percent>0) %}
+                                                                                <p class="discount-percent icpercent">
+                                                                                    -{{ percent }}<span
+                                                                                            class="percent">%</span>
+                                                                                </p>
+                                                                            {% endif %}
+                                                                            <div class="box-text">
+                                                                                <p class="title"><a
+                                                                                            class="tp_product_name"
+                                                                                            href="{{ p.viewLink }}"
+                                                                                            title="{{ p.name }}">{{ p.name }}</a>
+                                                                                </p>
+                                                                            </div>
+                                                                            <p class="price">
+                                                                                <strong class="f-left">
+                                                                                    {% if(priceDiscount > 0) %}
+                                                                                        <span class="tp_product_price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.oldprice) %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }}VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.oldprice|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.price <= 0 ) %}
+                                                                                        <span class="tp_product_price">Liên hệ</span>
+                                                                                    {% else %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                                                    {% endif %}
+                                                                                </strong>
+                                                                            </p>
+                                                                            <p class="discount-percent sold-out"></p>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div id="tab-content-3" class="tab-content-item tp_product_hot">
+                                                <div class="list-sps">
+                                                    {% set hotPro = search({'limit':8,'shoHot':1}) %}
+                                                    {% if(hotPro) %}
+                                                        <div class="row-fluid">
+                                                            {% for p in hotPro %}
+                                                                {% set image = p.thumbnailUri %}
+                                                                {% set percent = p.calcDiscountPercent %}
+                                                                {% set priceDiscount = p.priceAfterDiscount %}
+                                                                {% set options = {
+                                                                    alt: p.name,
+                                                                    class: 'attachment-medium size-medium wp-post-image',
+                                                                    lazy: true,
+                                                                    openDiv: false,
+                                                                } %}
+                                                                <ul class="col-xs-6 col-sm-4 col-md-4 col-lg-3 box-product box_tab_index prdWrapper"
+                                                                    data-storeId="{{ p.storeId }}"
+                                                                    data-pid="{{ p.id }}">
+                                                                    <li class="item">
+                                                                        <div class="inner-item">
+                                                                            <a class="a-image"
+                                                                               href="{{ p.viewLink }}">
+                                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                                <div class="btn-quickview tp_button"
+                                                                                     data-psId="{{ p.id }}">
+                                                                                    <span>Xem nhanh</span>
+                                                                                </div>
+                                                                            </a>
+                                                                            {% if(percent>0) %}
+                                                                                <p class="discount-percent icpercent">
+                                                                                    -{{ percent }}<span
+                                                                                            class="percent">%</span>
+                                                                                </p>
+                                                                            {% endif %}
+                                                                            <div class="box-text">
+                                                                                <p class="title"><a
+                                                                                            class="tp_product_name"
+                                                                                            href="{{ p.viewLink }}"
+                                                                                            title="{{ p.name }}">{{ p.name }}</a>
+                                                                                </p>
+                                                                            </div>
+                                                                            <p class="price">
+                                                                                <strong class="f-left">
+                                                                                    {% if(priceDiscount > 0) %}
+                                                                                        <span class="tp_product_price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.oldprice) %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }}VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.oldprice|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.price <= 0 ) %}
+                                                                                        <span class="tp_product_price">Liên hệ</span>
+                                                                                    {% else %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                                                    {% endif %}
+                                                                                </strong>
+                                                                            </p>
+                                                                            <p class="discount-percent sold-out"></p>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div id="tab-content-4" class="tab-content-item tp_product_betseller">
+                                                <div class="list-sps">
+                                                    {% set bestsellerPro = search({'limit':8,'showHome':1}) %}
+                                                    {% if(bestsellerPro) %}
+                                                        <div class="row-fluid">
+                                                            {% for p in bestsellerPro %}
+                                                                {% set image = p.thumbnailUri %}
+                                                                {% set percent = p.calcDiscountPercent %}
+                                                                {% set priceDiscount = p.priceAfterDiscount %}
+                                                                {% set options = {
+                                                                    alt: p.name,
+                                                                    class: 'attachment-medium size-medium wp-post-image',
+                                                                    lazy: true,
+                                                                    openDiv: false,
+                                                                } %}
+                                                                <ul class="col-xs-6 col-sm-4 col-md-4 col-lg-3 box-product box_tab_index prdWrapper"
+                                                                    data-storeId="{{ p.storeId }}"
+                                                                    data-pid="{{ p.id }}">
+                                                                    <li class="item">
+                                                                        <div class="inner-item">
+                                                                            <a class="a-image"
+                                                                               href="{{ p.viewLink }}">
+                                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                                <div class="btn-quickview tp_button"
+                                                                                     data-psId="{{ p.id }}">
+                                                                                    <span>Xem nhanh</span>
+                                                                                </div>
+                                                                            </a>
+                                                                            {% if(percent>0) %}
+                                                                                <p class="discount-percent icpercent">
+                                                                                    -{{ percent }}<span
+                                                                                            class="percent">%</span>
+                                                                                </p>
+                                                                            {% endif %}
+                                                                            <div class="box-text">
+                                                                                <p class="title"><a
+                                                                                            class="tp_product_name"
+                                                                                            href="{{ p.viewLink }}"
+                                                                                            title="{{ p.name }}">{{ p.name }}</a>
+                                                                                </p>
+                                                                            </div>
+                                                                            <p class="price">
+                                                                                <strong class="f-left">
+                                                                                    {% if(priceDiscount > 0) %}
+                                                                                        <span class="tp_product_price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.oldprice) %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }}VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.oldprice|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.price <= 0 ) %}
+                                                                                        <span class="tp_product_price">Liên hệ</span>
+                                                                                    {% else %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                                                    {% endif %}
+                                                                                </strong>
+                                                                            </p>
+                                                                            <p class="discount-percent sold-out"></p>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% set category = getCategories() %}
+                                    {% if(category) %}
+                                        {% set c = 0 %}
+                                        {% for c in category %}
+                                            {% set products = search({'limit':8,'categoryId':c.id}) %}
+                                            {% if(products) %}
+                                                <div class="home-page category-product sections-60 tp_product_category_box cate_product{{ c.id }}">
+                                                    <div class="box-head">
+                                                        <div class="box-head-inner clear">
+                                                            <div class="box-left">
+                                                                <a class="headtitle tp_title" href='{{ c.viewLink }}'
+                                                                   title="{{ c.name }}">{{ c.name }}</a>
+                                                            </div>
+                                                            <div class="box-right">
+                                                                {% if(c.childs()) %}
+                                                                    <ul class="child-category">
+                                                                        {% for child in c.childs() %}
+                                                                            <li>
+                                                                                <a href="{{ child.viewLink }}">{{ child.name }}</a>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-sps">
+                                                        <div class="row-fluid">
+                                                            {% for p in products %}
+                                                                {% set image = p.thumbnailUri %}
+                                                                {% set percent = p.calcDiscountPercent %}
+                                                                {% set priceDiscount = p.priceAfterDiscount %}
+                                                                {% set options = {
+                                                                    alt: p.name,
+                                                                    class: 'attachment-medium size-medium wp-post-image',
+                                                                    lazy: true,
+                                                                    openDiv: false,
+                                                                } %}
+                                                                <ul class="col-xs-6 col-sm-4 col-md-4 col-lg-3 box-product box_tab_index prdWrapper"
+                                                                    data-storeId="{{ p.storeId }}"
+                                                                    data-pid="{{ p.id }}">
+                                                                    <li class="item">
+                                                                        <div class="inner-item">
+                                                                            <a class="a-image"
+                                                                               href="{{ p.viewLink }}">
+                                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                                <div class="btn-quickview tp_button"
+                                                                                     data-psId="{{ p.id }}">
+                                                                                    <span>Xem nhanh</span>
+                                                                                </div>
+                                                                            </a>
+                                                                            {% if(percent>0) %}
+                                                                                <p class="discount-percent icpercent">
+                                                                                    -{{ percent }}<span
+                                                                                            class="percent">%</span>
+                                                                                </p>
+                                                                            {% endif %}
+                                                                            <div class="box-text">
+                                                                                <p class="title"><a
+                                                                                            class="tp_product_name"
+                                                                                            href="{{ p.viewLink }}"
+                                                                                            title="{{ p.name }}">{{ p.name }}</a>
+                                                                                </p>
+                                                                            </div>
+                                                                            <p class="price">
+                                                                                <strong class="f-left">
+                                                                                    {% if(priceDiscount > 0) %}
+                                                                                        <span class="tp_product_price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.oldprice) %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }}VNĐ </span>
+                                                                                        <del class="tp_product_price_old">{{ p.oldprice|number_format(0) }}
+                                                                                            VNĐ
+                                                                                        </del>
+                                                                                    {% elseif(p.price <= 0 ) %}
+                                                                                        <span class="tp_product_price">Liên hệ</span>
+                                                                                    {% else %}
+                                                                                        <span class="tp_product_price">{{ p.price|number_format(0) }} VNĐ </span>
+                                                                                    {% endif %}
+                                                                                </strong>
+                                                                            </p>
+                                                                            <p class="discount-percent sold-out"></p>
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="box-news-homepage clear">
+                                        {% set categories= getNewsCategories({'limit': 3}) %}
+                                        {% if(categories) %}
+                                            {% for cnew in categories %}
+                                                {% set news = getLastestNews({'limit': 6, 'categoryId': cnew.id}) %}
+                                                {% if(news) %}
+                                                    {% set image = news[0].pictureUri %}
+                                                    {% set options = {
+                                                        alt: news[0].title|e('html'),
+                                                        lazy: true,
+                                                        openDiv: false,
+                                                    } %}
+                                                    <div class="box news-list left col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                                        <div class="inner">
+                                                            <a href="{{ cnew.viewLink }}" title="{{ cnew.name }}">
+                                                                <h3 class="headtitle">{{ cnew.name }}</h3>
+                                                            </a>
+                                                            <div class="clear">
+                                                                <ul>
+                                                                    <li class="first clear odd">
+                                                                        <a class="" href="{{ news[0].viewLink }}">
+                                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                        </a>
+                                                                        <a class="title"
+                                                                           href="{{ news[0].viewLink }}">{{ news[0].title|e('html') }}</a>
+                                                                    </li>
+                                                                    {% for n in news|slice(1) %}
+                                                                        <li class="even">
+                                                                            <a class="title" href="{{ n.viewLink }}"
+                                                                               title="{{ n.title }}">{{ n.title }}</a>
+                                                                        </li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

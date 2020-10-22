@@ -1,0 +1,242 @@
+body {
+    background: #F7F5F0 !important;
+}
+/*.containerMain{*/
+    /*overflow: visible !important;*/
+/*}*/
+a:hover{
+    text-decoration: none !important;
+}
+/*profile*/
+#avatarProfile {
+    float: left;
+    height: 70px;
+    margin-right: 10px;
+    width: 70px;
+}
+#headerProfile > h3 {
+    font-size: 17px;
+    font-weight: bold;
+    margin-top: 16px;
+    text-transform: uppercase;
+}
+#profileMenu > li.active {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #eee;
+    border-color: #c8c3b3;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 0 0 3px;
+}
+#profileMenu > li{
+    list-style: none;
+}
+#profileMenu > li > a {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 60px;
+    padding: 0 10px;
+    color: #333;
+}
+#profileContent {
+    background: none repeat scroll 0 0 #fff;
+    line-height: 25px;
+    min-height: 600px;
+    padding: 0 15px;
+}
+#profileIf div.pf > span {
+    text-align: right;
+}
+#profileIf div.pf > span {
+    display: inline-block;
+    margin-right: 10px;
+    text-align: right;
+    width: 150px;
+}
+.btnGreen, .profile tbody tr td.val button {
+    -moz-user-select: none;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    color: #666;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    margin-top: 10px;
+    padding: 6px 12px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.2s ease 0s;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: auto;
+}
+.bookAddress {
+    margin: 20px 4%;
+}
+.bookAddress > h3 {
+    color: #ea533f;
+    font-size: 18px;
+}
+.bookAddress > h3 {
+    border-bottom: 1px dotted #ddd;
+    color: #ea533f;
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 5px 0;
+}
+.bookAddress .bookItem{
+    position: relative;
+}
+#fAddress label {
+    display: block;
+    font-size: 13px;
+    margin: 10px 0;
+}
+#fAddress label span {
+    display: inline-block;
+    width: 100px;
+}
+#fAddress label input {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 0 5px;
+    transition: all 0.15s linear 0s;
+    width: 100%;
+}
+#fAddress label select {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    width: 100%;
+}
+#orderManager p img{
+    width: 100%;
+}
+#orderManager form > a:hover, #orderManager form > a.active {
+    border-top: 3px solid red;
+}
+#orderManager form > a {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: transparent #ddd #ddd;
+    border-image: none;
+    border-style: solid;
+    border-width: 3px 1px 1px 0;
+    color: #666;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 37px;
+    padding: 0 20px;
+}#orderManager table {
+     text-align: center;
+ }
+#orderManager table {
+    border: 1px solid #efece4;
+    margin: 0 10px;
+    text-align: center;
+}
+#orderManager .title {
+    background: none repeat scroll 0 0 #fff;
+    font-weight: bold;
+    height: 30px;
+}
+#orderManager table td {
+    border: 1px solid #efece4;
+}
+.profile tbody tr td{
+    display: inline-block;
+    min-width: 155px;
+    text-align: left;
+}
+.profile tbody tr td.val input, .profile tbody tr td.val select{
+    border: 1px solid #DEDEDE;
+    padding: 0 3px;
+    margin: 5px 0;
+    width: 200px;
+}
+
+/*end profile*/
+#customer_login {
+    padding-bottom: 40px;
+}
+
+#customer_login > form > ul > li{
+    list-style: none;
+}
+#customer_login > form > ul > li > label {
+    display: inline-block;
+    width: 30%;
+    padding: 5px 0;
+    color: #000;
+}
+#customer_login > form > ul  li:nth-child(4) > label:before{
+    content: '*';
+    padding-right: 4px;
+    color: red;
+}
+#customer_login > form > ul > li > label span{
+    color: #FF0000;
+}
+#customer_login > form > ul > li input, #customer_login > form > ul > li select {
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #e7e7e7;
+    border-radius: 0;
+    color: #424242;
+    display: inline-block;
+    font-size: 13px;
+    height: 32px;
+    line-height: 1.42857;
+    padding: 6px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    vertical-align: middle;
+    width: 65%;
+}
+#customer_login > form > ul > li input#btnSubmit, .btnGreen {
+    -moz-user-select: none;
+    background-color: #f44242;
+    border-color: #f44242;
+    color: #ffffff;
+    background-image: none;
+    border-radius: 0;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    margin-top: 10px;
+    padding: 6px 12px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.2s ease 0s;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: auto;
+}
+#customer_login > form > ul > li.btns{
+    float: left;
+    margin-right: 10%;
+}
+#customer_login > form > ul > li input#btnSubmit:hover, .btnGreen:hover{
+    background-color: #f44242;
+    border-color: #f44242;
+    color:  #fff;
+}
+.errors li{
+    color: #e12126 !important;
+    width: 100%;
+    text-align: center;
+    list-style: none;
+}

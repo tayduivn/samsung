@@ -1,0 +1,1639 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    {% set metaDescription = product.name()~ ' - '~product.price|number_format(0)~' đ' %}
+    <meta name="description" content="{{ metaDescription }}">
+    <meta name="keywords" content="{{ product.metaKeywords?:product.name }}">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:title" content="{{ product.name }}">
+    <meta property="og:description" content="{{ metaDescription }}">
+    <meta property="og:image" content="{{ 'https:'~product.imageUri }}">
+    <meta property="og:type" content="website">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/js/jquery/cloudzoom/cloudzoom.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    {% set ivt = product.inventory().calcAvailable()%}
+    {% if(getParam('preview')) %}
+        {% set ivt = 0 %}
+    {% endif %}
+    {% set priceDiscount = product.priceAfterDiscount %}
+    {% set showPrice = product.price %}
+    {% set oldPrices = null %}
+    {% if(priceDiscount > 0) %}
+        {% set showPrice = priceDiscount %}
+        {% set oldPrices = product.price %}
+    {% elseif(product.oldPrice) %}
+        {% set oldPrices = product.oldPrice %}
+    {% endif %}
+    {% set user = getUser() %}
+    {% set flag = 0 %}
+    {% set variableAttributes = product.variableAttributes %}
+    {% set valuesColor = null  %}
+    {% set valuesImage = null  %}
+    {% set color = variableAttributes['color'] %}
+    {% if color is not null or color is not empty %}
+        {% set valuesColor = color.childValues %}
+    {% endif %}
+    {#    Product Attr Images#}
+    {% set psAttrImages =  variableAttributes['psimage']%}
+    {% if psAttrImages is not null or psAttrImages is not empty %}
+        {% set valuesImage = psAttrImages.childValues %}
+    {% endif %}
+    {% set videoid = "" %}
+    {% if(product.video) %}
+        {% set videoid = (product.video)|replace({'https://www.youtube.com/watch?v=':''}) %}
+    {% endif %}
+    {% set buildBread = buildBreadcrumbs(category) %}
+    {% set buildBread = buildBread | merge ([{'label': ''~product.name,'uri': 'javascript:void(0)', 'class' : 'msp'}]) %}
+    {{ breadcrumbs.build(buildBread) }}
+
+    <section class="product f-left w-100" itemscope itemtype="https://schema.org/Product">
+        <div class="section wrap-padding-15 item_product_detail">
+            <div class="container">
+                <div class="row">
+                    <div class="details-product col-xl-9 col-xs-12 pr-md-0 pl-md-0  pr-xl-3 pl-xl-3">
+                        <h1 class="title-product">{{ product.name }}</h1>
+                        <div class="row">
+                            <div class="product-detail-left product-images col-xs-12 col-sm-6 col-md-6 col-lg-5 d-lg-none">
+                                <div class="large-image owlnav_style3 relative">
+                                    {% if(product.calcDiscountPercent > 0) %}
+                                        <div class="flash product">-{{ product.calcDiscountPercent }}%</div>
+                                    {% endif %}
+                                    <div class="galeray_large owl-carousel owl-theme owl-loaded owl-drag"
+                                         data-nav="true" data-loop="false" data-lg-items="1" data-md-items="1"
+                                         data-sm-items="1" data-xs-items="1" data-xxs-items="1">
+                                        <div class="owl-stage-outer">
+                                            <div class="owl-stage">
+                                                {% set fancyboxImage = '' %}
+                                                {% set childImgs = product.images %}
+                                                {% if(childImgs is not empty) %}
+                                                    {% for v in childImgs %}
+                                                        {% set fancyboxImage %}
+                                                            <a href="{{ v.srcUri }}" rel="fyb_group" class="hide"></a>
+                                                        {% endset %}
+                                                        <div class="owl-item">
+                                                            <div class="item" data-src="{{ v.srcUri }}">
+                                                                <a href="javascript:void(0)">
+                                                                    <img alt="{{ product.name }}" class="cloudzoom-gallery" src="{{ v.thumbnailUri }}"
+                                                                         data-cloudzoom="useZoom: '.cloudzoom', image: '{{ v.srcUri }}', zoomImage: '{{ v.srcUri }}'">
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="owl-item">
+                                                        <div class="item" data-src="{{ product.imageUri }}">
+                                                            <a href="javascript:void(0)">
+                                                                <img alt="{{ product.name }}" class="cloudzoom-gallery" src="{{ v.thumbnailUri }}"
+                                                                     data-cloudzoom="useZoom: '.cloudzoom', image: '{{ v.srcUri }}', zoomImage: '{{ v.srcUri }}'">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-detail-left product-images col-xs-12 col-sm-6 col-md-5 col-lg-5 d-none d-lg-block">
+                                <div class="col_large_default large-image">
+                                    {% if(product.calcDiscountPercent > 0) %}
+                                        <span class="sale_label">-{{ product.calcDiscountPercent }}%</span>
+                                    {% endif %}
+                                    <a href="{{ product.imageUri }}" id="single_image" rel="fyb_group">
+                                        <img id="img-01" alt="{{ product.name }}" id="z" width="100%"  src="{{ product.imageUri }}"/>
+                                    </a>
+                                </div>
+                                <div id="gallery_02" class="owl-carousel owl-theme thumbnail-product thumb_product_details not-dqowl owl_grid owl-loaded owl-drag" data-loop="false" data-nav="true" data-lg-items="4" data-md-items="4" data-sm-items="3" data-xs-items="3" data-xxs-items="3">
+                                    <div class="owl-stage-outer owl-height">
+                                        <div class="owl-stage" id="listImgZoom">
+                                            {% set fancyboxImage = '' %}
+                                            {% set childImgs = product.images %}
+                                            {% if(childImgs is not empty) %}
+                                                {% for v in childImgs %}
+                                                    {% set fancyboxImage %}
+                                                        <a href="{{ v.srcUri }}" rel="fyb_group" class="hide"></a>
+                                                    {% endset %}
+                                                    <div class="owl-item">
+                                                        <div class="item" data-src="{{ v.srcUri }}">
+                                                            <img alt="{{ product.name }}" class="cloudzoom-gallery" src="{{ v.thumbnailUri }}"
+                                                                 data-cloudzoom="useZoom: '.cloudzoom', image: '{{ v.srcUri }}', zoomImage: '{{ v.srcUri }}'">
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            {% else %}
+                                                <div class="owl-item">
+                                                    <div class="item" data-src="{{ product.imageUri }}">
+                                                        <img alt="{{ product.name }}" class="cloudzoom-gallery" src="{{ v.thumbnailUri }}"
+                                                             data-cloudzoom="useZoom: '.cloudzoom', image: '{{ v.srcUri }}', zoomImage: '{{ v.srcUri }}'">
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7 details-pro">
+                                <div class="fw w-100 forward" itemprop="offers" itemscope="" itemtype="https://schema.org/Offer">
+                                    <div class="group-status d-none">
+									<span class="first_status status_2"> <span class="line_tt">|</span> Kho:
+										<span class="status_name availabel">
+											<link itemprop="availability" href="http://schema.org/InStock">
+											Còn hàng
+										</span>
+									</span>
+                                    </div>
+                                    <div class="price-box">
+									<span class="special-price"><span class="price product-price current-price  ProductPrice">{{ showPrice|number_format(0) }}₫</span>
+										<meta itemprop="price" content="{{ showPrice|number_format(0) }}">
+										<meta itemprop="priceCurrency" content="VND">
+									</span> <!-- Giá Khuyến mại -->
+                                        {% if(oldPrices > 0) %}
+                                            {% set saving = oldPrices > showPrice ? oldPrices - showPrice : 0 %}
+                                            <span class="old-price" itemprop="priceSpecification" itemscope="" itemtype="https://schema.org/priceSpecification">
+										<del class="price product-price-old original-price sale">{{ oldPrices|number_format(0) }}₫</del>
+                                                        <meta itemprop="price" content="{{ oldPrices|number_format(0) }}">
+										<meta itemprop="priceCurrency" content="VND">
+                                                        </span>
+                                            {% if(saving > 0) %}
+                                                <span class="saveMoney PriceSaving"> | Tiết kiệm: {{ saving|number_format(0) }}đ</span>
+                                            {% endif %}
+                                            <span class="saveMoney"> | SALE: {{ product.calcDiscountPercent }}%</span>
+                                        {% endif %}
+                                        <!-- Giá gốc -->
+                                    </div>
+                                    <div class="group_spection">
+                                        {% set brand = getBrand(product.brandId) %}
+                                        {% if(brand is not empty) %}
+                                            <div class="vendor d-none d-xl-block">
+                                                Nhà sản xuất: <span class="status_name">{{ brand.name }}</span>
+                                            </div>
+                                        {% endif %}
+                                        <div class="sku_code">
+                                            Mã sản phẩm: <span class="status_name sku">{{ product.code }}</span>
+                                        </div>
+                                    </div>
+                                    <img class="image_datngay d-none" src="//bizweb.dktcdn.net/100/004/714/themes/779681/assets/datngaynhe.png?1597286652388" alt="đặt ngay nhé">
+                                </div>
+                                <div id="mobile_order_change" class="form-product col-sm-12">
+                                    <form enctype="multipart/form-data" id="add-to-cart-form" action="/cart/add" method="post" class="form-inline MultiFile-intercepted">
+                                        <div class="section ">
+                                            <div class="box-variant clearfix ">
+                                                <input type="hidden" name="variantId" value="32898792">
+                                            </div>
+                                        </div>
+                                        {% if(couponCode) %}
+                                            <div style="padding-top: 10px; font-weight: bold; font-size: 14px;">
+                                                NHẬP MÃ :
+                                                <span style="color: #f44242;font-size: 20px;">{{ couponCode.code }}</span>
+                                                GIẢM NGAY {{ couponCode.Option('couponValue') | number_format(0) }} đ
+                                            </div>
+                                        {% endif %}
+                                        {% set psGifts = product.option('psGifts') %}
+                                        {% if(psGifts) %}
+                                        <div class="blockShip">
+                                            <ul class="px-0">
+                                                    <li class="psGifts"><i class="fa fa-gift blink"></i><b>Tặng: </b>
+                                                        {% for psGift in psGifts %}
+                                                            <a href="{{ psGift.viewLink }}" style="color:#555" target="_blank" rel="nofollow">{{ psGift.name }}</a>, '
+                                                        {% endfor %}
+                                                    </li>
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+                                        <div id="product-select-watch" class="select-swatch">
+                                            {% set color = variableAttributes['color'] %}
+                                            {% set flag=0 %}
+                                            {% if color is not null or color is not empty %}
+                                                {% set valuesColor = color.childValues %}
+                                                {% set numbC =  (valuesColor | length) %}
+                                                {% if(valuesColor is not null and numbC>0) %}
+                                                    {% set flag = flag + 1 %}
+                                                    <div id="variant-swatch-0" class="swatch color req swatch-product-single clearfix" data-option="option1" data-option-index="0" column="{{ color.column }}">
+                                                        <div class="header-title">Màu sắc:</div>
+                                                        <div class="select-swap">
+                                                            {% for val in valuesColor %}
+                                                                {% set arrColor = [] %}
+                                                                {% set arrColor = arrColor|merge({ (color.column): val.Id }) %}
+                                                                {% set returnImg = {'return':'image'} %}
+                                                                {% set img = product.attrValueImage(arrColor) %}
+                                                                {% set imgZoom = product.attrValueImage(arrColor,false, returnImg) %}
+                                                                {#                                                            {% set img = img?:product.thumbnailUri %}#}
+                                                                {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                                                                {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                                                                <div data-value="{{ val.name }}" class="{{ (numbC==1)?'active':'' }} n-sd swatch-element {{ val.name }}" value="{{ val.id }}"thumbnail-item>
+                                                                    <input class="variant-0 input-product" id="swatch-0-{{ val.name }}" type="radio" name="option1" value="{{ val.name }}" data-img-src="{{ img }}" data-pIds="{{ pIdsAttrStr }}">
+                                                                    <label class="trang has-thumb" for="swatch-0-trang" style="background: url({{ img }}) top left no-repeat ">
+                                                                        <span>{{ val.name }}</span>
+                                                                        {#                                                                <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">#}
+                                                                        <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+                                                                        <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% set size = variableAttributes['size'] %}
+                                            {% if size is not null or size is not empty %}
+                                                {% set valuesSize = size.childValues %}
+                                                {% set numbS =  (valuesSize | length) %}
+                                                {% if(valuesSize is not null and numbS>0) %}
+                                                    {% set flag = flag + 1 %}
+                                                    <div id="variant-swatch-1" class="swatch size req swatch-product-single clearfix" column="{{ size.column }}" data-option="option2" data-option-index="1">
+                                                        <div class="header-title">Kích thước:</div>
+                                                        <div class="select-swap">
+                                                            {% for attrValue in valuesSize %}
+                                                                <div data-value="{{ attrValue.name }}" value="{{ attrValue.id }}" class="{{ (numbS==1)?'active':'' }} n-sd swatch-element {{ attrValue.name }}" value="{{ attrValue.id }}">
+                                                                    <input class="variant-1 input-product" id="swatch-1-{{ attrValue.name }}" type="radio" name="option2" value="{{ attrValue.name }}" checked="">
+                                                                    <label for="swatch-1-{{ attrValue.name }}" class="">
+                                                                        {{ attrValue.name }}
+                                                                        <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+                                                                        <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                    </label>
+                                                                </div>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <script>
+
+                                                        </script>
+                                                    </div>
+                                                {% endif %}
+                                            {%  endif %}
+                                            {% if((flag==0) and (product.childs)) %}
+                                                {% set flagchilds= product.childs|length %}
+                                                <p style="padding: 5px; text-align: left;">
+                                                    <span style="width: 131px; display: inline-block">Chọn sản phẩm</span>
+                                                    <select class="input childProducts">
+                                                        <option value="1">Chọn sản phẩm</option>
+                                                        {% set name_parent =product.name %}
+                                                        {% for cp in product.childs %}
+                                                            <option value="{{ cp.id }}, {{ cp.price }}"
+                                                                    href="{{ cp.imageUri }}"
+                                                                    data-src="{{ cp.imageUri }}">
+                                                                {{ cp.name|replace({ name_parent :''}) }}
+                                                            </option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </p>
+                                            {% endif %}
+                                            {#                                            <div id="variant-swatch-2" class="swatch req swatch-product-single clearfix" data-option="option3" data-option-index="2">
+                                                                                            <div class="header">Vật liệu</div>
+                                                                                            <div class="select-swap">
+                                                                                                <div data-value="Cotton" class="n-sd swatch-element cotton variant-3">
+                                                                                                    <input class="variant-2 input-product" id="swatch-2-cotton" type="radio" name="option3" value="Cotton" checked="">
+                                                                                                    <label for="swatch-2-cotton" class="sd">
+                                                                                                        Cotton
+                                                                                                        <img class="crossed-out" src="//theme.hstatic.net/1000187250/1000280706/14/soldout.png?v=1588">
+                                                                                                        <img class="img-check" src="//theme.hstatic.net/1000187250/1000280706/14/select-pro.png?v=1588">
+                                                                                                    </label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>#}
+                                        </div>
+                                        <input type="hidden" id="psQtt" value="1">
+                                        <div class="form-group form_button_details">
+                                            <div class="form_product_content ">
+                                                <div class="soluong d-block">
+                                                    <div class="label_sl margin-bottom-5">Số lượng:</div>
+                                                    <div class="custom input_number_product custom-btn-number form-control">
+                                                        <button class="btn_num num_1 button button_qty" type="button"><i class="fa fa-minus"></i></button>
+                                                        <input type="text" id="qtym" name="quantity" min="1" max="{{ ivt }}" maxlength="4" value="1" class="form-control prd_quantity">
+                                                        <button class="btn_num num_2 button button_qty" type="button"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="nhangiasi d-none">
+                                                    <div class="label_sl margin-bottom-5">Nhận mức giá sỉ:</div>
+                                                    <div class="check_giasi">
+                                                    </div>
+                                                </div>
+                                                <div class="button_actions clearfix">
+                                                    {% set title = '' %}
+                                                    {% set ck = '' %}
+                                                    {% set class = '' %}
+                                                    {% set dataModal = '' %}
+                                                    {% if(ivt > 0) %}
+                                                        {% set ck = 1 %}
+                                                        {% set dataModal = 'data-toggle="modal" data-target="#myModal"' %}
+                                                    {% endif %}
+                                                    {% if (ivt<0)%}
+                                                    {% set title = translate('Sản phẩm tạm hết hàng') %}
+                                                    {% set ck = 0 %}
+                                                    {% set class = 'outStock' %}
+                                                    {% endif %}
+                                                    {% if(ivt<=0) %}
+                                                        <button class="exclusive outStock {{ ivt <= 0 ? 'd-block':'' }}">
+                                                            <button class="btn btn_base btnAddToCart unsel btn_dis btn-cart exclusive outStock d-block {{ ivt <= 0 ? 'd-block':'' }}" selId="{{ product.id }}" psId="{{ product.id }}">
+                                                                <span>Sản phẩm tạm hết hàng</span>
+                                                            </button>
+                                                            <span class="font-weight-light font-italic">Quý khách vui lòng tham khảo sản phẩm tương tự</span>
+                                                        </button>
+                                                    {% elseif(flag or flagchilds) %}
+                                                        <button id="addtoCart" psId="{{ product.id }}" selId="{{ product.id }}" data-original-title="Vui lòng chọn màu sắc hoặc kích cỡ!"
+                                                             type="submit" class="btn btn_base btnAddToCart btn_add_cart btn-cart add_to_cart buyCart pdp-mod-sbutton add {{ class }}"   value="{{ ivt }}"
+                                                                ck="0" title="{{ title }}">
+                                                            <span class="text_1 d-none d-none d-xl-block">Thêm vào giỏ hàng</span>
+                                                            <span class="text_1 d-xl-none">Thêm vào giỏ</span>
+                                                        </button>
+                                                        <button psId="{{ product.id }}" selId="{{ product.id }}" class="fastbuy btnAddToCart buyCart pdp-mod-sbutton add {{ class }}"
+                                                                title="{{ title }}" {{ dataModal }} data-original-title="Vui lòng chọn màu sắc hoặc kích cỡ!"
+                                                             id="buynow" type="submit" admicro-data-event="GET_VALUE" admicro-data-auto="1" admicro-data-order="false">
+                                                            <p class="">Mua ngay</p>
+                                                        </button>
+                                                        <button class="hotline_phone fastbuy d-lg-none">
+                                                            <a href="tel:1900636546">Gọi ngay</a>
+                                                        </button>
+                                                    {% else %}
+                                                        <button id="addtoCart" psId="{{ product.id }}" selId="{{ product.id }}"
+                                                             type="submit" class="btn btn_base btnAddToCart btn_add_cart btn-cart add_to_cart buyCart pdp-mod-sbutton add {{ class }}"   value="{{ ivt }}"
+                                                             ck="1" title="{{ title }}">
+                                                            <span class="text_1 d-none d-none d-xl-block">Thêm vào giỏ hàng</span>
+                                                            <span class="text_1 d-xl-none">Thêm vào giỏ</span>
+                                                        </button>
+                                                        <button psId="{{ product.id }}" selId="{{ product.id }}" class="fastbuy btnAddToCart buyCart pdp-mod-sbutton add {{ class }}"
+                                                              title="{{ title }}" {{ dataModal }}
+                                                             id="buynow" type="submit" admicro-data-event="GET_VALUE" admicro-data-auto="1" admicro-data-order="false">
+                                                            <p class="">Mua ngay</p>
+                                                        </button>
+                                                        <button class="hotline_phone fastbuy d-lg-none">
+                                                            <a href="tel:1900636546">Gọi ngay</a>
+                                                        </button>   {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="section shipaddress">
+                                        <div class="listadress_ship margin-bottom-15" style="color:red;">
+                                        </div>
+                                    </div>
+                                    <div class="section product-policy d-none d-xl-block">
+                                        <div class="content clearfix">
+                                            <div class="item">
+                                                <i class="fa fa-truck"></i> Miễn phí vận chuyển
+                                            </div>
+                                            <div class="item">
+                                                <i class="fa  fa-gift"></i> Tích điểm trên hóa đơn
+                                            </div>
+                                            <div class="item">
+                                                <i class="fa fa-repeat"></i> Đổi trả hàng
+                                            </div>
+                                            <div class="item red">
+                                                <i class="fa fa-mobile"></i> Hotline: <a href="tel:1900 636 546">1900 636 546</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label for="tab1">{{ translate('Mô tả sản phẩm') }}</label>
+                                    <div id="mobile_order_1" class="short-description clearfix section">
+
+                                            {{ product.description | raw}}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                                <div class="preview-wrapper">
+                                    <div class="web-main-wrapper">
+                                        <div class="web-header">
+                                            <div class="web-element-text">
+                                                <div class="web-element-content">
+                                                    <a href="javascript:void(0);">
+                                                        <div class="editable-text" data-bind-menu="notification|text_editing">&nbsp;CÓ THỂ BẠN SẼ THÍCH</div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="owl-carousel owl_grid owl-loaded owl-drag related" data-dot="false"
+                                             data-nav="false" data-loop="false" data-play="false" data-lg-items="5"
+                                             data-md-items="2" data-sm-items="2" data-xs-items="2" data-margin="0">
+                                            <div class="web-body-wrapper owl-stage-outer">
+                                                <div class="web-body owl-stage">
+                                                    {% set proReleated = search({'limit':10, 'categoryId':product.categoryId}) %}
+                                                    {% if(proReleated is not empty) %}
+                                                        {% for p in proReleated %}
+                                                            {% set image = p.thumbnailUri %}
+                                                            {% set options = {
+                                                                alt: p.name,
+                                                                lazy: true,
+                                                                class: 'imageChange swatch-'~p.id,
+                                                                openDiv: false,
+                                                            }%}
+                                                            {% set priceDiscount = p.priceAfterDiscount %}
+                                                            {% set percent = p.discountPercent %}
+                                                            <div class="owl-item web-box-item" data-storeId="{{ p.storeId }}" psId="{{ p.id }}" style="position: relative;">
+                                                                <div class="web-element-content web-editable-text">
+                                                                    <div class="web-inner-box">
+                                                                        <a class="web-product-box" href="{{ p.viewLink }}">
+                                                                            <div class="web-image-box">
+                                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                                {% if(percent > 0) %}
+                                                                                    <div class="web-discount-badge web-element-content" data-element-name="Discount Badge" data-override-name="true" data-discount-position="topleft" data-percentage-icon-position="aftertheamount">
+                                                                                        <div class="web-discount-percentage">{{ percent }}</div>
+                                                                                        <div class="web-percentage-icon">%</div>
+                                                                                    </div>
+                                                                                {%  endif %}
+                                                                               {# <a id="outStock" class="inventory" href="{{ p.viewLink }}">Sản phẩm hiện tại hết hàng</a> #}
+                                                                                {% if(p.options.psGifts) %}
+                                                                                    <img alt="Quà tặng" src="/tpl/V0510/img/gift.jpg" title="Quà tặng" class="proGift">
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="web-product-name-container web-element-text">
+                                                                                <div class="text-center">
+                                                                                    <div class="web-product-name" contenteditable="false"><a href="{{ p.viewLink }}">{{ p.name }}</a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                        <div class="product-container">
+                                                                            <div class="web-element-content">
+                                                                                <div class="ins-product-attributes">
+                                                                                    {% if (priceDiscount > 0) %}
+                                                                                        <div class=" d-block web-product-price-container">
+                                                                                            <div class="price-element-content">
+                                                                                                <div class="web-product-price" contenteditable="false">{{ priceDiscount|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="d-block web-product-discount-container">
+                                                                                            <div class="price-element-discount-content">
+                                                                                                <div class="web-product-discount d-block text-sm-center" contenteditable="false">{{ p.price|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% elseif (p.oldPrice() > 0) %}
+                                                                                        <div class=" d-block web-product-price-container">
+                                                                                            <div class="price-element-content">
+                                                                                                <div class="web-product-price" contenteditable="false">{{ p.price|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="d-block web-product-discount-container">
+                                                                                            <div class="price-element-discount-content">
+                                                                                                <div class="web-product-discount d-block text-sm-center" contenteditable="false">{{ p.oldPrice|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% else %}
+                                                                                        <div class=" d-block web-product-price-container">
+                                                                                            <div class="price-element-content">
+                                                                                                <div class="web-product-price" contenteditable="false">{{ p.price|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="proInfo">
+                                                                            <div class="web-add-to-cart-wrapper web-element-button" id="ivtCart" class="buyNow" data-toggle="modal" data-target="#myModal"
+                                                                                 data-id="{{ p.id }}" data-buy="1">
+                                                                                <div class="ins-element-content ins-editable-text" ondrop="return false;">
+                                                                                    <a href="javascript:void(0)">
+                                                                                        <div id="editable-button-1508331698331" data-bind-menu="notification|text_editing">
+                                                                                            <span class="web-product-add-to-cart">Add To Cart</span>
+                                                                                        </div>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12 location-detect boxshipping margin-bottom-15 padding-top-15 padding-bottom-15 d-xl-none">
+                                    <div class="clearfix">
+                                        <p class="a-center">
+                                            Khu vực giao hàng
+                                        </p>
+                                        <div>
+                                            {% if(depotInventories and ivt > 0) %}
+                                                {% for depot in depotInventories %}
+                                                    {% set av = depot.available %}
+                                                    {% if(av > 0) %}
+                                                        {% set text = ' ('~ av ~' sp)' %}
+                                                        {% if (av > 2) %}
+                                                            {% set text = '(Còn hàng)' %}
+                                                        {% endif %}
+                                                        <span><b><i class="fa fa-map-marker"></i></b>
+                                                                {{ depot.option('depotName') }}{{ text }}
+                                                            </span><br>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12 location-detect d-xl-none">
+                                    <div class="info-features info-block">
+                                        <div class="feature_item">
+                                            <i class="fa fa-truck"></i>
+                                            <span>Giao hàng tận nơi và nhanh chóng bởi Beemart.</span>
+                                        </div>
+                                        <div class="feature_item">
+                                            <i class="fa fa-money"></i>
+                                            <span>Thu tiền tại nhà, đảm bảo an toàn.</span>
+                                        </div>
+                                        <div class="feature_item">
+                                            <i class="fa fa-refresh"></i>
+                                            <span>Đổi trả hàng trong 7 ngày,  thủ tục đơn giản.</span>
+                                        </div>
+                                    </div>
+                                    <div class="info-view-detail info-block">
+                                        <a href="#">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab_h col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                                <div class="section">
+                                    <!-- Nav tabs -->
+                                    <ul class="tabs tabs-title clearfix">
+                                        <li class="tab-link current" data-tab="tab-1">
+                                            <h3><span>{{ translate('Chi tiết sản phẩm') }}</span></h3>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-float">
+                                        <div id="tab-1" class="tab-content content_extab current">
+                                            <div class="rte section">
+                                                {{ product.content|raw }}
+                                                {% set tags = getTags({'itemId' : product.id, 'type': 'product' }) %}
+                                                {% if(tags is not empty) %}
+                                                    <div id="productTags"><span><i class="fa fa-tags"></i>Tags:</span>
+                                                        {% for tag in tags %}
+                                                            <a href="/search?tag={{ tag.id }}">{{ tag.name }}</a>
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {#<div id="tab-3" class="section tab-review-c margin-top-20 form-product col-sm-12">
+                                <div id="product-reviews" class="product-reviews" data-id="18016405"><div><div id="product-reviews-noitem" style="display: none;">
+                                            <div class="content">
+                                                <p>Hiện tại sản phẩm chưa có đánh giá nào, bạn hãy trở thành người đầu tiên đánh giá cho sản phẩm này</p>
+                                                <div class="product-reviews-summary-actions">
+                                                    <button type="button" class="btn-new-review" onclick="BPR.newReview(this); return false;">Gửi đánh giá của bạn</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div id="product-reviews-sub" style="">
+                                            <div class="product-reviews-summary">
+                                                <div class="summary-filter">
+                                                    <div class="product-reviews-action">
+                                                        <div itemprop="aggregateRating" itemscope="" itemtype="http://schema.org/AggregateRating" class="bpr-summary">
+                                                            <meta content="5" itemprop="bestRating">
+                                                            <meta content="1" itemprop="worstRating">
+                                                            <div class="bpr-summary-average">
+                                                                <span itemprop="ratingValue">5</span>
+                                                                <span class="max-score">/5</span>
+                                                            </div>
+                                                            <div data-number="5" data-score="5" class="product-reviews-star" id="prv-summary-star" title="gorgeous">
+                                                                <i data-alt="1" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="2" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="3" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="4" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="5" class="star-on-png" title="gorgeous"></i><input name="score" type="hidden" value="5" readonly=""></div>
+                                                            <p>(<span itemprop="ratingCount">1</span> <span> đánh giá</span>)</p>
+                                                        </div>
+                                                        <button type="button" class="btn-new-review d-none d-xl-block" onclick="BPR.newReview(this); return false;">Gửi đánh giá của bạn</button>
+                                                    </div>
+                                                    <div class="product-reviews-filter">
+                                                        <p onclick="BPR.showFilterMobile(this);"><i class="fa fa-filter" aria-hidden="true"></i><span>Bộ lọc</span></p>
+                                                        <div class="list-filter d-none d-xl-block">
+                                                            <label>
+                                                                <input type="radio" id="FilterAll" name="filter" value="all" onchange="BPR.filterReview(this); return false;" checked="" style="display: none;">
+                                                                <span class="checkmark"><span>Tất cả</span></span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" id="FiveScore" name="filter" data-filter="score" value="5" onchange="BPR.filterReview(this); return false;" style="display: none;">
+                                                                <span class="checkmark"><span>5 Điểm</span> (<span class="count">1</span>)</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" id="FourScore" name="filter" data-filter="score" value="4" onchange="BPR.filterReview(this); return false;" style="display: none;">
+                                                                <span class="checkmark"><span>4 Điểm</span> (<span class="count" data-content="four_rating">0</span>)</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" id="ThreeScore" name="filter" data-filter="score" value="3" onchange="BPR.filterReview(this); return false;" style="display: none;">
+                                                                <span class="checkmark"><span>3 Điểm</span> (<span class="count" data-content="three_rating">0</span>)</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" id="TwoScore" name="filter" data-filter="score" value="2" onchange="BPR.filterReview(this); return false;" style="display: none;">
+                                                                <span class="checkmark"><span>2 Điểm</span> (<span class="count" data-content="two_rating">0</span>)</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" id="OneScore" name="filter" data-filter="score" value="1" onchange="BPR.filterReview(this); return false;" style="display: none;">
+                                                                <span class="checkmark"><span>1 Điểm</span> (<span class="count" data-content="one_rating">0</span>)</span>
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio" id="IsImage" name="filter" value="isimage" onchange="BPR.filterReview(this); return false;" style="display: none;">
+                                                                <span class="checkmark"><span>Có hình ảnh</span> (<span class="count" data-content="is_image">0</span>)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn-new-review btn-new-review-mobile d-xl-none" onclick="BPR.newReview(this); return false;">Gửi đánh giá của bạn</button>
+                                                </div>
+                                                <div id="popup-bpr-form_18016405" class="popup-bpr-form jquerymodal">
+                                                    <div class="jquerymodal-content">
+                                                        <div class="jquerymodal-body">
+                                                            <a href="javascript:;" rel="jquerymodal:close" class="close-modal ">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
+                                                                    <path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path>
+                                                                </svg>
+                                                            </a>
+                                                            <div class="product-reviews-form"><div><form method="post" action="https://newproductreviews.sapoapps.vn/reviews/create" id="product-reviews-frm" name="product-reviews-frm" class="MultiFile-intercepted">
+                                                                        <input type="hidden" name="productId" id="review_product_id" value="18016405">
+                                                                        <div class="title-form">Đánh giá sản phẩm</div>
+                                                                        <div class="review-product-name">Lò nướng kết hợp nồi chiên không dầu Ukoeo T35</div>
+                                                                        <div class="bpr-form-rating">
+                                                                            <div class="form-group">
+                                                                                <label>Đánh giá của bạn về sản phẩm:</label>
+                                                                                <div id="dvRating" class="product-reviews-star"></div>
+                                                                            </div>
+                                                                            <input type="hidden" name="rating" id="review_rate" value="5">
+                                                                            <span class="bpr-form-message-error"></span>
+                                                                        </div>
+                                                                        <div class="bpr-form-contact">
+                                                                            <div class="form-group form-group__multiple">
+                                                                                <div class="bpr-form-contact-name require">
+                                                                                    <input type="text" maxlength="100" id="review_author" name="author" value="" placeholder="Nhập họ tên của bạn">
+                                                                                    <span class="bpr-form-message-error"></span>
+                                                                                </div>
+                                                                                <div class="bpr-form-contact-email require" style="width: 100%;">
+                                                                                    <input type="text" maxlength="50" id="review_email" name="email" value="" placeholder="Nhập email của bạn">
+                                                                                    <span class="bpr-form-message-error"></span>
+                                                                                </div>
+                                                                                <div class="bpr-form-contact-phone hide">
+                                                                                    <input type="tel" maxlength="15" id="review_phone" name="phone" value="" placeholder="Nhập số điện thoại của bạn">
+                                                                                    <span class="bpr-form-message-error"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group__textarea">
+                                                                                <div class="form-group">
+                                                                                    <div class="bpr-form-review-body">
+                                                                                        <textarea maxlength="1000" id="review_body" name="body" rows="5" placeholder="Nhập nội dung đánh giá của bạn về sản phầm này"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div id="fileAttach" class="bpr-file-attach option">
+                                                                                    <label class="next-label" for="inputFileAttach">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"><path d="M 4 5 C 2.895 5 2 5.895 2 7 L 2 23 C 2 24.105 2.895 25 4 25 L 14.230469 25 C 14.083469 24.356 14 23.688 14 23 C 14 22.662 14.021594 22.329 14.058594 22 L 5 22 L 5 15 L 7.2890625 12.710938 C 8.2340625 11.765937 9.7659375 11.765937 10.710938 12.710938 L 15.720703 17.720703 C 17.356703 15.469703 20.004 14 23 14 C 24.851 14 26.57 14.559578 28 15.517578 L 28 7 C 28 5.895 27.105 5 26 5 L 4 5 z M 23 8 C 24.105 8 25 8.895 25 10 C 25 11.105 24.105 12 23 12 C 21.895 12 21 11.105 21 10 C 21 8.895 21.895 8 23 8 z M 23 16 C 19.134 16 16 19.134 16 23 C 16 26.866 19.134 30 23 30 C 26.866 30 30 26.866 30 23 C 30 19.134 26.866 16 23 16 z M 23 19 C 23.552 19 24 19.447 24 20 L 24 22 L 26 22 C 26.552 22 27 22.447 27 23 C 27 23.553 26.552 24 26 24 L 24 24 L 24 26 C 24 26.553 23.552 27 23 27 C 22.448 27 22 26.553 22 26 L 22 24 L 20 24 C 19.448 24 19 23.553 19 23 C 19 22.447 19.448 22 20 22 L 22 22 L 22 20 C 22 19.447 22.448 19 23 19 z"></path></svg>
+                                                                                        <span>Đính kèm hình ảnh (chọn tối đa 3 hình)</span>
+                                                                                    </label>
+                                                                                    <div class="MultiFile-wrap" id="inputFileAttach"><input style="color:#fff;opacity:0;cursor:pointer;" type="file" id="inputFileAttach" name="file" class="with-preview MultiFile-applied" value=""><div class="MultiFile-list" id="inputFileAttach_list"></div></div>
+                                                                                </div>
+                                                                                <div class="bpr-form-actions">
+                                                                                    <button type="button" onclick="BPR.submitForm(); return false;" class="bpr-button-submit"><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i><span>Gửi đánh giá</span></button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <span class="bpr-form-message-error bpr-form-message-error-body"></span>
+                                                                            <span class="bpr-form-message-error bpr-form-message-error-file"></span>
+                                                                        </div>
+                                                                        <div class="bpr-form-review-error">
+                                                                            <p class="error"></p>
+                                                                        </div>
+                                                                        <div class="bpr-form-actions">
+                                                                            <button type="button" onclick="BPR.submitForm(); return false;" class="bpr-button-submit"><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i><span>Gửi đánh giá</span></button>
+                                                                        </div>
+                                                                    </form></div></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div id="bpr-list" class="product-reviews-list">
+                                                <div id="review-4839" class="review" itemscope="" itemtype="http://schema.org/Review" itemprop="review">
+                                                    <div class="review-header"><span class="review-author" itemprop="author">Thương Phạm</span>
+                                                        <div class="product-reviews-star" data-score="5" data-number="5" title="gorgeous">
+                                                            <i data-alt="1" class="star-on-png" title="gorgeous"></i>&nbsp;
+                                                            <i data-alt="2" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="3" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="4" class="star-on-png" title="gorgeous"></i>&nbsp;<i data-alt="5" class="star-on-png" title="gorgeous"></i><input name="score" type="hidden" value="5" readonly=""></div></div><div class="review-body"><span class="review-content-body" itemprop="description">Oa, lò này tiện lắm nhé. vừa là lò nướng, lại có các chức năng như nồi chiên không dầu. Kích thước nhỏ gọn, khá là vừa vặn với gian bếp của nhà mk 👍👍👍</span></div><div class="review-actions" style="color: #0088ff"><ul><li class="review-reply"><a onclick="BPR.showReply(this, 4839);return false" title="Gửi trả lời" href="javascript: void(0);">Gửi trả lời</a></li><li class="review-useful"><a onclick="BPR.likeComment(4839, 'comment');return false" title="Hữu ích" href="javascript: void(0);"><svg class="icon-useful" version="1.1" viewBox="0 0 30 30" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M4,25h2l0,0c1.281,1.281,3.017,2,4.828,2H21l2-2v-4l0.5-10H14c0,0,1-3.266,1-4c0-2.251,0-5-3-5c-1,0-1,0-1,0l-0.501,3.491  L8.132,9.894C7.435,11.191,6.082,12,4.609,12H4V25z"></path><circle cx="23.5" cy="13.5" r="2.5"></circle><circle cx="22.5" cy="21.5" r="2.5"></circle><circle cx="23.5" cy="17.5" r="2.5"></circle><circle cx="21" cy="25" r="2"></circle><circle cx="21" cy="25" r="2"></circle></svg>Hữu ích</a></li><li class="review-reportreview"><a onclick="BPR.reportReview(4839);return false" title="Báo cáo sai phạm" href="javascript: void(0);"><svg class="icon-warning" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M40,40H8c-0.717,0-1.377-0.383-1.734-1.004c-0.356-0.621-0.354-1.385,0.007-2.004l16-28C22.631,8.378,23.289,8,24,8s1.369,0.378,1.728,0.992l16,28c0.361,0.619,0.363,1.383,0.007,2.004S40.716,40,40,40z"></path><path d="M22,34.142c0-0.269,0.047-0.515,0.143-0.746c0.094-0.228,0.229-0.426,0.403-0.592c0.171-0.168,0.382-0.299,0.624-0.393c0.244-0.092,0.518-0.141,0.824-0.141c0.306,0,0.582,0.049,0.828,0.141c0.25,0.094,0.461,0.225,0.632,0.393c0.175,0.166,0.31,0.364,0.403,0.592C25.953,33.627,26,33.873,26,34.142c0,0.27-0.047,0.516-0.143,0.74c-0.094,0.225-0.229,0.419-0.403,0.588c-0.171,0.166-0.382,0.296-0.632,0.392C24.576,35.954,24.3,36,23.994,36c-0.307,0-0.58-0.046-0.824-0.139c-0.242-0.096-0.453-0.226-0.624-0.392c-0.175-0.169-0.31-0.363-0.403-0.588C22.047,34.657,22,34.411,22,34.142 M25.48,30h-2.973l-0.421-12H25.9L25.48,30z"></path></svg>Báo cáo sai phạm</a></li><li><span class="review-time" itemprop="datePublished">18:41 18/06/2020</span></li></ul></div><div class="review-reply-form" style="display: none;">
+                                                        <div><form method="post" action="https://newproductreviews.sapoapps.vn/reviews/postreply" id="review-reply-4839" name="review-reply-frm">
+                                                                <input type="hidden" name="commentId" id="reply_comment_id_4839" value="4839">
+                                                                <div class="bpr-form-contact">
+                                                                    <div class="form-group form-group__multiple">
+                                                                        <div class="bpr-reply-form-contact-name require">
+                                                                            <input type="text" maxlength="100" id="reply_author_4839" name="author" value="" placeholder="Nhập họ tên của bạn">
+                                                                            <span class="bpr-reply-form-message-error"></span>
+                                                                        </div>
+                                                                        <div class="bpr-reply-form-contact-email require">
+                                                                            <input type="text" maxlength="50" id="reply_email_4839" name="email" value="" placeholder="Nhập email của bạn">
+                                                                            <span class="bpr-reply-form-message-error"></span>
+                                                                        </div>
+                                                                        <div class="bpr-reply-form-contact-phone hide">
+                                                                            <input type="tel" maxlength="15" id="reply_phone_4839" name="phone" value="" placeholder="Nhập số điện thoại của bạn">
+                                                                            <span class="bpr-reply-form-message-error"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group__textarea">
+                                                                        <div class="form-group">
+                                                                            <div class="bpr-reply-form-review-body">
+                                                                                <textarea minlength="50" maxlength="1000" id="reply_body_4839" name="body" rows="1" placeholder="Nhập trả lời của bạn"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="bpr-form-actions">
+                                                                            <button type="button" onclick="BPR.submitFormReply(this); return false;" class="bpr-reply-button-submit"><i class="fa fa-spinner fa-pulse" aria-hidden="true"></i><span>Trả lời</span></button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="bpr-reply-form-message-error bpr-reply-form-message-error-body"></span>
+                                                                </div>
+                                                                <div class="bpr-reply-form-review-error">
+                                                                    <p class="error"></p>
+                                                                </div>
+                                                            </form></div>
+                                                    </div><div style="display:none;" itemtype="http://schema.org/Rating" itemscope="" itemprop="reviewRating"><span itemprop="ratingValue">5</span></div></div></div>
+                                            <div id="bpr-more-reviews" style="display: none;"></div>
+                                            <div id="bpr-review-thanks" class="bpr-success-popup jquerymodal">
+                                                <div class="jquerymodal-content">
+                                                    <div class="jquerymodal-body">
+                                                        <a href="javascript:;" rel="jquerymodal:close" class="close-modal">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
+                                                                <path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <div class="icon-checked">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M12,0A12,12,0,1,1,0,12,12,12,0,0,1,12,0Zm0,1A11,11,0,1,1,1,12,11,11,0,0,1,12,1Zm7,7.46L10,18,5,12.16l.76-.65,4.27,5,8.24-8.75Z" fill-rule="evenodd"></path></g></svg>
+                                                        </div>
+                                                        <b>Cảm ơn bạn đã đánh giá sản phẩm!</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="bpr-reply-thanks" class="bpr-success-popup jquerymodal">
+                                                <div class="jquerymodal-content">
+                                                    <div class="jquerymodal-body">
+                                                        <a href="javascript:;" rel="jquerymodal:close" class="close-modal">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24px" height="24px">
+                                                                <path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path>
+                                                            </svg>
+                                                        </a>
+                                                        <div class="icon-checked">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g><path d="M12,0A12,12,0,1,1,0,12,12,12,0,0,1,12,0Zm0,1A11,11,0,1,1,1,12,11,11,0,0,1,12,1Zm7,7.46L10,18,5,12.16l.76-.65,4.27,5,8.24-8.75Z" fill-rule="evenodd"></path></g></svg>
+                                                        </div>
+                                                        <b>Cảm ơn bạn đã trả lời đánh giá!</b>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> #}
+                            <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                                <div class="preview-wrapper">
+                                    <div class="web-main-wrapper">
+                                        <div class="web-header">
+                                            <div class="web-element-text">
+                                                <div class="web-element-content">
+                                                    <a href="javascript:void(0);">
+                                                        <div class="editable-text" data-bind-menu="notification|text_editing">SẢN PHẨM CÙNG LOẠI&nbsp</div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="owl-carousel owl_grid owl-loaded owl-drag productRelated" data-dot="false"
+                                             data-nav="true" data-loop="false" data-play="false" data-lg-items="5"
+                                             data-md-items="2" data-sm-items="2" data-xs-items="2" data-margin="0">
+                                            <div class="web-body-wrapper owl-stage-outer">
+                                                <div class="web-body owl-stage">
+                                                    {% set productRelated = getRelatedCategory({'categoryId':product.categoryId,'limit':10}) %}
+                                                    {% if(productRelated is not empty) %}
+                                                        {% for p in productRelated %}
+                                                            {% set image = p.thumbnailUri %}
+                                                            {% set options = {
+                                                                alt: p.name,
+                                                                lazy: true,
+                                                                class: 'imageChange swatch-'~p.id,
+                                                                openDiv: false,
+                                                            }%}
+                                                            {% set priceDiscount = p.priceAfterDiscount %}
+                                                            {% set percent = p.discountPercent %}
+
+                                                            <div class="owl-item web-box-item" data-storeId="{{ p.storeId }}" psId="{{ p.id }}" style="position: relative;">
+                                                                <div class="web-element-content web-editable-text">
+                                                                    <div class="web-inner-box">
+                                                                        <a class="web-product-box" href="{{ p.viewLink }}">
+                                                                            <div class="web-image-box">
+                                                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                                                {% if(percent > 0) %}
+                                                                                    <div class="web-discount-badge web-element-content" data-element-name="Discount Badge" data-override-name="true" data-discount-position="topleft" data-percentage-icon-position="aftertheamount">
+                                                                                        <div class="web-discount-percentage">{{ percent }}</div>
+                                                                                        <div class="web-percentage-icon">%</div>
+                                                                                    </div>
+                                                                                {%  endif %}
+                                                                                {# <a id="outStock" class="inventory" href="{{ p.viewLink }}">Sản phẩm hiện tại hết hàng</a>#}
+
+                                                                        {% if(p.options.psGifts) %}
+                                                                            <img alt="Quà tặng" src="/tpl/V0510/img/gift.jpg" title="Quà tặng" class="proGift">
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="web-product-name-container web-element-text">
+                                                                                <div class="text-center">
+                                                                                    <div class="web-product-name" contenteditable="false"><a href="{{ p.viewLink }}">{{ p.name }}</a></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                        <div class="product-container">
+                                                                            <div class="web-element-content">
+                                                                                <div class="ins-product-attributes">
+                                                                                    {% if (priceDiscount > 0) %}
+                                                                                        <div class=" d-block web-product-price-container">
+                                                                                            <div class="price-element-content">
+                                                                                                <div class="web-product-price" contenteditable="false">{{ priceDiscount|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="d-block web-product-discount-container">
+                                                                                            <div class="price-element-discount-content">
+                                                                                                <div class="web-product-discount d-block" contenteditable="false">{{ p.price|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% elseif (p.oldPrice() > 0) %}
+                                                                                        <div class=" d-block web-product-price-container">
+                                                                                            <div class="price-element-content">
+                                                                                                <div class="web-product-price" contenteditable="false">{{ p.price|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="d-block web-product-discount-container">
+                                                                                            <div class="price-element-discount-content">
+                                                                                                <div class="web-product-discount d-block" contenteditable="false">{{ p.oldPrice|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% else %}
+                                                                                        <div class=" d-block web-product-price-container">
+                                                                                            <div class="price-element-content">
+                                                                                                <div class="web-product-price" contenteditable="false">{{ p.price|number_format(0) }} ₫</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    {% endif %}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="proInfo">
+                                                                            <div class="web-add-to-cart-wrapper web-element-button" id="ivtCart" class="buyNow" data-toggle="modal" data-target="#myModal"
+                                                                                 data-id="{{ p.id }}" data-buy="1">
+                                                                                <div class="ins-element-content ins-editable-text" ondrop="return false;">
+                                                                                    <a href="javascript:void(0)">
+                                                                                        <div id="editable-button-1508331698331" data-bind-menu="notification|text_editing">
+                                                                                            <span class="web-product-add-to-cart">Add To Cart</span>
+                                                                                        </div>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="blockSocial">
+                                <div class="socialLeft d-none d-md-block">
+                                    <ul>
+                                        <li>
+                                            <div class="fb-like" data-href="https://www.facebook.com/Capbalovali/"
+                                                 data-layout="box_count" data-action="like" data-show-faces="true" data-share="false">
+
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="socialRight">
+                                    <a target="_blank" href="//www.facebook.com/sharer/sharer.php?u={{ getCurrentUrl() }}">
+                                        <img alt="share face" class="" src="/tp/V0001/img/shareFace.png">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="blockSocial container" style="background:  none;margin-top: 0">
+                                <div class="fb-comments" data-href="{{ getCurrentUrl() }}" data-numposts="5"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-xs-12 pr-md-0 pl-md-0 pr-xl-3 pl-xl-3">
+                        <!-- LOCATION -->
+                        <div class="section block-right-module">
+                            {# <div class="location-detect boxshipping margin-bottom-15 padding-top-15 padding-bottom-15 d-none d-xl-block">
+                                 <div class="clearfix  a-center">
+                                     <p>
+                                         Khu vực giao hàng
+                                     </p>
+                                     <div>
+
+                                         <span><b><i class="fa fa-map-marker"></i> TP.Hà Nội</b></span>
+                                     </div>
+                                 </div>
+                             </div> #}
+                            <div class="location-detect boxshipping margin-bottom-15 padding-top-15 padding-bottom-15 d-none d-xl-block">
+                                <div class="clearfix">
+                                    <p class="a-center ">
+                                        Khu vực giao hàng
+                                    </p>
+                                    <div class="eachDepots">
+                                        {% if(depotInventories and ivt > 0) %}
+                                            {% for depot in depotInventories %}
+                                                {% set av = depot.available %}
+                                                {% if(av > 0) %}
+                                                    {% set text = ' ('~ av ~' sp)' %}
+                                                    {% if (av > 2) %}
+                                                        {% set text = '(Còn hàng)' %}
+                                                    {% endif %}
+                                                    <span><b><i class="fa fa-map-marker"></i></b>
+                                                                {{ depot.option('depotName') }}{{ text }}
+                                                            </span><br>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="location-detect d-none d-xl-block">
+                                <div class="info-features info-block">
+                                    <div class="feature_item">
+                                        <i class="fa fa-truck"></i>
+                                        <span>Giao hàng tận nơi và nhanh chóng bởi Beemart.</span>
+                                    </div>
+                                    <div class="feature_item">
+                                        <i class="fa fa-money"></i>
+                                        <span>Thu tiền tại nhà, đảm bảo an toàn.</span>
+                                    </div>
+                                    <div class="feature_item">
+                                        <i class="fa fa-refresh"></i>
+                                        <span>Đổi trả hàng trong 7 ngày,  thủ tục đơn giản.</span>
+                                    </div>
+                                </div>
+                                <div class="info-view-detail info-block">
+                                    <a href="#">Xem chi tiết</a>
+                                </div>
+                            </div>
+
+                            <!-- END LOCATION -->
+                            <div class="section margin-top-10 margin-bottom-30">
+
+                                <div class="youtubeframe d-none d-xl-block">
+                                    {% if(product.video) %}
+                                        <iframe id="popup-youtube-player" src="{{ product.video | raw }}?showinfo=0&controls=0&rel=0&enablejsapi=1&version=3&playerapiid=ytplayer"
+                                                width="100%"  frameborder="0" allowfullscreen="true" allowscriptaccess="always"></iframe>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="section section_product_banner d-none d-xl-block">
+                                <div class="wrap_bg_ins">
+                                    <div class="aside-title">
+                                        <h2><a href="/product" title="HÀNG MỚI VỀ">HÀNG MỚI VỀ</a></h2>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_product_group">
+                                            <div class="row">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                    {% set newProducts = search({'limit':7}) %}
+                                                    {% if (newProducts is not empty) %}
+                                                        {% for p in newProducts %}
+                                                            {% set priceDiscount = p.priceAfterDiscount %}
+                                                            {% set percent = p.discountPercent %}
+                                                            {% set imageR = p.thumbnailUri %}
+                                                            {% set options = {
+                                                                alt: p.name,
+                                                                class: 'imageChange',
+                                                                lazy: true,
+                                                                openDiv: false,
+                                                            }%}
+                                                            <div class="item_product_main itemcustome" data-storeId="{{ p.storeId }}" psId="{{ p.id }}">
+                                                                <div class="product-box product-item-main product-main-list-mini">
+                                                                    <div class="product-thumbnail">
+                                                                        <a class="image_thumb p_img"  href="{{ p.viewLink }}">
+                                                                            {{ macroLazyFocusImager.LazyFocusImager(imageR,options) }}
+                                                                        </a>
+                                                                        {% if(percent > 0) %}
+                                                                            <div class="bg-danger text-white">KM: -{{ percent }}%</div>
+                                                                        {% endif %}
+                                                                       {# <a id="outStock" class="inventory" href="{{ p.viewLink }}">Sản phẩm hiện tại hết hàng</a> #}
+
+                                                                    </div>
+                                                                    <div class="product-info product-bottom">
+                                                                        <h3 class="product-name"><a href="{{ p.viewLink }}">{{ p.name }}</a></h3>
+                                                                        <div class="blockprice">
+                                                                            <div class="product-item-price price-box">
+                                                                                <span class="special-price">
+                                                                                        <span class="price product-price">{{ p.price|number_format(0) }} ₫</span>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <div class="section more_viewwd">
+                                                        <a href="/product" title="Xem thêm">Xem thêm</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="section banner-product margin-top-30 d-none d-xl-block">
+                                <a href="https://www.beemart.vn/nhan-banh-trung-thu-sen-san" title="Nhân sên sẵn"><img src="//bizweb.dktcdn.net/100/004/714/themes/779681/assets/banner-product.png?1597639238460" alt="Bí kíp làm bánh siêu hot"></a>
+                            </div>
+                            {% set bannerMiddle = getBannerByPositionCode('BANNER_VIEW_MIDDLE') %}
+                            {% if(bannerMiddle is not empty) %}
+                                <div class="section banner-product margin-top-30 d-none d-xl-block" id="proViewBanner">
+                                    {% for bnMiddle in bannerMiddle %}
+                                        {% set image = bnMiddle.imageSrc %}
+                                        {% set options = {
+                                            alt: bnMiddle.name,
+                                            lazy: true,
+                                            openDiv: false,
+                                        }%}
+                                        <a href="{{ bnMiddle.link }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 margin-top-20 xs-margin-top-15 margin-bottom-30">
+                 <div class="section_prd_feature">
+                     <div class="title_module_m">
+                         <h2><a href="/top-san-pham-ban-chay" title="Sản phẩm liên quan">Sản phẩm liên quan</a></h2>
+                     </div>
+                     <div class="section owlnav_style1">
+                         <div class="section owl-carousel owl_product_featured owl-loaded owl-drag" data-dot="false" data-nav="false" data-lg-items="5" data-md-items="5" data-sm-items="3" data-xs-items="2" data-margin="0">
+                             <div class="owl-stage-outer">
+                                 <div class="owl-stage">
+                                     <div class="owl-item active">
+                                         <div class="item_product_main_related">
+                                             <div class="item">
+                                                 <div class="product-box product-item-main_related product-item-compare">
+                                                     <div class="product-thumbnail_related ">
+                                                         <a class="image_thumb_related p_img   product_details" href="/khuon-lam-banh-flan-inox-co-nap-7x5x4cm" title="Khuôn làm bánh flan inox có nắp 7x5x4cm">
+                                                             <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/flan-inox-jpeg.jpg?v=1593394723000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/flan-inox-jpeg.jpg?v=1593394723000" alt="Khuôn làm bánh flan inox có nắp 7x5x4cm">
+                                                         </a>
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/khuon-lam-banh-flan-inox-co-nap-7x5x4cm" title="Khuôn làm bánh flan inox có nắp 7x5x4cm">Khuôn làm bánh flan inox có nắp 7x5x4cm</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+                                                                     <span class="special-price">
+                                                                         <span class="price product-price">90.000₫</span>
+                                                                     </span>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="owl-item active">
+                                         <div class="item_product_main_related">
+                                             <div class="item">
+                                                 <div class="product-box product-item-main_related product-item-compare">
+                                                     <div class="product-thumbnail_related ">
+                                                         <a class="image_thumb_related p_img   product_details" href="/to-tron-bot-inox-28-cm" title="Tô trộn bột inox đế silicon 28 cm 9924">
+                                                             <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/tb2dfgyxvxxxxbvxxxxxxxxxxxx-1061519942-jpg-600x600.jpg?v=1593394752000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/tb2dfgyxvxxxxbvxxxxxxxxxxxx-1061519942-jpg-600x600.jpg?v=1593394752000" alt="Tô trộn bột inox đế silicon 28 cm 9924">
+                                                         </a>
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/to-tron-bot-inox-28-cm" title="Tô trộn bột inox đế silicon 28 cm 9924">Tô trộn bột inox đế silicon 28 cm 9924</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+                                                                     <span class="special-price">
+                                                                         <span class="price product-price">150.000₫</span>
+                                                                     </span>
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="owl-item active" style="width: 228px;"><div class="item_product_main_related">
+                                             <div class="item">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 <div class="product-box product-item-main_related product-item-compare">
+
+                                                     <div class="product-thumbnail_related ">
+
+                                                         <a class="image_thumb_related p_img   product_details" href="/hanh-nhan-lat-1kg" title="Hạnh nhân lát 1kg">
+                                                             <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/watermarked-hanh-nhan-lat-1b267370-7018-4fc7-92ec-16435ba8c33b.jpg?v=1593394766000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/watermarked-hanh-nhan-lat-1b267370-7018-4fc7-92ec-16435ba8c33b.jpg?v=1593394766000" alt="Hạnh nhân lát 1kg">
+                                                         </a>
+
+
+                                                         <div class="flash">-
+                                                             5%
+                                                         </div>
+
+
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/hanh-nhan-lat-1kg" title="Hạnh nhân lát 1kg">Hạnh nhân lát 1kg</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+
+
+                     <span class="special-price">
+                         <span class="price product-price">305.000₫</span>
+                     </span>
+
+                                                                     <span class="product-item-price-sale old-price">
+                         <span class="compare-price price product-price-old">320.000₫</span>
+                     </span>
+
+
+
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div></div><div class="owl-item active" style="width: 228px;"><div class="item_product_main_related">
+                                             <div class="item">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 <div class="product-box product-item-main_related product-item-compare">
+
+                                                     <div class="product-thumbnail_related ">
+
+                                                         <a class="image_thumb_related p_img   product_details" href="/syrup-duong-den-beksul-750ml" title="Syrup đường đen Beksul 750ml">
+                                                             <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/syrup-duong-den.jpg?v=1596167334000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/syrup-duong-den.jpg?v=1596167334000" alt="Syrup đường đen Beksul 750ml">
+                                                         </a>
+
+
+                                                         <div class="flash">-
+                                                             43%
+                                                         </div>
+
+
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/syrup-duong-den-beksul-750ml" title="Syrup đường đen Beksul 750ml">Syrup đường đen Beksul 750ml</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+
+
+                     <span class="special-price">
+                         <span class="price product-price">85.000₫</span>
+                     </span>
+
+                                                                     <span class="product-item-price-sale old-price">
+                         <span class="compare-price price product-price-old">150.000₫</span>
+                     </span>
+
+
+
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div></div><div class="owl-item active" style="width: 228px;"><div class="item_product_main_related">
+                                             <div class="item">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 <div class="product-box product-item-main_related product-item-compare">
+
+                                                     <div class="product-thumbnail_related ">
+
+                                                         <a class="image_thumb_related p_img   product_details" href="/bo-khoi-anchor-cat-san" title="Bơ khối Anchor cắt sẵn">
+                                                             <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/de7425cbf99ee2814f9fa528180bb8bb-jpeg.jpg?v=1595050953000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/de7425cbf99ee2814f9fa528180bb8bb-jpeg.jpg?v=1595050953000" alt="Bơ khối Anchor cắt sẵn">
+                                                         </a>
+
+
+
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/bo-khoi-anchor-cat-san" title="Bơ khối Anchor cắt sẵn">Bơ khối Anchor cắt sẵn</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+
+
+                     <span class="special-price">
+                         <span class="price product-price">44.000₫</span>
+                     </span>
+
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div></div><div class="owl-item" style="width: 228px;"><div class="item_product_main_related">
+                                             <div class="item">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 <div class="product-box product-item-main_related product-item-compare">
+
+                                                     <div class="product-thumbnail_related ">
+
+                                                         <a class="image_thumb_related p_img   product_details" href="/combo-che-buoi" title="Combo chè bưởi">
+                                                             <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/combo-che-buoi-1.png?v=1593394680000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/combo-che-buoi-1.png?v=1593394680000" alt="Combo chè bưởi">
+                                                         </a>
+
+
+                                                         <div class="flash">-
+                                                             10%
+                                                         </div>
+
+
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/combo-che-buoi" title="Combo chè bưởi">Combo chè bưởi</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+
+
+                     <span class="special-price">
+                         <span class="price product-price">90.000₫</span>
+                     </span>
+
+                                                                     <span class="product-item-price-sale old-price">
+                         <span class="compare-price price product-price-old">100.000₫</span>
+                     </span>
+
+
+
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div></div><div class="owl-item" style="width: 228px;"><div class="item_product_main_related">
+                                             <div class="item">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                 <div class="product-box product-item-main_related product-item-compare">
+
+                                                     <div class="product-thumbnail_related ">
+
+                                                         <a class="image_thumb_related p_img   product_details" href="/vanila-nuoc" title="Vanila nước Rayner 28ml">
+                                                             <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/vanila-nuoc.jpg?v=1593394740000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/vanila-nuoc.jpg?v=1593394740000" alt="Vanila nước Rayner 28ml">
+                                                         </a>
+
+
+
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/vanila-nuoc" title="Vanila nước Rayner 28ml">Vanila nước Rayner 28ml</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+
+
+                     <span class="special-price">
+                         <span class="price product-price">28.000₫</span>
+                     </span>
+
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div></div><div class="owl-item" style="width: 228px;"><div class="item_product_main_related">
+                                             <div class="item">
+                                                 <div class="product-box product-item-main_related product-item-compare">
+
+                                                     <div class="product-thumbnail_related ">
+
+                                                         <a class="image_thumb_related p_img   product_details" href="/do-choi-nau-an-chiec-hop-than-ky" title="Đồ chơi nấu ăn " chiếc="" hộp="" thần="" kỳ""="">
+                                                         <img src="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/chiec-hop-than-ky.png?v=1593394707000" data-lazyload="//bizweb.dktcdn.net/thumb/medium/100/004/714/products/chiec-hop-than-ky.png?v=1593394707000" alt="Đồ chơi nấu ăn " chiếc="" hộp="" thần="" kỳ""="">
+                                                         </a>
+
+
+                                                         <div class="flash">-
+                                                             31%
+                                                         </div>
+
+
+                                                     </div>
+                                                     <div class="product-info product-bottom_related mh">
+                                                         <h3 class="product-name_related"><a href="/do-choi-nau-an-chiec-hop-than-ky" title="Đồ chơi nấu ăn " chiếc="" hộp="" thần="" kỳ""="">Đồ chơi nấu ăn "Chiếc hộp thần kỳ"</a></h3>
+                                                         <div class="block-width-min-height_related">
+                                                             <div class="blockprice">
+                                                                 <div class="product-item-price price-box ">
+
+
+                     <span class="special-price">
+                         <span class="price product-price">249.000₫</span>
+                     </span>
+
+                                                                     <span class="product-item-price-sale old-price">
+                         <span class="compare-price price product-price-old">361.000₫</span>
+                     </span>
+
+
+
+
+                                                                 </div>
+                                                             </div>
+                                                         </div>
+
+                                                     </div>
+
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div> #}
+        </div>
+    </section>
+    {% include 'layout/blockfooter' %}
+    <section class="section_banner margin-bottom-30">
+        <div class="container">
+            <a class="block a-center" href="https://www.beemart.vn/tai-app-tuc-thi-co-ngay-50k-trong-vi" title="Tải App"><img src="//bizweb.dktcdn.net/100/004/714/themes/779684/assets/details_banner_2.jpg?1598252353235" alt="Tải App"></a>
+
+            {% set bannerBottom = getBannerByPositionCode('BANNER_VIEW_BOTTOM') %}
+            {% if(bannerBottom is not empty) %}
+                {% for br in bannerBottom %}
+                    {% set image = br.imageSrc %}
+                    {% set options = {
+                        alt: br.name,
+                        lazy: true,
+                        openDiv: false,
+                    }%}
+                    <a href="{{ br.link }}">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                    </a>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+    <input type="hidden" id="psId_{{ product.id }}" value="{{ product.thumbnailUri }}" data-name="{{ product.name | e('html') }}">
+    {% if(product.childs) %}
+        {% for child in product.childs %}
+            <input type="hidden" id="psId_{{ child.id }}" value="{{ child.thumbnailUri }}" data-name="{{ child.name | e('html') }}">
+        {% endfor %}
+    {% endif %}
+    <div id="alertFixed"></div>
+    <input type="hidden" value="{{ showPrice }}" id="totalMoney">
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/elevatezoom/elevatezoom.js' }}"></script>
+{% endblock %}

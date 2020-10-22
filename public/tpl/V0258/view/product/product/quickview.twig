@@ -1,0 +1,608 @@
+{% set ivt = product.inventory().calcAvailable() %}
+{% set priceDiscount = product.priceAfterDiscount %}
+{% set variableAttributes = product.variableAttributes %}
+{% set flag=0 %}
+{% set childImgs = product.images %}
+<a href="javascript:void(0)" class="close" data-dismiss="modal">x</a>
+<div class="row">
+    <div class="blk-pview-img col-lg-6 col-md-6 col-sm-12">
+        <a href="{{ product.imageUri }}" data-toggle="lightbox" data-gallery="gallery">
+            <img id="js-pview-uri" src="{{ product.imageUri }}" alt="{{ product.name }}">
+        </a>
+        {% if(childImgs) %}
+            <div class="d-none">
+                {% set i=0 %}
+                {% for chil in childImgs %}
+                    <a href="{{ chil.getSrcUri }}" data-toggle="lightbox" data-gallery="gallery"></a>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="owl-carousel owl-theme owl-pink d-flex justify-content-center">
+                    {% for chil in childImgs %}
+                        <div class="item thumbnailUri" data-src="{{ chil.getSrcUri }}">
+                            <img src="{{ chil.thumbnailUri }}" alt="ThumbnailUri"/></div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="blk-pview-info col-lg-6 col-md-6 col-sm-12">
+        <h1 class="sp-title tp_product_detail_name">{{ product.name|raw }}</h1>
+        <div class="sku-product" style="font-size: 14px">Mã sản phẩm: {{ product.code|raw }}</div>
+        <p class="price">
+            <strong class="f-left">
+                {% if(priceDiscount > 0) %}
+                    <span class="tp_product_price">{{ priceDiscount|number_format(0) }} VNĐ </span>
+                    <del class="tp_product_price_old">{{ product.price|number_format(0) }}
+                        VNĐ
+                    </del>
+                {% elseif(product.oldprice) %}
+                    <span class="tp_product_price">{{ product.price|number_format(0) }}VNĐ </span>
+                    <del class="tp_product_price_old">{{ product.oldprice|number_format(0) }}
+                        VNĐ
+                    </del>
+                {% elseif(product.price <= 0 ) %}
+                    <span class="tp_product_price">Liên hệ</span>
+                {% else %}
+                    <span class="tp_product_price">{{ product.price|number_format(0) }} VNĐ </span>
+                {% endif %}
+            </strong>
+        </p>
+        <div class="blk-att" data-label="Màu sắc, size sản phẩm">
+            {% set color = variableAttributes['color'] %}
+            {% if color is not null or color is not empty %}
+                {% set valuesColor = color.childValues %}
+                {% set numbCl =  (valuesColor | length) %}
+                {% if(valuesColor is not null and numbCl>0) %}
+                    {% set flag = flag + 1 %}
+                    <div class="color req swatch-color swatch clearfix "
+                         data-column="{{ color.column }}">
+                        <p class="header"><strong>Màu sắc</strong></p>
+                        {% for attrValue in valuesColor %}
+                            {% set arrColor = [] %}
+                            {% set arrColor = arrColor|merge({ (color.column): attrValue.Id }) %}
+                            {% set returnImg = {'return':'image'} %}
+                            {% set img = product.attrValueImage(arrColor,false, returnImg) %}
+                            {% set pIdsAttrStr =  product.attrValueImage(arrColor,true) | json_encode() %}
+                            {% set pIdsAttrStr = pIdsAttrStr | replace({'[': '', ']': ''}) %}
+                            <div class="swatch-element">
+                                <a data-psIds="{{ pIdsAttrStr }}" rel="nofollow" href="javascript:"
+                                   data-cloudzoom="useZoom: \'.cloudzoom\', image: \'{{ img }}\', zoomImage: \'{{ img }}\'"
+                                   class="color-item cloudzoom - gallery {{ (numbCl==1)?'active':'' }}"
+                                   title="{{ attrValue.name }}"
+                                   value="{{ attrValue.id }}" data-src="{{ img }}">
+                                    <img src="{{ img }}" alt="{{ attrValue.name }}">
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% set size = variableAttributes['size'] %}
+            {% if size is not null or size is not empty %}
+                {% set valuesSize = size.childValues %}
+                {% set numbS =  (valuesSize | length) %}
+                {% if(valuesSize is not null and numbS>0) %}
+                    {% set flag = flag + 1 %}
+                    <div class="size req swatch-nomal  swatch clearfix" data-column="{{ size.column }}">
+                        <div class="header">Kích cỡ:</div>
+                        {% for attrValue in valuesSize %}
+                            <a rel="nofollow" data-value="{{ attrValue.id }}"
+                               href="javascript:void(0)"
+                               class="{{ (numbS==1)?'active':'' }}">{{ attrValue.name }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if((flag==0) and (product.childs)) %}
+                {% set flagchilds= product.childs|length %}
+                <p style="padding: 5px; text-align: left;">
+                    <span style="width: 131px; display: inline-block">Chọn sản phẩm</span>
+                    <select class="input childProducts">
+                        <option value="1">Chọn sản phẩm</option>
+                        {% set name_parent =product.name %}
+                        {% for cp in product.childs %}
+                            <option value="{{ cp.id }}, {{ cp.price }}"
+                                    href="{{ cp.imageUri }}"
+                                    data-src="{{ cp.imageUri }}">
+                                {{ cp.name|replace({ name_parent :''}) }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </p>
+            {% endif %}
+            <div class="clearfix"></div>
+            <div class="custom input_number_product custom-btn-number">
+                <div class="header">Số lượng:</div>
+                <span class="input-group-btn btn_num num_1 button button_qty"
+                      type="button">
+                        <a id="QtyDown" class="btn-default minus ">-</a>
+                </span>
+                <input id="psQtt" type="text" max="{{ ivt }}" min="1" value="1"
+                       class="form-control text-center  prd_quantity"
+                       name="quantity">
+                <span class="input-group-btn btn_num num_2 button button_qty"
+                      type="button">
+                    <a id="QtyUp" class="btn-default plus">+</a>
+                </span>
+            </div>
+            <div class="clearfix"></div>
+            <div class="btncart">
+                {% if(ivt<=0) %}
+                    <button id="addToCart" type="button" title="Sản phẩm tạm thời hết hàng!"
+                            class="btn mua-ngay btnAddToCart unsel tp_button" data-psId="{{ product.id }}"
+                            data-selId="{{ product.id }}">Đặt hàng
+                    </button>
+                {% else %}
+                    {% if(flag or flagchilds) %}
+                        <button id="addToCart" type="button" data-psId="{{ product.id }}"
+                                data-selId="{{ product.id }}" title="Vui lòng chọn màu sắc hoặc kích cỡ!"
+                                class="btn mua-ngay btnAddToCart unsel tp_button" data-ck="0">Đặt hàng
+                        </button>
+                    {% else %}
+                        <button id="addToCart" type="button" data-psId="{{ product.id }}"
+                                data-selId="{{ product.id }}" class="btn mua-ngay btnAddToCart tp_button"
+                                data-ck="1">Đặt hàng
+                        </button>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div id="mss-alret"></div>
+        </div>
+    </div>
+</div>
+{% block script %}
+    <script>
+        var $storeId = $('#checkStoreId').val(),
+            body = $('body'),
+            addTCart = $('.btnAddToCart'),
+            $qty = $('#psQtt'),
+            reqcolor = $('.color.req'),
+            colorA = $('.color.req a'),
+            colorAt = $('.color.req a.active'),
+            reqSize = $('.req.size'),
+            sizeA = $('.req.size a'),
+            sizeAt = $('.req.size a.active');
+
+        $(function () {
+            $(document).on("click", '[data-toggle="lightbox"]', function (e) {
+                e.preventDefault();
+                // $(this).ekkoLightbox();
+                return false;
+            });
+
+            // click thumb
+            $(".thumbnailUri").hover(function () {
+                $('#js-pview-uri').addClass('fade');
+                $('#js-pview-uri').attr('src', $(this).attr('data-src')).removeClass('fade');
+                body.find('.thumbnailUri').removeClass('active');
+                $(this).addClass('active');
+            });
+            // Ảnh thumb product
+            if ($('.blk-pview-img .owl-carousel img').length) {
+                $('.blk-pview-img .owl-carousel').owlCarousel({
+                    dots: false,
+                    nav: false,
+                    navText: ["<i class=\"fa fa-angle-left \"><\/i>", "<i class=\"fa fa-angle-right\"><\/i>"],
+                    items: 1,
+                    slideBy: 1,
+                    responsive: {
+                        0: {
+                            items: 3,
+                        },
+                        650: {
+                            items: 4,
+                        },
+                    }
+                });
+            }
+
+
+            /*--- share icon ------------------------------*/
+            var shares = $('.blk-action .b-ac.shares'), shIcon = $('.blk-action .share-icon');
+            shares.on('click', function () {
+                shIcon.toggleClass('open');
+            });
+            /*--- end share icon ------------------------------*/
+
+
+            //tăng giảm số lượng
+            checkInv();
+            $('#QtyDown').click(function () {
+                var qtt = $('#psQtt'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+                if (v > 1) {
+                    qtt.val(v - 1);
+                    qtt.attr('val', v - 1);
+                } else {
+                    alert('Bạn phải đặt số lượng tối thiểu là 1 sản phẩm !');
+                }
+
+            });
+            $('#QtyUp').click(function () {
+                var qtt = $('#psQtt'), max = parseInt(qtt.attr('max')), v = parseInt(qtt.val());
+
+                if (v < max) {
+                    qtt.val(v + 1);
+                    qtt.attr('val', v + 1);
+                } else {
+                    alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+                }
+
+            });
+            $('#psQtt').keyup(function () {
+                var t = $(this), max = parseInt(t.attr('max')), v = parseInt(t.val());
+                if (v >= max) {
+                    alert('Bạn không thể đặt quá số lượng còn lại của sản phẩm !');
+                    t.val(max);
+                }
+            });
+
+            if (window.innerWidth >= 1200) {
+                addTCart.tooltip({
+                    position: {
+                        my: "center bottom-10",
+                        at: "center top",
+                        using: function (position, feedback) {
+                            $(this).css(position);
+                            $("<div>")
+                                .addClass("arrow")
+                                .addClass(feedback.vertical)
+                                .addClass(feedback.horizontal)
+                                .appendTo(this);
+                        }
+                    }
+                });
+                colorA.tooltip({
+                    position: {
+                        my: "center bottom-10",
+                        at: "center top",
+                        using: function (position, feedback) {
+                            $(this).css(position);
+                            $("<div>")
+                                .addClass("arrow")
+                                .addClass(feedback.vertical)
+                                .addClass(feedback.horizontal)
+                                .appendTo(this);
+                        }
+                    }
+                });
+                sizeA.tooltip({
+                    position: {
+                        my: "center bottom-10",
+                        at: "center top",
+                        using: function (position, feedback) {
+                            $(this).css(position);
+                            $("<div>")
+                                .addClass("arrow")
+                                .addClass(feedback.vertical)
+                                .addClass(feedback.horizontal)
+                                .appendTo(this);
+                        }
+                    }
+                });
+            }
+
+
+            colorA.click(function () {
+                var t = $(this), attrs = {};
+                if (!t.hasClass('active')) {
+                    colorA.removeClass('active');
+                    addTCart.attr('title', 'Vui lòng chọn màu sắc hoặc kích cỡ!').attr('data-ck', 0).addClass('unsel');
+                    attrs[reqcolor.attr('data-column')] = t.attr('data-value');
+                    if (sizeA.length > 1) {
+                        t.addClass('active');
+                        sizeA.removeClass('active deactive').removeAttr('title');
+                        sizeA.each(function () {
+                            var t = $(this);
+                            attrs[reqSize.attr('data-column')] = t.attr('data-value');
+                            $.post('/product/child?psId=' + addTCart.attr('data-psId'), {'attrs': attrs},
+                                function (rs) {
+                                    if (rs.code == 1 && rs.data.available > 0) {
+                                        t.attr('data-qtt', rs.data.available).attr('data-selId', rs.data.id).attr('data-price', rs.data.price).attr('data-priceOld', rs.data.oldPrice);
+                                    } else {
+                                        t.addClass('deactive').attr('title', 'Sản phẩm tạm thời hết hàng!').removeAttr('data-qtt');
+                                    }
+                                },
+                                'json'
+                            );
+                        });
+                    } else if (t.attr('data-qtt')) {
+                        t.addClass('active');
+                        addTCart.attr('data-selId', t.attr('data-selId')).removeAttr('data-original-title title').attr('data-ck', 1).removeClass('unsel');
+                        $qty.attr('max', t.attr('data-qtt'));
+
+                        // reload price product
+                        onLoadPrice(t.attr('data-price'), t.attr('data-priceOld'));
+                    }
+
+                    // get list image child ---------------
+                    var pIdsAttr = t.attr('data-psIds').split(','),
+                        ps = [{id: pIdsAttr, code: 1, bothImageSrc: true, storeId: $storeId}],
+                        pvImg = t.attr('data-src');
+
+                    if (ps.length) {
+                        getallchildimg(ps, function (rs) {
+                            if (rs.images) {
+                                var $pviewUri = $('#js-pview-uri'),
+                                    $owl = $("body .blk-pview-img .owl-carousel"),
+                                    $lightbox = $("#js-list-lightbox");
+
+                                $pviewUri.addClass('fade').attr('src', pvImg).removeClass('fade');
+                                $('#js-gall').attr('href', pvImg);
+
+                                $owl.empty();
+                                $lightbox.empty();
+                                $.each(rs.images, function (key) {
+                                    var item = rs.images[key];
+                                    $owl.append('<div class="item thumbnailUri" data-src="' + item.srcUri + '"><img src="' + item.thumbnailUri + '" alt="alt"/></div>');
+                                    if (key > 0) {
+                                        $lightbox.append('<a href="' + item.srcUri + '" data-toggle="lightbox" data-gallery="gallery"></a>');
+                                    }
+                                });
+
+                                $owl.trigger('destroy.owl.carousel');
+                                $owl.owlCarousel({
+                                    dots: false,
+                                    nav: true,
+                                    navText: ["<i class=\"fa fa-angle-left \"><\/i>", "<i class=\"fa fa-angle-right\"><\/i>"],
+                                    items: 1,
+                                    slideBy: 1,
+                                    responsive: {
+                                        0: {
+                                            items: 3,
+                                        },
+                                        480: {
+                                            items: 4,
+                                        },
+                                    }
+                                });
+
+                                $("body .thumbnailUri").hover(function () {
+                                    $pviewUri.addClass('fade').attr('src', $(this).attr('data-src')).removeClass('fade');
+                                    body.find('.thumbnailUri').removeClass('active');
+                                    $(this).addClass('active');
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+
+            sizeA.click(function () {
+                var t = $(this), attrs = {}, $colAt = $('.color.req a.active');
+                if (!t.hasClass('active')) {
+                    sizeA.removeClass('active');
+                    addTCart.attr('title', 'vui lòng chọn màu sắc hoặc kích cỡ').attr('data-ck', 0).addClass('unsel');
+                    attrs[reqSize.attr('data-column')] = t.attr('data-value');
+
+                    if (colorA.length && !$colAt.length) {
+                        sizeA.attr('title', msgColor);
+                    } else if (t.attr('data-qtt')) {
+                        t.addClass('active');
+                        $qty.attr('max', t.attr('data-qtt'));
+                        addTCart.attr('data-selId', t.attr('data-selId')).removeAttr('data-original-title title').attr('data-ck', 1).removeClass('unsel');
+
+                        // reload price product
+                        onLoadPrice(t.attr('data-price'), t.attr('data-priceOld'));
+                    }
+                }
+            });
+
+            addTCart.click(function () {
+                var t = $(this);
+                if (t.attr('data-ck') == 1) {
+                    var products = [], ps = {};
+                    ps['id'] = $(this).attr('data-selid');
+                    ps['quantity'] = $("#psQtt").val();
+                    var qty = parseInt(ps['quantity']);
+                    var id = t.attr('id');
+                    products.push(ps);
+                    addToCart(products, 1, function (rs) {
+                        if (rs.status == 1) {
+                            if (id == 'buynow') {
+                                window.location.href = '/cart/checkout';
+                            } else {
+                                var totalqtt = parseInt(rs.data.totalQuantities + qty);
+                                $('.count-cart span').text(totalqtt);
+                                ajaxLoadView({
+                                    view: 'topCart',
+                                    onSuccess: function (rs) {
+                                        $('.top-cart-content').html(rs);
+                                    }
+                                });
+
+                                window.location.href = '/cart';
+
+                            }
+                        } else {
+                            alert('vui lòng chọn màu hoặc size');
+                        }
+                    });
+                } else if (t.attr('data-ck') == 0) {
+                    var mss_alret = $('#mss-alret');
+                    mss_alret.html('Quý Khách vui lòng chọn màu sắc, kích thước sản phẩm để tiến hành đặt hàng!').show();
+
+                    var position = mss_alret.offset().top;
+                    if (window.innerWidth > 1200) {
+                        jQuery('html, body').animate({scrollTop: parseInt(position) - 100}, 'slow');
+                    } else {
+                        jQuery('html, body').animate({scrollTop: parseInt(position) - 80}, 'slow');
+                    }
+                    setTimeout(function () {
+                        mss_alret.fadeOut(100).empty();
+                    }, 10000);
+                    return false;
+                }
+            });
+            checkInv();
+        });
+
+        $('.childProducts').change(function () {
+            var val = $(this).val(), data = val.split(","), $psId = data[0], $price_op = data[1];
+            if ($psId != 1) {
+                addTCart.attr('data-ck', 1).attr('data-selId', $psId).removeClass('unsel').removeAttr('title').removeAttr('data-original-title');
+            } else {
+                addTCart.attr('title', 'Vui lòng chọn sản phẩm!').attr('data-original-title', 'Vui lòng chọn sản phẩm!').attr('data-ck', 0);
+            }
+            $('.blk-pview-info .price span').html($.number($price_op)+ 'VNĐ');
+        });
+
+        function onLoadPrice(price, priceOld) {
+            var spPrice = $('.blk-pview-info .price span'),
+                spOld = $('.blk-pview-info .price del');
+
+            if (priceOld > 0) {
+                if (!spOld.length) {
+                    $('.blk-pview-info .price').append('<del>' + numberFomart(priceOld) + 'đ</del>');
+                } else {
+                    spOld.html(numberFomart(priceOld) + 'đ');
+                }
+            } else {
+                spOld.html('');
+            }
+
+            if (price > 0) {
+                spPrice.html(numberFomart(price) + 'đ');
+            } else {
+                spPrice.html('Liên hệ');
+            }
+        }
+
+        function checkInv() {
+            var req = $('.req').length, attrs = {};
+
+            if (req == 1) {
+                if (reqcolor.length) {
+                    if (colorAt.length) {
+                        attrs[reqcolor.attr('data-column')] = colorAt.attr('data-value');
+                        $.post('/product/child?psId=' + addTCart.attr('data-selId'), {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    $qty.attr('max', rs.data.available);
+                                    addTCart.attr('data-selId', rs.data.id).removeAttr('data-original-title title').attr('data-ck', 1).removeClass('unsel');
+
+                                    // reload price product
+                                    onLoadPrice(rs.data.price, rs.data.oldPrice);
+                                } else {
+                                    colorAt.addClass('deactive');
+                                    addTCart.attr('title', 'hết hàng');
+                                }
+                            },
+                            'json'
+                        );
+                    } else {
+                        colorA.each(function () {
+                            var t = $(this);
+                            attrs[reqcolor.attr('data-column')] = t.attr('data-value');
+                            $.post('/product/child?psId=' + addTCart.attr('data-selId'), {'attrs': attrs},
+                                function (rs) {
+                                    if (rs.code == 1 && rs.data.available > 0) {
+                                        t.attr('data-qtt', rs.data.available).attr('data-selId', rs.data.id).attr('data-price', rs.data.price).attr('data-priceOld', rs.data.oldPrice);
+                                    } else {
+                                        t.addClass('deactive').attr('title', 'sản phẩm hết hàng');
+                                    }
+                                },
+                                'json'
+                            );
+                        });
+                    }
+                } else {
+                    if (sizeAt.length) {
+                        attrs[reqSize.attr('data-column')] = sizeAt.attr('data-value');
+                        $.post('/product/child?psId=' + addTCart.attr('data-selId'), {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    $qty.attr('max', rs.data.available);
+                                    addTCart.attr('data-selId', rs.data.id).removeAttr('data-original-title title').attr('data-ck', 1).removeClass('unsel');
+
+                                    // reload price product
+                                    onLoadPrice(rs.data.price, rs.data.oldPrice);
+                                } else {
+                                    $('.size a.active').addClass('deactive');
+                                    addTCart.attr('title', 'sản phẩm hết hàng');
+                                }
+                            },
+                            'json'
+                        );
+                    } else {
+                        sizeA.each(function () {
+                            var t = $(this);
+                            attrs[reqSize.attr('data-column')] = t.attr('data-value');
+                            $.post('/product/child?psId=' + addTCart.attr('data-selId'), {'attrs': attrs},
+                                function (rs) {
+                                    if (rs.code == 1 && rs.data.available > 0) {
+                                        t.attr('data-qtt', rs.data.available).attr('data-selId', rs.data.id).attr('data-price', rs.data.price).attr('data-priceOld', rs.data.oldPrice);
+                                    } else {
+                                        t.addClass('deactive').attr('title', 'sản phẩm hết hàng');
+                                    }
+                                },
+                                'json'
+                            );
+                        });
+                    }
+                }
+                return false;
+            }
+            if (req > 1) {
+                if (colorAt.length && sizeAt.length) {
+                    attrs[reqcolor.attr('data-column')] = colorAt.attr('data-value');
+                    attrs[reqSize.attr('data-column')] = sizeAt.attr('data-value');
+                    $.post('/product/child?psId=' + addTCart.attr('data-selId'), {'attrs': attrs},
+                        function (rs) {
+                            if (rs.code == 1 && rs.data.available > 0) {
+                                $qty.attr('max', rs.data.available);
+                                addTCart.attr('data-selId', rs.data.id).removeAttr('data-original-title title').attr('data-ck', 1).removeClass('unsel');
+
+                                // reload price product
+                                onLoadPrice(rs.data.price, rs.data.oldPrice);
+                            } else {
+                                sizeAt.addClass('deactive').attr('title', 'sản phẩm hết hàng');
+                                addTCart.attr('title', 'sản phẩm hết hàng');
+                            }
+                        },
+                        'json'
+                    );
+                    return false;
+                }
+                if (colorAt.length && !sizeAt.length) {
+                    attrs[reqcolor.attr('data-column')] = colorAt.attr('data-value');
+                    sizeA.each(function () {
+                        var t = $(this);
+                        attrs[reqSize.attr('data-column')] = t.attr('data-value');
+                        $.post('/product/child?psId=' + addTCart.attr('data-selId'), {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    t.attr('data-qtt', rs.data.available).attr('data-selId', rs.data.id).attr('data-price', rs.data.price).attr('data-priceOld', rs.data.oldPrice);
+                                } else {
+                                    t.addClass('deactive').attr('title', 'sản phẩm hết hàng');
+                                }
+                            },
+                            'json'
+                        );
+                    });
+                    return false;
+                }
+                if (!colorAt.length && sizeAt.length) {
+                    attrs[reqSize.attr('data-column')] = sizeAt.attr('data-value');
+                    colorA.each(function () {
+                        var t = $(this);
+                        attrs[reqcolor.attr('data-column')] = t.attr('data-value');
+                        $.post('/product/child?psId=' + addTCart.attr('data-selId'), {'attrs': attrs},
+                            function (rs) {
+                                if (rs.code == 1 && rs.data.available > 0) {
+                                    t.attr('data-qtt', rs.data.available).attr('data-selId', rs.data.id).attr('data-price', rs.data.price).attr('data-priceOld', rs.data.oldPrice);
+                                } else {
+                                    t.addClass('deactive').attr('title', 'sản phẩm hết hàng');
+                                }
+                            },
+                            'json'
+                        );
+                    });
+                    return false;
+                }
+            }
+        }
+    </script>
+
+{% endblock %}

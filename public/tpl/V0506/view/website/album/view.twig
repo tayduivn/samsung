@@ -1,0 +1,273 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle(album.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Album">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    <section>
+        <div class="image_main_a2">
+            <img src="{{ album.imageUri }}">
+        </div>
+    </section>
+    <section class="bgr_f1 pt-5">
+        {% if(album.description) %}
+            <div class="bgr_blue1 header_view_ab">
+                <div class="box_small">
+                    {{ album.description }}
+                </div>
+            </div>
+        {% endif %}
+        {% set items = fetchAllItemAlbum(album.id) %}
+        {% if(items is not empty) %}
+            <div class="container">
+                <div class="row">
+                    {% for item in items|slice(0,2) %}
+                        {% set image = item.thumbnailUri %}
+                        {% set options = {
+                            alt: item.name,
+                            class: 'img_thumb_top',
+                            lazy: true,
+                            openDiv: false,
+                        } %}
+                        <div class="col-md-6 col-12">
+                            <div class="img_ab2_top">
+                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="clearfix"></div>
+                    <div class="col-md-10 col-sm-12 col-12 col-mg-auto">
+                        <div class="slide_3a2 owl-carousel owl-theme">
+                            {% for item in items|slice(0,2) %}
+                                {% set itemTags = getAlbumTag(item.id) %}
+                                {% if(itemTags) %}
+                                    {% for itemp in itemTags %}
+                                        {% set products = search({'psId': itemp.product.id }) %}
+                                        {% if(products) %}
+                                            {% for p in products %}
+                                                {% set image = p.thumbnailUri %}
+                                                {% set percent = p.discountPercent %}
+                                                {% set priceDiscount = p.priceAfterDiscount %}
+                                                {% set options = {
+                                                    alt: p.name,
+                                                    class: 'img_thumb_product',
+                                                    lazy: true,
+                                                    openDiv: false,
+                                                } %}
+                                                <div class="product_box" data-id="{{ p.id }}">
+                                                    <div class="box_image">
+                                                        <a class="a-image" href="{{ p.viewLink }}">
+                                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                        </a>
+                                                    </div>
+                                                    <div class="box_info">
+                                                        <div class="box_text">
+                                                            <a class="tp_product_name">{{ p.name }}</a>
+                                                        </div>
+                                                        <div class="box_price">
+                                                            {% if(priceDiscount > 0) %}
+                                                                <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                                                <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                    ₫
+                                                                </del>
+                                                            {% elseif(p.oldPrice) %}
+                                                                <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                                                <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                                    ₫
+                                                                </del>
+                                                            {% elseif(p.price <= 0 ) %}
+                                                                <span class="tp_product_price">Liên hệ</span>
+                                                            {% else %}
+                                                                <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                                            {% endif %}
+                                                            {% if(percent>0) %}
+                                                                <span class="percent">-{{ percent }}%</span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="box_action box_action_album">
+                                                        <div>
+                                                            <a class="quickView" href="javascript:void(0)">
+                                                                Đặt hàng ngay
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-12">
+                    {% if(album.content) %}
+                        <div class="desptrip_a2">
+                            {{ album.content|raw }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6 col-sm-6 col-12">
+                    <div class="padding_slide_a2">
+                        <ul class="slide_thumb_a2 owl-carousel owl-theme">
+                            {% for item in items|slice(2) %}
+                                {% set image = item.thumbnailUri %}
+                                {% set options = {
+                                    alt: item.name,
+                                    class: 'img_thumb_bot',
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <li>
+                                    <div class="box_img_thumb_bot">
+                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        <img src="/tpl/V0506/img/demo/baner2-min.jpg">
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-10 col-sm-12 col-12 col-mg-auto">
+                    <div class="slide_3a2 owl-carousel owl-theme">
+                        {% for item in items|slice(2) %}
+                            {% set itemTags = getAlbumTag(item.id) %}
+                            {% if(itemTags) %}
+                                {% for itemp in itemTags %}
+                                    {% set products = search({'psId': itemp.product.id }) %}
+                                    {% if(products) %}
+                                        {% for p in products %}
+                                            {% set image = p.thumbnailUri %}
+                                            {% set percent = p.discountPercent %}
+                                            {% set priceDiscount = p.priceAfterDiscount %}
+                                            {% set options = {
+                                                alt: p.name,
+                                                class: 'img_thumb_product',
+                                                lazy: true,
+                                                openDiv: false,
+                                            } %}
+                                            <div class="product_box" data-id="{{ p.id }}">
+                                                <div class="box_image">
+                                                    <a class="a-image" href="{{ p.viewLink }}">
+                                                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                                    </a>
+                                                </div>
+                                                <div class="box_info">
+                                                    <div class="box_text">
+                                                        <a class="tp_product_name">{{ p.name }}</a>
+                                                    </div>
+                                                    <div class="box_price">
+                                                        {% if(priceDiscount > 0) %}
+                                                            <span class="tp_product_price">{{ priceDiscount|number_format(0) }} ₫ </span>
+                                                            <del class="tp_product_price_old">{{ p.price|number_format(0) }}
+                                                                ₫
+                                                            </del>
+                                                        {% elseif(p.oldPrice) %}
+                                                            <span class="tp_product_price">{{ p.price|number_format(0) }}₫ </span>
+                                                            <del class="tp_product_price_old">{{ p.oldPrice|number_format(0) }}
+                                                                ₫
+                                                            </del>
+                                                        {% elseif(p.price <= 0 ) %}
+                                                            <span class="tp_product_price">Liên hệ</span>
+                                                        {% else %}
+                                                            <span class="tp_product_price">{{ p.price|number_format(0) }} ₫ </span>
+                                                        {% endif %}
+                                                        {% if(percent>0) %}
+                                                            <span class="percent">-{{ percent }}%</span>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="box_action box_action_album">
+                                                    <div>
+                                                        <a class="quickView" href="javascript:void(0)">
+                                                            Đặt hàng ngay
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        {% set banner_top_album = getBannerByPositionCode('BANNER_TOP_ALBUM') %}
+        <ul class="slide_album_a2 owl-carousel owl-theme">
+            {% if(banner_top_album) %}
+                {% for ab in banner_top_album %}
+                    {% set image = ab.imagesrc %}
+                    {% set options = {
+                        alt: ab.name,
+                        lazy: true,
+                        openDiv: false,
+                    } %}
+                    <li>
+                        <a  href="{{ ab.viewLink }}">
+                        {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <li>
+                    <a><img src="/tpl/V0506/img/demo/baner-bo-suu-tap-chan-trang-min.jpg"></a>
+                </li>
+            {% endif %}
+        </ul>
+    </section>
+    <section>
+        <div class="container">
+            <div class="album_rela_a2">
+                <h2>Xem thêm các bộ sưu tập khác</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-12">
+                    <div class="slide_album_rala_a2 owl-carousel owl-theme">
+                        {% set AlbumRela = searchAlbum({'categoryId':album.categoryId}) %}
+                        {% if(AlbumRela) %}
+                            {% for abitem in AlbumRela %}
+                                {% set image = abitem.thumbnailUri %}
+                                {% set options = {
+                                    alt: abitem.name,
+                                    class: 'img_thumb_album',
+                                    lazy: true,
+                                    openDiv: false,
+                                } %}
+                                <div class="items_album">
+                                    <div class="imge_album_a2">
+                                        <a href="{{ abitem.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                    </div>
+                                    <div class="albumTitle_a2">
+                                        <a href="{{ abitem.viewLink }}">{{ abitem.name }}</a>
+                                        <div class="btn_album"><a href="{{ abitem.viewLink }}">Xem chi tiết</a></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ templatePath ~'/js/album.js' }}"></script>
+{% endblock %}

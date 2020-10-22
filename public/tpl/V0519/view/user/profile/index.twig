@@ -1,0 +1,34 @@
+{% extends "layout/layout" %}
+{% block title %}
+    {% set tail = 'Suplo Baby - Hệ thống của hàng' %}
+    {{ headTitle('Taì khoản').setSeparator(' - ').setAutoEscape(false)|raw }}
+{% endblock %}
+{% block body %}
+    <main class="wrapper main-content  custom_page ">
+        <h1>Tài khoản của bạn</h1>
+        <hr class="hr--small">
+        <div class="grid">
+            <div class="grid__item two-thirds medium-down--one-whole">
+                <h2 class="h4">Thông tin tài khoản</h2>
+                <p>Tên tài khoản: <strong style="line-height: 20px;">{{ user.fullname }}
+                        !</strong></p>
+                <p><i class="fab fa-chrome"></i><span> {{ translate('Thành phố')}}
+                                    :</span> {{ user.Option('cityName') }}</p>
+                <p><i class="fa fa-compass"></i><span> {{ translate('Quận')}}
+                                    :</span> {{ user.Option('districtName')}}</p>
+                <p><i class="fa fa-home font-some" aria-hidden="true"></i>
+                    <span> Địa chỉ: {{ user.address }}</span></p>
+                <p><i class="fa fa-mobile font-some" aria-hidden="true"></i>
+                    <span> Điện thoại: {{ user.mobile }}</span></p>
+                <p><i class="fa fa-envelope font-some" aria-hidden="true"></i>
+                    <span> Email: {{ user.email }}</span></p>
+            </div>
+            <div class="grid__item one-third medium-down--one-whole">
+                <p><a href="/profile/edit">Thay đổi thông tin tài khoản</a></p>
+                <p><a href="/profile/changepassword">Thay đổi mật khẩu</a></p>
+                <p><a href="/order">Đơn hàng</a></p>
+                <p><a href="/user/signout">Đăng xuất</a></p>
+            </div>
+        </div>
+    </main>
+{% endblock %}

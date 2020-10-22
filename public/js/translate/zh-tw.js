@@ -1,0 +1,74 @@
+var msgTransfers = "请选择一种银行转帐形式";
+var msgRemoveCartItem = "您要删除此产品";
+var msgRemoveAddress = "您想要删除此地址";
+var msgRemoveAll = "您想要删除所有购物车";
+var msgCancelOrder = "您确定要取消此订单吗";
+var msgRemoveToWishList= "您确定要从收藏夹中删除此产品吗";
+var msgDialog = "通知";
+var msgSizeandColor = "请选择颜色或尺寸";
+var msgColor = "请选择以前的颜色";
+var msgOutofStock = "产品暂时缺货";
+var msgSignin = "登录以执行此功能";
+var msgWishlisted = "喜欢这个产品";
+var msgAddToCartSuccess = "添加产品到购物车";
+var msgOrderSuccess = "您已成功下订单";
+var msgClose = "关闭";
+var msgViewCart = "查看购物车";
+var msgSizeColorProduct = "您尚未选择暂时缺货的颜色，尺寸或产品";
+var msgContactLater = "稍后联系我们";
+var msgStarRate = "请选择评分（星级）";
+var msgRateProduct = "产品评估";
+var msgSearchProduct = "在此处找到您要购买的产品";
+var msgSelectBank = "请选择您要支付的银行";
+var msgSelected = "你选择了";
+var msgAccept = "同意";
+var msgCancel = "消除";
+var msgAnotherAction = "请从您的购物车中删除或购买其他产品。";
+var msgDiscountCode = "折扣代码不正确";
+var msgChoosePaymentMethod = "您尚未选择付款方式";
+var msgSuccessNewsletter = "注册成功的电子邮件!";
+var msgMaximumQuantity= "你只能购买最大值";
+var msgMinimumQuantity= "你至少只能购买";
+var msgCompleteOrder= "你想支付订单吗";
+var msgInvalidMobile= "电话号码无效";
+var msgInvalidCoupoint= "折扣代码不正确或已过期";
+var msgAddToWishList= "产品已添加到收藏夹中";
+var msgCheckCouponValid = "请输入折扣代码";
+var msgCheckCouponError = "折扣代码不正确或已过期";
+
+
+var txtTitle = "请输入此产品的评论标题";
+var txtComment = "请评论该产品（最少30个字符）";
+var txtDigitComment = " 人物";
+var txtCoupon = "折扣代码";
+var txtOutofStock = "缺货";
+var txtAuthor = "作者";
+var txtPublishingHouse = "出版社";
+var txtProvider = "发行地点";
+var txtCart = "购物车";
+var txtBuyMore = "购买更多";
+var txtCheckout = "计费";
+var txtInCategory = " 在类别中";
+var txtPrice = "价格";
+var txtNextLabel = "前进";
+var txtPrevLabel = "背部";
+var txtSkipLabel = "忽略";
+var txtDoneLabel = "成就";
+var txtBuyer = " 买主 ";
+var txtAcept = "肯定";
+var txtDenied = "不，我错了";
+var txtBaoKimAccount = "宝金账号";
+var txtBalanceMoney = "奖金余额";
+var txtHour = "小时";
+var txtMinute = "分钟";
+var txtSeconds = "秒";
+var txtQuickView = "快速查看";
+var txtContinueShop = "继续购买";
+var txtProduct = "制品";
+var txtSelectSize = "选择尺码";
+var txtPoint = "点";
+var txtProcessing = "处理";
+
+
+
+

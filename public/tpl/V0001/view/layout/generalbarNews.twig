@@ -1,0 +1,67 @@
+<link rel="stylesheet" href="{{ templatePath ~'/css/childs/generalbar.css' }}" type="text/css">
+<div class="col-md-12">
+    <div class="col-md-12 listMenu" id="proSaleBar">
+        <h3 id="labelCtPro" class="generalBar pull-left">
+            <a href="/product">Sản phẩm mới</a>
+        </h3>
+        <ul>
+            {% set newProduct = search({'limit':5}) %}
+            {% if(newProduct is not empty) %}
+                {% for p in newProduct %}
+                    {% set priceDiscount = p.priceAfterDiscount %}
+                    {% set percent = p.calcDiscountPercent %}
+                    <li style="position: relative;">
+                        <div class="blockImg">
+                            <a href="{{ p.viewLink }}">
+                                {% if(percent > 0) %}
+                                    <span class="image iconSales2">{{ percent }}%</span>
+                                {% endif %}
+                                <img src="{{ p.thumbnailUri }}" alt="{{ p.name }}" class="imageChange">
+                            </a>
+                        </div>
+                        {% set values = p.option.attrValues %}
+                        {% if(values is not empty) %}
+                            <ul class="color-swatches" data-hover="true" data-click="true" psId="{{ p.id }}" data-handle="{{ p.viewlink }}">
+                                {% for v in values %}
+                                    <li class="color-item" data-img="{{ v.thumbnailuri }}" value="{{ v.id }}" title="{{ v.name }}">
+                                        <img src="{{ v.thumbnailUri }}" alt="{{ v.name }}"></li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <ul class="color-swatches"></ul>
+                        {% endif %}
+
+                        <div class="blockDs">
+                            <span>{{ p.name }}</span>
+                            {% if (p.priceAfterDiscount > 0) %}
+                                <p class="proPrice">{{ p.priceAfterDiscount|number_format(0) }}<span> VNĐ</span></p>
+                                <p class="oldPriceSale">{{ p.price|number_format(0) }} VNĐ</p>
+                            {% elseif (p.oldprice() > 0) %}
+                                <p class="proPrice">{{ p.price|number_format(0) }}<span> VNĐ</span></p>
+                                <p class="oldPriceSale">{{ p.oldprice|number_format(0) }} VNĐ</p>
+                            {% else %}
+                                <p class="proPrice">{{ p.price|number_format(0) }}<span> VNĐ</span></p>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            {% endif %}
+
+        </ul>
+    </div>
+</div>
+<style>
+    #proSaleBar{
+        margin-top: 15px;
+    }
+    #labelCtPro a{
+        color: #000
+    }
+    #labelCtPro a:hover{
+        color: #ef4136;
+    }
+    .iconHot2{
+        top: 0;
+        right: 0;
+    }
+</style>

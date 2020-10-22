@@ -1,0 +1,47 @@
+{% extends "layout/layout" %}
+{% block meta %}
+    {{ headTitle('Đăng ký').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng ký">
+    <meta name="keywords" content="Đăng ký">
+    <meta property="og:url" content="/user/signin">
+    <meta property="og:title" content="Đăng ký">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="breadcrumb breadcrumbs">
+                <div class="rdfa-breadcrumb">
+                    <div>
+                        <p>
+                            <span class="breadcrumbs-title"></span>
+                            <span typeof="v:Breadcrumb">
+                            <a href="/" class="home">Trang chủ</a>
+                        </span>
+                            <span class='separator'>|</span>Đăng ký
+                        </p>
+                    </div>
+                </div>
+            </div><!-- RDFa Breadcrumbs Plugin by Nitin Yawalkar -->
+            <div class="row-fluid">
+                <div class="columnRight" style="text-align: center">
+                    <div class="viewProduct">
+                        <div class="featuredProducts">
+                            {% if(success) %}
+                                <p class="message sigup">Chúc mừng bạn đăng ký thành công tài khoản website
+                                     vui lòng vào <a href="/user/signin">Đây</a> để đăng nhập
+                                </p>
+                            {% else %}
+                                <div class="defaultContent">
+                                    <div class="loginForm">
+                                        {{ partial('partial/form',{'form':form}) }}
+                                    </div>
+                                    <p></p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

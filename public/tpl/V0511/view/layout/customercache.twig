@@ -1,0 +1,24 @@
+{% set banner_customer = getBannerByPositionCode('BANNER_CUSTOMER',{'limit' : 1}) %}
+{% if(banner_customer is not empty) %}
+    <div class="item-1 owl-carousel">
+        {% for key, b in banner_customer %}
+            {% set arrClass = {
+                0: 'prevLeftSecond',
+                1: 'prev',
+                2: 'selected',
+                3: 'next',
+                4: 'nextRightSecond'
+            } %}
+            {% set class = 'hideRight' %}
+            {% if arrClass[key] is defined %}
+                {% set class = arrClass[key] %}
+            {% endif %}
+            <img src="{{ b.imagesrc }}" alt="{{ b.name }}"/>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="item-1 owl-carousel">
+        <img src="/tpl/V0511/image/slider_1.jpg" class="img-fluid" alt="image">
+        <img src="/tpl/V0511/image/slider_1.jpg" class="img-fluid" alt="image">
+    </div>
+{% endif %}

@@ -1,0 +1,215 @@
+{% extends "layout/layout" %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Quản lí đơn hàng').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Quản lí đơn hàng">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block stylesheets %}
+
+{% endblock %}
+{% block body %}
+    <div class="top-product">
+        {% set category = [{'label':'Trang khách hàng', 'uri':'/order'}] %}
+        {{ breadcrumbs.build(category) }}
+    </div>
+    <div class="container">
+        <div class="row margin-top-20">
+            <h1>Thông tin tài khoản</h1>
+        </div>
+        <div class="row">
+            <i>xin chào, {{ getUser().name? getUser().name: getUser().fullName }}</i>
+        </div>
+        <div class="row margin-top-20">
+            <div class="col-lg-3 col-md-12 col-lg-push-9">
+                <div class="row"><h2>Thông tin khách hàng</h2></div>
+                <div class="row">
+                    <i class="fa fa-user" style="color: #67bd45;margin-top: 5px"></i>
+                    <span style="margin-left: 10px">{{ user?user.fullName:'' }}</span>
+                </div>
+                <div style="margin-top: 5px" class="row">
+                    <i class="fa fa-map-marker" style="color: #67bd45;margin-top: 5px"><span style="margin-left: 10px;color: black">{{ user?user.address:' ' }} {{ user.options["districtName"] }},{{ user.options["cityName"] }}</span></i>
+                </div>
+                <div class="margin-top-20 row">
+                    <a style="width: 100%" href="/profile/edit" class="btn btn-success">
+                        <i class="fa fa-book"></i> Sổ địa chỉ
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-12 col-lg-push-3">
+                <div class="row"><h2>Đơn hàng gần nhất</h2></div>
+                <div class="row">
+                    <table border="1">
+                        <tr style="font-weight: 500">
+                            <td>Đơn hàng</td>
+                            <td>Ngày</td>
+                            <td>Tên Khách hàng</td>
+                            <td>Địa chỉ</td>
+                            <td>Giá trị</td>
+                            <td>Tình trạng thanh toán</td>
+                            <td>#</td>
+                        </tr>
+                        {% if(paginator.getCurrentModels) %}
+                            {% for order in paginator.getCurrentModels %}
+                                {% set products = orders[order.getId()].getProducts %}
+                                {% for pOrder in products %}
+                                    {% set totalOrderPrice = 0 %}
+                                    {% set totalOrderPrice = totalOrderPrice + (pOrder.quantity * pOrder.price) %}
+                                {% endfor %}
+                                <tr class="first odd font-14" data-show="od<?= $order->getId() ?>">
+                                    <td><a>
+                                            {{ order.id }}
+                                        </a>
+                                    </td>
+                                    <td> {{ order.createdDate("d/m/Y") }}</td>
+                                    <td>{{ getUser().name? getUser().name: getUser().fullName }}</td>
+                                    <td>{{ order.address }}</td>
+                                    <td><span class="price">{{ totalOrderPrice|number_format(0) }}₫</span></td>
+                                    <td>
+                                        <em>{{ order.statusName(order.status) }}</em>
+                                    </td>
+                                    <td class="a-center last"><span class="nobr"> <a href="/account/orders/7537740">Chi tiết</a></span></td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td style="text-align: center" colspan="7">Không có đơn hàng nào!</td>
+                            </tr>
+                        {% endif %}
+
+                    </table>
+                    <div class="donhang">
+                        {% if(paginator.getCurrentModels) %}
+                            {% for order in paginator.getCurrentModels %}
+                                {% set products = orders[order.getId()].getProducts %}
+                                {% for pOrder in products %}
+                                    {% set totalOrderPrice = 0 %}
+                                    {% set totalOrderPrice = totalOrderPrice + (pOrder.quantity * pOrder.price) %}
+                                    <div class="col-12">
+                                        <span>Đơn hàng</span>
+                                        <span class="right"><a>{{ order.id }}</a></span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>Ngày</span>
+                                        <span class="right">{{ order.createdDate("d/m/Y") }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>Tên khách hàng</span>
+                                        <span class="right">{{ getUser().name? getUser().name: getUser().fullName }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>Địa chỉ</span>
+                                        <span class="right">{{ order.address }}</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>Giá trị</span>
+                                        <span class="right">{{ totalOrderPrice|number_format(0) }}₫</span>
+                                    </div>
+                                    <div class="col-12">
+                                        <span>Tình trạng</span>
+                                        <span class="right"> <em>{{ order.statusName(order.status) }}</em></span>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <a href="#" class="font-14">Chi tiết</a>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% endif %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .top-product {
+            background: #e9ecef;
+            line-height: 15px;
+            font-size: 15px;
+        }
+
+        table {
+            border-color: #ddd;
+        }
+
+        table tr td {
+            padding: 5px 10px;
+            border-color: #ddd;
+        }
+
+        .margin-top-20 {
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 22px;
+        }
+
+        h2 {
+            font-size: 18px;
+        }
+
+        .
+        .col-lg-push-9, .col-lg-push-3 {
+            position: relative;
+        }
+
+        .col-lg-push-9 .row {
+            margin: 0;
+        }
+
+        @media (min-width: 992px) {
+            .col-lg-push-9 {
+                left: 75%;
+            }
+
+            .col-lg-3 {
+                width: 25%;
+            }
+
+            .col-lg-push-3 {
+                right: 25%;
+            }
+
+            .col-lg-9 {
+                width: 75%;
+            }
+        }
+        .donhang{
+            display: none;
+        }
+        @media (max-width: 768px) {
+            table {
+                display: none
+            }
+
+            .donhang {
+                display: block;
+                width: 100%;
+            }
+
+            .row {
+                padding: 0 5px;
+            }
+
+            .col-lg-push-3 {
+                margin-top: 20px;
+            }
+            .col-12{
+                border-bottom:1px solid #ddd ;
+            }
+            .right{
+                position: absolute;
+                right: 20px;
+                font-weight: 500;
+            }
+            .donhang a{
+                color: #67bd45;
+            }
+            a:hover{
+                text-decoration: none;
+            }
+        }
+    </style>
+{% endblock %}

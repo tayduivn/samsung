@@ -1,0 +1,208 @@
+{% extends 'news_layout/layout' %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+  {{ headTitle(category.name).setSeparator(' - ').setAutoEscape(false)|raw }}
+  <meta name="keywords" content="{{ category.name }}">
+  <meta name="description" content="{{ (category.description ?: category.Name) }}">
+  <meta property="og:title" content="{{ category.name }}">
+  <meta property="og:url" content="{{ category.viewLink }}">
+  <meta property="og:image" content="{{ 'https:'~category.imgUri }}">
+  <meta property="og:type" content="category">
+{% endblock %}
+
+{% block body %}
+  <style>
+    body {
+      background: #fbfbfb url('/tpl/V0509/img/temp/background-blog.jpg') no-repeat scroll center top;
+      padding: 2rem;
+    }
+    .news-body__date {
+      position: relative;
+      padding-left: 20px;
+    }
+    .news-body__date::before {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 0;
+      background-image: url(/tpl/V0509/img/calendar.svg);
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: 14px;
+      height: 14px;
+      display: inline-block;
+    }
+    .news-body__title {
+      font-size: 1.8rem;
+      padding-top: 10px;
+    }
+    .suggestions-news__items {
+      font-size: 1.2rem;
+    }
+    .padding-top-10 {
+      padding-top: 10px;
+    }
+    .heading-title {
+      padding: 0 10px 20px 20px;
+      font-weight: 700;
+      font-size: 1.7rem;
+    }
+    .tag-news .tag-news__item a {
+      padding: 3px 5px;
+      background-color: rgb(52, 58, 64);
+      font-size: 1rem;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .heading-title__news {
+      padding: 0 20px;
+      font-weight: 700;
+      font-size: 1.7rem;
+    }
+    .tag-news {
+      padding: 0 20px;
+    }
+    .pagination {
+      padding-top: 30px;
+    }
+    @media (min-width: 992px) {
+      .border-left-blog {
+        border-left: 1px solid #dee2e6;
+      }
+    }
+    .news-body img {
+      height: 350px;
+    }
+    .news-body img:hover {
+      opacity: .8;
+    }
+  </style>
+
+  <!-- main blog -->
+  <main class="main" id="main">
+    <!-- banner blog -->
+    {% set banner_blog = getBannerByPositionCode('BANNER_BLOG') %}
+    <section class="banner-blog">
+      <div class="slick-banner-blog">
+        {% if (banner_blog) %}
+          {% for banner in banner_blog %}
+            {% set image = banner_blog.imagesrc %}
+            {% set options = {
+              alt: image.name,
+              class: 'is-full',
+              lazy: true,
+              openDiv: false
+            } %}
+            <div class="banner-item">
+              <a href="javascript:void(0)">
+                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+              </a>
+            </div>
+          {% endfor %}
+          {% else %}
+            <div class="banner-item">
+              <a href="javascript:void(0)">
+                <img src="/tpl/V0509/img/temp/banner-blog.jpg"
+                     alt="Banner Blog 1"
+                     class="is-full"
+                >
+              </a>
+            </div>
+        {% endif %}
+
+      </div>
+    </section>
+    <!-- banner blog -->
+
+    <!-- New Posts -->
+    <section class="new-posts">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-lg-9">
+            <div class="card-news">
+              <div class="row">
+                {% if (paginator.currentModels is not empty) %}
+                  {% for new in paginator.currentModels %}
+                    {% set image = new.pictureUri %}
+                    {% set options = {
+                      alt: new.title | e('html'),
+                      class: 'w-100',
+                      lazy: true,
+                      openDiv: false,
+                    } %}
+                    <div class="col-md-6">
+                      <div class="news-body">
+                        <a href="{{ new.viewLink }}">
+                          {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                        </a>
+                        <p class="news-body__title font-weight-bold text-secondary text-uppercase ">{{ new.title | e('html') }}</p>
+                        <p class="news-body__date">{{ new.createdDateTime }}</p>
+                        <span class="news-body__des">
+                      {{ new.intro(true) | raw }}
+                    </span>
+                      </div>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+                <div class="pagination justify-content-center">
+                  <div class="links">
+                    {{ render_paginator(paginator) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3 border-left-blog">
+            <label class="heading-title text-uppercase">Bài viết mới nhất</label>
+            {% set news_hot = getLastestNews({'limit': 4}) %}
+            {% if (news_hot) %}
+              {% for n in news_hot %}
+                {% set image = n.imageUri %}
+                {% set options = {
+                  alt: n.title | e('html'),
+                  class: 'img is-full',
+                  lazy: true,
+                  openDiv: false
+                } %}
+                <div class="suggestions-news">
+                  <div class="suggestions-news__items">
+                    <a href="{{ n.viewLink }}">
+                      {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                    </a>
+                    <p class="des color-gray font-weight-normal padding-top-10">
+                      {{ n.title | raw }}
+                    </p>
+                    <p class="news-body__date">{{ n.createdDateTime }}</p>                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+            {% set getTags = getNewsCategories() %}
+            {% if (getTags) %}
+              <h5 class="heading-title__news">Tag Tin Tức</h5>
+                <div class="tag-news">
+                  <div class="tag-news__item">
+                    {% for new in getTags %}
+                      <a href="{{ new.viewLink }}">
+                        <span class="tag text-white">{{ new.name | raw }}</span>
+                      </a>
+                    {% endfor %}
+                  </div>
+                </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- New Posts -->
+  </main>
+  <!-- main blog -->
+  <script>
+      $('.slick-banner-blog').slick({
+          dots: true,
+          infinite: true,
+          speed: 500,
+          fade: true,
+          cssEase: 'linear'
+      });
+  </script>
+{% endblock %}

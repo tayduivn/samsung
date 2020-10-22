@@ -1,0 +1,44 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% import 'layout/breadcrumbs' as breadcrumbs %}
+{% block meta %}
+    {{ headTitle('Đăng nhập').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="Đăng nhập">
+    <meta name="keywords" content="Đăng nhập">
+    <meta property="og:url" content="/user/signin">
+    <meta property="og:title" content="Đăng nhập">
+    <meta property="og:type" content="article">
+{% endblock %}
+{% block body %}
+    {% set category = [{'label': ' Đăng nhập', 'uri':'/user/signin'}] %}
+    {{ breadcrumbs.build(category) }}
+    <div class="container margin-top-15">
+        <h1 class="title-head"><span>Tài khoản</span></h1>
+        <div class="row">
+            <div class="col-lg-6" style="width: 570px; margin-right: 40px;">
+                <div class="page-login margin-bottom-30">
+                    <div id="login">
+
+					<span>
+						Nếu bạn đã có tài khoản, đăng nhập tại đây.
+					</span>
+                        {{ partial('partial/form',{'form':form}) }}
+                    </div>
+                    <div class="blkSign">
+                        <a class="loginFb" href="/user/fbsignin?redirect=/" target="_top"><i class="fab fa-facebook-f"></i> Facebook</a></a>
+                        <a class="loginGg" href="/user/ggsignin" target="_top"><i class="fab fa-google"></i> Google</a>
+                    </div>
+                    <p class="btnforget">
+                        <a rel="nofollow" href="/user/getpassword" style="text-decoration:underline;font-weight:bold">
+                            <i class="fa fa-question-circle"></i>
+                            {{ translate('Quên mật khẩu') }}
+                        </a>
+                    </p>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

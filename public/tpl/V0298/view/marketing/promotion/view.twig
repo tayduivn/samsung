@@ -1,0 +1,375 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle( promotion.name ).setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta name="description" content="{{ promotion.description?:promotion.name }}">
+    <meta name="keywords" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:title" content="{{ promotion.name }}">
+    <meta property="og:description" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:keywords" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:type" content="{{ promotion.description?:promotion.name }}">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+    <meta property="og:image" content="{{ promotion.imageUri }}">
+{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ '/js/countdown/countdown.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ '/js/countdown/countdownCustom.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/lib/index.css' }}" type="text/css">
+    <link rel="stylesheet" href="{{ templatePath ~'/css/childs/catePro.css' }}" type="text/css">
+{% endblock %}
+{% block body %}
+    <div class="containerMain">
+        <div id="menuMain">
+            <div id="srlMn" class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+                <div id="menuScrollWrp">
+                    <div id="menuMain" class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        {% if(getCategories()) %}
+                            <ul class="menuTrigger">
+                                <li class="labelMenu">
+                                    <i class="fa fa-bars"></i>
+                                    <a href="/">Danh mục sản phẩm</a>
+                                </li>
+                                {% for c in getCategories() %}
+                                    <li class="ctMenuMain">
+                                        <i class="fa fa fa-arrow-circle-right"></i>
+                                        <a href="{{ c.viewLink }}">{{ c.name | raw }}</a>
+                                        {% if(c.childs) %}
+                                            <i class="fa fa-angle-right pull-right"></i>
+                                            <div class="blockChilds">
+                                                <ul>
+                                                    {% for c1 in c.childs %}
+                                                        <li>
+                                                            <a href="{{ c1.viewLink }}">{{ c1.name | raw }}</a>
+                                                            {% if(c1.childs) %}
+                                                                <ul>
+                                                                    {% for c2 in c1.childs %}
+                                                                        <li><a href="{{ c2.viewLink }}">{{ c2.name | raw }}</a></li>
+                                                                    {% endfor %}
+                                                                </ul>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                        <ul class="mainHelper" style="display: block">
+                            <li><a href="">SCROLL_TITLE_1</a></li>
+                            <li><a href="">SCROLL_TITLE_2</a></li>
+                            <li><a href="">SCROLL_TITLE_3</a></li>
+                            <li><i class="image imgSuport"></i><span>HOTLINE</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="promotionPage" class="col-md-12 col-xs-12 col-ms-12">
+            {% if(promotion.imageUri) %}
+                <img alt="{{ promotion.name }}" style="margin: 10px 0;max-width: 100%" src="{{ promotion.imageUri }}" title="{{ promotion.name }}">
+            {% endif %}
+            <h1 style="text-align: center;text-transform: uppercase;font-size: 25px;font-weight: 300;padding: 10px 0;margin: 15px 0">{{ translate('Thời gian khuyến mại chỉ còn') }}</h1>
+            <div style="border-top: 1px solid #eee">
+                {% if(paginator.getCurrentModels) %}
+                    {% set setPageRange = paginator.setPageRange(4) %}
+                    {% set endDate = promotion.endDate %}
+                    {% set startDate = promotion.startDate %}
+                    {% if(endDate) %}
+                        <input class="endDateTime" type="hidden" value="{{ endDate~ ' 23:59:00' }}"/>
+                        <div class="countdown countdown-container">
+                            <div class="clock">
+                                <div class="clock-item clock-days countdown-time-value col-sm-2 col-xs-2 col-md-2">
+                                    <div class="wrap">
+                                        <div class="inner">
+                                            <div id="canvas-days" class="clock-canvas"></div>
+
+                                            <div class="text">
+                                                <p class="val">0</p>
+                                                <p class="type-days type-time">NGÀY</p>
+                                            </div><!-- /.text -->
+                                        </div><!-- /.inner -->
+                                    </div><!-- /.wrap -->
+                                </div><!-- /.clock-item -->
+
+                                <div class="clock-item clock-hours countdown-time-value col-sm-2 col-xs-2 col-md-2">
+                                    <div class="wrap">
+                                        <div class="inner">
+                                            <div id="canvas-hours" class="clock-canvas"></div>
+
+                                            <div class="text">
+                                                <p class="val">0</p>
+                                                <p class="type-hours type-time">GIỜ</p>
+                                            </div><!-- /.text -->
+                                        </div><!-- /.inner -->
+                                    </div><!-- /.wrap -->
+                                </div><!-- /.clock-item -->
+
+                                <div class="clock-item clock-minutes countdown-time-value col-sm-2 col-xs-2 col-md-2">
+                                    <div class="wrap">
+                                        <div class="inner">
+                                            <div id="canvas-minutes" class="clock-canvas"></div>
+
+                                            <div class="text">
+                                                <p class="val">0</p>
+                                                <p class="type-minutes type-time">PHÚT</p>
+                                            </div><!-- /.text -->
+                                        </div><!-- /.inner -->
+                                    </div><!-- /.wrap -->
+                                </div><!-- /.clock-item -->
+
+                                <div class="clock-item clock-seconds countdown-time-value col-sm-2 col-xs-2 col-md-2">
+                                    <div class="wrap">
+                                        <div class="inner">
+                                            <div id="canvas-seconds" class="clock-canvas"></div>
+
+                                            <div class="text">
+                                                <p class="val">0</p>
+                                                <p class="type-seconds type-time">GIÂY</p>
+                                            </div><!-- /.text -->
+                                        </div><!-- /.inner -->
+                                    </div><!-- /.wrap -->
+                                </div><!-- /.clock-item -->
+                            </div><!-- /.clock -->
+                        </div>
+                    {% endif %}
+                    <div class="prdWrp">
+                        {% for p in paginator.getCurrentModels %}
+                            {% set priceDiscount = p.priceAfterDiscount %}
+                            {% set percent = p.calcDiscountPercent %}
+                            {% set image = p.thumbnailUri %}
+                            {% set options = {
+                                alt: p.name,
+                                lazy: true,
+                                class: 'imageChange',
+                                openDiv: false,
+                            }%}
+                            <div class="proItem col-lg-3 col-md-3 col-xs-6" id="proItem" psCount="<?= $paginator->getTotalItemCount() ?>">
+                                <div class="proIndexItem" data-storeId="{{ p.storeId }}" psId="{{ p.id }}">
+                                    <div class="proImg">
+                                        <a href="{{ p.viewLink }}">
+                                            {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                        </a>
+                                        {% if(percent > 0) %}
+                                            <span class="image iconSales">{{ percent }}%</span>
+                                        {%  endif %}
+                                        <a id="outStock" class="inventory" href="{{ p.viewLink }}">Sản phẩm hiện tại hết hàng</a>
+                                        {% if(p.getOption('psGifts')) %}
+                                            <img alt="Quà tặng" src="/tpl/V0001/img/2019/gift.jpg" title="Quà tặng" class="proGift">
+                                        {% endif %}
+                                    </div>
+                                    <div class="proInfo">
+                                        {% set values = p.option('attrValues') %}
+                                        {% if(values) %}
+                                            <ul class="color-swatches" data-hover="true" data-click="true" psId="{{ p.id }}" data-handle="{{ p.viewlink }}">
+                                                {% for v in values %}
+                                                    <li class="color-item" data-img="{{ v.thumbnailuri }}" value="{{ v.id }}" title="{{ v.name }}">
+                                                        <img data-sizes="auto" class="lazyload" src="{{ v.thumbnailUri }}" alt="{{ v.name }}"></li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <ul class="color-swatches"></ul>
+                                        {% endif %}
+                                        <h3 class="proName"><a href="{{ p.viewLink }}">{{ p.name }}</a></h3>
+                                        <div class="blockPrice">
+                                            {% if (p.priceAfterDiscount > 0) %}
+                                                <p class="proPrice">{{ p.priceAfterDiscount|number_format(0) }}<span> VNĐ</span></p>
+                                                <p class="oldPriceSale">{{ p.price|number_format(0) }} VNĐ</p>
+                                            {% elseif (p.oldprice() > 0) %}
+                                                <p class="proPrice">{{ p.price|number_format(0) }}<span> VNĐ</span></p>
+                                                <p class="oldPriceSale">{{ p.oldprice|number_format(0) }} VNĐ</p>
+                                            {% else %}
+                                                <p class="proPrice">{{ p.price|number_format(0) }}<span> VNĐ</span></p>
+                                            {% endif %}
+                                        </div>
+                                        <button id="ivtCart" class="buyNow image" data-toggle="modal" data-target="#myModal"
+                                                data-id="{{ p.id }}" data-buy="1">Mua ngay
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                    <div class="pagination">
+                        <div class="links">
+                            {{paginationControl(paginator, 'Sliding', 'partial/listPage') }}
+                        </div>
+                    </div>
+                {% else %}
+                    '<p style="text-align: center;display:block;padding: 20px 0">Chưa có sản phẩm nào</p>
+                {% endif %}
+                <br/>
+                <div class="fb-comments" data-href="{{ 'https://'~getCurrentDomain()~promotion.viewLink }}" data-numposts="5"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="blockBanner">
+        <div class="containerMain"  style="overflow: inherit">
+            <div class="col-lg-12 col-md-12 col-sm-12 hidden-xs hidden-sm" id="ct2">
+                <div class="index  col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="border red">
+                        <div>
+                            <span></span>
+                            <h3>SIÊU NHẸ THẤM HÚT MỒ HÔI</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="index yellow col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="border yellow">
+                        <div>
+                            <span></span>
+                            <h3>CHỐNG GÙ LƯNG, VẸO CỘT SỐNG</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="index blue col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="border blue">
+                        <div>
+                            <span></span>
+                            <h3>SIÊU PHẨM KHÓA BẺ KHÔNG GÃY</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        #coutnDown{
+            display: block;
+            text-align: center;
+            padding: 10px 0;
+        }
+        /*.npy-scdigit,.npy-scdigit-curr, .npy-scdigit-flip, .npy-scdigit-prev{*/
+        /*background-image: url('/tpl/T0002/img/sc_digits.png') !important;*/
+        /*}*/
+        .blockBanner{
+            display: inline-block;
+            width: 100%;
+        }
+        #coutnDown{
+            font-family: sans-serif;
+            color: #fff;
+            display: inline-block;
+            font-weight: 100;
+            width: 100%;
+            text-align: center;
+            font-size: 30px;
+            position: relative;
+        }
+
+        #coutnDown > div{
+            /*position: absolute;*/
+            padding: 10px;
+            margin: 0 10px;
+            border-radius: 3px;
+            background: #f44242;
+            display: inline-block;
+        }
+
+        #coutnDown div > span{
+            padding: 15px;
+            border-radius: 3px;
+            background: #ad1004;
+            display: inline-block;
+        }
+
+        .smalltext{
+            padding-top: 5px;
+            font-size: 16px;
+        }
+        #proItem{
+            /*padding: 0 5px;*/
+        }
+        #proItem:nth-child(4n){
+            border-right: 1px solid #eee;
+            border-top: 1px solid #eee;
+        }
+        #proItem:nth-child(3n){
+            border-right: 1px solid #fff;
+        }
+        .time label {
+            padding:  0 0 5px 0;
+            color: #fbf138;
+            margin-bottom: 0px;
+            font-weight: bold;
+            font-style: italic;
+            word-spacing: -1px;
+        }
+        .time{
+            margin-top: -1px;
+            background: #254e7b;
+            border-radius: 0 0 5px 5px;
+        }
+        .time .countdown {
+            padding: 5px 0 0 0 ;
+            width: 100%;
+        }
+        .time span {
+            color: #fff;
+        }
+        .time .countdown p{
+            margin: 0;
+            color: #fff;
+            display: inline-block;
+        }
+        #proItem .proImg, .pagination{
+            width: 100%;
+        }
+        .pagination{
+            margin: 20px 0 0 0;
+        }
+        .buyNow{
+            margin-bottom: 10px;
+        }
+        #proItem .proInfo .proPrice{
+            float: left;
+        }
+        #proItem .proInfo .proPrice span{
+            color: #f44242;
+            font-size: 10px;
+            font-style: italic;
+            font-weight: bold;
+        }
+        #proItem .proInfo .proPrice{
+            font-size: 20px;
+            font-style: italic;
+        }
+        .oldPriceSale{
+            float: right;
+            padding-top: 10px;
+            font-size: 10px;
+        }
+        #ct2 .index{
+            border-right: 10px solid #fff !important;
+        }
+        #ct2 .index:nth-child(3){
+            border: none !important;
+        }
+        .pagination, .prdWrp{
+            display: inline-block;
+            width: 100%;
+        }
+        @media screen and (max-width: 480px) {
+            #coutnDown div > span{
+                padding: 5px;
+            }
+            #coutnDown > div{
+                margin: 0 5px;
+            }
+        }
+        .prdWrp>.col-lg-3:nth-child(4n+1){
+            clear: both;
+        }
+    </style>
+{% endblock %}
+{% block script %}
+    <script type="text/javascript" src="{{ '/js/countdown/kinetic.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/countdown/jquery.final-countdown.js' }}"></script>
+    <script type="text/javascript" src="{{ '/js/countdown/countdownCustom.js' }}"></script>
+{% endblock %}

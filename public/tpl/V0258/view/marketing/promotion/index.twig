@@ -1,0 +1,61 @@
+{% extends "layout/layout" %}
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+{% block meta %}
+    {{ headTitle('Trang khuyến mãi').setSeparator(' - ').setAutoEscape(false)|raw }}
+    <meta property="og:title" content="Trang khuyến mãi">
+    <meta property="og:url" content="{{ getCurrentUrl() }}">
+{% endblock %}
+{% block body %}
+    <section class="content container ">
+        <div class="all-ms">
+            <div class="breadcrumb breadcrumbs">
+                <div class="rdfa-breadcrumb">
+                    <div>
+                        <p>
+                            <span class="breadcrumbs-title"> </span>
+                            <span typeof="v:Breadcrumb">
+                            <a href="/" class="home">Trang chủ</a>
+                        </span>
+                            <span class='separator'>|</span> Khuyến mại
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="home-page">
+                    <h3><span>{{ translate('Khuyến mại') }}</span></h3>
+                    {% if(promotions) %}
+                        <div class="list-sps">
+                            <div class="row">
+                                {% for p in promotions %}
+                                    {% set image = p.thumbnailUri %}
+                                    {% set options = {
+                                        alt: p.name,
+                                        class: 'attachment-270x152 size-270x152 wp-post-image',
+                                        lazy: true,
+                                        openDiv: false,
+                                    } %}
+                                    <ul class="col-xs-6 col-sm-4 col-md-4 col-lg-3 box-product box_tab_index prdWrapper"
+                                        data-storeId="<?= $p->getStoreId() ?>" data-pid="{{ p.id }}">
+                                        <li class="item">
+                                            <a href="{{ p.viewLink }}" class="a-image">
+                                                {{ macroLazyFocusImager.LazyFocusImager(image,options) }}
+                                            </a>
+                                            <div class="box-text">
+                                                <p class="title">
+                                                    <a href="{{ p.viewLink }}" title="{{ p.name }}">
+                                                        {{ p.name }}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

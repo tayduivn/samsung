@@ -1,0 +1,81 @@
+{% import 'layout/_lazyFocusImager' as macroLazyFocusImager %}
+
+{% set keyMenu = getStoreId()~"_BANNER_HOME_"~getDomainId() %}
+{% set banner = "" %}
+{% if(getCache(keyMenu) is null) %}
+    {{ banner | raw }}
+{% endif %}
+{% set banner_home = getBannerByPositionCode('BANNER_HOME') %}
+{% set banner = banner ~ '<div class="slider-default bannerslider">' %}
+{% set banner = banner ~ '<div id="owl-home-slider" class="owl-carousel owl-theme">' %}
+     {% if(banner_home is not null) %}
+         {% for c in banner_home %}
+             {% set imageSlide = c.imagesrc %}
+             {% set options = {
+                 alt: c.name,
+                 lazy: true,
+                 openDiv: false,
+             }%}
+             {% set banner = banner ~ '<div class="item">' %}
+{#                 {% set banner = banner ~ '<a href="" class="hrv-url">'~macroLazyFocusImager.LazyFocusImager(imageSlide,options) %}#}
+                 {% set banner = banner ~ '<a href="" class="hrv-url"><img src="//theme.hstatic.net/1000187250/1000280706/14/slider_1.jpg?v=1588">' %}
+                 {% set banner = banner ~ '</a>' %}
+                {% set banner = banner ~ '<div id="banner-caption1" class="slider-banner-caption">' %}
+                     {% set banner = banner ~ '<div class="caption-inner">' %}
+                         {% set banner = banner ~ '<div class="banner-content slider-1">' %}
+                             {% set banner = banner ~ '<h3 class="title1">Giảm giá 40% quần áo trẻ em' %}
+                            {% set banner = banner ~ '</h3>' %}
+                                {% set banner = banner ~ '<a class="url" href="/product">Xem thêm' %}
+                                {% set banner = banner ~ '</a>' %}
+                         {% set banner = banner ~ '</div>' %}
+                     {% set banner = banner ~ '</div>' %}
+                {% set banner = banner ~ '</div>' %}
+             {% set banner = banner ~ '</div>' %}
+         {% endfor %}
+         {% else %}
+         {% set banner = banner ~ '
+        <div class="item">
+            <a href="" class="hrv-url">
+                <img src="//theme.hstatic.net/1000187250/1000280706/14/slider_1.jpg?v=1588" alt="slider1" />
+            </a>
+            <div id="banner-caption1" class="slider-banner-caption">
+                <div class="caption-inner">
+                    <div class="banner-content slider-1">
+                        <h3 class="title1">Giảm giá 40% quần áo trẻ em</h3>
+                        <a class="url" href="/product">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <a href="" class="hrv-url">
+                <img src="//theme.hstatic.net/1000187250/1000280706/14/slider_2.jpg?v=1588" alt="slider2" />
+            </a>
+            <div id="banner-caption2" class="slider-banner-caption">
+                <div class="caption-inner">
+                    <div class="banner-content slider-2">
+                        <h3 class="title1">Giảm giá sốc</h3>
+                        <a class="url" href="/product">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <a href="" class="hrv-url">
+                <img src="//theme.hstatic.net/1000187250/1000280706/14/slider_3.jpg?v=1588" alt="slider3" />
+            </a>
+            <div id="banner-caption3" class="slider-banner-caption">
+                <div class="caption-inner">
+                    <div class="banner-content slider-3">
+                        <h3 class="title1">Quần áo mùa hè cho bé</h3>
+                        <a class="url" href="/product">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>' %}
+     {% endif %}
+
+    {% set banner = banner ~ '</div>' %}
+{% set banner = banner ~ '</div>' %}
+{{ saveCache(keyMenu, banner | raw, 1800) }}
+{{ banner | raw }}
